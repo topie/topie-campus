@@ -1,3 +1,4 @@
 <?php
+	//print phpinf
 	phpinfo();
 ?>
