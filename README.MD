@@ -1,3 +1,3 @@
-MY GIT
+MY APP
 
-A sample for git!
+A sample for app!
