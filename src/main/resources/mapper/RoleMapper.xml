@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.orange.security.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.orange.security.model.Role">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="default_action" property="defaultAction" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, role_name, default_action, state, insert_time, update_time
+    </sql>
+    <insert id="insertRoleFunction" parameterType="java.lang.Integer">
+        insert into sys_role_function (role_id,function_id) values(#{roleId,jdbcType=INTEGER},#{functionId,jdbcType=INTEGER});
+    </insert>
+    <select id="findRoleMatchUpFunctions" resultType="java.util.Map">
+        select
+        f.action as function,r.id as role
+        from  sys_role r
+        join sys_role_function rf
+        on r.id=rf.role_id
+        join sys_function f
+        on f.id=rf.function_id
+        order by f.function_desc
+    </select>
+</mapper>

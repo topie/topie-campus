@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+    <http pattern="/index.jsp" security="none"/>
+    <http pattern="/api/auth" security="none"/>
+    <http pattern="/favicon.ico" security="none"/>
+
+    <http use-expressions="true"
+          create-session="stateless"
+          entry-point-ref="osHttpAuthenticationEntryPoint">
+        <!-- token filter -->
+        <custom-filter ref="osHttpAuthenticationTokenFilter" position="PRE_AUTH_FILTER"/>
+        <intercept-url pattern="/api/exception" access="permitAll"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
+        <!-- 加载权限拦截 -->
+        <custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+        <!-- 修饰头部 -->
+        <custom-filter ref="headerFilter" after="FIRST"/>
+        <!-- 权限认证失败后 -->
+        <access-denied-handler ref="osHttpAccessDeniedHandler"/>
+
+    </http>
+
+    <beans:bean id="headerFilter"
+                class="com.orange.security.security.HttpHeaderFilter"/>
+
+    <beans:bean id="tokenUtils" class="com.orange.security.utils.TokenUtils"/>
+
+    <beans:bean id="osHttpAuthenticationEntryPoint"
+                class="com.orange.security.security.OrangeHttpAuthenticationEntryPoint">
+    </beans:bean>
+
+    <beans:bean id="osHttpAuthenticationTokenFilter"
+                class="com.orange.security.security.OrangeHttpAuthenticationTokenFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="tokenUtils" ref="tokenUtils"/>
+        <beans:property name="userDetailsService" ref="orangeUserService"/>
+        <beans:property name="authenticationFailureHandler"
+                        ref="osHttpAuthenticationFailureHandler"/>
+    </beans:bean>
+
+    <!-- 自定义登录失败handler -->
+    <beans:bean id="osHttpAuthenticationFailureHandler"
+                class="com.orange.security.security.OrangeHttpAuthenticationFailureHandler">
+    </beans:bean>
+
+    <beans:bean id="osHttpAccessDeniedHandler"
+                class="com.orange.security.security.OrangeHttpAccessDeniedHandler"/>
+
+
+    <authentication-manager erase-credentials="false" alias="authenticationManager">
+        <authentication-provider ref="authenticationProvider">
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="authenticationProvider"
+                class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="orangeUserService"/>
+        <beans:property name="hideUserNotFoundExceptions" value="false"/>
+        <beans:property name="passwordEncoder" ref="encoder"/>
+    </beans:bean>
+
+    <beans:bean id="encoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!-- 加载用户相关 -->
+    <beans:bean id="orangeUserService"
+                class="com.orange.security.security.OrangeUserServiceImpl"/>
+
+
+    <!-- 资源国际化 -->
+    <beans:bean id="messageSource"
+                class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <beans:property name="basename"
+                        value="classpath:/config/properties/messages_zh_CN"/>
+    </beans:bean>
+
+    <!-- 自定义验证成功后处理的拦截器 -->
+    <beans:bean id="filterSecurityInterceptor"
+                class="com.orange.security.security.OrangeSecurityInterceptor">
+        <beans:property name="securityMetadataSource" ref="orangeSecurityMetadataSource"/>
+        <beans:property name="accessDecisionManager"
+                        ref="orangeAccessDecisionManager"/>
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+
+    <beans:bean id="orangeAccessDecisionManager"
+                class="com.orange.security.security.OrangeAccessDecisionManager"/>
+
+    <beans:bean id="orangeSecurityMetadataSource"
+                class="com.orange.security.security.OrangeSecurityMetadataSourceImpl">
+        <beans:constructor-arg ref="securityService"/>
+    </beans:bean>
+
+</beans:beans>
