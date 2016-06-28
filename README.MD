@@ -4,7 +4,7 @@ A sample spring + mybatis + spring security + rest api web app!
 
 2 build-in user:
 ```
-User - user:admin
+User - user:user
 Admin - admin:admin
 ```
 
