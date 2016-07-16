@@ -12,7 +12,7 @@
             classpath:config/properties/security.properties,
             classpath:config/properties/jdbc.properties"
             ignore-unresolvable="true"/>
-    <context:component-scan base-package="com.orange.*.service"/>
-    <import resource="classpath*:/config/spring/init-*.xml"/>
     <import resource="classpath*:/config/spring/spring-*.xml"/>
+    <import resource="classpath*:/config/spring/init-*.xml"/>
+    <context:component-scan base-package="com.orange.*.service"/>
 </beans>
