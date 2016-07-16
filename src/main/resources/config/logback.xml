@@ -72,7 +72,7 @@
         <appender-ref ref="debuglog"/>
     </root>
 
-    <logger name="com.orangeside" level="INFO">
+    <logger name="com.topie.campus" level="INFO">
         <appender-ref ref="db-classic-mysql-pool"/>
     </logger>
 

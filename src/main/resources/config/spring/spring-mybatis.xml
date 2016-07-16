@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <bean class="com.orange.basedao.flyway.Migrate" />
+    <bean class="com.topie.campus.basedao.flyway.Migrate" />
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close">
@@ -62,7 +62,7 @@
                 <value>classpath*:mapper/*.xml</value>
             </array>
         </property>
-        <property name="typeAliasesPackage" value="com.orange.*.model"/>
+        <property name="typeAliasesPackage" value="com.topie.campus.*.model"/>
         <property name="plugins">
             <array>
                 <bean class="com.github.pagehelper.PageHelper">
@@ -81,7 +81,7 @@
     </bean>
 
     <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.orange.*.dao"/>
+        <property name="basePackage" value="com.topie.campus.*.dao"/>
         <property name="properties">
             <value>
                 mappers=tk.mybatis.mapper.common.Mapper
@@ -94,7 +94,7 @@
     </bean>
     <aop:aspectj-autoproxy/>
     <aop:config>
-        <aop:pointcut id="appService" expression="execution(* com.orange.*.service.*.*(..))"/>
+        <aop:pointcut id="appService" expression="execution(* com.topie.campus.*.service.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="appService"/>
     </aop:config>
 

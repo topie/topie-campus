@@ -2,11 +2,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.orange</groupId>
-    <artifactId>my-app</artifactId>
+    <groupId>com.topie.campus</groupId>
+    <artifactId>topie-campus</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>my-app</name>
+    <name>topie-campus</name>
     <url>http://maven.apache.org</url>
     <developers>
         <developer>
@@ -17,8 +17,8 @@
     <properties>
         <!--  MyBatis Generator  -->
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
-        <targetMapperPackage>com.orange.basedao.mapper</targetMapperPackage>
-        <targetModelPackage>com.orange.basedao.model</targetModelPackage>
+        <targetMapperPackage>com.topie.campus.basedao.mapper</targetMapperPackage>
+        <targetModelPackage>com.topie.campus.basedao.model</targetModelPackage>
         <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
         <targetXMLPackage>mapper</targetXMLPackage>
 
@@ -601,7 +601,7 @@
     </dependencies>
 
     <build>
-        <finalName>my-app</finalName>
+        <finalName>topie-campus</finalName>
 
         <plugins>
             <!-- 解决资源文件的编码问题 -->

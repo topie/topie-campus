@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.orange.security.dao.FunctionMapper">
-    <resultMap id="BaseResultMap" type="com.orange.security.model.Function">
+<mapper namespace="com.topie.campus.security.dao.FunctionMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.security.model.Function">
         <!--
           WARNING - @mbggenerated
         -->

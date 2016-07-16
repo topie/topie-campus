@@ -1,6 +1,5 @@
-MY APP
+topie-campus
 
-A sample spring + mybatis + spring security + rest api web app!
 
 2 build-in user:
 ```
