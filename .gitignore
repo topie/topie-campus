@@ -60,4 +60,5 @@ crashlytics.properties
 crashlytics-build.properties
 
 .gitignore
-my-app.iml
+topie-campus.iml
+.idea

@@ -6,10 +6,9 @@
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/security
             http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-    <http pattern="/index.jsp" security="none"/>
+    <http pattern="/static/**" security="none"/>
     <http pattern="/api/auth" security="none"/>
-    <http pattern="/favicon.ico" security="none"/>
-
+    <http pattern="/index.jsp" security="none"/>
     <http use-expressions="true"
           create-session="stateless"
           entry-point-ref="osHttpAuthenticationEntryPoint">

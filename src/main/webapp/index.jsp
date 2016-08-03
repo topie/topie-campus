@@ -1,5 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>loading</title>
+    <script type="text/javascript">
+        window.location.href="./static/login.html";
+    </script>
+</head>
 <body>
-<h2>Hello World!</h2>
+loading
 </body>
 </html>

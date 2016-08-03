@@ -12,6 +12,7 @@
 
     <context:property-placeholder location="classpath:config/properties/security.properties"/>
 
+    <mvc:resources location="/static/" mapping="/static/**"/>
     <!-- 开启注解 -->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
