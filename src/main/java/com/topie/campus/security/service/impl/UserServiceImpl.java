@@ -2,11 +2,12 @@ package com.topie.campus.security.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtils;
-import com.topie.campus.basedao.service.impl.BaseService;
+import com.topie.campus.security.vo.FunctionVO;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,10 @@ public class UserServiceImpl extends BaseService<User>
     @Override
     public int findExistUser(User user) {
         return userMapper.findExistUser(user);
+    }
+
+    @Override
+    public List<FunctionVO> findUserFunctionByLoginName(String loginName) {
+        return userMapper.findUserFunction(loginName);
     }
 }

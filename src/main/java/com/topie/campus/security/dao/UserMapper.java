@@ -1,6 +1,9 @@
 package com.topie.campus.security.dao;
 
 import com.topie.campus.security.model.User;
+import com.topie.campus.security.vo.FunctionVO;
+
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,4 +19,6 @@ public interface UserMapper extends Mapper<User> {
     List<User> findUserList(User user);
 
     int findExistUser(User user);
+
+    List<FunctionVO> findUserFunction(@Param("loginName") String loginName);
 }

@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class ControllerExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-    @Value("${security.token.header}")
-    private String header;
 
     @ExceptionHandler(Exception.class)
     public void handleAllException(HttpServletResponse response, Exception e) {

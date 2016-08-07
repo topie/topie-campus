@@ -3,6 +3,7 @@ package com.topie.campus.security.service;
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.security.model.User;
 import com.topie.campus.basedao.service.IService;
+import com.topie.campus.security.vo.FunctionVO;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface UserService extends IService<User> {
     PageInfo<User> findUserList(Integer pageNum, Integer pageSize, User user);
 
     int findExistUser(User user);
+
+    List<FunctionVO> findUserFunctionByLoginName(String loginName);
 }
