@@ -1,6 +1,6 @@
 package com.topie.campus.tools.excel;
 
-import com.davdian.core.utils.ConfigUtil;
+import com.topie.campus.common.utils.PropertiesUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -280,7 +280,7 @@ public class ExcelFileUtil {
 
     private static File createTempFile() throws IOException {
         File temp = new File(
-                ConfigUtil.getConfigContent("/config/properties/project", "temp.folder") + System
+                PropertiesUtil.get("/config/properties/project", "temp.folder") + System
                         .currentTimeMillis());
         return temp;
     }

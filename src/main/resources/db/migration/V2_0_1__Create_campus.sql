@@ -9,7 +9,7 @@ CREATE TABLE `t_info_basic` (
   COMMENT '手机',
   `gender`       TINYINT(1)           DEFAULT 1
   COMMENT '性别:0 女 1 男',
-  `birth`        DATE                 DEFAULT '0000-00-00'
+  `birth`        DATE
   COMMENT '出生日期',
   `intro`        VARCHAR(255)         DEFAULT ''
   COMMENT '个人简介',
@@ -19,18 +19,17 @@ CREATE TABLE `t_info_basic` (
   DEFAULT CHARSET = utf8
   COMMENT '基本信息';
 
-
 CREATE TABLE `t_common_course` (
   `id`                INT(11)     NOT NULL AUTO_INCREMENT,
   `course_id`         INT(11)     NOT NULL DEFAULT 0
   COMMENT '课程id',
   `course_name`       VARCHAR(32) NOT NULL DEFAULT ''
   COMMENT '课程名称',
-  `course_date`       DATE        NOT NULL DEFAULT ''
+  `course_date`       DATE        NOT NULL
   COMMENT '课程日期',
-  `course_begin_time` DATETIME             DEFAULT '0000-00-00 00:00:00'
+  `course_begin_time` TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
   COMMENT '课程开始时间',
-  `course_end_time`   DATETIME             DEFAULT '0000-00-00 00:00:00'
+  `course_end_time`   TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
   COMMENT '课程结束时间',
   PRIMARY KEY (`id`)
 )
@@ -38,18 +37,18 @@ CREATE TABLE `t_common_course` (
   COMMENT '课程表';
 
 CREATE TABLE `t_common_message` (
-  `message_id`           INT(11)  NOT NULL  DEFAULT 0 AUTO_INCREMENT,
-  `refer_message_id`     INT(11)            DEFAULT 0
+  `message_id`           INT(11)   NOT NULL  AUTO_INCREMENT,
+  `refer_message_id`     INT(11)             DEFAULT 0
   COMMENT '引用留言id',
-  `message_content`      VARCHAR(255)       DEFAULT ''
+  `message_content`      VARCHAR(255)        DEFAULT ''
   COMMENT '留言内容',
-  `message_to_user_id`   INT(11)  NOT NULL  DEFAULT 0
+  `message_to_user_id`   INT(11)   NOT NULL  DEFAULT 0
   COMMENT '接收留言用户id',
-  `message_from_user_id` INT(11)  NOT NULL  DEFAULT 0
+  `message_from_user_id` INT(11)   NOT NULL  DEFAULT 0
   COMMENT '留言用户id',
-  `message_date_time`    DATETIME NOT NULL  DEFAULT '0000-00-00 00:00:00'
+  `message_date_time`    TIMESTAMP NOT NULL
   COMMENT '留言时间',
-  `is_read`              TINYINT(1)         DEFAULT 0
+  `is_read`              TINYINT(1)          DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
   PRIMARY KEY (`message_id`),
   KEY k_user(`message_to_user_id`, `message_from_user_id`, `message_date_time`),
@@ -60,19 +59,18 @@ CREATE TABLE `t_common_message` (
   COMMENT '留言信息表';
 
 CREATE TABLE `t_common_notice` (
-  `notice_id`           INT(11)   NOT NULL DEFAULT 0 AUTO_INCREMENT
+  `notice_id`           INT(11)   NOT NULL AUTO_INCREMENT
   COMMENT '通知公告id',
   `notice_title`        VARCHAR(128)       DEFAULT ''
   COMMENT '通知公告标题',
   `notice_publish_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   COMMENT '通知公告发布时间',
-  `notice_content`      LONGTEXT           DEFAULT ''
+  `notice_content`      LONGTEXT
   COMMENT '通知公告内容',
   PRIMARY KEY (`notice_id`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '通知公告';
-
 
 CREATE TABLE `t_common_attachment` (
   `attachment_id`   INT(11) NOT NULL DEFAULT 0
@@ -87,7 +85,6 @@ CREATE TABLE `t_common_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '附件表';
-
 
 CREATE TABLE `t_relate_course` (
   `user_id`   INT(11) NOT NULL DEFAULT 0
@@ -119,7 +116,6 @@ CREATE TABLE `t_relate_message_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言附件关联表';
-
 
 CREATE TABLE `t_relate_student_teacher` (
   `student_id` INT(11) NOT NULL DEFAULT 0
