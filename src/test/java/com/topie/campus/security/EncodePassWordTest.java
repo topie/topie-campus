@@ -1,6 +1,7 @@
 package com.topie.campus.security;
 
 import com.topie.campus.BasicTest;
+import com.topie.campus.core.api.info.InfoController;
 import com.topie.campus.security.utils.SecurityUtils;
 
 import org.junit.Assert;

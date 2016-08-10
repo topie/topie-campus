@@ -13,4 +13,5 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 @ContextConfiguration("classpath:config/spring.xml")
 public class BasicTest extends Assert {
+
 }

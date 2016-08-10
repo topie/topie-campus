@@ -53,27 +53,8 @@
             <div class="sidebar content-box" style="display: block;">
                 <ul class="nav">
                     <!-- Main menu -->
-                    <li class="current"><a href="index.html"><i
+                    <li class="current"><a data-url="#dash" href="javascript:void(0);"><i
                             class="glyphicon glyphicon-home"></i> Dashboard</a></li>
-                    <li class="submenu">
-                        <a href="#">
-                            <i class="glyphicon glyphicon-list"></i> Sub1
-                            <span class="caret pull-right"></span>
-                        </a>
-                        <!-- Sub menu -->
-                        <ul>
-                            <li class="submenu">
-                                <a href="#">
-                                    Sub12<span class="caret pull-right"></span>
-                                </a>
-                                <!-- Sub menu -->
-                                <ul>
-                                    <li><a href="#">Sub112</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Sub13</a></li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -81,34 +62,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="content-box-header">
-                        <div class="panel-title">New vs Returning Visitors</div>
+                        <div id="main-title" class="panel-title"></div>
                     </div>
                     <div class="content-box-large box-with-header">
-                        <div class="panel-body">
-                            Ut tristique adipiscing mauris, sit amet suscipit metus porta quis.
-                            Donec dictum tincidunt
-                            erat, eu blandit ligula. Nam sit amet dolor sapien. Quisque velit erat,
-                            congue sed suscipit
-                            vel, feugiat sit amet enim. Suspendisse interdum enim at mi tempor
-                            commodo. Sed tincidunt
-                            sed tortor eu scelerisque. Donec luctus malesuada vulputate. Nunc vel
-                            auctor metus, vel
-                            adipiscing odio. Aliquam aliquet rhoncus libero, at varius nisi pulvinar
-                            nec. Aliquam erat
-                            volutpat. Donec ut neque mi. Praesent enim nisl, bibendum vitae ante et,
-                            placerat pharetra
-                            magna. Donec facilisis nisl turpis, eget facilisis turpis semper non.
-                            Maecenas luctus ligula
-                            tincidunt iasdsd vitae ante et,
-                            <br/><br/>
-                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque
-                            sed consectetur erat.
-                            Maecenas in elementum libero. Sed consequat pellentesque ultricies. Ut
-                            laoreet vehicula nisl
-                            sed placerat. Duis posuere lectus n, eros et hendrerit pellentesque,
-                            ante magna condimentum
-                            sapien, eget ultrices eros libero non orci. Etiam varius diam lectus.
-                            <br/><br/>
+                        <div id="main-body" class="panel-body">
+
                         </div>
                     </div>
                 </div>
@@ -133,6 +91,13 @@
 <script src="vendors/jquery.cookie/jquery.cookie.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
-<script src="application/js/common-init.js"></script>
+<script src="application/js/app.js"></script>
+<script src="application/js/info/upload.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        App.initIndex();
+        App.initMenu();
+    });
+</script>
 </body>
 </html>

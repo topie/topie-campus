@@ -1,4 +1,4 @@
-package com.topie.campus.core.api.system;
+package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.common.utils.PageConvertUtil;

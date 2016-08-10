@@ -15,7 +15,7 @@ public class OrangeHttpAuthenticationEntryPoint implements AuthenticationEntryPo
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        HttpResponseUtil.writeJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+        HttpResponseUtil.writeJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED, "未授权访问");
     }
 
 }
