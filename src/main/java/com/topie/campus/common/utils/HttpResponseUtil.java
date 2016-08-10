@@ -7,6 +7,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.validation.BindingResult;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +38,7 @@ public class HttpResponseUtil {
     }
 
     public static Result data(String massage) {
-        return new Result(HttpServletResponse.SC_OK, massage);
+        return new Result(HttpServletResponse.SC_OK, massage, Collections.EMPTY_LIST);
     }
 
     public static <T> HttpResult success(T data) {

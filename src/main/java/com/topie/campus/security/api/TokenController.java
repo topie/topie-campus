@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/")
-public class AuthController {
+@RequestMapping("/api/token")
+public class TokenController {
 
     private final Logger logger = Logger.getLogger(this.getClass());
 
@@ -46,10 +46,8 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = "auth", method = RequestMethod.POST)
+    @RequestMapping(value = "/generate", method = RequestMethod.POST)
     public ResponseEntity<?> authenticationRequest(@RequestBody OrangeAuthenticationRequest authenticationRequest) throws AuthenticationException {
-
-        // Perform the authentication
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 authenticationRequest.getUsername(),
                 authenticationRequest.getPassword()
@@ -66,7 +64,6 @@ public class AuthController {
             logger.error("An internal error occurred while trying to authenticate the user.", failed);
             return ResponseEntity.ok(HttpResponseUtil.error(failed.getMessage()));
         } catch (AuthenticationException failed) {
-            // Authentication failed
             return ResponseEntity.ok(HttpResponseUtil.error(failed.getMessage()));
         }
 
@@ -78,7 +75,7 @@ public class AuthController {
         return ResponseEntity.ok(HttpResponseUtil.success(token));
     }
 
-    @RequestMapping(value = "refresh", method = RequestMethod.GET)
+    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     public ResponseEntity<?> authenticationRequest(HttpServletRequest request) {
         String token = request.getHeader(this.tokenHeader);
         String username = this.tokenUtils.getUsernameFromToken(token);
@@ -91,15 +88,9 @@ public class AuthController {
         }
     }
 
-
-    @RequestMapping(value = "protected", method = RequestMethod.GET)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     public ResponseEntity<?> protect() {
         return ResponseEntity.ok(HttpResponseUtil.data("YEAH!"));
-    }
-
-    @RequestMapping(value = "exception", method = RequestMethod.GET)
-    public ResponseEntity<?> exception() {
-        throw new AuthBusinessException(AuBzConstant.I_AM_EXCEPTION);
     }
 
 }

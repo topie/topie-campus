@@ -1,4 +1,4 @@
-package com.topie.campus.security.api;
+package com.topie.campus.core.api.system;
 
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.common.utils.PageConvertUtil;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
  * Created by cgj on 2016/4/9.
  */
 @Controller
-@RequestMapping("/api/user")
+@RequestMapping("/api/sys/user")
 public class UserController {
     @Autowired
     private UserService userService;

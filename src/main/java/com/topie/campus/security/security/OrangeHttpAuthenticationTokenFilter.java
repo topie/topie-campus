@@ -47,7 +47,6 @@ public class OrangeHttpAuthenticationTokenFilter extends UsernamePasswordAuthent
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-
         chain.doFilter(request, response);
     }
 

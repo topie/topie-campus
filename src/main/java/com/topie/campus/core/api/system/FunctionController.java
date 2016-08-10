@@ -1,4 +1,4 @@
-package com.topie.campus.security.api;
+package com.topie.campus.core.api.system;
 
 import com.topie.campus.common.handler.ControllerExceptionHandler;
 import com.topie.campus.common.utils.ResponseUtil;
@@ -22,13 +22,13 @@ import java.util.List;
  * Created by cgj on 2016/4/9.
  */
 @Controller
-@RequestMapping("/api/profile")
-public class ProfileController extends ControllerExceptionHandler {
+@RequestMapping("/api/sys/function")
+public class FunctionController extends ControllerExceptionHandler {
 
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/my_function", method = RequestMethod.GET)
+    @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
     public Result myFunction() {
         String currentLoginName = SecurityUtils.getCurrentUserName();

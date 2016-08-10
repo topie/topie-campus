@@ -16,12 +16,7 @@
     </developers>
     <properties>
         <!--  MyBatis Generator  -->
-        <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
-        <targetMapperPackage>com.topie.campus.basedao.mapper</targetMapperPackage>
-        <targetModelPackage>com.topie.campus.basedao.model</targetModelPackage>
-        <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
-        <targetXMLPackage>mapper</targetXMLPackage>
-
+        <targetBasedir>${basedir}</targetBasedir>
         <!--  编译jdk版本  -->
         <jdk.version>1.8</jdk.version>
         <!-- spring版本号 -->

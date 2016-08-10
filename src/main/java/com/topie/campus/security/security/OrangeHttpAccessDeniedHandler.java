@@ -2,8 +2,6 @@ package com.topie.campus.security.security;
 
 import com.topie.campus.common.utils.HttpResponseUtil;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -18,12 +16,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class OrangeHttpAccessDeniedHandler implements AccessDeniedHandler {
 
-    protected static final Logger logger = LoggerFactory.getLogger(OrangeHttpAccessDeniedHandler.class);
-
-
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
-        HttpResponseUtil.error(response, HttpServletResponse.SC_FORBIDDEN, "没有权限访问!");
+        HttpResponseUtil.error(response, HttpServletResponse.SC_FORBIDDEN, "没有权限访问");
     }
 
 }

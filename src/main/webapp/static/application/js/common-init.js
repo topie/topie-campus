@@ -9,7 +9,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: "../api/profile/my_function",
+                url: "../api/sys/function/current",
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {
