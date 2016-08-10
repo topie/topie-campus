@@ -16,7 +16,7 @@ public class InfoBasic {
      * 用户类型 0 学生 1 老师 2 领导 3 其他
      */
     @Column(name = "user_type")
-    private Boolean userType;
+    private Integer userType;
 
     /**
      * 用户唯一编码
@@ -33,7 +33,7 @@ public class InfoBasic {
     /**
      * 性别:0 女 1 男
      */
-    private Boolean gender;
+    private Integer gender;
 
     /**
      * 出生日期
@@ -44,6 +44,12 @@ public class InfoBasic {
      * 个人简介
      */
     private String intro;
+
+    /**
+     * 用户名称
+     */
+    @Column(name = "user_name")
+    private String userName;
 
     /**
      * 获取用户id
@@ -68,7 +74,7 @@ public class InfoBasic {
      *
      * @return user_type - 用户类型 0 学生 1 老师 2 领导 3 其他
      */
-    public Boolean getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
@@ -77,7 +83,7 @@ public class InfoBasic {
      *
      * @param userType 用户类型 0 学生 1 老师 2 领导 3 其他
      */
-    public void setUserType(Boolean userType) {
+    public void setUserType(Integer userType) {
         this.userType = userType;
     }
 
@@ -122,7 +128,7 @@ public class InfoBasic {
      *
      * @return gender - 性别:0 女 1 男
      */
-    public Boolean getGender() {
+    public Integer getGender() {
         return gender;
     }
 
@@ -131,7 +137,7 @@ public class InfoBasic {
      *
      * @param gender 性别:0 女 1 男
      */
-    public void setGender(Boolean gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
@@ -169,5 +175,23 @@ public class InfoBasic {
      */
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    /**
+     * 获取用户名称
+     *
+     * @return user_name - 用户名称
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * 设置用户名称
+     *
+     * @param userName 用户名称
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

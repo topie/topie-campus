@@ -3,6 +3,7 @@ package com.topie.campus.security.security;
 
 import com.topie.campus.security.utils.TokenUtils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ public class OrangeHttpAuthenticationTokenFilter extends UsernamePasswordAuthent
 
     @Value("${security.token.header}")
     private String tokenHeader;
+    private final String PARAM_TOKEN = "topie_token";
     private TokenUtils tokenUtils;
     private UserDetailsService userDetailsService;
 
@@ -38,6 +40,9 @@ public class OrangeHttpAuthenticationTokenFilter extends UsernamePasswordAuthent
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(this.tokenHeader);
+        if (StringUtils.isEmpty(authToken)) {
+            authToken = request.getParameter(PARAM_TOKEN);
+        }
         String username = this.tokenUtils.getUsernameFromToken(authToken);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

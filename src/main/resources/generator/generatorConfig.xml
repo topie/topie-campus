@@ -50,10 +50,10 @@
         <sqlMapGenerator targetPackage="mapper/core"
                          targetProject="${targetBasedir}/src/main/resources"/>
 
-        <javaClientGenerator targetPackage="com.topie.campus.core.mapper"
+        <javaClientGenerator targetPackage="com.topie.campus.core.dao"
                              targetProject="${targetBasedir}/src/main/java" type="XMLMAPPER"/>
 
-        <table tableName="t_info_basic" domainObjectName="InfoBasic">
+        <table tableName="t_common_message" domainObjectName="Message">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
     </context>

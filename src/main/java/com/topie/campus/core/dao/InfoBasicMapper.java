@@ -1,4 +1,4 @@
-package com.topie.campus.core.mapper;
+package com.topie.campus.core.dao;
 
 import com.topie.campus.core.model.InfoBasic;
 import tk.mybatis.mapper.common.Mapper;

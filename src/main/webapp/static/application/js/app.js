@@ -6,12 +6,15 @@
     window.App = {
         initLogin: initLogin,
         initIndex: initIndex,
-        indexClick: indexClick,
+        index: {
+            page: page
+        },
         initMenu: initMenu,
         requestMapping: {
-            "#dash": "indexClick"
+            "#dash": "index"
         }
     };
+    App.href = "..";
     App.download = function (href) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ".." + href, true);
@@ -75,7 +78,7 @@
             $("#main-body").empty();
         }
     }
-    function indexClick() {
+    function page() {
         App.title("index");
     }
 
@@ -173,7 +176,7 @@
                                 var f = App.requestMapping[url];
                                 if (f != undefined) {
                                     $(this).on("click", function () {
-                                        App[f]();
+                                        App[f].page();
                                     });
                                 }
                             });
