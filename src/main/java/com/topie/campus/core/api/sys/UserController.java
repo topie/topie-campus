@@ -1,6 +1,7 @@
 package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.handler.ControllerExceptionHandler;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
@@ -28,7 +29,7 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/api/sys/user")
-public class UserController {
+public class UserController{
     @Autowired
     private UserService userService;
 

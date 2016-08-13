@@ -17,15 +17,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    private static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     public void handleAllException(HttpServletResponse response, Exception e) {
         try {
             e.printStackTrace();
             HttpResponseUtil.writeJson(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException ioE) {
+            ioE.printStackTrace();
         }
     }
 }

@@ -35,7 +35,6 @@ public class UserRoleFunctionTest extends AbstractTransactionalJUnit4SpringConte
         for (User user : users) {
             System.out.println("获取用户：执行结果===============" + user.getDisplayName());
         }
-
     }
 
 }

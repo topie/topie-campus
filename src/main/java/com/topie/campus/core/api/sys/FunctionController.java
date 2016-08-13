@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api/sys/function")
-public class FunctionController extends ControllerExceptionHandler {
+public class FunctionController{
 
     @Autowired
     UserService userService;
