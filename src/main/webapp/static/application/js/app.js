@@ -15,6 +15,10 @@
         }
     };
     App.href = "..";
+    /**
+     * 下载文件
+     * @param href
+     */
     App.download = function (href) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ".." + href, true);
@@ -67,10 +71,18 @@
         xhr.setRequestHeader('X-Auth-Token', App.token);
         xhr.send();
     }
+    /**
+     * 更改右侧内容标题
+     * @param title
+     */
     App.title = function (title) {
         $("#main-title").text(title);
     }
-    App.body = {
+    /**
+     * 右侧内容方法集合
+     * @type {{append: App.body.append, empty: App.body.empty}}
+     */
+    App.content = {
         append: function (ele) {
             $("#main-body").append(ele);
         },
@@ -78,16 +90,19 @@
             $("#main-body").empty();
         }
     }
+
     function page() {
         App.title("index");
+        App.content.empty();
     }
 
     function initLogin() {
         $("#login_btn").on("click", function () {
-            var fields = JSON.stringify({
-                                            "username": $("#username").val(),
-                                            "password": $("#password").val()
-                                        });
+            var fields = JSON.stringify(
+                {
+                    "username": $("#username").val(),
+                    "password": $("#password").val()
+                });
             $.ajax({
                        type: 'POST',
                        url: "../api/token/generate",
@@ -117,6 +132,58 @@
         App.token = token;
     }
 
+    function getSubMenu(menus, menuId) {
+        var subMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.parentId == menuId) {
+                subMenus.push(m);
+            }
+        });
+        return subMenus;
+    }
+
+    function getMenu(menus, menuId) {
+        var subMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.id == menuId) {
+                subMenus.push(m);
+            }
+        });
+        return subMenus;
+    }
+
+    function getTopMenu(menus) {
+        var topMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.parentId == 0) {
+                topMenus.push(m);
+            } else {
+                var subMenus = getMenu(menus, m.parentId);
+                if (subMenus.length == 0) {
+                    topMenus.push(m);
+                }
+            }
+        });
+        return topMenus;
+    }
+
+    function recursionMenu(ele, menus, subMenus) {
+        if (subMenus.length > 0) {
+            ele += "<ul>";
+            $.each(subMenus, function (i, m) {
+                ele += ('<li data-level="sub">'
+                        + '<a data-url="' + m.action
+                        + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                        + m.functionName
+                        + '</a>');
+                var sMenus = getSubMenu(menus, m.id);
+                ele += '</li>';
+            });
+            ele += "</ul>";
+        }
+        return ele;
+    }
+
     function initMenu() {
         $.ajax(
             {
@@ -130,15 +197,21 @@
                 success: function (result) {
                     if (result.code == 200) {
                         var menus = result.data;
-                        $.each(menus, function (i, m) {
+                        var topMenus = getTopMenu(menus);
+                        $.each(topMenus, function (i, m) {
                             if (m.parentId == 0) {
-                                var li = $(
-                                    '<li>'
-                                    + '<a data-url="' + m.action
-                                    + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
-                                    + m.functionName
-                                    + '</a>'
-                                    + '</li>');
+                                var ele = '<li data-level="top">'
+                                          + '<a data-url="' + m.action
+                                          + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                                          + m.functionName
+                                          + '</a>';
+                                var subMenus = getSubMenu(menus, m.id);
+                                if (subMenus.length > 0) {
+                                    ele = recursionMenu(ele, menus, subMenus);
+                                }
+                                ele += '</li>';
+                                var li = $(ele);
+                                li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
                                 $("div.sidebar > .nav").append(li);
                             }
                         });
