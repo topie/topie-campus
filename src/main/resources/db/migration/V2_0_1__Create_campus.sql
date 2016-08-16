@@ -1,6 +1,9 @@
+DROP TABLE IF EXISTS `t_info_basic`;
 CREATE TABLE `t_info_basic` (
   `user_id`      INT(11)     NOT NULL DEFAULT 0
   COMMENT '用户id',
+  `user_name`    VARCHAR(64)          DEFAULT ''
+  COMMENT '用户名称',
   `user_type`    TINYINT(1)  NOT NULL DEFAULT 0
   COMMENT '用户类型 0 学生 1 老师 2 领导 3 其他',
   `user_code`    VARCHAR(32) NOT NULL
@@ -18,7 +21,7 @@ CREATE TABLE `t_info_basic` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '基本信息';
-
+DROP TABLE IF EXISTS `t_common_course`;
 CREATE TABLE `t_common_course` (
   `id`                INT(11)     NOT NULL AUTO_INCREMENT,
   `course_id`         INT(11)     NOT NULL DEFAULT 0
@@ -35,7 +38,7 @@ CREATE TABLE `t_common_course` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '课程表';
-
+DROP TABLE IF EXISTS `t_common_message`;
 CREATE TABLE `t_common_message` (
   `message_id`           INT(11)   NOT NULL  AUTO_INCREMENT,
   `refer_message_id`     INT(11)             DEFAULT 0
@@ -57,7 +60,7 @@ CREATE TABLE `t_common_message` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言信息表';
-
+DROP TABLE IF EXISTS `t_common_notice`;
 CREATE TABLE `t_common_notice` (
   `notice_id`           INT(11)   NOT NULL AUTO_INCREMENT
   COMMENT '通知公告id',
@@ -71,7 +74,7 @@ CREATE TABLE `t_common_notice` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '通知公告';
-
+DROP TABLE IF EXISTS `t_common_attachment`;
 CREATE TABLE `t_common_attachment` (
   `attachment_id`   INT(11) NOT NULL DEFAULT 0
   COMMENT '附件id',
@@ -85,7 +88,7 @@ CREATE TABLE `t_common_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '附件表';
-
+DROP TABLE IF EXISTS `t_relate_course`;
 CREATE TABLE `t_relate_course` (
   `user_id`   INT(11) NOT NULL DEFAULT 0
   COMMENT '用户id',
@@ -96,7 +99,7 @@ CREATE TABLE `t_relate_course` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '用户课程关联表';
-
+DROP TABLE IF EXISTS `t_relate_notice_attachment`;
 CREATE TABLE `t_relate_notice_attachment` (
   `notice_id`     INT(11) NOT NULL DEFAULT 0
   COMMENT '通知公告id',
@@ -106,7 +109,7 @@ CREATE TABLE `t_relate_notice_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '通知公告附件关联表';
-
+DROP TABLE IF EXISTS `t_relate_message_attachment`;
 CREATE TABLE `t_relate_message_attachment` (
   `message_id`    INT(11) NOT NULL DEFAULT 0
   COMMENT '通知公告id',
@@ -116,7 +119,7 @@ CREATE TABLE `t_relate_message_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言附件关联表';
-
+DROP TABLE IF EXISTS `t_relate_student_teacher`;
 CREATE TABLE `t_relate_student_teacher` (
   `student_id` INT(11) NOT NULL DEFAULT 0
   COMMENT '学生id',

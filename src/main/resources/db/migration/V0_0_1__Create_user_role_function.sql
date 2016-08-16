@@ -103,23 +103,26 @@ CREATE TABLE `sys_user_role` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-INSERT INTO `sys_function` VALUES ('1', '0', 'urf', '1', '1', NULL, '/api/urf/*', '1', NULL, NULL);
-INSERT INTO `sys_function`
-VALUES ('2', '0', 'api', '1', '1', NULL, '/api/protected', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('1', '0', '系统管理', '1', '1', NULL, '#', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('2', '0', '信息管理', '1', '1', NULL, '#', '2', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('3', '2', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
+
 
 INSERT INTO `sys_role` VALUES ('1', 'role-admin', '/', '1', NULL, NULL);
-INSERT INTO `sys_role` VALUES ('2', 'role-user', '/', '1', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('2', 'role-info', '/', '1', NULL, NULL);
 
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '2');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '2');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '3');
 
 INSERT INTO `sys_user` VALUES
   ('1', 'admin', '$2a$10$oWaepJdwE7OjANCEEuQCW.aSxzOCZTsJglNcDpi8cnGXRLRppNZKG', 'admin', '1', '1',
         '1', '1', NULL, NULL, '597160667@qq.com', '18600200791', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `sys_user` VALUES
-  ('2', 'user', '$2a$10$/ATU0L9xYa9iVlOa.JXZMuDSwQ/kz934pWQjmSZfzUcE360.gvj0q', 'user', '1', '1',
+  ('2', 'info', '$2a$10$Yf1GtWji0EfTtgZqXXUE/u.0yorIMF5j3GIG1OF6EwmJfuxw5rM.C', 'info', '1', '1',
         '1', '1', NULL, NULL, '18600200791@163.com', '18600200791', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 

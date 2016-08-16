@@ -11,7 +11,6 @@
     window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     window.App.upload = {
         page: function () {
-
             window.App.content.empty();
             window.App.title("上传");
             var btn = $("<button type='button'>下载模板</button>");

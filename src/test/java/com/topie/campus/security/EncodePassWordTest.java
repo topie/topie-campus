@@ -10,11 +10,10 @@ import org.junit.Test;
 /**
  * Created by cgj on 2016/4/10.
  */
-public class EncodePassWordTest extends BasicTest {
+public class EncodePassWordTest{
 
-    @Test
-    public void test() {
-        String password = "user";
+    public static void main(String[] args) {
+        String password = "info";
         String encodedPassword = SecurityUtils.encodeString(password);
         System.out.println(encodedPassword);
         Assert.assertTrue(SecurityUtils.matchString(password, encodedPassword));
