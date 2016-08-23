@@ -9,10 +9,9 @@
 
     <context:property-placeholder
             location="
-            classpath:config/properties/security.properties,
-            classpath:config/properties/jdbc.properties"
+            classpath*:config/properties/*.properties"
             ignore-unresolvable="true"/>
     <import resource="classpath*:/config/spring/spring-*.xml"/>
     <import resource="classpath*:/config/spring/init-*.xml"/>
-    <context:component-scan base-package="com.topie.campus.*.service"/>
+    <context:component-scan base-package="com.topie.campus.*.service,com.topie.campus.tools.*"/>
 </beans>

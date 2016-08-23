@@ -3,11 +3,11 @@ package com.topie.campus.core.api.info;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.service.InfoBasicService;
-import com.topie.campus.security.service.UserService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
 import com.topie.campus.tools.excel.ExcelLogs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,14 +24,16 @@ import javax.servlet.http.HttpServletResponse;
 public class InfoController {
     @Autowired
     private InfoBasicService infoBasicService;
+    @Value("${excel.template}")
+    private String excelTemplate;
 
     @RequestMapping(value = "/template/download", method = RequestMethod.GET)
     public void download(HttpServletResponse response) throws Exception {
-        String filePath = this.getClass().getResource("/excel/template.xlsx").getPath();
+        String filePath = this.getClass().getResource(excelTemplate+"template.xlsx").getPath();
         ExcelFileUtil.download(response, filePath, "模板.xlsx");
     }
 
-    @RequestMapping(value = "/excel/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/templates/excel/upload", method = RequestMethod.POST)
     public void upload(HttpServletResponse response,
                        @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         if (file == null || file.isEmpty()) {
