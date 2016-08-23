@@ -88,7 +88,14 @@
         },
         empty: function () {
             $("#main-body").empty();
+        },
+        find:function(ele){
+            return $("#main-body").find(ele);
         }
+    }
+
+    App.$content = function () {
+        return $("#main-body");
     }
 
     function page() {
@@ -104,23 +111,23 @@
                     "password": $("#password").val()
                 });
             $.ajax({
-                       type: 'POST',
-                       url: "../api/token/generate",
-                       contentType: "application/json",
-                       dataType: "json",
-                       data: fields,
-                       success: function (result) {
-                           if (result.code == 200) {
-                               $.cookie('tc_t', result.token, {expires: 7, path: '/'});
-                               window.location.href = "./index.html";
-                           } else {
-                               alert(result.message);
-                           }
-                       },
-                       error: function (err) {
+                type: 'POST',
+                url: "../api/token/generate",
+                contentType: "application/json",
+                dataType: "json",
+                data: fields,
+                success: function (result) {
+                    if (result.code == 200) {
+                        $.cookie('tc_t', result.token, {expires: 7, path: '/'});
+                        window.location.href = "./index.html";
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function (err) {
 
-                       }
-                   });
+                }
+            });
         });
     }
 
@@ -172,10 +179,10 @@
             ele += "<ul>";
             $.each(subMenus, function (i, m) {
                 ele += ('<li data-level="sub">'
-                        + '<a data-url="' + m.action
-                        + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
-                        + m.functionName
-                        + '</a>');
+                + '<a data-url="' + m.action
+                + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                + m.functionName
+                + '</a>');
                 var sMenus = getSubMenu(menus, m.id);
                 ele += '</li>';
             });
@@ -201,10 +208,10 @@
                         $.each(topMenus, function (i, m) {
                             if (m.parentId == 0) {
                                 var ele = '<li data-level="top">'
-                                          + '<a data-url="' + m.action
-                                          + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
-                                          + m.functionName
-                                          + '</a>';
+                                    + '<a data-url="' + m.action
+                                    + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                                    + m.functionName
+                                    + '</a>';
                                 var subMenus = getSubMenu(menus, m.id);
                                 if (subMenus.length > 0) {
                                     ele = recursionMenu(ele, menus, subMenus);

@@ -25,7 +25,7 @@ public class BasicTest extends Assert {
     public void testFreemarker(){
         Map params = new HashMap();
         params.put("name","guojun.chen");
-        String out = freeMarkerUtil.getStringFromTemplate("test.ftl",params);
+        String out = freeMarkerUtil.getStringFromTemplate("/","test.ftl",params);
         System.out.println(out);
     }
 }

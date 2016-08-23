@@ -30,7 +30,7 @@ public class InfoBasicServiceImpl extends BaseService<InfoBasic>
     private UserService userService;
 
     @Override
-    public void upload(MultipartFile file, ExcelLogs logs) throws IOException {
+    public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
         Collection<Map> teacher;
         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
             teacher = ExcelUtil.importExcelX(Map.class, file.getInputStream(), 0, "dd/MM/yy", logs);
