@@ -4,18 +4,17 @@
 ;
 (function ($, window, document, undefined) {
     var that = this;
-    that.page = "/api/info/user/upload";
-    that.pageUrl = window.App.href + that.page;
     that.uploadUrl = window.App.href + "/api/info/user/uploadExcel";
-    var uploadMapping = {}
-    uploadMapping[that.page] = "upload";
+    var uploadMapping = {
+        "/api/info/user/upload": "upload"
+    }
     window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     window.App.upload = {
-        page: function () {
+        page: function (title) {
             $.ajax(
                 {
                     type: 'GET',
-                    url: that.pageUrl,
+                    url: App.href + "/api/info/user/upload",
                     contentType: "application/json",
                     dataType: "json",
                     beforeSend: function (request) {
@@ -24,7 +23,7 @@
                     success: function (result) {
                         if (result.code === 200) {
                             window.App.content.empty();
-                            window.App.title("上传");
+                            window.App.title(title);
                             window.App.content.append(result.message);
                             window.App.content.find("a[role=template]").click(function () {
                                 window.App.download("/api/info/user/downloadTemplate");
@@ -41,6 +40,7 @@
     function initUpload() {
         var uploadFile = function (fileId) {
             if ($("#" + fileId).val() == "") {
+                alert("请选择上传的文件");
                 return;
             }
             $.ajaxFileUpload(

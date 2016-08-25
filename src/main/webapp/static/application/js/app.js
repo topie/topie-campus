@@ -6,15 +6,48 @@
     window.App = {
         initLogin: initLogin,
         initIndex: initIndex,
-        index: {
-            page: page
-        },
-        initMenu: initMenu,
-        requestMapping: {
-            "#dash": "index"
-        }
+        initMenu: initMenu
     };
     App.href = "..";
+    App.requestMapping = {
+        "/api/index": "index"
+    };
+    App.index = {
+        page: function (title) {
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/index",
+                    contentType: "application/json",
+                    dataType: "json",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", App.token);
+                    },
+                    success: function (result) {
+                        if (result.code === 200) {
+                            window.App.content.empty();
+                            window.App.title(title);
+                            window.App.content.append(result.message);
+                        } else {
+                            alert(result.msg);
+                        }
+                    }
+                }
+            );
+        }
+    };
+    App.ready = function () {
+        var location = window.location.href;
+        var url = location.substring(location.lastIndexOf("#!") + 2);
+        if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
+            $('a[data-url="' + url + '"]').trigger("click");
+        } else {
+            window.location.href = window.location.href + "#!/api/index";
+            url = "/api/index";
+            $('a[data-url="' + url + '"]').trigger("click");
+        }
+
+    }
     /**
      * 下载文件
      * @param href
@@ -89,18 +122,13 @@
         empty: function () {
             $("#main-body").empty();
         },
-        find:function(ele){
+        find: function (ele) {
             return $("#main-body").find(ele);
         }
     }
 
     App.$content = function () {
         return $("#main-body");
-    }
-
-    function page() {
-        App.title("index");
-        App.content.empty();
     }
 
     function initLogin() {
@@ -180,7 +208,8 @@
             $.each(subMenus, function (i, m) {
                 ele += ('<li data-level="sub">'
                 + '<a data-url="' + m.action
-                + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                + '" data-title="' + m.functionName
+                + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
                 + m.functionName
                 + '</a>');
                 var sMenus = getSubMenu(menus, m.id);
@@ -209,7 +238,8 @@
                             if (m.parentId == 0) {
                                 var ele = '<li data-level="top">'
                                     + '<a data-url="' + m.action
-                                    + '" href="javascript:void(0);"><i class="glyphicon glyphicon-list"></i> '
+                                    + '" data-title="' + m.functionName
+                                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
                                     + m.functionName
                                     + '</a>';
                                 var subMenus = getSubMenu(menus, m.id);
@@ -252,14 +282,19 @@
 
                         $("div.sidebar > .nav").find("li[class!=submenu] > a")
                             .each(function () {
-                                var url = $(this).attr("data-url");
-                                var f = App.requestMapping[url];
-                                if (f != undefined) {
-                                    $(this).on("click", function () {
-                                        App[f].page();
-                                    });
+                                    var url = $(this).attr("data-url");
+                                    var f = App.requestMapping[url];
+                                    if (f != undefined) {
+                                        $(this).on("click", function () {
+                                            var title = $(this).attr("data-title");
+                                            $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
+                                            App[f].page(title);
+                                            window.history.pushState({}, 0, 'http://' + window.location.host + '/static/index.html#!' + url);
+                                        });
+                                    }
                                 }
-                            });
+                            );
+                        App.ready();
                     } else {
                         alert(result.message);
                     }

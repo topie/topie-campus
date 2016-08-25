@@ -102,18 +102,20 @@ CREATE TABLE `sys_user_role` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+INSERT INTO `sys_function` VALUES ('1', '0', '首页', '1', '1', "glyphicon glyphicon-home", '/api/index', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('2', '0', '系统管理', '1', '1', NULL, '#', '2', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('3', '0', '信息管理', '1', '1', NULL, '#', '3', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('4', '3', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
 
-INSERT INTO `sys_function` VALUES ('1', '0', '系统管理', '1', '1', NULL, '#', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('2', '0', '信息管理', '1', '1', NULL, '#', '2', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('3', '2', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
 
-
-INSERT INTO `sys_role` VALUES ('1', 'role-admin', '/', '1', NULL, NULL);
-INSERT INTO `sys_role` VALUES ('2', 'role-info', '/', '1', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('1', '管理员', '/', '1', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('2', '信息管理员', '/', '1', NULL, NULL);
 
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '2');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '3');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '4');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '2');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '3');
 
