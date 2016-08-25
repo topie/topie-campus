@@ -7,6 +7,10 @@ body {
     padding: 0px;
 }
 
+.page-content {
+    min-height: 520px;
+}
+
 .page-content > .row {
     margin-left: 0px !important;
     margin-right: 0px !important;
@@ -17,7 +21,6 @@ body {
 
 footer {
     background-color: #6887c4;
-    position: fixed;
     box-shadow: inset 0px 0px 3px #6887c4;
     color: #fff;
     font-size: 14px;
