@@ -20,9 +20,9 @@ body {
 /* Footer */
 
 footer {
-    background-color: #6887c4;
-    box-shadow: inset 0px 0px 3px #6887c4;
-    color: #fff;
+    background-color: #eff0f3;
+    box-shadow: inset 0px 0px 3px #eff0f3;
+    color: #6887c4;
     font-size: 14px;
     line-height: 25px;
     padding: 10px 0px 10px 0px;
@@ -32,7 +32,7 @@ footer {
 }
 
 footer a {
-    color: #eee;
+    color: #6887c4;
     text-decoration: none;
     border-bottom: 1px dotted #888;
 }
