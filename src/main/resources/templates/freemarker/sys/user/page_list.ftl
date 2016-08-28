@@ -27,7 +27,7 @@
             <td class="center">${item.id}</td>
             <td class="center">${item.loginName}</td>
             <td class="center">${item.displayName}</td>
-            <td class="center">-</td>
+            <td class="center"><a role="row_edit" target="${item.id}" href="javascript:void(0);">编辑</a></td>
         </tr>
         </#list>
         </tbody>

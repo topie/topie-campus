@@ -76,11 +76,16 @@ public class UserController {
         return ResponseUtil.success();
     }
 
-    @RequestMapping(value = "/load/{user_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/load/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadUser(@PathVariable(value = "user_id") int userId) {
+    public Result loadUser(@PathVariable(value = "userId") int userId) {
         User user = userService.findUserById(userId);
-        return ResponseUtil.success(user);
+        Map params = new HashMap();
+        params.put("user", user);
+        String html = freeMarkerUtil.getStringFromTemplate("/sys/user/", "form_modal.ftl", params);
+        Map result = new HashMap();
+        result.put("html", html);
+        return ResponseUtil.success(result);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
