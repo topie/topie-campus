@@ -2,7 +2,7 @@ package com.topie.campus.core.service.impl;
 
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.core.model.InfoBasic;
-import com.topie.campus.core.service.InfoBasicService;
+import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
@@ -24,8 +24,8 @@ import java.util.Map;
  * Created by chenguojun on 8/10/16.
  */
 @Service
-public class InfoBasicServiceImpl extends BaseService<InfoBasic>
-        implements InfoBasicService {
+public class IInfoBasicServiceImpl extends BaseService<InfoBasic>
+        implements IInfoBasicService {
     @Autowired
     private UserService userService;
 

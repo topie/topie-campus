@@ -21,23 +21,6 @@ CREATE TABLE `t_info_basic` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '基本信息';
-DROP TABLE IF EXISTS `t_common_course`;
-CREATE TABLE `t_common_course` (
-  `id`                INT(11)     NOT NULL AUTO_INCREMENT,
-  `course_id`         INT(11)     NOT NULL DEFAULT 0
-  COMMENT '课程id',
-  `course_name`       VARCHAR(32) NOT NULL DEFAULT ''
-  COMMENT '课程名称',
-  `course_date`       DATE        NOT NULL
-  COMMENT '课程日期',
-  `course_begin_time` TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
-  COMMENT '课程开始时间',
-  `course_end_time`   TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
-  COMMENT '课程结束时间',
-  PRIMARY KEY (`id`)
-)
-  DEFAULT CHARSET = utf8
-  COMMENT '课程表';
 DROP TABLE IF EXISTS `t_common_message`;
 CREATE TABLE `t_common_message` (
   `message_id`           INT(11)   NOT NULL  AUTO_INCREMENT,
@@ -88,17 +71,6 @@ CREATE TABLE `t_common_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '附件表';
-DROP TABLE IF EXISTS `t_relate_course`;
-CREATE TABLE `t_relate_course` (
-  `user_id`   INT(11) NOT NULL DEFAULT 0
-  COMMENT '用户id',
-  `course_id` INT(11) NOT NULL DEFAULT 0
-  COMMENT '课程表id',
-  PRIMARY KEY (`user_id`, `course_id`),
-  KEY (`course_id`)
-)
-  DEFAULT CHARSET = utf8
-  COMMENT '用户课程关联表';
 DROP TABLE IF EXISTS `t_relate_notice_attachment`;
 CREATE TABLE `t_relate_notice_attachment` (
   `notice_id`     INT(11) NOT NULL DEFAULT 0

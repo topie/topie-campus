@@ -6,6 +6,7 @@
 
 
 ```
+drop database if exists topie_campus;
 create database topie_campus DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 ###Start the project and enjoy it!
@@ -14,24 +15,4 @@ create database topie_campus DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
 User - user:user
 Admin - admin:admin
-```
-
-Step 1:
-```
-curl -i -H "Content-Type: application/json" -X POST -d '{"username":"admin","password":"admin"}' http://localhost:8080/api/token/generate
-```
-
-response:
-```
-{"code":200,"token":"eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjpbeyJhdXRob3JpdHkiOiIxIn0seyJhdXRob3JpdHkiOiIyIn1dLCJjcmVhdGVkIjoxNDY3MDgxMTI4MjQ2LCJleHAiOjE0Njc2ODU5MjgsInVzZXIiOiJhZG1pbiJ9.vy_EWXAr8iduuDqVInjICyLngv8is90pEUNaR7V8Ok4ipsgQPrXN4yCxH7PjixJKcwc-YPWXYlpuKji6oruZBg","data":null}
-```
-
-Step 2:
-```
-curl -i -H "Content-Type: application/json" -H "X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjpbeyJhdXRob3JpdHkiOiIxIn0seyJhdXRob3JpdHkiOiIyIn1dLCJjcmVhdGVkIjoxNDY3MDgxMTI4MjQ2LCJleHAiOjE0Njc2ODU5MjgsInVzZXIiOiJhZG1pbiJ9.vy_EWXAr8iduuDqVInjICyLngv8is90pEUNaR7V8Ok4ipsgQPrXN4yCxH7PjixJKcwc-YPWXYlpuKji6oruZBg" -X GET http://localhost:8080/api/token/test
-```
-
-response:
-```
-{"code":200,"message":"YEAH!","data":[]}
 ```

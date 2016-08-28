@@ -2,7 +2,7 @@ package com.topie.campus.core.api.info;
 
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
-import com.topie.campus.core.service.InfoBasicService;
+import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public class InfoController {
 
     @Autowired
-    private InfoBasicService infoBasicService;
+    private IInfoBasicService iInfoBasicService;
 
     @Value("${excel.template}")
     private String excelTemplate;
@@ -54,7 +54,7 @@ public class InfoController {
             return;
         }
         ExcelLogs logs = new ExcelLogs();
-        infoBasicService.userUpload(file, logs);
+        iInfoBasicService.userUpload(file, logs);
         ResponseUtil.writeJson(response, new Result(200, logs.getErrorLogList()));
     }
 
