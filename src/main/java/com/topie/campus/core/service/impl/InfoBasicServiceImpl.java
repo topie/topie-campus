@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by chenguojun on 8/10/16.
  */
 @Service
-public class IInfoBasicServiceImpl extends BaseService<InfoBasic>
+public class InfoBasicServiceImpl extends BaseService<InfoBasic>
         implements IInfoBasicService {
     @Autowired
     private UserService userService;
