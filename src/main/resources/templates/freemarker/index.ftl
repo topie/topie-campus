@@ -1,16 +1,21 @@
 <div class="panel-body">
     <div class="row">
-        <div class="col-md-6">
-            <div class="dataTables_filter" style="float: left">
-                <label>Search: <input type="text" /></label>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="dataTables_filter"  style="float: left">
-                <label>Search2: <input type="text" /></label>
-            </div>
+        <div class="col-md-12">
+            <form class="form-inline" role="form">
+                <fieldset>
+                    <div class="form-group col-sm-6">
+                        <label class="col-sm-4 control-label" for="exampleInputEmail2">Email address</label>
+                        <input type="text" class="col-sm-8 form-control" id="exampleInputEmail2" placeholder="Enter email">
+                    </div>
+                    <div class="form-group  col-sm-6">
+                        <label class="col-sm-4 control-label" for="exampleInputPassword2">Password</label>
+                        <input type="text" class="col-sm-8 form-control" id="exampleInputPassword2" placeholder="Password">
+                    </div>
+                </fieldset>
+            </form>
         </div>
     </div>
+    <hr>
     <div id="example_wrapper" class="dataTables_wrapper form-inline"
          style="position: relative; overflow: auto; width: 100%;" role="grid">
         <table cellpadding="0" cellspacing="0" border="0"
@@ -23,7 +28,7 @@
                     aria-label="Rendering engine: activate to sort column descending" style="width: 168px;">
                     Rendering engine
                 </th>
-                <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1"
+                <th class="sorting_desc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1"
                     colspan="1" aria-label="Browser: activate to sort column ascending"
                     style="width: 246px;">Browser
                 </th>

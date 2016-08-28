@@ -11,7 +11,6 @@
     window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     window.App.sysUser = {
         page: function (title) {
-            $('body').modalmanager('loading');
             $.ajax(
                 {
                     type: 'GET',
@@ -27,7 +26,6 @@
                             window.App.title(title);
                             window.App.content.append(result.data.html);
                             window.App.sysUser.initEvents();
-                            $('body').modalmanager('removeLoading');
                         } else {
                             alert(result.msg);
                         }
