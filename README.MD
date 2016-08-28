@@ -16,3 +16,8 @@ create database topie_campus DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 User - user:user
 Admin - admin:admin
 ```
+
+3 welcome page
+```
+/static/index.html
+```
