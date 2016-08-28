@@ -65,14 +65,11 @@ public class UserController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateUser(@Valid User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseUtil.error(result);
-        }
+    public Result updateUser(User user) {
         if (userService.findExistUser(user) > 0) {
             throw new AuthBusinessException(AuBzConstant.LOGIN_NAME_EXIST);
         }
-        userService.updateNotNull(user);
+        userService.updateUser(user);
         return ResponseUtil.success();
     }
 
@@ -82,7 +79,7 @@ public class UserController {
         User user = userService.findUserById(userId);
         Map params = new HashMap();
         params.put("user", user);
-        String html = freeMarkerUtil.getStringFromTemplate("/sys/user/", "form_modal.ftl", params);
+        String html = freeMarkerUtil.getStringFromTemplate("/sys/user/", "load.ftl", params);
         Map result = new HashMap();
         result.put("html", html);
         return ResponseUtil.success(result);

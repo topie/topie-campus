@@ -18,7 +18,7 @@
                     <div class="form-group col-sm-12">
                         <div class="btn btn-primary pull-right">
                             <i class="fa fa-save"></i>
-                            Submit
+                            搜索
                         </div>
                     </div>
                 </div>

@@ -51,6 +51,24 @@
                             if (result.code === 200) {
                                 $("#user_modal").remove();
                                 window.App.content.append(result.data.html);
+                                $("#user_modal").find("button[role=submit]").on("click", function () {
+                                    $.ajax(
+                                        {
+                                            type: 'POST',
+                                            url: App.href + "/api/sys/user/update",
+                                            data: $("#user_modal").find("form[role=form]").serialize(),
+                                            dataType: "json",
+                                            beforeSend: function (request) {
+                                                request.setRequestHeader("X-Auth-Token", App.token);
+                                            },
+                                            success: function (result) {
+                                                if (result.code === 200) {
+                                                    $("#user_modal").modal("hide");
+                                                }
+                                            }
+                                        }
+                                    );
+                                });
                                 $("#user_modal").modal();
                             } else {
                                 alert(result.msg);
