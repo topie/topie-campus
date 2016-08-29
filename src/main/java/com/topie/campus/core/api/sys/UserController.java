@@ -1,6 +1,7 @@
 package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.security.exception.AuBzConstant;
@@ -36,18 +37,10 @@ public class UserController {
     @RequestMapping(value = "/pageList", method = RequestMethod.GET)
     @ResponseBody
     public Result users(HttpServletRequest request, User user,
-            @RequestParam(value = "page_num", required = false, defaultValue = "1") int pageNum,
-            @RequestParam(value = "page_size", required = false, defaultValue = "15") int pageSize) {
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         PageInfo<User> pageInfo = userService.findUserList(pageNum, pageSize, user);
-        Map params = new HashMap();
-        params.put("list", pageInfo.getList());
-        String html = freeMarkerUtil.getStringFromTemplate("/sys/user/", "page_list.ftl", params);
-        Map result = new HashMap();
-        result.put("html", html);
-        result.put("pageNum", pageInfo.getPageNum());
-        result.put("pages", pageInfo.getPages());
-        result.put("total", pageInfo.getTotal());
-        return ResponseUtil.success(result);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)

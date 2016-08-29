@@ -13,27 +13,15 @@
         "/api/index": "index"
     };
     App.index = {
+        initEvents: function () {
+
+        },
         page: function (title) {
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: App.href + "/api/index",
-                    contentType: "application/json",
-                    dataType: "json",
-                    beforeSend: function (request) {
-                        request.setRequestHeader("X-Auth-Token", App.token);
-                    },
-                    success: function (result) {
-                        if (result.code === 200) {
-                            window.App.content.empty();
-                            window.App.title(title);
-                            window.App.content.append(result.message);
-                        } else {
-                            alert(result.msg);
-                        }
-                    }
-                }
-            );
+            window.App.content.empty();
+            window.App.title(title);
+            var content = $('<div class="panel-body" id="index_grid"><p>WELCOME</p></div>');
+            window.App.content.append(content);
+            App.index.initEvents();
         }
     };
     App.ready = function () {
