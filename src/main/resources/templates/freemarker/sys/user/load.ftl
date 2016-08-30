@@ -1,17 +1,3 @@
-<div id="user_modal" class="modal fade" tabindex="-1" data-width="760">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>用户编辑</h3>
-    </div>
-    <div class="modal-body">
-
-    </div>
-    <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn">取消</button>
-        <button type="button" role="submit" class="btn btn-primary">保存</button>
-    </div>
-</div>
-
 <form class="form-horizontal" role="form" action="">
     <input type="hidden" name="id" value="${user.id}">
     <div class="form-group">

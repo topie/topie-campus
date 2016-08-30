@@ -704,3 +704,8 @@ body {
         border-radius: 10px;
     }
 }
+
+.form-horizontal .form-group {
+    margin-right: 15px;
+    margin-left: 15px;
+}

@@ -28,8 +28,6 @@ public class IndexController {
 
     @Autowired
     private FreeMarkerUtil freeMarkerUtil;
-    @Autowired
-    private UserService userService;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     @ResponseBody
@@ -40,12 +38,4 @@ public class IndexController {
         return ResponseUtil.success(html);
     }
 
-    @RequestMapping(value = "/indexGrid", method = RequestMethod.GET)
-    @ResponseBody
-    public Result indexGrid(HttpServletRequest request, User user,
-            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
-        PageInfo<User> pageInfo = userService.findUserList(pageNum, pageSize, user);
-        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
-    }
 }

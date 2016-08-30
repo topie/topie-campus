@@ -13,11 +13,12 @@
         title: "视窗",
         color: "#6887c4",
         showClose: true,
-        destroy: false,
+        destroy: true,
         backdrop: true,
         scroll: true,
         keyboard: true,
-        maxHeight: "650px"
+        maxHeight: "650px",
+        minHeight: "500px"
     };
     Modal.statics = {
         modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
@@ -68,6 +69,9 @@
             }
             if (options.height != undefined) {
                 this.modalOpts.height = options.height;
+            }
+            if (options.minHeight != undefined) {
+                this.modalOpts.minHeight = options.minHeight;
             }
             if (options.maxHeight != undefined) {
                 this.modalOpts.maxHeight = options.maxHeight;

@@ -14,12 +14,70 @@
     };
     App.index = {
         initEvents: function () {
-
+            var formOpts = {
+                id: "index_form",//表单id
+                name: "index_form",//表单名
+                method: "post",//表单method
+                action: "./ajaxSave",//表单action
+                ajaxSubmit: true,//是否使用ajax提交表单
+                labelInline: false,
+                rowEleNum: 2,
+                beforeSubmit: function () {
+                },
+                ajaxSuccess: function () {
+                },
+                submitText: "保存",//保存按钮的文本
+                showReset: true,//是否显示重置按钮
+                resetText: "重置",//重置按钮文本
+                isValidate: true,//开启验证
+                buttons: [{
+                    type: 'button',
+                    text: '关闭',
+                    handle: function () {
+                        alert("点击了关闭");
+                    }
+                }],
+                buttonsAlign: "center",
+                //表单元素
+                items: [{
+                    type: 'text',//类型
+                    name: 'name',//name
+                    id: 'name',//id
+                    label: '角色名',//左边label
+                    cls: 'input-large',
+                    rule: {
+                        required: true
+                    },
+                    message: {
+                        required: "请输入角色名"
+                    }
+                }, {
+                    type: 'text',//类型
+                    name: 'homePage',//name
+                    id: 'homePage',//id
+                    label: '跳转路径',//左边label
+                    cls: 'input-large',
+                    rule: {
+                        required: true
+                    },
+                    message: {
+                        required: "请输入跳转路径"
+                    }
+                }, {
+                    type: 'textarea',//类型
+                    name: 'detail',//name
+                    id: 'detail',//id
+                    label: '说明',
+                    cls: 'input-large',
+                    rows: 2
+                }]
+            };
+            var form = window.App.content.find("#index_grid").topieForm(formOpts);
         },
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="index_grid"><p>WELCOME</p></div>');
+            var content = $('<div class="panel-body" id="index_grid"></div>');
             window.App.content.append(content);
             App.index.initEvents();
         }
