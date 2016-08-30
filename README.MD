@@ -1,4 +1,4 @@
-#topie-campus
+#Topie-campus
 
 
 
@@ -14,13 +14,13 @@ Start the redis server and configure **config/properties/redis.properties** !
 
 ###Start the project and enjoy it!
 
-2 build-in user:
+2 Build-in user:
 ```
 User - user:user
 Admin - admin:admin
 ```
 
-3 welcome page
+3 Welcome page
 ```
 /static/index.html
 ```
