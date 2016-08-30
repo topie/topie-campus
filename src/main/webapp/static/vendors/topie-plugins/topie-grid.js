@@ -1023,7 +1023,7 @@
                 });
                 ul.append(lastLi);
             };
-            var page = $('<div class="dataTables_paginate paging_bootstrap_full_number" id="'
+            var page = $('<div class="dataTables_paginate" id="'
                 + this._elementId + '_paginate"></div>');
             var ul = $('<ul class="pagination" style="visibility: visible;"></ul>');
             page.append(ul);
@@ -1033,7 +1033,7 @@
             var goPage = $('<div role="goPage">'
                 + '	<form action="javascript:;">'
                 + '		<div class="input-group">'
-                + '			<input type="text" id="goInput" class="form-control" placeholder="输入跳转页...">'
+                + '			<input type="text" id="goInput" class="form-control input-xs input-inline" placeholder="输入跳转页...">'
                 + '			<span class="input-group-btn">'
                 + '			<button class="btn btn-primary" id="goBtn" type="button">跳转</button>'
                 + '			</span>'
@@ -1123,7 +1123,7 @@
                             pageNum: $("#goInput").val()
                         });
                     } else {
-                        alert("输入有误");
+                        alert("错误的页码");
                     }
                 });
             // 排序相关

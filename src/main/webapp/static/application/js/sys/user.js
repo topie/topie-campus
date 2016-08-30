@@ -5,10 +5,21 @@
 (function ($, window, document, undefined) {
     var that = this;
     that.uploadUrl = window.App.href + "/api/info/user/uploadExcel";
+    /**
+     * 功能菜单 对应 当前的唯一别名
+     * @type {{/api/sys/user/pageList: string}}
+     */
     var uploadMapping = {
         "/api/sys/user/pageList": "sysUser"
     }
+    /**
+     * 加入全局mapping
+     */
     window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
+    /**
+     * 对应requestMapping值 sysUser page函数为进入页面入口方法
+      * @type {{page: App.sysUser.page}}
+     */
     window.App.sysUser = {
         page: function (title) {
             window.App.content.empty();
@@ -18,6 +29,9 @@
             initEvents();
         }
     }
+    /**
+     * 初始化事件
+     */
     initEvents = function () {
         var grid;
         var options = {
