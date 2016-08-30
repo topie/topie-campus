@@ -39,6 +39,7 @@
         <flyway.version>4.0.1</flyway.version>
         <jjwt.version>0.6.0</jjwt.version>
         <poi.version>3.12</poi.version>
+        <spring.data.redis.version>1.7.1.RELEASE</spring.data.redis.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -396,6 +397,17 @@
                 <artifactId>freemarker</artifactId>
                 <version>2.3.16</version>
             </dependency>
+            <!--redis -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring.data.redis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -680,6 +692,16 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
+        </dependency>
+
+        <!--redis -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
         </dependency>
 
     </dependencies>

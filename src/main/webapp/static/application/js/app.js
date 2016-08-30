@@ -277,7 +277,7 @@
                     request.setRequestHeader("X-Auth-Token", App.token);
                 },
                 success: function (result) {
-                    if (result.code == 200) {
+                    if (result.code === 200) {
                         var menus = result.data;
                         var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
@@ -341,8 +341,9 @@
                                 }
                             );
                         App.ready();
-                    } else {
-                        alert(result.message);
+                    } else if (result.code === 401) {
+                        alert("token失效,请登录!");
+                        window.location.href = './login.html';
                     }
                 },
                 error: function (err) {

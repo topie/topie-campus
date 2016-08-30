@@ -1,12 +1,13 @@
 package com.topie.campus.security.service.impl;
 
+import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.model.Role;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.security.OrangeSecurityUser;
 import com.topie.campus.security.service.RoleService;
 import com.topie.campus.security.service.SecurityService;
 import com.topie.campus.security.service.UserService;
-
+import com.topie.campus.tools.redis.RedisCache;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -15,21 +16,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/4 说明：
  */
 @Service("securityService")
 public class SecurityServiceImpl implements SecurityService {
+
     @Autowired
     UserService userService;
+
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    RedisCache redisCache;
 
     @Override
     public OrangeSecurityUser loadSecurityUserByLoginName(String loginName) {
@@ -52,7 +54,11 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public Map<String, Collection<ConfigAttribute>> getResourceMap() {
         Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
-        List<Map> roleFunctions = roleService.findRoleMatchUpFunctions();
+        List<Map> roleFunctions = (List<Map>) redisCache.get(SecurityConstant.ROLE_CACHE_KEY);
+        if (roleFunctions == null) {
+            roleFunctions = roleService.findRoleMatchUpFunctions();
+            redisCache.set(SecurityConstant.ROLE_CACHE_KEY, roleFunctions);
+        }
         if (roleFunctions != null && roleFunctions.size() > 0) {
             for (Map roleFunction : roleFunctions) {
                 String url = (String) roleFunction.get("function");
@@ -75,8 +81,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public String getDefaultAction(int roleId) {
         Role role = roleService.findRoleById(roleId);
-        if (StringUtils.isNotBlank(role.getDefaultAction()))
-            return role.getDefaultAction();
+        if (StringUtils.isNotBlank(role.getDefaultAction())) return role.getDefaultAction();
         return "";
     }
 

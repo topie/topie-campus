@@ -42,6 +42,7 @@
         <beans:property name="userDetailsService" ref="orangeUserService"/>
         <beans:property name="authenticationFailureHandler"
                         ref="osHttpAuthenticationFailureHandler"/>
+        <beans:property name="userCache" ref="userCache"/>
     </beans:bean>
 
     <!-- 自定义登录失败handler -->
@@ -63,6 +64,12 @@
         <beans:property name="userDetailsService" ref="orangeUserService"/>
         <beans:property name="hideUserNotFoundExceptions" value="false"/>
         <beans:property name="passwordEncoder" ref="encoder"/>
+        <beans:property name="userCache" ref="userCache"/>
+    </beans:bean>
+
+    <beans:bean id="userCache"
+                class="com.topie.campus.security.security.OrangeSideUserCache">
+        <beans:property name="cache" ref="redisCache"/>
     </beans:bean>
 
     <beans:bean id="encoder"

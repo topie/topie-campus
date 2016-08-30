@@ -1,14 +1,12 @@
 package com.topie.campus.security.api;
 
-
 import com.topie.campus.common.utils.HttpResponseUtil;
-import com.topie.campus.security.exception.AuBzConstant;
-import com.topie.campus.security.exception.AuthBusinessException;
+import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.security.OrangeAuthenticationRequest;
 import com.topie.campus.security.security.OrangeHttpAuthenticationDetails;
 import com.topie.campus.security.security.OrangeSecurityUser;
 import com.topie.campus.security.utils.TokenUtils;
-
+import com.topie.campus.tools.redis.RedisCache;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,12 +44,14 @@ public class TokenController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private RedisCache redisCache;
+
     @RequestMapping(value = "/generate", method = RequestMethod.POST)
-    public ResponseEntity<?> authenticationRequest(@RequestBody OrangeAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<?> authenticationRequest(@RequestBody OrangeAuthenticationRequest authenticationRequest)
+            throws AuthenticationException {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(),
-                authenticationRequest.getPassword()
-        );
+                authenticationRequest.getUsername(), authenticationRequest.getPassword());
         usernamePasswordAuthenticationToken.setDetails(new OrangeHttpAuthenticationDetails());
 
         Authentication authentication = null;
@@ -68,8 +68,12 @@ public class TokenController {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        UserDetails userDetails = (UserDetails) redisCache
+                .get(SecurityConstant.USER_CACHE_PREFIX + authenticationRequest.getUsername());
+        if (userDetails == null) {
+            userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+            redisCache.set(SecurityConstant.USER_CACHE_PREFIX + authenticationRequest.getUsername(), userDetails);
+        }
         String token = this.tokenUtils.generateToken(userDetails);
 
         return ResponseEntity.ok(HttpResponseUtil.success(token));
