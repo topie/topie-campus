@@ -8,6 +8,7 @@
         initIndex: initIndex,
         initMenu: initMenu
     };
+    App.projectName = "/topie-campus";
     App.href = "..";
     App.requestMapping = {
         "/api/index": "index"
@@ -335,7 +336,7 @@
                                             var title = $(this).attr("data-title");
                                             $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
                                             App[f].page(title);
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + '/static/index.html#!' + url);
+                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/index.html#!' + url);
                                         });
                                     }
                                 }

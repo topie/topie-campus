@@ -1,7 +1,6 @@
 package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
-import com.topie.campus.common.utils.CamelUtil;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
@@ -11,7 +10,8 @@ import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtils;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,6 +29,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/api/sys/user")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private FreeMarkerUtil freeMarkerUtil;
@@ -49,6 +51,7 @@ public class UserController {
     @ResponseBody
     public Result insertUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
+            logger.debug(result.toString());
             return ResponseUtil.error(result);
         }
         if (userService.findExistUser(user) > 0) {
