@@ -1030,16 +1030,12 @@
             var totalP = this._getTotalPage();
             renderPageEle(ul, this._pageNum, totalP);
             pagingRow.find("[role='page']").append(page);
-            var goPage = $('<div role="goPage">'
-                + '	<form action="javascript:;">'
-                + '		<div class="input-group">'
-                + '			<input type="text" id="goInput" class="form-control input-xs input-inline" placeholder="输入跳转页...">'
+            var goPage = $('<div class="dataTables_paginate input-group">'
+                + '			<input type="text" id="goInput" class="form-control input-xs input-inline" style="width: 60px;" placeholder="输入跳转页...">'
                 + '			<span class="input-group-btn">'
                 + '			<button class="btn btn-primary" id="goBtn" type="button">跳转</button>'
                 + '			</span>'
-                + '		</div>'
-                + '	</form>'
-                + '</div>');
+                + '		</div>');
             pagingRow.find("[role='goPage']").append(goPage);
             this.$gridWrapper.append(pagingRow);
         },
