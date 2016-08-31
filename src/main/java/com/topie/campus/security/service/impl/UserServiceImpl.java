@@ -8,7 +8,6 @@ import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtils;
 import com.topie.campus.security.vo.FunctionVO;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,8 @@ import java.util.List;
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
  */
 @Service("userService")
-public class UserServiceImpl extends BaseService<User>
-        implements UserService {
+public class UserServiceImpl extends BaseService<User> implements UserService {
+
     @Autowired
     UserMapper userMapper;
 
@@ -79,5 +78,10 @@ public class UserServiceImpl extends BaseService<User>
     @Override
     public List<FunctionVO> findUserFunctionByLoginName(String loginName) {
         return userMapper.findUserFunction(loginName);
+    }
+
+    @Override
+    public int countByLoginName(String loginName) {
+        return userMapper.countByLoginName(loginName);
     }
 }

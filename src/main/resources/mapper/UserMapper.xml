@@ -91,7 +91,16 @@
             <if test="loginName != null and loginName != ''">
                 and login_name like concat('%',concat(#{loginName}, '%'))
             </if>
+            <if test="email != null and email != ''">
+                and email like concat('%',concat(#{email}, '%'))
+            </if>
+            <if test="contactPhone != null and contactPhone != ''">
+                and contact_phone like concat('%',concat(#{contactPhone}, '%'))
+            </if>
         </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
     </select>
     <select id="findExistUser" resultType="java.lang.Integer">
         select count(1) from sys_user
@@ -111,5 +120,8 @@
         on ur.role_id=rf.role_id left join topie_campus.sys_function f
         on rf.function_id = f.id
         where u.login_name = #{loginName} and f.display=1
+    </select>
+    <select id="countByLoginName" resultType="java.lang.Integer">
+        select count(1) from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
 </mapper>

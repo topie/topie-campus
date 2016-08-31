@@ -186,7 +186,7 @@
             }
             parameters += "pageNum=" + this._pageNum;
             parameters += "&pageSize=" + this._pageSize;
-            parameters += "&sort="
+            parameters += "&sort_="
                 + (this._sort == undefined ? "" : this._sort);
             $.ajax({
                 type: that._type,

@@ -10,7 +10,7 @@ import java.util.List;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface UserMapper extends Mapper<User> {
-    User findUserByLoginName(String loginName);
+    User findUserByLoginName(@Param("loginName") String loginName);
 
     int insertUserRole(int userId, int roleId);
 
@@ -21,4 +21,6 @@ public interface UserMapper extends Mapper<User> {
     int findExistUser(User user);
 
     List<FunctionVO> findUserFunction(@Param("loginName") String loginName);
+
+    int countByLoginName(@Param("loginName") String loginName);
 }

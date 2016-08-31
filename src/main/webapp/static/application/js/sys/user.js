@@ -18,7 +18,7 @@
     window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     /**
      * 对应requestMapping值 sysUser page函数为进入页面入口方法
-      * @type {{page: App.sysUser.page}}
+     * @type {{page: App.sysUser.page}}
      */
     window.App.sysUser = {
         page: function (title) {
@@ -59,63 +59,14 @@
             }, {
                 title: "昵称",
                 field: "displayName"
+            }, {
+                title: "邮箱",
+                field: "email"
             }],
             actionColumnText: "操作",//操作列文本
-            actionColumnWidth: "25%",
+            actionColumnWidth: "20%",
             actionColumns: [{
-                text: "编辑(非form控件)",
-                cls: "btn-primary btn-sm",
-                handle: function (index, data) {
-                    var userId = data.id;
-                    var modal = $.topieModal({
-                        id: "userForm",
-                        title: "编辑用户",
-                        destroy: true
-                    });
-                    $.ajax(
-                        {
-                            type: 'GET',
-                            url: App.href + "/api/sys/user/load/" + userId,
-                            contentType: "application/json",
-                            dataType: "json",
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            success: function (result) {
-                                if (result.code === 200) {
-                                    modal.content(result.data.html);
-                                    modal.$modal.find("button[role=cancel]").on("click", function () {
-                                        modal.hide();
-                                    });
-                                    modal.$modal.find("button[role=submit]").on("click", function () {
-                                        $.ajax(
-                                            {
-                                                type: 'POST',
-                                                url: App.href + "/api/sys/user/update",
-                                                data: modal.$modal.find("form[role=form]").serialize(),
-                                                dataType: "json",
-                                                beforeSend: function (request) {
-                                                    request.setRequestHeader("X-Auth-Token", App.token);
-                                                },
-                                                success: function (result) {
-                                                    if (result.code === 200) {
-                                                        grid.reload();
-                                                        modal.hide();
-                                                    }
-                                                }
-                                            }
-                                        );
-                                    });
-                                    modal.show();
-                                } else {
-                                    alert(result.msg);
-                                }
-                            }
-                        }
-                    );
-                }
-            }, {
-                text: "编辑(form控件)",
+                text: "编辑",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
@@ -129,7 +80,6 @@
                         method: "POST",//表单method
                         action: App.href + "/api/sys/user/update",//表单action
                         ajaxSubmit: true,//是否使用ajax提交表单
-                        rowEleNum: 2,
                         beforeSubmit: function () {
                         },
                         beforeSend: function (request) {
@@ -161,7 +111,7 @@
                             id: 'loginName',//id
                             label: '登录名',//左边label
                             cls: 'input-large',
-                            readonly:true,
+                            readonly: true,
                             rule: {
                                 required: true
                             },
@@ -180,6 +130,22 @@
                             message: {
                                 required: "请输入昵称"
                             }
+                        }, {
+                            type: 'text',//类型
+                            name: 'contact_mobile',//name
+                            id: 'contact_mobile',//id
+                            label: '手机'
+                        }, {
+                            type: 'text',//类型
+                            name: 'email',//name
+                            id: 'email',//id
+                            label: '邮箱',
+                            rule: {
+                                email: true
+                            },
+                            message: {
+                                email: "请输入正确的邮箱"
+                            }
                         }]
                     };
                     var form = modal.$modal.topieForm(formOpts);
@@ -193,7 +159,164 @@
                     cls: "btn btn-primary",//按钮样式
                     icon: "fa fa-cubes",
                     handle: function (grid) {
-
+                        var modal = $.topieModal({
+                            id: "userForm",
+                            title: "添加用户",
+                            destroy: true
+                        });
+                        var formOpts = {
+                            id: "add_user_form",
+                            name: "add_user_form",
+                            method: "POST",
+                            action: App.href + "/api/sys/user/insert",//表单action
+                            ajaxSubmit: true,//是否使用ajax提交表单
+                            rowEleNum: 1,
+                            beforeSubmit: function () {
+                            },
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            ajaxSuccess: function () {
+                                modal.hide();
+                                grid.reload();
+                            },
+                            submitText: "保存",//保存按钮的文本
+                            showReset: true,//是否显示重置按钮
+                            resetText: "重置",//重置按钮文本
+                            isValidate: true,//开启验证
+                            buttons: [{
+                                type: 'button',
+                                text: '关闭',
+                                handle: function () {
+                                    modal.hide();
+                                }
+                            }],
+                            buttonsAlign: "center",
+                            items: [{
+                                type: 'hidden',
+                                name: 'id',
+                                id: 'id'
+                            }, {
+                                type: 'text',//类型
+                                name: 'loginName',//name
+                                id: 'loginName',//id
+                                label: '登录名',//左边label
+                                cls: 'input-large',
+                                rule: {
+                                    required: true,
+                                    remote: {
+                                        type: "post",
+                                        url: App.href + "/api/noneAuth/unique",
+                                        data: {
+                                            loginName: function () {
+                                                return $("#loginName").val();
+                                            }
+                                        },
+                                        dataType: "json",
+                                        dataFilter: function (data, type) {
+                                            return data;
+                                        }
+                                    }
+                                },
+                                message: {//对应验证提示信息
+                                    required: "请输入登录名",
+                                    remote: "登录名被占用"
+                                }
+                            }, {
+                                type: 'password',//类型
+                                name: 'password',//name
+                                id: 'password',//id
+                                label: '密码',//左边label
+                                cls: 'input-medium',
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请输入密码"
+                                }
+                            }, {
+                                type: 'password',//类型
+                                name: 'password2',//name
+                                id: 'password2',//id
+                                label: '确认密码',//左边label
+                                cls: 'input-medium',
+                                rule: {
+                                    required: true,
+                                    equalTo: "#password"
+                                },
+                                message: {
+                                    required: "请输入确认密码密码",
+                                    equalTo: "与密码不一致"
+                                }
+                            }, {
+                                type: 'text',//类型
+                                name: 'displayName',//name
+                                id: 'displayName',//id
+                                label: '昵称',//左边label
+                                cls: 'input-large',
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请输入昵称"
+                                }
+                            }, {
+                                type: 'text',//类型
+                                name: 'contact_mobile',//name
+                                id: 'contact_mobile',//id
+                                label: '手机'
+                            }, {
+                                type: 'text',//类型
+                                name: 'email',//name
+                                id: 'email',//id
+                                label: '邮箱',
+                                rule: {
+                                    email: true
+                                },
+                                message: {
+                                    email: "请输入正确的邮箱"
+                                }
+                            }, {
+                                type: 'radioGroup',
+                                name: 'enabled',
+                                id: 'enabled',
+                                label: '是否有效',
+                                inline: true,
+                                items: [{
+                                    value: true,
+                                    text: '有效'
+                                }, {
+                                    value: false,
+                                    text: '失效'
+                                }],
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请选择"
+                                }
+                            }, {
+                                type: 'radioGroup',
+                                name: 'nonLocked',
+                                id: 'nonLocked',
+                                label: '账号锁定状态',
+                                items: [{
+                                    value: true,
+                                    text: '开启'
+                                }, {
+                                    value: false,
+                                    text: '锁定'
+                                }],
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请选择"
+                                }
+                            }]
+                        };
+                        var form = modal.$modal.topieForm(formOpts);
+                        modal.show();
                     }
                 }
             ],

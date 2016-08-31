@@ -1,6 +1,7 @@
 package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.utils.CamelUtil;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
@@ -10,6 +11,7 @@ import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtils;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -94,4 +96,5 @@ public class UserController {
         List roles = userService.findUserRoleByUserId(userId);
         return ResponseUtil.success(roles);
     }
+
 }

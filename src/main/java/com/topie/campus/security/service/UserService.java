@@ -30,4 +30,6 @@ public interface UserService extends IService<User> {
     int findExistUser(User user);
 
     List<FunctionVO> findUserFunctionByLoginName(String loginName);
+
+    int countByLoginName(String loginName);
 }

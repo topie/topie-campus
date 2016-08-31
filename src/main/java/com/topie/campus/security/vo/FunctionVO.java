@@ -1,13 +1,22 @@
 package com.topie.campus.security.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by chenguojun on 8/3/16.
  */
-public class FunctionVO {
+public class FunctionVO implements Serializable {
+
+    private static final long serialVersionUID = 1724750962448687444L;
+
     private Integer id;
+
     private Integer parentId;
+
     private String functionName;
+
     private String action;
+
     private String icon;
 
     public Integer getId() {

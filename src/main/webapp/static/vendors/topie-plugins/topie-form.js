@@ -523,7 +523,7 @@
             'radioGroup': function (data, form) {
                 var inlineCls = "radio-inline";
                 var wrapperTmpl = '<div class="radio-list"></div>';
-                var radioTmpl = '<label class="${inline_}"><input name="${name_}" value="${value_}" type="radio" ${checked_} ${attribute_}>${text_}</label>';
+                var radioTmpl = '<label class="radio ${inline_}"><input name="${name_}" value="${value_}" type="radio" ${checked_} ${attribute_}>${text_}</label>';
                 var ele = $.tmpl(wrapperTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name,

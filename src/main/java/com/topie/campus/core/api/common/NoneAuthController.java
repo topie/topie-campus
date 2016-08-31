@@ -9,11 +9,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by chenguojun on 8/31/16.
- * 通用api 我的信息 查看通知公告
  */
 @Controller
-@RequestMapping("/api/common")
-public class CommonController {
+@RequestMapping("/api/noneAuth")
+public class NoneAuthController {
+    @Autowired
+    private UserService userService;
 
-
+    @RequestMapping("/unique")
+    @ResponseBody
+    public Object unique(@RequestParam(value = "loginName", required = false) String loginName) {
+        int count = userService.countByLoginName(loginName);
+        return count > 0 ? false : true;
+    }
 }

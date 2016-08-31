@@ -6,4 +6,5 @@ package com.topie.campus.security;
 public class SecurityConstant {
     public static final String USER_CACHE_PREFIX="topie_user_";
     public static final String ROLE_CACHE_KEY="topie_role_key";
+    public static final String FUNCTION_CACHE_PREFIX="topie_fun_key_";
 }
