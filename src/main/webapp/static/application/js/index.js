@@ -140,6 +140,18 @@
                 message: {
                     required: "请选择日期"
                 }
+            }, {
+                type: 'kindEditor',
+                name: 'introduce',
+                id: 'introduce',
+                label: '影片介绍',
+                height: "300px",
+                rule: {
+                    required: true
+                },
+                message: {
+                    required: "影片介绍"
+                }
             }]
         };
         var form = App.content.find("#index_grid").topieForm(formOpts);

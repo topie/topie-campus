@@ -919,13 +919,12 @@
                 return ele;
             },
             'kindEditor': function (data, form) {
-                var kindeditorTmpl = '<textarea role="kindEditor" class="class="form-control" id="${id_}" name="${name_}"></textarea>';
+                var kindeditorTmpl = '<textarea role="kindEditor" class="form-control" id="${id_}" name="${name_}"></textarea>';
                 var ele = $.tmpl(kindeditorTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name
                 });
-                ele.data("width", data.width == undefined ? "600px"
-                    : data.width);
+                ele.data("width", data.width);
                 ele.data("height", data.height == undefined ? "400px"
                     : data.height);
                 return ele;
@@ -966,18 +965,18 @@
                     .each(
                         function () {
                             var ele = $(this);
+                            var edWith = ele
+                                .data("width") == undefined ? 0 : ele.data("width");
                             var editor = KE
                                 .create(
                                     '#' + ele.attr("id"),
                                     {
-                                        uploadJson: dm_root
+                                        uploadJson: App.href
                                         + '/KE/file_upload',
-                                        fileManagerJson: dm_root
+                                        fileManagerJson: App.href
                                         + '/KE/file_manager',
-                                        width: ele
-                                            .data("width") == undefined ? '600px'
-                                            : ele
-                                            .data("width"),
+                                        minWidth: 0,
+                                        width: edWith,
                                         height: ele
                                             .data("height") == undefined ? '400px'
                                             : ele
@@ -988,6 +987,8 @@
                                         },
                                         resizeType: 1
                                     });
+                            if (edWith == 0)
+                                ele.prev("div.ke-container").addClass("col-md-12").css("width", "");
                             that._editor[ele.attr("id")] = editor;
                         });
             }
