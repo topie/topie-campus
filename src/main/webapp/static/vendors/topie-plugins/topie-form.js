@@ -3,6 +3,14 @@
  */
 ;
 (function ($, window, document, undefined) {
+
+    var KE;
+    if (typeof (KindEditor) != "undefined") {
+        KindEditor.ready(function (K) {
+            KE = K;
+        });
+    }
+
     var getLowCaseType = function (string) {
         var postfix = string.substring(string.lastIndexOf("."), string.length);
         return postfix.toLowerCase();
@@ -282,7 +290,9 @@
                         wrapper.find(".form-group").append(help);
                     }
                 } else {
-                    wrapper.find(".form-group").append(ele);
+                    var inputWrapper = $('<div></div>')
+                    inputWrapper.append(ele);
+                    wrapper.find(".form-group").append(inputWrapper);
                     if (help != undefined) {
                         wrapper.find(".form-group").append(help);
                     }
@@ -607,7 +617,7 @@
                     + '<span class="fileinput-exists">变更 </span>'
                     + '<input type="text" role="file-input" id="${id_}" name="${name_}" value="" style="display:none;"><input type="file" role="file" id="file_${id_}" name="file"/>'
                     + '</span>'
-                    + '<a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">删除 </a>'
+                    + '<a href="javascript:;" class="input-group-addon btn btn-danger fileinput-exists" data-dismiss="fileinput">删除 </a>'
                     + '</div></div></div>';
                 var ele = $.tmpl(fileTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
@@ -652,7 +662,7 @@
                             uploadFile();
                         });
                     } else {
-                        var upload = $('<a href="javascript:;" role="upload" class="input-group-addon btn green fileinput-exists">上传 </a>');
+                        var upload = $('<a href="javascript:;" role="upload" class="input-group-addon btn btn-primary fileinput-exists">上传 </a>');
                         ele.find(".input-group").append(upload);
                         upload.click(function () {
                             uploadFile();
@@ -663,6 +673,9 @@
                     ele.find(".input-group").append(successIcon);
                     ele.find('[data-dismiss="fileinput"]').click(function () {
                         form._refreshItem(data.name);
+                        if (data.deleteHandle != undefined) {
+                            data.deleteHandle();
+                        }
                     });
                 }
                 return ele;
@@ -676,7 +689,7 @@
                     + '<span class="fileinput-exists">更改</span>'
                     + '<input type="text" role="image-input" id="${id_}" name="${name_}" style="display:none;"><input role="file" type="file" id="image_${id_}" name="file"/>'
                     + '</span>'
-                    + '<a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput">删除</a>'
+                    + '<a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">删除</a>'
                     + '</div></div></div>';
                 var ele = $.tmpl(imageTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
@@ -771,7 +784,7 @@
                             uploadFile();
                         });
                     } else {
-                        var upload = $('<a href="javascript:;" role="upload" class="btn green fileinput-exists">上传 </a>');
+                        var upload = $('<a href="javascript:;" role="upload" class="btn btn-primary fileinput-exists">上传 </a>');
                         ele.find("[role='imageDiv']").append(upload);
                         upload.on("click", function () {
                             uploadFile();
@@ -779,12 +792,98 @@
                     }
                 }
                 return ele;
+            },
+            'tree': function (data, form) {
+                var treeTmp = '<input role="tree_${id_}_input" data-type="tree-input" type="text" id="${id_}" name="${name_}" value="" class="hide"/>'
+                    + '<ul id="tree_${id_}" role="tree" class="ztree"></ul>';
+                var ele = $.tmpl(treeTmp, {
+                    "id_": (data.id == undefined ? data.name : data.id),
+                    "name_": data.name
+                });
+                var chkboxType = data.chkboxType == undefined ? {"Y": "p", "N": "p"} : data.chkboxType;
+                var beforeCheck = data.beforeCheck == undefined ? function () {
+                } : data.beforeCheck;
+                var setting = {
+                    check: {
+                        enable: true,
+                        chkStyle: data.chkStyle,
+                        radioType: "all",
+                        chkboxType: chkboxType
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    },
+                    async: {
+                        enable: true,
+                        url: data.url,
+                        type: "POST",
+                        data: (data.data == undefined ? {} : data.data),
+                        autoParam: data.autoParam
+                    },
+                    callback: {
+                        beforeCheck: beforeCheck,
+                        onCheck: function (e, treeId, treeNode) {
+                            var zTree = $.fn.zTree.getZTreeObj(treeId);
+                            nodes = zTree.getCheckedNodes(true);
+                            var ids = [];
+                            if (nodes.length > 0) {
+                                for (var i in nodes) {
+                                    ids.push(nodes[i].id);
+                                }
+                                $("[role='" + treeId + "_input']").val(ids)
+                                    .attr("value", ids);
+                            } else {
+                                $("[role='" + treeId + "_input']").val("")
+                                    .attr("value", "");
+                            }
+                        },
+                        onAsyncSuccess: function (event, treeId, treeNode, msg) {
+                            var zTree = $.fn.zTree.getZTreeObj(treeId);
+                            var value = $("[role='" + treeId + "_input']")
+                                .attr("value");
+                            if (value != "") {
+                                var ids = value.split(",");
+                                if (ids.length > 0) {
+                                    for (var i in ids) {
+                                        var c_node = zTree.getNodeByParam("id",
+                                            ids[i], null);
+                                        if (c_node) {
+                                            zTree
+                                                .checkNode(c_node, true,
+                                                    false);
+                                        }
+                                    }
+                                }
+                            }
+                            zTree.expandAll(data.expandAll == undefined ? false
+                                : data.expandAll);
+                        }
+                    }
+                };
+                ele.data("setting", setting);
+                return ele;
+            },
+            'kindEditor': function (data, form) {
+                var kindeditorTmpl = '<textarea role="kindEditor" class="class="form-control" id="${id_}" name="${name_}"></textarea>';
+                var ele = $.tmpl(kindeditorTmpl, {
+                    "id_": (data.id == undefined ? data.name : data.id),
+                    "name_": data.name
+                });
+                ele.data("width", data.width == undefined ? "600px"
+                    : data.width);
+                ele.data("height", data.height == undefined ? "400px"
+                    : data.height);
+                return ele;
             }
         },
         _regiestEvents: function () {
             this._uniform();
             this._initSubmit();
             this._initShowIconText();
+            this._initTree();
+            this._initKindEditor();
         },
         _uniform: function () {
             if (!$().uniform) {
@@ -796,6 +895,48 @@
                     $(this).show();
                     $(this).uniform();
                 });
+            }
+        },
+        _initTree: function () {
+            if (!$.fn.zTree) {
+                return;
+            }
+            $('[role="tree"]').each(function () {
+                var tree = $(this);
+                $.fn.zTree.init(tree, tree.data("setting"));
+            });
+        },
+        _initKindEditor: function () {
+            var that = this;
+            if (KE) {
+                $('[role="kindEditor"]')
+                    .each(
+                        function () {
+                            var ele = $(this);
+                            var editor = KE
+                                .create(
+                                    '#' + ele.attr("id"),
+                                    {
+                                        uploadJson: dm_root
+                                        + '/KE/file_upload',
+                                        fileManagerJson: dm_root
+                                        + '/KE/file_manager',
+                                        width: ele
+                                            .data("width") == undefined ? '600px'
+                                            : ele
+                                            .data("width"),
+                                        height: ele
+                                            .data("height") == undefined ? '400px'
+                                            : ele
+                                            .data("height"),
+                                        allowFileManager: true,
+                                        afterBlur: function () {
+                                            this.sync();
+                                        },
+                                        resizeType: 1
+                                    });
+                            that._editor[ele.attr("id")] = editor;
+                        });
             }
         },
         _initValidate: function () {
@@ -881,10 +1022,14 @@
                     beforeSend: this._beforeSend,
                     dataType: "json",
                     success: function (data) {
-                        if (that._ajaxSuccess != undefined) {
-                            that._ajaxSuccess(data);
+                        if (data.code === 200) {
+                            if (that._ajaxSuccess != undefined) {
+                                that._ajaxSuccess(data);
+                            } else {
+                                alert("表单提交成功");
+                            }
                         } else {
-                            alert("表单提交成功");
+                            alert(data.message);
                         }
                     },
                     error: function (data) {
@@ -906,7 +1051,14 @@
         _loadValue: function (name, value) {
             var ele = this.$form.find("[name='" + name + "']");
             if (ele.is('input[type="text"]')) {
-                if (ele.attr("role") == "image-input") {
+                if (ele.attr("data-type") == "tree-input") {
+                    ele.attr("value", value);
+                    var tree = $.fn.zTree.getZTreeObj("tree_" + ele.attr("id"));
+                    if (tree != undefined) {
+                        tree.refresh();
+                        tree.reAsyncChildNodes(null, "refresh");
+                    }
+                } else if (ele.attr("role") == "image-input") {
                     if (value != undefined && value != '') {
                         ele.attr("value", value);
                         preview = ele.parent().parent().parent().find(
@@ -931,9 +1083,6 @@
                     ele.parent().parent().parent().find(
                         "span.fileinput-filename ").text(
                         value.substring(value.lastIndexOf("/") + 1));
-                } else if (ele.attr("showicon") == "true") {
-                    ele.val(value);
-                    ele.prev().attr("class", value);
                 } else {
                     ele.val(value);
                 }
@@ -953,7 +1102,15 @@
                 }
             } else if (ele.is('input[type="hidden"]')) {
                 if (value != null && value != "") {
-                    if (ele.attr("role") == "image-input") {
+                    if (ele.attr("data-type") == "tree-input") {
+                        ele.val(value);
+                        var tree = $.fn.zTree.getZTreeObj("tree_"
+                            + ele.attr("id"));
+                        if (tree != undefined) {
+                            tree.refresh();
+                            tree.reAsyncChildNodes(null, "refresh");
+                        }
+                    } else if (ele.attr("role") == "image-input") {
                         if (value != undefined && value != '') {
                             ele.val(value);
                             var preview = ele.parent().parent().parent().find(

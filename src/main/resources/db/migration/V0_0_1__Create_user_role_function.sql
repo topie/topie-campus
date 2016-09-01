@@ -48,8 +48,8 @@ CREATE TABLE `sys_role` (
 
 DROP TABLE IF EXISTS `sys_role_function`;
 CREATE TABLE `sys_role_function` (
-  `function_id` INT(11) DEFAULT NULL,
-  `role_id`     INT(11) DEFAULT NULL,
+  `function_id` INT(11) DEFAULT 0,
+  `role_id`     INT(11) DEFAULT 0,
   KEY `function_id` (`function_id`),
   KEY `role_id` (`role_id`)
 )
@@ -77,13 +77,13 @@ CREATE TABLE `sys_user` (
   COMMENT '登陆IP',
   `last_login_time`         TIMESTAMP   NULL     DEFAULT NULL
   COMMENT '最后登陆时间',
-  `email`                   VARCHAR(64)          DEFAULT NULL
+  `email`                   VARCHAR(64)          DEFAULT ''
   COMMENT '邮箱',
-  `contact_phone`           VARCHAR(32)          DEFAULT NULL
+  `contact_phone`           VARCHAR(32)          DEFAULT ''
   COMMENT '电话',
-  `insert_time`             TIMESTAMP   NULL     DEFAULT CURRENT_TIMESTAMP
+  `insert_time`             TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
   COMMENT '插入时间',
-  `update_time`             TIMESTAMP   NULL     DEFAULT NULL
+  `update_time`             TIMESTAMP            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '更新时间',
   `last_password_reset`     TIMESTAMP   NULL     DEFAULT NULL
   COMMENT '上次密码重置时间',
@@ -95,8 +95,8 @@ CREATE TABLE `sys_user` (
 
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-  `user_id` INT(11) DEFAULT NULL,
-  `role_id` INT(11) DEFAULT NULL,
+  `user_id` INT(11) DEFAULT 0,
+  `role_id` INT(11) DEFAULT 0,
   KEY `user_id` (`user_id`),
   KEY `role_id` (`role_id`)
 )

@@ -17,5 +17,18 @@
         <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="pId" jdbcType="INTEGER"/>
+        <result column="function_name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectFunctionTreeNodes" resultMap="TreeNodeMap">
+        select id,parent_id,function_name from sys_function
+        <where>
+            <if test="functionName!=null and functionName!=''">
+                function_name like concat('%',concat(#{functionName},'%'))
+            </if>
+        </where>
+    </select>
 
 </mapper>

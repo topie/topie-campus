@@ -26,7 +26,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public int insertUser(User user) {
         user.setPassword(SecurityUtils.encodeString(user.getPassword()));
-        return getMapper().insert(user);
+        return getMapper().insertSelective(user);
     }
 
     @Override

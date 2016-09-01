@@ -1,7 +1,10 @@
 package com.topie.campus.security.service;
 
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.model.Function;
 import com.topie.campus.basedao.service.IService;
+
+import java.util.List;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/4 说明：
@@ -14,4 +17,6 @@ public interface FunctionService extends IService<Function> {
     Function findFuntionById(int id);
 
     int deleteFunctionById(int id);
+
+    List<TreeNode> getFunctionTreeNodes(Function function);
 }

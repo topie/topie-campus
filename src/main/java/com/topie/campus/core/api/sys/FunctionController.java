@@ -1,10 +1,13 @@
 package com.topie.campus.core.api.sys;
 
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
+import com.topie.campus.security.model.Function;
+import com.topie.campus.security.service.FunctionService;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtils;
 import com.topie.campus.security.vo.FunctionVO;
@@ -29,6 +32,9 @@ public class FunctionController {
     UserService userService;
 
     @Autowired
+    FunctionService functionService;
+
+    @Autowired
     RedisCache redisCache;
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
@@ -45,6 +51,13 @@ public class FunctionController {
             redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + currentLoginName, function);
         }
         return ResponseUtil.success(function);
+    }
+
+    @RequestMapping(value = "/treeNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public Object treeNodes(Function function) {
+        List<TreeNode> list = functionService.getFunctionTreeNodes(function);
+        return list;
     }
 
 }

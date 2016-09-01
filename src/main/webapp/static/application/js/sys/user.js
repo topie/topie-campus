@@ -229,10 +229,14 @@
                                 label: '密码',//左边label
                                 cls: 'input-medium',
                                 rule: {
-                                    required: true
+                                    required: true,
+                                    minlength: 8,
+                                    maxlength: 64
                                 },
                                 message: {
-                                    required: "请输入密码"
+                                    required: "请输入密码",
+                                    minlength: "至少{0}位",
+                                    maxlength: "做多{0}位"
                                 }
                             }, {
                                 type: 'password',//类型
