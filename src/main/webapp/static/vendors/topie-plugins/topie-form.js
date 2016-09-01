@@ -16,6 +16,56 @@
         return postfix.toLowerCase();
     };
 
+    var dataDefaults = {
+        showDropdowns: true,
+        linkedCalendars: false,
+        autoApply: false,
+        ranges: {
+            '今天': [moment().startOf('day'), moment()],
+            '昨天': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+            '最近七天': [moment().subtract(6, 'days'), moment()],
+            '最近三十天': [moment().subtract(29, 'days'), moment()],
+            '本月': [moment().startOf('month'), moment().endOf('month')],
+            '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale: {
+            "format": 'YYYY-MM-DD HH:mm:ss',
+            "separator": " 到 ",
+            "applyLabel": "确定",
+            "cancelLabel": "取消",
+            "fromLabel": "从",
+            "toLabel": "到",
+            "customRangeLabel": "自定义",
+            "daysOfWeek": [
+                "周日",
+                "周一",
+                "周二",
+                "周三",
+                "周四",
+                "周五",
+                "周六"
+            ],
+            "monthNames": [
+                "一月",
+                "二月",
+                "三月",
+                "四月",
+                "五月",
+                "六月",
+                "七月",
+                "八月",
+                "九月",
+                "十月",
+                "十一月",
+                "十二月"
+            ],
+            "firstDay": 1
+        },
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerSeconds: true
+    };
+
     var Form = function (element, options, callback) {
         this._setVariable(element, options);
         this._setOptions(this._options);
@@ -591,19 +641,22 @@
                 var dateTmpl = '<div class="input-group input-medium">'
                     + '<input type="text" role="date-input" id="${id_}" name=${name_} class="form-control">'
                     + '<span role="icon" class="input-group-addon">'
-                    + '<i class="fa fa-calendar"></i>' + '</span></div>';
+                    + '<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>' + '</span></div>';
                 var ele = $.tmpl(dateTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name,
                     "cls_": data.cls == undefined ? "" : data.cls
                 });
-                ele.find('[role="date-input"]').on("click", function () {
-
+                config = (data.config == undefined ? {} : data.config);
+                var option = $.extend(true, dataDefaults, config);
+                if (data.callback != undefined) {
+                    ele.find('[role="date-input"]').daterangepicker(option, data.callback);
+                } else {
+                    ele.find('[role="date-input"]').daterangepicker(option);
+                }
+                ele.find('span').on("click", function () {
+                    $(this).prev().click();
                 });
-                ele.find('[role="icon"]').on("click", function () {
-
-                    }
-                );
                 return ele;
             },
             'file': function (data, form) {

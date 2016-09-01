@@ -8,8 +8,8 @@
     var uploadMapping = {
         "/api/info/user/upload": "upload"
     }
-    window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
-    window.App.upload = {
+    App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
+    App.upload = {
         page: function (title) {
             $.ajax(
                 {
@@ -28,7 +28,7 @@
                             window.App.content.find("a[role=template]").click(function () {
                                 window.App.download("/api/info/user/downloadTemplate");
                             });
-                            initUpload();
+                            App.upload.initUpload();
                         } else {
                             alert(result.msg);
                         }
@@ -37,7 +37,7 @@
             );
         }
     }
-    function initUpload() {
+    App.upload.initUpload = function () {
         var uploadFile = function (fileId) {
             if ($("#" + fileId).val() == "") {
                 alert("请选择上传的文件");

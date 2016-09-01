@@ -26,13 +26,13 @@
             window.App.title(title);
             var content = $('<div class="panel-body" id="user_grid"></div>');
             window.App.content.append(content);
-            initEvents();
+            App.sysUser.initEvents();
         }
     }
     /**
      * 初始化事件
      */
-    initEvents = function () {
+    App.sysUser.initEvents = function () {
         var grid;
         var options = {
             url: App.href + "/api/sys/user/pageList",
