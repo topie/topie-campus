@@ -7,6 +7,7 @@
             http://www.springframework.org/schema/security
             http://www.springframework.org/schema/security/spring-security-3.2.xsd">
     <http pattern="/static/**" security="none"/>
+    <http pattern="/upload/**" security="none"/>
     <http pattern="/api/token/**" security="none"/>
     <http pattern="/api/noneAuth/**" security="none"/>
     <http pattern="/index.jsp" security="none"/>

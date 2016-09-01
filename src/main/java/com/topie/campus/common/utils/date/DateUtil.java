@@ -1,4 +1,4 @@
-package com.topie.campus.common.utils;
+package com.topie.campus.common.utils.date;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

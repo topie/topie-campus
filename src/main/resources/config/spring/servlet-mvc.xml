@@ -13,6 +13,7 @@
     <context:property-placeholder location="classpath*:config/properties/*.properties"/>
 
     <mvc:resources location="/static/" mapping="/static/**"/>
+    <mvc:resources location="/upload/" mapping="/upload/**"/>
     <!-- 开启注解 -->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">

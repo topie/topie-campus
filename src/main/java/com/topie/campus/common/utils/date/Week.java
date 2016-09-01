@@ -1,4 +1,4 @@
-package com.topie.campus.common.utils;
+package com.topie.campus.common.utils.date;
 
 /**
  * Created by cgj on 2015/12/22.

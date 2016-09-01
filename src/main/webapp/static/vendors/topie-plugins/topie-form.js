@@ -972,9 +972,9 @@
                                     '#' + ele.attr("id"),
                                     {
                                         uploadJson: App.href
-                                        + '/KE/file_upload',
+                                        + '/api/common/KE/fileUpload?topie_token=' + App.token,
                                         fileManagerJson: App.href
-                                        + '/KE/file_manager',
+                                        + '/api/common/KE/fileManager?topie_token=' + App.token,
                                         minWidth: 0,
                                         width: edWith,
                                         height: ele
