@@ -3,6 +3,10 @@
  */
 ;
 (function ($, window, document, undefined) {
+    $(document).ready(function () {
+        App.initIndex();
+        App.initMenu();
+    });
     var that = this;
     var requestMapping = {
         "/api/index": "index"

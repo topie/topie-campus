@@ -1,9 +1,9 @@
 package com.topie.campus.security.utils;
 
-
-
 import com.topie.campus.security.security.OrangeSecurityUser;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,18 +12,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 public class TokenUtils {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-
-    private final String AUDIENCE_UNKNOWN = "unknown";
-    private final String AUDIENCE_WEB = "web";
-    private final String AUDIENCE_MOBILE = "mobile";
-    private final String AUDIENCE_TABLET = "tablet";
 
     @Value("${security.token.secret}")
     private String secret;

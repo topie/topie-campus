@@ -867,6 +867,9 @@
                         if (colum.textHandle != undefined) {
                             text = colum.textHandle(num, current_data);
                         }
+                        if (colum.clsHandle != undefined) {
+                            colum.cls = colum.clsHandle(num, current_data);
+                        }
                         var button = $.tmpl(Grid.statics.buttonTmpl, {
                             "class_": "btn " + colum.cls,
                             "text_": text,

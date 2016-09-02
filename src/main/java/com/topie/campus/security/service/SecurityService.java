@@ -13,7 +13,9 @@ import java.util.Map;
 public interface SecurityService {
     OrangeSecurityUser loadSecurityUserByLoginName(String loginName);
 
-    Map<String, Collection<ConfigAttribute>> getResourceMap();
+    Map<String, Collection<ConfigAttribute>> getCacheResourceMap();
+
+    Map<String, Collection<ConfigAttribute>> getDbResourceMap();
 
     String getDefaultAction(int roleId);
 }

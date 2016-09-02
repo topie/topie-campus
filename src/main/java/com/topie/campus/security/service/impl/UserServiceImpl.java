@@ -5,8 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.User;
+import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.vo.FunctionVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,19 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    OrangeSideUserCache orangeSideUserCache;
+
     @Override
     public int insertUser(User user) {
-        user.setPassword(SecurityUtils.encodeString(user.getPassword()));
+        user.setPassword(SecurityUtil.encodeString(user.getPassword()));
         return getMapper().insertSelective(user);
     }
 
     @Override
     public int updateUser(User user) {
         if (StringUtils.isNotEmpty(user.getPassword())) {
-            user.setPassword(SecurityUtils.encodeString(user.getPassword()));
+            user.setPassword(SecurityUtil.encodeString(user.getPassword()));
         }
         return getMapper().updateByPrimaryKeySelective(user);
     }
@@ -83,5 +87,19 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public int countByLoginName(String loginName) {
         return userMapper.countByLoginName(loginName);
+    }
+
+    @Override
+    public int updateLockStatusByUserId(int userId, Boolean accountNonLocked) {
+        int result = userMapper.updateAccountNonLocked(userId, accountNonLocked);
+        if (result > 0) {
+            orangeSideUserCache.removeUserFromCacheByUserId(userId);
+        }
+        return result;
+    }
+
+    @Override
+    public String findLoginNameByUserId(Integer userId) {
+        return userMapper.findLoginNameByUserId(userId);
     }
 }

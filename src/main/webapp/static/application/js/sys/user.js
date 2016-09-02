@@ -132,8 +132,8 @@
                             }
                         }, {
                             type: 'text',//类型
-                            name: 'contact_mobile',//name
-                            id: 'contact_mobile',//id
+                            name: 'contactPhone',//name
+                            id: 'contactPhone',//id
                             label: '手机'
                         }, {
                             type: 'text',//类型
@@ -149,8 +149,47 @@
                         }]
                     };
                     var form = modal.$modal.topieForm(formOpts);
-                    form.loadLocal(data);
+                    form.loadRemote(App.href + "/api/sys/user/load/" + data.id);
                     modal.show();
+                }
+            }, {
+                textHandle: function (index, data) {
+                    if (data.accountNonLocked) {
+                        return "锁定";
+                    } else {
+                        return "开启";
+                    }
+                },
+                clsHandle: function (index, data) {
+                    if (data.accountNonLocked) {
+                        return "btn-danger btn-sm";
+                    } else {
+                        return "btn-primary btn-sm";
+                    }
+                },
+                handle: function (index, data) {
+                    var requestUrl = App.href + "/api/sys/user/unLock/" + data.id;
+                    if (data.accountNonLocked) {
+                        requestUrl = App.href + "/api/sys/user/lock/" + data.id;
+                    }
+                    $.ajax({
+                        type: "GET",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+                        },
+                        dataType: "json",
+                        url: requestUrl,
+                        success: function (data) {
+                            if (data.code === 200) {
+                                grid.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        },
+                        error: function (e) {
+                            alert("请求异常。");
+                        }
+                    });
                 }
             }],
             tools: [
@@ -174,7 +213,6 @@
                             beforeSubmit: function () {
                             },
                             beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
                             },
                             ajaxSuccess: function () {
                                 modal.hide();
@@ -301,8 +339,8 @@
                                 }
                             }, {
                                 type: 'radioGroup',
-                                name: 'nonLocked',
-                                id: 'nonLocked',
+                                name: 'accountNonLocked',
+                                id: 'accountNonLocked',
                                 label: '账号锁定状态',
                                 items: [{
                                     value: true,

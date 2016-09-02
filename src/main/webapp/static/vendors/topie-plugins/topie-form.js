@@ -114,19 +114,28 @@
                 that._loadValue(i, value);
             });
         },
-        loadRemote: function (ajaxUrl, callback) {
+        loadRemote: function (ajaxUrl, callback, method) {
             var that = this;
+            if (method == undefined)
+                method = "GET"
             $.ajax({
-                type: "POST",
+                type: method,
                 dataType: "json",
                 url: ajaxUrl,
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-Auth-Token", App.token);
+                },
                 success: function (data) {
-                    this._data = data;
-                    $.each(this._data, function (i, item) {
-                        that._loadValue(i, item);
-                    });
-                    if (callback != undefined) {
-                        callback();
+                    if (data.code === 200) {
+                        this._data = data.data;
+                        $.each(this._data, function (i, item) {
+                            that._loadValue(i, item);
+                        });
+                        if (callback != undefined) {
+                            callback();
+                        }
+                    } else {
+                        alert(data.message);
                     }
                 },
                 error: function (e) {
@@ -1313,7 +1322,10 @@
                     type: that._method,
                     url: that._action,
                     data: $('#' + that._formId).serialize(),
-                    beforeSend: this._beforeSend,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", App.token);
+                        that._beforeSend(request);
+                    },
                     dataType: "json",
                     success: function (data) {
                         if (data.code === 200) {

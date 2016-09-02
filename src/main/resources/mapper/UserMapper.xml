@@ -63,6 +63,9 @@
         credentials_non_expired, last_login_ip, last_login_time, email, contact_phone, insert_time,
         update_time,last_password_reset
     </sql>
+    <update id="updateAccountNonLocked">
+        update sys_user set account_non_locked = #{accountNonLocked} where id=#{userId}
+    </update>
     <select id="findUserByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -123,5 +126,8 @@
     </select>
     <select id="countByLoginName" resultType="java.lang.Integer">
         select count(1) from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
+    </select>
+    <select id="findLoginNameByUserId" resultType="java.lang.String">
+        select login_name from sys_user where id=#{userId}
     </select>
 </mapper>

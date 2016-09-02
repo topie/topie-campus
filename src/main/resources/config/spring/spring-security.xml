@@ -72,6 +72,8 @@
     <beans:bean id="userCache"
                 class="com.topie.campus.security.security.OrangeSideUserCache">
         <beans:property name="cache" ref="redisCache"/>
+        <beans:property name="userService" ref="userService"/>
+        <beans:property name="redisCache" ref="redisCache"/>
     </beans:bean>
 
     <beans:bean id="encoder"

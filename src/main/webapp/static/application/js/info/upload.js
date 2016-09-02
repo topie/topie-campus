@@ -30,7 +30,7 @@
                             });
                             App.upload.initUpload();
                         } else {
-                            alert(result.msg);
+                            alert(result.message);
                         }
                     }
                 }

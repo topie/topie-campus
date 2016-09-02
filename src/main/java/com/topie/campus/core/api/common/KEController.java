@@ -2,7 +2,7 @@ package com.topie.campus.core.api.common;
 
 import com.alibaba.fastjson.JSONObject;
 import com.topie.campus.common.utils.FileUtil;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,11 +30,11 @@ public class KEController {
             @RequestParam(value = "imgFile", required = false) MultipartFile file) throws Exception {
         try {
             String savePath =
-                    request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtils
+                    request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtil
                             .getCurrentUserName() + "/";
             // 文件保存目录URL
             String saveUrl =
-                    request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtils.getCurrentUserName() + "/";
+                    request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtil.getCurrentUserName() + "/";
 
             // 定义允许上传的文件扩展名
             HashMap<String, String> extMap = new HashMap<String, String>();
@@ -131,10 +131,10 @@ public class KEController {
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String rootPath = request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtils
+        String rootPath = request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtil
                 .getCurrentUserName() + "/";
         // 文件保存目录URL
-        String rootUrl = request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtils.getCurrentUserName() + "/";
+        String rootUrl = request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtil.getCurrentUserName() + "/";
         // 图片扩展名
         String[] fileTypes = new String[] { "gif", "jpg", "jpeg", "png", "bmp" };
 

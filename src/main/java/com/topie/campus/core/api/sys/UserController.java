@@ -8,7 +8,7 @@ import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cgj on 2016/4/9.
@@ -75,18 +73,35 @@ public class UserController {
     @ResponseBody
     public Result loadUser(@PathVariable(value = "userId") int userId) {
         User user = userService.findUserById(userId);
-        Map params = new HashMap();
-        params.put("user", user);
-        String html = freeMarkerUtil.getStringFromTemplate("/sys/user/", "load.ftl", params);
-        Map result = new HashMap();
-        result.put("html", html);
-        return ResponseUtil.success(result);
+        return ResponseUtil.success(user);
+    }
+
+    @RequestMapping(value = "/lock/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result lock(@PathVariable(value = "userId") int userId) {
+        int result = userService.updateLockStatusByUserId(userId, false);
+        if (result > 0) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.error("操作未成功。");
+        }
+    }
+
+    @RequestMapping(value = "/unLock/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result unLock(@PathVariable(value = "userId") int userId) {
+        int result = userService.updateLockStatusByUserId(userId, true);
+        if (result > 0) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.error("操作未成功。");
+        }
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public Result delUser(@RequestParam(value = "user_id", required = true) int userId) {
-        if (SecurityUtils.getCurrentSecurityUser().getId() == userId) {
+        if (SecurityUtil.getCurrentSecurityUser().getId() == userId) {
             throw new AuthBusinessException(AuBzConstant.CANNOT_DEL_CURRENT_USER);
         }
         userService.delete(userId);

@@ -9,7 +9,7 @@ import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.Function;
 import com.topie.campus.security.service.FunctionService;
 import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.vo.FunctionVO;
 import com.topie.campus.tools.redis.RedisCache;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +40,7 @@ public class FunctionController {
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
     public Result myFunction() {
-        String currentLoginName = SecurityUtils.getCurrentUserName();
+        String currentLoginName = SecurityUtil.getCurrentUserName();
         if (StringUtils.isEmpty(currentLoginName)) {
             throw new AuthBusinessException(AuBzConstant.IS_NOT_LOGIN);
         }

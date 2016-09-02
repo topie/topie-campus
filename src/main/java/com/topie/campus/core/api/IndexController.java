@@ -1,21 +1,14 @@
 package com.topie.campus.core.api;
 
-import com.github.pagehelper.PageInfo;
-import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
-import com.topie.campus.common.utils.Result;
-import com.topie.campus.security.model.User;
-import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +26,7 @@ public class IndexController {
     @ResponseBody
     public Object index() throws Exception {
         Map params = new HashMap<>();
-        params.put("name", SecurityUtils.getCurrentUserName());
+        params.put("name", SecurityUtil.getCurrentUserName());
         String html = freeMarkerUtil.getStringFromTemplate("/", "index.ftl", params);
         return ResponseUtil.success(html);
     }

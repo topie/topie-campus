@@ -1,11 +1,8 @@
 package com.topie.campus.security;
 
-import com.topie.campus.BasicTest;
-import com.topie.campus.core.api.info.InfoController;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 /**
  * Created by cgj on 2016/4/10.
@@ -14,8 +11,8 @@ public class EncodePassWordTest{
 
     public static void main(String[] args) {
         String password = "info";
-        String encodedPassword = SecurityUtils.encodeString(password);
+        String encodedPassword = SecurityUtil.encodeString(password);
         System.out.println(encodedPassword);
-        Assert.assertTrue(SecurityUtils.matchString(password, encodedPassword));
+        Assert.assertTrue(SecurityUtil.matchString(password, encodedPassword));
     }
 }

@@ -5,7 +5,7 @@ import com.topie.campus.common.utils.FileUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.core.model.Attachment;
 import com.topie.campus.core.service.IAttachmentService;
-import com.topie.campus.security.utils.SecurityUtils;
+import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,10 +32,10 @@ public class AttachmentServiceImpl extends BaseService<Attachment> implements IA
     public Attachment uploadFileAttachement(HttpServletRequest request, MultipartFile file, String dirName,
             long maxSize, HashMap<String, String> extLimitMap, Integer suffix) throws IOException {
         //文件保存路径
-        String savePath = request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtils
+        String savePath = request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtil
                 .getCurrentUserName() + "/";
         // 文件保存目录URL
-        String saveUrl = request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtils.getCurrentUserName() + "/";
+        String saveUrl = request.getContextPath() + "/" + uploadFolder + "/" + SecurityUtil.getCurrentUserName() + "/";
         File targetFile = new File(savePath);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
@@ -76,7 +76,7 @@ public class AttachmentServiceImpl extends BaseService<Attachment> implements IA
         attachment.setAttachmentPath(savePath + newFileName);
         attachment.setAttachmentUrl(saveUrl + newFileName);
         attachment.setAttachmentName(fileName);
-        attachment.setUploadLoginName(SecurityUtils.getCurrentUserName());
+        attachment.setUploadLoginName(SecurityUtil.getCurrentUserName());
         attachment.setAttachmentSuffix(fileExt);
         attachment.setAttachmentType(suffix);
         attachment.setAttachmentSize(file.getSize());

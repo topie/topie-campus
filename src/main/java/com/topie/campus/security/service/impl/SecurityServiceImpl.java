@@ -52,13 +52,31 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Map<String, Collection<ConfigAttribute>> getResourceMap() {
-        Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
+    public Map<String, Collection<ConfigAttribute>> getCacheResourceMap() {
         List<Map> roleFunctions = (List<Map>) redisCache.get(SecurityConstant.ROLE_CACHE_KEY);
         if (roleFunctions == null) {
             roleFunctions = roleService.findRoleMatchUpFunctions();
             redisCache.set(SecurityConstant.ROLE_CACHE_KEY, roleFunctions);
         }
+        return getResourceMap(roleFunctions);
+    }
+
+    @Override
+    public String getDefaultAction(int roleId) {
+        Role role = roleService.findRoleById(roleId);
+        if (StringUtils.isNotBlank(role.getDefaultAction())) return role.getDefaultAction();
+        return "";
+    }
+
+    @Override
+    public Map<String, Collection<ConfigAttribute>> getDbResourceMap() {
+        List<Map> roleFunctions = roleService.findRoleMatchUpFunctions();
+        redisCache.set(SecurityConstant.ROLE_CACHE_KEY, roleFunctions);
+        return getResourceMap(roleFunctions);
+    }
+
+    private Map<String, Collection<ConfigAttribute>> getResourceMap(List<Map> roleFunctions) {
+        Map<String, Collection<ConfigAttribute>> resourceMap = new HashMap<>();
         if (roleFunctions != null && roleFunctions.size() > 0) {
             for (Map roleFunction : roleFunctions) {
                 String url = (String) roleFunction.get("function");
@@ -77,12 +95,4 @@ public class SecurityServiceImpl implements SecurityService {
         }
         return resourceMap;
     }
-
-    @Override
-    public String getDefaultAction(int roleId) {
-        Role role = roleService.findRoleById(roleId);
-        if (StringUtils.isNotBlank(role.getDefaultAction())) return role.getDefaultAction();
-        return "";
-    }
-
 }
