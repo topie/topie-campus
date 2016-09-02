@@ -42,7 +42,7 @@ public class CommonController {
             //文件夹名
             String dirName = "file";
             // 最大文件大小
-            long maxSize = 2000000;
+            long maxSize = 20000000;
 
             // 定义允许上传的文件扩展名
             HashMap<String, String> extMap = new HashMap<String, String>();
@@ -69,7 +69,7 @@ public class CommonController {
             //文件夹名
             String dirName = "image";
             // 最大文件大小
-            long maxSize = 2000000;
+            long maxSize = 10000000;
 
             // 定义允许上传的文件扩展名
             HashMap<String, String> extMap = new HashMap<String, String>();
@@ -83,4 +83,41 @@ public class CommonController {
             return ResponseUtil.error("上传失败。");
         }
     }
+
+    @RequestMapping(value = "/uploadFiles", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadFiles(HttpServletRequest request,
+            @RequestParam(value = "files[]", required = false) MultipartFile[] file) throws Exception {
+        if (file.length > 0) {
+            for (MultipartFile multipartFile : file) {
+                //文件夹名
+                String dirName = "file";
+                // 最大文件大小
+                long maxSize = 20000000;
+
+                // 定义允许上传的文件扩展名
+                HashMap<String, String> extMap = new HashMap<String, String>();
+                extMap.put(dirName,
+                        "doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,gz,bz2,gif,jpg,jpeg,png,bmp,swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb");
+
+                Attachment attachment = iAttachmentService
+                        .uploadFileAttachement(request, multipartFile, dirName, maxSize, extMap, FILE);
+                return attachment;
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping(value = "/attachment", method = RequestMethod.POST)
+    @ResponseBody
+    public Result attachment(@RequestParam("attachmentId") Integer attachmentId) throws Exception {
+        if (attachmentId != null) {
+            Attachment attachment = iAttachmentService.selectByKey(attachmentId);
+            if (attachment != null) {
+                return ResponseUtil.success(attachment);
+            }
+        }
+        return ResponseUtil.error("附件id不存在。");
+    }
+
 }

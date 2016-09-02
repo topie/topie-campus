@@ -71,6 +71,8 @@ CREATE TABLE `t_common_attachment` (
   COMMENT '附件文件路径',
   `attachment_url`    VARCHAR(255)     DEFAULT ''
   COMMENT '附件文件路径',
+  `attachment_size`   BIGINT(22)       DEFAULT 0
+  COMMENT '附件文件大小',
   `upload_login_name` VARCHAR(64)      DEFAULT ''
   COMMENT '上传附件用户',
   PRIMARY KEY (`attachment_id`),

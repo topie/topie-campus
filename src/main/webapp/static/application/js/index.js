@@ -42,7 +42,7 @@
                 type: 'button',
                 text: '关闭',
                 handle: function () {
-                    alert("点击了关闭");
+                    form.setValue("attachmentIds", 1);
                 }
             }],
             buttonsAlign: "center",
@@ -141,6 +141,18 @@
                 },
                 message: {
                     required: "影片介绍"
+                }
+            }, {
+                type: 'files',
+                id: 'attachmentIds',
+                name: 'attachmentIds',
+                limit: 1,
+                label: '上传附件',
+                rule: {
+                    required: true
+                },
+                message: {
+                    required: "上传附件",
                 }
             }]
         };

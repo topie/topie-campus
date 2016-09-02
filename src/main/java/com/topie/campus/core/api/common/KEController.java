@@ -19,10 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping("/api/common/KE")
+@RequestMapping("/api/KE")
 public class KEController {
-
-    public PrintWriter writer = null;
 
     @Value("${upload.folder}")
     String uploadFolder;
@@ -51,7 +49,7 @@ public class KEController {
             response.reset();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html");
-            writer = response.getWriter();
+            PrintWriter writer = response.getWriter();
             if (!ServletFileUpload.isMultipartContent(request)) {
                 writer.println(getError("请选择文件。"));
                 return;
@@ -131,7 +129,6 @@ public class KEController {
     public void fileManager(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         response.setContentType("application/json; charset=UTF-8");
-        String projectName = request.getContextPath();
         PrintWriter out = response.getWriter();
 
         String rootPath = request.getSession().getServletContext().getRealPath("/") + uploadFolder + "/" + SecurityUtils
@@ -149,7 +146,6 @@ public class KEController {
             }
             rootPath += dirName + "/";
             rootUrl += dirName + "/";
-            rootUrl = "/" + projectName + "/" + rootUrl;
             File saveDirFile = new File(rootPath);
             if (!saveDirFile.exists()) {
                 saveDirFile.mkdirs();

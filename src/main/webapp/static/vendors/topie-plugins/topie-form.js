@@ -748,6 +748,31 @@
                 }
                 return ele;
             },
+            'files': function (data, form) {
+                var filesTmpl = '<span class="btn btn-info fileinput-button">'
+                    + '<span class="glyphicon glyphicon-plus"></span>'
+                    + '<span>添加附件... </span>'
+                    + '  <input type="file" role="fileuploadInput" id="fileupload_${id_}" name="files[]" multiple="">'
+                    + '  </span>';
+                var btn = $.tmpl(filesTmpl, {
+                    "id_": (data.id == undefined ? data.name : data.id)
+                });
+                btn.find("input[role=fileuploadInput]").data("data", data);
+                var tableTmpl = '<table id="file_table_${id_}" name="'
+                    + data.name + '" role="presentation" class="table table-striped clearfix"><tbody class="files"></tbody></table>';
+                var table = $.tmpl(tableTmpl, {
+                    "id_": (data.id == undefined ? data.name : data.id)
+                });
+                table.data("data", data);
+                var eleTmpl = '<div id="files_div_${id_}" name="files_div_${name_}"></div>';
+                var ele = $.tmpl(eleTmpl, {
+                    "id_": (data.id == undefined ? data.name : data.id),
+                    "name_": data.name,
+                });
+                ele.append(btn);
+                ele.append(table);
+                return ele;
+            },
             'image': function (data, form) {
                 var imageTmpl = '<div><div class="fileinput fileinput-new" data-provides="fileinput">'
                     + '<div class="fileinput-preview thumbnail" role="preview" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"></div>'
@@ -968,6 +993,7 @@
             this._initShowIconText();
             this._initTree();
             this._initKindEditor();
+            this._initMultiFileUpload();
         },
         _uniform: function () {
             if (!$().uniform) {
@@ -1004,9 +1030,9 @@
                                     '#' + ele.attr("id"),
                                     {
                                         uploadJson: App.href
-                                        + '/api/common/KE/fileUpload?topie_token=' + App.token,
+                                        + '/api/KE/fileUpload?topie_token=' + App.token,
                                         fileManagerJson: App.href
-                                        + '/api/common/KE/fileManager?topie_token=' + App.token,
+                                        + '/api/KE/fileManager?topie_token=' + App.token,
                                         minWidth: 0,
                                         width: edWith,
                                         height: ele
@@ -1023,6 +1049,188 @@
                                 ele.prev("div.ke-container").addClass("col-md-12").css("width", "");
                             that._editor[ele.attr("id")] = editor;
                         });
+            }
+        },
+        _initMultiFileUpload: function () {
+            var template = '<tr class="template-upload fade in">'
+                + '<td style="width: 20%; border-bottom: 1px solid #ddd;border-left: 1px solid #ddd;">'
+                + '<span class="preview"><img alt="${alt_}" width="99%" height="99%"></span>'
+                + '</td>'
+                + '<td style="width: 50%;vertical-align: middle;border-bottom: 1px solid #ddd;">'
+                + '<p class="name">${fileName_}</p>'
+                + '<p class="size">${fileSize_} KB</p>'
+                + '<p ><span class="progress">0%</span></p>'
+                + '</td>'
+                + '<td style="width: 30%;vertical-align: middle;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;">'
+                + '    <button type="button" data-loading-text="上传中..." class="btn btn-primary start">'
+                + '       <span class="glyphicon glyphicon-open"></span>'
+                + '       <span>上传</span>'
+                + '    </button>'
+                + '    <button type="button" class="btn btn-warning cancel">'
+                + '       <span class="glyphicon glyphicon-remove"></span>'
+                + '       <span >取消</span>' + '    </button>        '
+                + '</td>'
+                + '<input type="hidden" name="${attName_}" class="att"/>'
+                + '</tr>';
+            var deleteStr = '<span >删除</span>';
+            var uploadUrl = App.href + '/api/common/uploadFiles?topie_token=' + App.token;
+            var files = $("input[role=fileuploadInput]");
+            if (files.length > 0) {
+                $.each(files, function (i, file) {
+                    var element_data = $(this).data("data");
+                    var currentData = {};
+                    if (element_data.uploadUrl != undefined)
+                        uploadUrl = element_data.uploadUrl;
+                    if (uploadUrl.indexOf("topie_token") == -1) {
+                        if (uploadUrl.indexOf("?") != -1) {
+                            uploadUrl += ("&topie_token=" + App.token);
+                        } else {
+                            uploadUrl += ("?topie_token=" + App.token);
+                        }
+                    }
+                    $('#fileupload_' + element_data.id).fileupload(
+                        {
+                            url: uploadUrl,
+                            autoUpload: true,
+                            dataType: 'json',
+                            previewCrop: true,
+                            add: function (e, data) {
+                                var type = getLowCaseType(data.files[0].name);
+                                var allowType = element_data.allowType == undefined ? "" : element_data.allowType;
+                                var flag = false;
+                                if (allowType != null && allowType != "") {
+                                    var allows = allowType.split(",");
+                                    for (var i in allows) {
+                                        if (allows != null && allows != "") {
+                                            if (allows[i].toLowerCase() == type) {
+                                                flag = true;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    flag = true;
+                                }
+                                if (!flag) {
+                                    alert("上传格式限制为：" + allowType);
+                                    return false;
+                                }
+                                if (element_data.limit != undefined) {
+                                    var currentLength = $("table[name='" + element_data.fileName + "']").find("tbody.files > tr").length;
+                                    if (currentLength >= element_data.limit) {
+                                        alert("最多只能上传" + element_data.limit + "个附件！");
+                                        return;
+                                    }
+                                }
+                                var templateImpl = $
+                                    .tmpl(
+                                        template,
+                                        {
+                                            "alt_": type,
+                                            "fileName_": data.files[0].name,
+                                            "fileSize_": (data.files[0].size / 1000)
+                                                .toFixed(2),
+                                            "attName_": (element_data.name == undefined ? "attrIds"
+                                                : element_data.name)
+                                        });
+                                $("#file_table_" + element_data.id).find("tbody.files").append(templateImpl);
+                                data.content = templateImpl;
+                                $(".start", templateImpl).click(
+                                    function () {
+                                        currentData.bar = templateImpl;
+                                        $(this).button('loading');
+                                        data.submit();
+                                    });
+                                $(".cancel", templateImpl).click(
+                                    function () {
+                                        data.abort();
+                                        $(templateImpl).remove();
+                                    });
+
+                            },
+                            done: function (e, data) {// 设置文件上传完毕事件的回调函数
+                                $(".start", data.content).remove();
+                                console.info(data.result);
+                                var id = data.result.attachmentId;
+                                var name = data.result.attachmentName;
+                                var url = data.result.attachmentUrl;
+                                if (element_data.convertData != undefined) {
+                                    var arrays = element_data.convertData(data.result);
+                                    id = arrays[0];
+                                    name = arrays[1];
+                                    url = arrays[2];
+                                }
+                                $(".att", data.content).val(id);
+                                if (getLowCaseType(name) == ".jpg") {
+                                    $(".preview", data.content).find("img").attr("src", url);
+                                }
+                                $(".cancel", data.content).html(deleteStr);
+                            },
+                            progressall: function (e, data) {// 设置上传进度事件的回调函数
+                                var progress = parseInt(data.loaded
+                                    / data.total * 100, 10);
+                                $('.progress', data.content).text(progress + '%');
+                            }
+                        });
+                });
+            }
+        },
+        _renderMultipleFiles: function (table, fieldName, fileIds) {
+            var elementData = $(table).data("data");
+            var template = '<tr class="template-upload fade in">'
+                + '<td style="width: 20%;">'
+                + '<span class="preview"><img alt="${alt_}" width="46" height="40"></span>'
+                + '</td>'
+                + '<td style="width: 40%;vertical-align: middle;">'
+                + '<p class="name">${fileName_}</p>'
+                + '<p class="size">${fileSize_} KB</p>'
+                + '</td>'
+                + '<td style="width: 10%;vertical-align: middle;">'
+                + '<span class="progress">100%</span>'
+                + '</td>'
+                + '<td style="width: 30%;vertical-align: middle;">'
+                + '    <button type="button" class="btn btn-warning cancel">删除</button>        '
+                + '</td>'
+                + '<input type="hidden" name="' + fieldName + '" value="${fileIds_}" class="att"/>'
+                + '</tr>';
+            if ($.trim(fileIds) == "")
+                return;
+            var ids = fileIds.toString().split(",");
+            var fileInfoUrl = (elementData.fileInfoUrl == undefined ? (App.href + "/api/common/attachment") : elementData.fileInfoUrl);
+            if (fileInfoUrl.indexOf("topie_token=") == -1) {
+                if (fileInfoUrl.indexOf("?") != -1) {
+                    fileInfoUrl += ("&topie_token=" + App.token);
+                } else {
+                    fileInfoUrl += ("?topie_token=" + App.token);
+                }
+            }
+            var dataParam = (elementData.dataParam == undefined ? "attachmentId" : elementData.dataParam);
+            for (var i in ids) {
+                var dataParamValue = {};
+                dataParamValue[dataParam] = ids[i];
+                $.ajax({
+                    type: "POST",
+                    data: dataParamValue,
+                    dataType: "json",
+                    url: fileInfoUrl,
+                    success: function (data) {
+                        if (data.code == 200) {
+                            var file = $.tmpl(template, {
+                                "fileName_": data.data.attachmentName,
+                                "fileSize_": (data.data.attachmentSize / 1000)
+                                    .toFixed(2),
+                                "fileIds_": data.data.attachmentId
+                            });
+                            if (getLowCaseType(data.data.attachmentName) == ".jpg") {
+                                file.find(".preview > img").attr("src", data.data.attachmentUrl);
+                            }
+                            file.appendTo(table);
+                            file.find("button.btn.btn-warning.cancel").bind(
+                                "click", function () {
+                                    $(this).parent().parent().remove();
+                                });
+                        }
+                    }
+                });
             }
         },
         _initValidate: function () {
@@ -1169,6 +1377,8 @@
                     ele.parent().parent().parent().find(
                         "span.fileinput-filename ").text(
                         value.substring(value.lastIndexOf("/") + 1));
+                } else if (ele.is('table')) {
+                    this._renderMultipleFiles(ele, name, value);
                 } else {
                     ele.val(value);
                 }
@@ -1249,6 +1459,8 @@
                 if (format != undefined)
                     value = format(value);
                 ele.text(value);
+            } else if (ele.is('table')) {
+                this._renderMultipleFiles(ele, name, value);
             } else {
                 ele.val(value);
             }

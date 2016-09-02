@@ -4,12 +4,13 @@ import javax.persistence.*;
 
 @Table(name = "t_common_attachment")
 public class Attachment {
+
     /**
      * 附件id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attachment_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer attachmentId;
 
     /**
@@ -41,6 +42,12 @@ public class Attachment {
      */
     @Column(name = "attachment_url")
     private String attachmentUrl;
+
+    /**
+     * 附件文件大小
+     */
+    @Column(name = "attachment_size")
+    private Long attachmentSize;
 
     /**
      * 上传附件用户
@@ -84,10 +91,20 @@ public class Attachment {
         this.attachmentName = attachmentName;
     }
 
+    /**
+     * 获取附件类型:0:图片 1:文档 2:其他
+     *
+     * @return attachment_type - 附件类型:0:图片 1:文档 2:其他
+     */
     public Integer getAttachmentType() {
         return attachmentType;
     }
 
+    /**
+     * 设置附件类型:0:图片 1:文档 2:其他
+     *
+     * @param attachmentType 附件类型:0:图片 1:文档 2:其他
+     */
     public void setAttachmentType(Integer attachmentType) {
         this.attachmentType = attachmentType;
     }
@@ -144,6 +161,24 @@ public class Attachment {
      */
     public void setAttachmentUrl(String attachmentUrl) {
         this.attachmentUrl = attachmentUrl;
+    }
+
+    /**
+     * 获取附件文件大小
+     *
+     * @return attachment_size - 附件文件大小
+     */
+    public Long getAttachmentSize() {
+        return attachmentSize;
+    }
+
+    /**
+     * 设置附件文件大小
+     *
+     * @param attachmentSize 附件文件大小
+     */
+    public void setAttachmentSize(Long attachmentSize) {
+        this.attachmentSize = attachmentSize;
     }
 
     /**

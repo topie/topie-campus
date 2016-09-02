@@ -79,6 +79,7 @@ public class AttachmentServiceImpl extends BaseService<Attachment> implements IA
         attachment.setUploadLoginName(SecurityUtils.getCurrentUserName());
         attachment.setAttachmentSuffix(fileExt);
         attachment.setAttachmentType(suffix);
+        attachment.setAttachmentSize(file.getSize());
         getMapper().insertSelective(attachment);
         return attachment;
 
