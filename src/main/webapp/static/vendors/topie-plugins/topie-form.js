@@ -676,7 +676,18 @@
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name
                 });
-                if (data.isAjaxUpload && data.uploadUrl != undefined) {
+                if (data.uploadUrl == undefined) {
+                    data.uploadUrl = App.href + "/api/common/uploadFile" + "?topie_token=" + App.token
+                } else {
+                    if (data.uploadUrl.indexOf("topie_token=") == -1) {
+                        if (data.uploadUrl.indexOf("?") != -1) {
+                            data.uploadUrl += ("&topie_token=" + App.token);
+                        } else {
+                            data.uploadUrl += ("?topie_token=" + App.token);
+                        }
+                    }
+                }
+                if (data.isAjaxUpload) {
 
                     var uploadFile = function () {
                         if ($("#file_" + data.id).val() == "") {
@@ -690,19 +701,23 @@
                                 fileElementId: "file_" + data.id,
                                 dataType: "json",
                                 success: function (json, status) {
-                                    if (data.onSuccess != undefined) {
-                                        data.onSuccess(json);
-                                        successIcon.show();
-                                    } else {
-                                        if (json.fileUrl != undefined) {
-                                            ele.find("[role='file-input']")
-                                                .attr("value",
-                                                    data.fileUrl);
+                                    if (json.code === 200) {
+                                        json = json.data;
+                                        if (data.onSuccess != undefined) {
+                                            data.onSuccess(json);
                                             successIcon.show();
                                         } else {
-                                            console
-                                                .error("返回的json数据中为检测到fileUrl值");
+                                            if (json.attachmentUrl != undefined) {
+                                                ele.find("[role='file-input']")
+                                                    .attr("value", json.attachmentUrl);
+                                                successIcon.show();
+                                            } else {
+                                                console
+                                                    .error("返回的json数据中未检测到attachmentUrl值");
+                                            }
                                         }
+                                    } else {
+                                        alert(json.message);
                                     }
                                 },
                                 error: function (data, status, e) {
@@ -721,7 +736,7 @@
                             uploadFile();
                         });
                     }
-                    var successIcon = $('<a href="javascript:;" class="input-group-addon btn" style="border-color: white;background:white;cursor:default;"><i class="fa fa-check" style="color: #45B6AF;cursor:default;"></i></a>');
+                    var successIcon = $('<a href="javascript:;" class="input-group-addon btn" style="border-color: white;background:white;cursor:default;"><span class="glyphicon glyphicon-ok" style="color: #45B6AF;cursor:default;"></span></a>');
                     successIcon.hide();
                     ele.find(".input-group").append(successIcon);
                     ele.find('[data-dismiss="fileinput"]').click(function () {
@@ -748,10 +763,20 @@
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name
                 });
-
-                if (data.isAjaxUpload && data.uploadUrl != undefined) {
+                if (data.uploadUrl == undefined) {
+                    data.uploadUrl = App.href + "/api/common/uploadImage" + "?topie_token=" + App.token
+                } else {
+                    if (data.uploadUrl.indexOf("topie_token=") == -1) {
+                        if (data.uploadUrl.indexOf("?") != -1) {
+                            data.uploadUrl += ("&topie_token=" + App.token);
+                        } else {
+                            data.uploadUrl += ("?topie_token=" + App.token);
+                        }
+                    }
+                }
+                if (data.isAjaxUpload) {
                     // 上传符号
-                    var successIcon = $('<a href="javascript:;" class="btn" style="border-color: white;background:white;cursor:default;"><i class="fa fa-check" style="color: #45B6AF;cursor:default;"></i></a>');
+                    var successIcon = $('<a href="javascript:;" class="btn" style="border-color: white;background:white;cursor:default;"><span class="glyphicon glyphicon-ok" style="color: #45B6AF;cursor:default;"></span></a>');
                     successIcon.hide();
                     ele.find("[role='imageDiv']").append(successIcon);
                     // 删除事件
@@ -780,18 +805,23 @@
                                 fileElementId: "image_" + data.id,
                                 dataType: "json",
                                 success: function (json, status) {
-                                    if (ele.find("[role='preview']").length == 0) {
+                                    if (json.code === 200) {
+                                        json = json.data;
+                                    } else {
+                                        alert(json.message);
+                                        return;
+                                    }
+                                    if (ele.find("[role='preview']").length > 0) {
                                         var preview = ele
                                             .find("[role='preview']");
-                                        var $img = $('<img>');
-                                        $img[0].src = json.fileUrl;
-                                        if (preview.css('max-height') != 'none')
+                                        if (preview.css('height') != 'none') {
+                                            var $img = $('<img>');
+                                            $img[0].src = json.attachmentUrl;
                                             $img
                                                 .css(
                                                     'max-height',
                                                     parseInt(
-                                                        preview
-                                                            .css('max-height'),
+                                                        preview.css('height'),
                                                         10)
                                                     - parseInt(
                                                         preview
@@ -809,17 +839,19 @@
                                                         preview
                                                             .css('border-bottom'),
                                                         10))
-                                        preview.html($img);
+                                            preview.html($img);
+                                        }
+
                                     }
                                     if (data.onSuccess != undefined) {
                                         data.onSuccess(json);
                                     } else {
-                                        if (json.fileUrl != undefined) {
+                                        if (json.attachmentUrl != undefined) {
                                             ele
                                                 .find(
                                                     "[role='image-input']")
                                                 .attr("value",
-                                                    data.fileUrl);
+                                                    json.attachmentUrl);
                                         } else {
                                             console
                                                 .error("返回的json数据中为检测到fileUrl值");
@@ -837,7 +869,7 @@
                             uploadFile();
                         });
                     } else {
-                        var upload = $('<a href="javascript:;" role="upload" class="btn btn-primary fileinput-exists">上传 </a>');
+                        var upload = $('<a href="javascript:;" role="upload" data-dismiss="fileinput" class="btn btn-primary fileinput-exists">上传 </a>');
                         ele.find("[role='imageDiv']").append(upload);
                         upload.on("click", function () {
                             uploadFile();

@@ -8,6 +8,7 @@ public class Attachment {
      * 附件id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attachment_id")
     private Integer attachmentId;
 
@@ -21,13 +22,31 @@ public class Attachment {
      * 附件类型:0:图片 1:文档 2:其他
      */
     @Column(name = "attachment_type")
-    private Boolean attachmentType;
+    private Integer attachmentType;
+
+    /**
+     * 附件后缀
+     */
+    @Column(name = "attachment_suffix")
+    private String attachmentSuffix;
 
     /**
      * 附件文件路径
      */
     @Column(name = "attachment_path")
     private String attachmentPath;
+
+    /**
+     * 附件文件路径
+     */
+    @Column(name = "attachment_url")
+    private String attachmentUrl;
+
+    /**
+     * 上传附件用户
+     */
+    @Column(name = "upload_login_name")
+    private String uploadLoginName;
 
     /**
      * 获取附件id
@@ -65,22 +84,30 @@ public class Attachment {
         this.attachmentName = attachmentName;
     }
 
-    /**
-     * 获取附件类型:0:图片 1:文档 2:其他
-     *
-     * @return attachment_type - 附件类型:0:图片 1:文档 2:其他
-     */
-    public Boolean getAttachmentType() {
+    public Integer getAttachmentType() {
         return attachmentType;
     }
 
-    /**
-     * 设置附件类型:0:图片 1:文档 2:其他
-     *
-     * @param attachmentType 附件类型:0:图片 1:文档 2:其他
-     */
-    public void setAttachmentType(Boolean attachmentType) {
+    public void setAttachmentType(Integer attachmentType) {
         this.attachmentType = attachmentType;
+    }
+
+    /**
+     * 获取附件后缀
+     *
+     * @return attachment_suffix - 附件后缀
+     */
+    public String getAttachmentSuffix() {
+        return attachmentSuffix;
+    }
+
+    /**
+     * 设置附件后缀
+     *
+     * @param attachmentSuffix 附件后缀
+     */
+    public void setAttachmentSuffix(String attachmentSuffix) {
+        this.attachmentSuffix = attachmentSuffix;
     }
 
     /**
@@ -99,5 +126,41 @@ public class Attachment {
      */
     public void setAttachmentPath(String attachmentPath) {
         this.attachmentPath = attachmentPath;
+    }
+
+    /**
+     * 获取附件文件路径
+     *
+     * @return attachment_url - 附件文件路径
+     */
+    public String getAttachmentUrl() {
+        return attachmentUrl;
+    }
+
+    /**
+     * 设置附件文件路径
+     *
+     * @param attachmentUrl 附件文件路径
+     */
+    public void setAttachmentUrl(String attachmentUrl) {
+        this.attachmentUrl = attachmentUrl;
+    }
+
+    /**
+     * 获取上传附件用户
+     *
+     * @return upload_login_name - 上传附件用户
+     */
+    public String getUploadLoginName() {
+        return uploadLoginName;
+    }
+
+    /**
+     * 设置上传附件用户
+     *
+     * @param uploadLoginName 上传附件用户
+     */
+    public void setUploadLoginName(String uploadLoginName) {
+        this.uploadLoginName = uploadLoginName;
     }
 }

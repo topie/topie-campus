@@ -8,6 +8,9 @@
     <id column="attachment_id" property="attachmentId" jdbcType="INTEGER" />
     <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR" />
     <result column="attachment_type" property="attachmentType" jdbcType="BIT" />
+    <result column="attachment_suffix" property="attachmentSuffix" jdbcType="VARCHAR" />
     <result column="attachment_path" property="attachmentPath" jdbcType="VARCHAR" />
+    <result column="attachment_url" property="attachmentUrl" jdbcType="VARCHAR" />
+    <result column="upload_login_name" property="uploadLoginName" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

@@ -54,7 +54,7 @@
                              targetProject="${targetBasedir}/src/main/java" type="XMLMAPPER"/>
 
         <table tableName="t_common_attachment" domainObjectName="Attachment">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <generatedKey column="attachment_id" sqlStatement="Mysql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -1,7 +1,7 @@
 package com.topie.campus.core.model;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_info_basic")
 public class InfoBasic {
@@ -9,6 +9,7 @@ public class InfoBasic {
      * 用户id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer userId;
 

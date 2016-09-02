@@ -1,14 +1,16 @@
 package com.topie.campus.core.model;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_common_notice")
 public class Notice {
+
     /**
      * 通知公告id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id")
     private Integer noticeId;
 

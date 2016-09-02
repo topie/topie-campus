@@ -65,13 +65,8 @@
                 name: 'templatePath',
                 label: '模板路径',
                 isAjaxUpload: true,
-                uploadUrl: './upload',//
                 onSuccess: function (data) {
-                    if (data.status == 1) {
-                        $("#templatePath").attr("value", data.path);
-                    } else {
-                        alert(data.message);
-                    }
+                    $("#templatePath").attr("value", data.attachmentUrl);
                 },
                 deleteHandle: function () {
                     $("#templatePath").attr("value", "");
@@ -88,16 +83,11 @@
                 name: 'image',
                 label: '模板图片',
                 isAjaxUpload: true,
-                uploadUrl: './upload',//
                 onSuccess: function (data) {
-                    if (data.status == 1) {
-                        $("#templatePath").attr("value", data.path);
-                    } else {
-                        alert(data.message);
-                    }
+                    $("#image").attr("value", data.attachmentUrl);
                 },
                 deleteHandle: function () {
-                    $("#templatePath").attr("value", "");
+                    $("#image").attr("value", "");
                 },
                 rule: {
                     required: true
