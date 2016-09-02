@@ -2,7 +2,7 @@
 
 
 
-###First create database:
+###Database and Redis:
 
 
 ```
