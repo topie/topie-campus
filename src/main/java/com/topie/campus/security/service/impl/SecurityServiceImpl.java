@@ -53,10 +53,10 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Map<String, Collection<ConfigAttribute>> getCacheResourceMap() {
-        List<Map> roleFunctions = (List<Map>) redisCache.get(SecurityConstant.ROLE_CACHE_KEY);
+        List<Map> roleFunctions = (List<Map>) redisCache.get(SecurityConstant.RESOURCE_MAP);
         if (roleFunctions == null) {
             roleFunctions = roleService.findRoleMatchUpFunctions();
-            redisCache.set(SecurityConstant.ROLE_CACHE_KEY, roleFunctions);
+            redisCache.set(SecurityConstant.RESOURCE_MAP, roleFunctions);
         }
         return getResourceMap(roleFunctions);
     }
@@ -71,7 +71,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public Map<String, Collection<ConfigAttribute>> getDbResourceMap() {
         List<Map> roleFunctions = roleService.findRoleMatchUpFunctions();
-        redisCache.set(SecurityConstant.ROLE_CACHE_KEY, roleFunctions);
+        redisCache.set(SecurityConstant.RESOURCE_MAP, roleFunctions);
         return getResourceMap(roleFunctions);
     }
 

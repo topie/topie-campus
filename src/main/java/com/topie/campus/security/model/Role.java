@@ -1,15 +1,16 @@
 package com.topie.campus.security.model;
 
-import java.util.Date;
+import com.topie.campus.common.handler.Sortable;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Table(name = "sys_role")
-public class Role {
+public class Role extends Sortable {
+
+    private static final long serialVersionUID = -387429146553168074L;
+
     /**
      * id
      */
@@ -45,6 +46,9 @@ public class Role {
      */
     @Column(name = "update_time")
     private Date updateTime;
+
+    @Transient
+    private List<Integer> functions;
 
     /**
      * 获取id
@@ -152,5 +156,13 @@ public class Role {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<Integer> getFunctions() {
+        return functions;
+    }
+
+    public void setFunctions(List<Integer> functions) {
+        this.functions = functions;
     }
 }

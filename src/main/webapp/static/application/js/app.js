@@ -4,29 +4,11 @@
 ;
 (function ($, window, document, undefined) {
     window.App = {
-        initLogin: initLogin,
-        initIndex: initIndex,
-        initMenu: initMenu
+        projectName: "/topie-campus",
+        href: "..",
+        requestMapping: {}
     };
-    App.projectName = "/topie-campus";
-    App.href = "..";
-    App.requestMapping = {};
 
-    /**
-     * 完成后执行
-     */
-    App.refreshHref = function () {
-        var location = window.location.href;
-        var url = location.substring(location.lastIndexOf("#!") + 2);
-        if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
-            $('a[data-url="' + url + '"]').trigger("click");
-        } else {
-            window.location.href = window.location.href + "#!/api/index";
-            url = "/api/index";
-            $('a[data-url="' + url + '"]').trigger("click");
-        }
-
-    }
     /**
      * 下载文件
      * @param href
@@ -83,6 +65,26 @@
         xhr.setRequestHeader('X-Auth-Token', App.token);
         xhr.send();
     }
+
+    App.scrollTo = function (el, offeset) {
+        var pos = (el && el.size() > 0) ? el.offset().top : 0;
+
+        if (el) {
+            if ($('body').hasClass('page-header-fixed')) {
+                pos = pos - $('.page-header').height();
+            } else if ($('body').hasClass('page-header-top-fixed')) {
+                pos = pos - $('.page-header-top').height();
+            } else if ($('body').hasClass('page-header-menu-fixed')) {
+                pos = pos - $('.page-header-menu').height();
+            }
+            pos = pos + (offeset ? offeset : -1 * el.height());
+        }
+
+        $('html,body').animate({
+            scrollTop: pos
+        }, 'slow');
+    }
+
     /**
      * 更改右侧内容标题
      * @param title
@@ -108,191 +110,6 @@
 
     App.$content = function () {
         return $("#main-body");
-    }
-
-    function initLogin() {
-        $('#username,#password').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
-                login();
-            }
-        });
-        $("#login_btn").on("click", login);
-    }
-
-    var login = function () {
-        if ($("#username").val() == "" || $("#username").val() == "password") {
-            alert("登录名或密码不能为空!")
-        }
-        var fields = JSON.stringify(
-            {
-                "username": $("#username").val(),
-                "password": $("#password").val()
-            });
-        $.ajax({
-            type: 'POST',
-            url: "../api/token/generate",
-            contentType: "application/json",
-            dataType: "json",
-            data: fields,
-            success: function (result) {
-                if (result.code == 200) {
-                    $.cookie('tc_t', result.token, {expires: 7, path: '/'});
-                    window.location.href = "./index.html";
-                } else {
-                    alert(result.message);
-                }
-            },
-            error: function (err) {
-
-            }
-        });
-    }
-
-    function initIndex() {
-        var token = $.cookie('tc_t');
-        if (token == undefined) {
-            window.location.href = './login.html';
-        }
-        App.token = token;
-    }
-
-    function getSubMenu(menus, menuId) {
-        var subMenus = [];
-        $.each(menus, function (i, m) {
-            if (m.parentId == menuId) {
-                subMenus.push(m);
-            }
-        });
-        return subMenus;
-    }
-
-    function getMenu(menus, menuId) {
-        var subMenus = [];
-        $.each(menus, function (i, m) {
-            if (m.id == menuId) {
-                subMenus.push(m);
-            }
-        });
-        return subMenus;
-    }
-
-    function getTopMenu(menus) {
-        var topMenus = [];
-        $.each(menus, function (i, m) {
-            if (m.parentId == 0) {
-                topMenus.push(m);
-            } else {
-                var subMenus = getMenu(menus, m.parentId);
-                if (subMenus.length == 0) {
-                    topMenus.push(m);
-                }
-            }
-        });
-        return topMenus;
-    }
-
-    function recursionMenu(ele, menus, subMenus) {
-        if (subMenus.length > 0) {
-            ele += "<ul>";
-            $.each(subMenus, function (i, m) {
-                ele += ('<li data-level="sub">'
-                + '<a data-url="' + m.action
-                + '" data-title="' + m.functionName
-                + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                + m.functionName
-                + '</a>');
-                var sMenus = getSubMenu(menus, m.id);
-                ele += '</li>';
-            });
-            ele += "</ul>";
-        }
-        return ele;
-    }
-
-    function initMenu() {
-        $.ajax(
-            {
-                type: 'GET',
-                url: "../api/sys/function/current",
-                contentType: "application/json",
-                dataType: "json",
-                beforeSend: function (request) {
-                    request.setRequestHeader("X-Auth-Token", App.token);
-                },
-                success: function (result) {
-                    if (result.code === 200) {
-                        var menus = result.data;
-                        var topMenus = getTopMenu(menus);
-                        $.each(topMenus, function (i, m) {
-                            if (m.parentId == 0) {
-                                var ele = '<li data-level="top">'
-                                    + '<a data-url="' + m.action
-                                    + '" data-title="' + m.functionName
-                                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                                    + m.functionName
-                                    + '</a>';
-                                var subMenus = getSubMenu(menus, m.id);
-                                if (subMenus.length > 0) {
-                                    ele = recursionMenu(ele, menus, subMenus);
-                                }
-                                ele += '</li>';
-                                var li = $(ele);
-                                li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
-                                $("div.sidebar > .nav").append(li);
-                            }
-                        });
-                        $("div.sidebar > .nav").find("li.submenu > a").click(function (e) {
-                            e.preventDefault();
-                            var $li = $(this).parent("li");
-                            var $ul = $(this).next("ul");
-                            if ($li.hasClass("open")) {
-                                $ul.slideUp(150);
-                                $li.removeClass("open");
-                            } else {
-                                if ($li.parent("ul").hasClass("nav")) {
-                                    $(".nav > li > ul").slideUp(150);
-                                    $(".nav > li").removeClass("open");
-                                }
-                                $ul.slideDown(150);
-                                $li.addClass("open");
-                            }
-                        });
-
-                        $("div.sidebar > .nav").find("li[class!=submenu] > a").click(function (e) {
-                            e.preventDefault();
-                            var $li = $(this).parent("li");
-                            if ($li.parent("ul").hasClass("nav")) {
-                                $(".nav > li > ul").slideUp(150);
-                                $(".nav > li").removeClass("open");
-                            }
-                            $("div.sidebar > .nav").find("li.current").removeClass("current");
-                            $(this).parents("li").addClass("current");
-                        });
-
-                        $("div.sidebar > .nav").find("li[class!=submenu] > a")
-                            .each(function () {
-                                    var url = $(this).attr("data-url");
-                                    var f = App.requestMapping[url];
-                                    if (f != undefined) {
-                                        $(this).on("click", function () {
-                                            var title = $(this).attr("data-title");
-                                            $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
-                                            App[f].page(title);
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/index.html#!' + url);
-                                        });
-                                    }
-                                }
-                            );
-                        App.refreshHref();
-                    } else if (result.code === 401) {
-                        alert("token失效,请登录!");
-                        window.location.href = './login.html';
-                    }
-                },
-                error: function (err) {
-                }
-            }
-        );
     }
 
 })(jQuery, window, document);

@@ -65,7 +65,10 @@
         + '<input type="radio" id="${id_}" name="${name_}" value="${value_}">${text_}</label>',
         displayTmpl: '<p class="form-control-static">${text_}</p>',
         buttonTmpl: '<button type="${type_}" class="${class_}" title="${title_}" ${attribute_}>${text_}</button>',
-        tableTmpl: '<table class="table table-striped table-bordered table-hover dataTable no-footer" id="${id_}_table"  aria-describedby="${id_}_info"></table>'
+        tableTmpl: '<table class="table table-striped table-bordered table-hover dataTable no-footer" id="${id_}_table"  aria-describedby="${id_}_info"></table>',
+        alertTmpl: '<div class="alert alert-${type_} alert-dismissable" role="alert">'
+        + '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
+        + '<strong>提示!</strong>${alert_}</div>'
     };
     Grid.prototype = {
         reload: function (options) {
@@ -87,6 +90,24 @@
                 datas.push($(this).data("data"));
             });
             return datas;
+        },
+        alert: function (alertText) {
+            this._alert(alertText, "danger", 5);
+        },
+        _alert: function (alertText, type, seconds) {
+            if (type == undefined) {
+                type = "danger";
+            }
+            if (seconds == undefined) {
+                seconds = 3;
+            }
+            var alertDiv = $.tmpl(Grid.statics.alertTmpl, {
+                "type_": type,
+                "alert_": alertText
+            });
+            this.$element.prepend(alertDiv);
+            alertDiv.delay(seconds * 1000).fadeOut();
+            App.scrollTo(alertDiv, -200);
         },
         // 设置变量
         _setVariable: function (element, options) {
@@ -205,7 +226,7 @@
                         that._setData(data.data);
                         that._init();
                     } else {
-                        alert(data.message);
+                        that._alert(data.message);
                     }
 
                 },

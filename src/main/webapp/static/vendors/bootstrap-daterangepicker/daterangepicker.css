@@ -343,28 +343,6 @@
   border: 1px solid #fff3f7;
   color: #d73c6b;
 }
-.btn-default {
-  color: #333;
-  background-color: #fff;
-  border-color: #ddd;
-}
-.btn-success {
-  color: #fff;
-  background-color: #6887c4;
-  border-color: #6887c4;
-}
-.btn-success:hover{
-  background-color:#c52758;
-  border-color:#c52758;
-}
-.btn-default:hover{
-  background-color:#eaeaea;
-  border-color:#ddd;
-}
-.btn-success[disabled]{
-  background-color: #999;
-  border-color: #999;
-}
 .month select{
   background-color: #fff;
   border: 1px solid #ddd;

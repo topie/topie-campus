@@ -3,8 +3,6 @@
  */
 ;
 (function ($, window, document, undefined) {
-    var that = this;
-    that.uploadUrl = window.App.href + "/api/info/user/uploadExcel";
     /**
      * 功能菜单 对应 当前的唯一别名
      * @type {{/api/sys/user/pageList: string}}
@@ -15,12 +13,12 @@
     /**
      * 加入全局mapping
      */
-    window.App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
+    App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     /**
      * 对应requestMapping值 sysUser page函数为进入页面入口方法
      * @type {{page: App.sysUser.page}}
      */
-    window.App.sysUser = {
+    App.sysUser = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
@@ -146,9 +144,24 @@
                             message: {
                                 email: "请输入正确的邮箱"
                             }
+                        }, {
+                            type: 'tree',//类型
+                            name: 'roles',//name
+                            id: 'roles',//id
+                            label: '角色',//左边label
+                            url: App.href + "/api/sys/role/treeNodes?topie_token=" + App.token,
+                            expandAll: true,
+                            autoParam: ["id", "name", "pId"],
+                            chkStyle: "checkbox",
+                            rule: {
+                                required: true
+                            },
+                            message: {
+                                required: "请选择至少一个角色"
+                            }
                         }]
                     };
-                    var form = modal.$modal.topieForm(formOpts);
+                    var form = modal.$body.topieForm(formOpts);
                     form.loadRemote(App.href + "/api/sys/user/load/" + data.id);
                     modal.show();
                 }
@@ -162,9 +175,9 @@
                 },
                 clsHandle: function (index, data) {
                     if (data.accountNonLocked) {
-                        return "btn-danger btn-sm";
+                        return "btn-warning btn-sm";
                     } else {
-                        return "btn-primary btn-sm";
+                        return "btn-success btn-sm";
                     }
                 },
                 handle: function (index, data) {
@@ -178,6 +191,33 @@
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },
                         dataType: "json",
+                        url: requestUrl,
+                        success: function (data) {
+                            if (data.code === 200) {
+                                grid.reload();
+                            } else {
+                                grid.alert(data.message);
+                            }
+                        },
+                        error: function (e) {
+                            alert("请求异常。");
+                        }
+                    });
+                }
+            }, {
+                text: "删除",
+                cls: "btn-danger btn-sm",
+                handle: function (index, data) {
+                    var requestUrl = App.href + "/api/sys/user/delete";
+                    $.ajax({
+                        type: "POST",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+                        },
+                        dataType: "json",
+                        data: {
+                            userId: data.id
+                        },
                         url: requestUrl,
                         success: function (data) {
                             if (data.code === 200) {
@@ -304,8 +344,8 @@
                                 }
                             }, {
                                 type: 'text',//类型
-                                name: 'contact_mobile',//name
-                                id: 'contact_mobile',//id
+                                name: 'contactPhone',//name
+                                id: 'contactPhone',//id
                                 label: '手机'
                             }, {
                                 type: 'text',//类型
@@ -355,9 +395,25 @@
                                 message: {
                                     required: "请选择"
                                 }
+                            }, {
+                                type: 'tree',//类型
+                                name: 'roles',//name
+                                id: 'roles',//id
+                                label: '角色',//左边label
+                                url: App.href + "/api/sys/role/treeNodes?topie_token=" + App.token,
+                                expandAll: true,
+                                autoParam: ["id", "name", "pId"],
+                                chkStyle: "checkbox",
+                                detail: "如何设置角色?<a target='_blank' href='#!/api/sys/role/pageList'>点击设置</a>",
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请选择至少一个角色"
+                                }
                             }]
                         };
-                        var form = modal.$modal.topieForm(formOpts);
+                        var form = modal.$body.topieForm(formOpts);
                         modal.show();
                     }
                 }

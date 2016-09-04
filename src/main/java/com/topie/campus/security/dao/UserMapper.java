@@ -11,7 +11,11 @@ public interface UserMapper extends Mapper<User> {
 
     User findUserByLoginName(@Param("loginName") String loginName);
 
-    int insertUserRole(int userId, int roleId);
+    int insertUserRole(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
+
+    int deleteUserAllRoles(@Param("userId") Integer userId);
+
+    int deleteUserRole(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
 
     List<Integer> findUserRoleByUserId(int userId);
 
@@ -26,4 +30,5 @@ public interface UserMapper extends Mapper<User> {
     int updateAccountNonLocked(@Param("userId") Integer UserId, @Param("accountNonLocked") Boolean accountNonLocked);
 
     String findLoginNameByUserId(@Param("userId") Integer userId);
+
 }

@@ -7,7 +7,7 @@ CREATE TABLE `sys_function` (
   COMMENT '功能名称',
   `display`       INT(1)       NOT NULL DEFAULT '1'
   COMMENT '是否显示到菜单栏',
-  `state`         INT(1)       NOT NULL DEFAULT 1
+  `state`         INT(1)                DEFAULT '1'
   COMMENT '是否启用，0=不启用，1=启用',
   `icon`          VARCHAR(32)           DEFAULT ''
   COMMENT 'icon',
@@ -27,20 +27,19 @@ CREATE TABLE `sys_function` (
 
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
-  `id`             INT(11)      NOT NULL AUTO_INCREMENT
+  `id`             INT(11)     NOT NULL AUTO_INCREMENT
   COMMENT 'id',
-  `role_name`      VARCHAR(64)  NOT NULL
+  `role_name`      VARCHAR(64) NOT NULL
   COMMENT '角色名称',
-  `default_action` VARCHAR(255) NOT NULL DEFAULT ''
+  `default_action` VARCHAR(255)         DEFAULT ''
   COMMENT '角色默认跳转function(非rest用)',
-  `state`          INT(1)       NOT NULL
+  `state`          INT(1)               DEFAULT '1'
   COMMENT '是否启用，0=不启用，1=启用',
-  `insert_time`    TIMESTAMP             DEFAULT CURRENT_TIMESTAMP
+  `insert_time`    TIMESTAMP            DEFAULT CURRENT_TIMESTAMP
   COMMENT '生成时间',
-  `update_time`    TIMESTAMP             DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `update_time`    TIMESTAMP            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `roleName` (`role_name`) USING BTREE
+  PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -106,6 +105,7 @@ INSERT INTO `sys_function` VALUES ('2', '0', '系统管理', '1', '1', NULL, '#'
 INSERT INTO `sys_function` VALUES ('3', '0', '信息管理', '1', '1', NULL, '#', '3', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('4', '3', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('5', '2', '用户管理', '1', '1', NULL, '/api/sys/user/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('6', '2', '角色管理', '1', '1', NULL, '/api/sys/role/pageList', '1', NULL, NULL);
 
 INSERT INTO `sys_role` VALUES ('1', '管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_role` VALUES ('2', '信息管理员', '/', '1', NULL, NULL);
@@ -115,6 +115,7 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '2');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '4');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '5');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '6');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '4');

@@ -28,7 +28,7 @@
                             window.App.content.find("a[role=template]").click(function () {
                                 window.App.download("/api/info/user/downloadTemplate");
                             });
-                            App.upload.initUpload();
+                            App.upload.initEvents();
                         } else {
                             alert(result.message);
                         }
@@ -37,7 +37,7 @@
             );
         }
     }
-    App.upload.initUpload = function () {
+    App.upload.initEvents = function () {
         var uploadFile = function (fileId) {
             if ($("#" + fileId).val() == "") {
                 alert("请选择上传的文件");

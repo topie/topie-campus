@@ -16,13 +16,15 @@ public interface UserService extends IService<User> {
 
     int updateUser(User user);
 
-    User findUserById(int id);
+    User findUserById(Integer id);
 
     User findUserByLoginName(String loginName);
 
-    int deleteUser(int id);
+    int deleteUser(Integer id);
 
-    int insertUserRole(int userId, int roleId);
+    int insertUserRole(Integer userId, Integer roleId);
+
+    int deleteUserAllRoles(Integer userId);
 
     List<Integer> findUserRoleByUserId(int userId);
 
@@ -37,4 +39,6 @@ public interface UserService extends IService<User> {
     int updateLockStatusByUserId(int userId, Boolean accountNonLocked);
 
     String findLoginNameByUserId(Integer userId);
+
+    int deleteUserRole(Integer userId, Integer roleId);
 }

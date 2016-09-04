@@ -14,19 +14,19 @@ import java.util.*;
  */
 public class OrangeSecurityMetadataSourceImpl implements FilterInvocationSecurityMetadataSource {
 
+    private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
+
+    private static SecurityService securityService;
+
     private AntPathRequestMatcher matcher;
-
-    private Map<String, Collection<ConfigAttribute>> resourceMap;
-
-    private SecurityService securityService;
 
     public OrangeSecurityMetadataSourceImpl(SecurityService securityService) {
         this.securityService = securityService;
-        refreshResourceMap();
+        this.resourceMap = securityService.getDbResourceMap();
     }
 
-    public void refreshResourceMap() {
-        this.resourceMap = securityService.getDbResourceMap();
+    public static void refreshResourceMap() {
+        resourceMap = securityService.getDbResourceMap();
     }
 
     @Override

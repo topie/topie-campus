@@ -46,4 +46,12 @@ public class BasicTest extends Assert {
         }
         System.out.println(redisCache.get("user"));
     }
+
+    @Test
+    public void testDelByPattern() {
+        for (int i = 0; i < 10; i++) {
+            redisCache.set("user" + i, "chen" + i, 1000);
+        }
+        redisCache.delByPattern("user*");
+    }
 }

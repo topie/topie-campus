@@ -8,9 +8,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "sys_user")
 public class User extends Sortable {
+
+    private static final long serialVersionUID = 4973095724072990604L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,25 +47,25 @@ public class User extends Sortable {
     /**
      * 状态，0=冻结，1=正常
      */
-    private Boolean enabled = false;
+    private Boolean enabled;
 
     /**
      * 未锁定状态，0=正常，1=锁定
      */
     @Column(name = "account_non_locked")
-    private Boolean accountNonLocked = true;
+    private Boolean accountNonLocked;
 
     /**
      * 账号过期状态，1=正常，0=过期
      */
     @Column(name = "account_non_expired")
-    private Boolean accountNonExpired = true;
+    private Boolean accountNonExpired;
 
     /**
      * 密码失效状态：1：未失效 0：已失效
      */
     @Column(name = "credentials_non_expired")
-    private Boolean credentialsNonExpired = true;
+    private Boolean credentialsNonExpired;
 
     /**
      * 登陆IP
@@ -105,6 +108,12 @@ public class User extends Sortable {
      */
     @Column(name = "last_password_reset")
     private Date lastPasswordReset;
+
+    /**
+     * 用户roles_id 集合
+     */
+    @Transient
+    private List<Integer> roles;
 
     /**
      * @return id
@@ -360,5 +369,13 @@ public class User extends Sortable {
 
     public void setLastPasswordReset(Date lastPasswordReset) {
         this.lastPasswordReset = lastPasswordReset;
+    }
+
+    public List<Integer> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Integer> roles) {
+        this.roles = roles;
     }
 }

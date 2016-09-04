@@ -1,14 +1,13 @@
 package com.topie.campus.common.handler;
 
-import com.topie.campus.common.utils.HttpResponseUtil;
-
+import com.topie.campus.common.exception.BusinessException;
+import com.topie.campus.common.utils.ResponseUtil;
+import com.topie.campus.common.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,13 +17,16 @@ import javax.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    private final static Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
     @ExceptionHandler(Exception.class)
-    public void handleAllException(HttpServletResponse response, Exception e) {
-        try {
+    @ResponseBody
+    public Result handleAllException(Exception e) {
+        if (e instanceof BusinessException) {
+            logger.error(e.getMessage());
+        } else {
             e.printStackTrace();
-            HttpResponseUtil.writeJson(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        } catch (IOException ioE) {
-            ioE.printStackTrace();
         }
+        return ResponseUtil.error(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
     }
 }

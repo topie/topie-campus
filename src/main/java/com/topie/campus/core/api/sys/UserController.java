@@ -9,7 +9,6 @@ import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
-import com.topie.campus.tools.freemarker.FreeMarkerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,15 +29,11 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private FreeMarkerUtil freeMarkerUtil;
-
-    @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/pageList", method = RequestMethod.GET)
     @ResponseBody
-    public Result users(HttpServletRequest request, User user,
-            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+    public Result users(User user, @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         PageInfo<User> pageInfo = userService.findUserList(pageNum, pageSize, user);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
@@ -73,12 +67,17 @@ public class UserController {
     @ResponseBody
     public Result loadUser(@PathVariable(value = "userId") int userId) {
         User user = userService.findUserById(userId);
+        List roles = userService.findUserRoleByUserId(userId);
+        if (roles != null) user.setRoles(roles);
         return ResponseUtil.success(user);
     }
 
     @RequestMapping(value = "/lock/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Result lock(@PathVariable(value = "userId") int userId) {
+        if (SecurityUtil.getCurrentUserId() == userId) {
+            throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
+        }
         int result = userService.updateLockStatusByUserId(userId, false);
         if (result > 0) {
             return ResponseUtil.success();
@@ -90,6 +89,9 @@ public class UserController {
     @RequestMapping(value = "/unLock/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Result unLock(@PathVariable(value = "userId") int userId) {
+        if (SecurityUtil.getCurrentUserId() == userId) {
+            throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
+        }
         int result = userService.updateLockStatusByUserId(userId, true);
         if (result > 0) {
             return ResponseUtil.success();
@@ -100,19 +102,18 @@ public class UserController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Result delUser(@RequestParam(value = "user_id", required = true) int userId) {
-        if (SecurityUtil.getCurrentSecurityUser().getId() == userId) {
-            throw new AuthBusinessException(AuBzConstant.CANNOT_DEL_CURRENT_USER);
+    public Result delUser(@RequestParam(value = "userId") int userId) {
+        if (SecurityUtil.getCurrentUserId() == userId) {
+            throw new AuthBusinessException(AuBzConstant.CANNOT_CHANGE_CURRENT_USER);
         }
-        userService.delete(userId);
+        userService.deleteUser(userId);
         return ResponseUtil.success();
     }
 
-    @RequestMapping(value = "/roles/{user_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/roles/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result userRoles(@PathVariable(value = "user_id") int userId) {
+    public Result userRoles(@PathVariable(value = "userId") int userId) {
         List roles = userService.findUserRoleByUserId(userId);
         return ResponseUtil.success(roles);
     }
-
 }

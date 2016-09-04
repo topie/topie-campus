@@ -17,6 +17,13 @@ public class SecurityUtil {
         return userName;
     }
 
+    public static Integer getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer userId = null;
+        if (principal instanceof OrangeSecurityUser) userId = ((OrangeSecurityUser) principal).getId();
+        return userId;
+    }
+
     public static OrangeSecurityUser getCurrentSecurityUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof OrangeSecurityUser) return (OrangeSecurityUser) principal;

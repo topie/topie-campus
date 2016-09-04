@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,11 +36,18 @@ public class RedisCache implements IBasicCache<String, Object> {
 
     @Override
     public void del(String key) {
-        redisTemplate.opsForValue().set(key, null);
+        redisTemplate.delete(key);
     }
 
     @Override
     public void expire(String key, int seconds) {
         redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+    }
+
+    public void delByPattern(String pattern) {
+        Set<String> keys = redisTemplate.keys(pattern);
+        for (String key : keys) {
+            del(key);
+        }
     }
 }

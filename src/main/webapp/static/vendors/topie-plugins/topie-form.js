@@ -95,7 +95,10 @@
         sectionTmpl: '<div class="col-md-12"><h3 class="form-section">${title_}</h3></div>',
         labelTmpl: '<label class="control-label ${cls_}">${label_}</label>',
         blockSpanTmpl: '<span class="help-block">${help_}</span>',
-        buttonTmpl: '<button type="${type_}" class="btn ${cls_}" ${attribute_}>${text_}</button>'
+        buttonTmpl: '<button type="${type_}" class="btn ${cls_}" ${attribute_}>${text_}</button>',
+        alertTmpl: '<div class="alert alert-${type_} alert-dismissable" role="alert">'
+        + '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
+        + '<strong>提示!</strong>${alert_}</div>'
     };
     Form.prototype = {
         reload: function (options) {
@@ -145,6 +148,24 @@
         },
         setAction: function (action) {
             this._action = action;
+        },
+        alert: function (alertText) {
+            this._alert(alertText, "danger", 5);
+        },
+        _alert: function (alertText, type, seconds) {
+            if (type == undefined) {
+                type = "danger";
+            }
+            if (seconds == undefined) {
+                seconds = 3;
+            }
+            var alertDiv = $.tmpl(Form.statics.alertTmpl, {
+                "type_": type,
+                "alert_": alertText
+            });
+            this.$element.prepend(alertDiv);
+            alertDiv.delay(seconds * 1000).fadeOut();
+            App.scrollTo(alertDiv,-200);
         },
         _setVariable: function (element, options) {
             this.$element = $(element);
@@ -307,8 +328,9 @@
             var help;
             if (item.detail != undefined) {
                 help = $.tmpl(Form.statics.blockSpanTmpl, {
-                    "help_": item.detail
+                    "help_": ""
                 });
+                help.append(item.detail);
             }
             if (that._labelInline) {
                 var div = $('<div class="col-md-10"></div>');
@@ -758,7 +780,7 @@
                 return ele;
             },
             'files': function (data, form) {
-                var filesTmpl = '<span class="btn btn-info fileinput-button">'
+                var filesTmpl = '<span class="btn btn-success fileinput-button">'
                     + '<span class="glyphicon glyphicon-plus"></span>'
                     + '<span>添加附件... </span>'
                     + '  <input type="file" role="fileuploadInput" id="fileupload_${id_}" name="files[]" multiple="">'
@@ -1067,15 +1089,14 @@
                 + '</td>'
                 + '<td style="width: 50%;vertical-align: middle;border-bottom: 1px solid #ddd;">'
                 + '<p class="name">${fileName_}</p>'
-                + '<p class="size">${fileSize_} KB</p>'
-                + '<p ><span class="progress">0%</span></p>'
+                + '<p class="size">${fileSize_} KB <span class="progress">0%</span></p>'
                 + '</td>'
                 + '<td style="width: 30%;vertical-align: middle;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;">'
-                + '    <button type="button" data-loading-text="上传中..." class="btn btn-primary start">'
+                + '    <button type="button" data-loading-text="上传中..." class="btn btn-primary btn-sm start">'
                 + '       <span class="glyphicon glyphicon-open"></span>'
                 + '       <span>上传</span>'
                 + '    </button>'
-                + '    <button type="button" class="btn btn-warning cancel">'
+                + '    <button type="button" class="btn btn-warning  btn-sm cancel">'
                 + '       <span class="glyphicon glyphicon-remove"></span>'
                 + '       <span >取消</span>' + '    </button>        '
                 + '</td>'
@@ -1189,15 +1210,12 @@
                 + '<td style="width: 20%;">'
                 + '<span class="preview"><img alt="${alt_}" width="46" height="40"></span>'
                 + '</td>'
-                + '<td style="width: 40%;vertical-align: middle;">'
+                + '<td style="width: 50%;vertical-align: middle;border-bottom: 1px solid #ddd;">'
                 + '<p class="name">${fileName_}</p>'
-                + '<p class="size">${fileSize_} KB</p>'
-                + '</td>'
-                + '<td style="width: 10%;vertical-align: middle;">'
-                + '<span class="progress">100%</span>'
+                + '<p class="size">${fileSize_} KB <span class="progress">0%</span></p>'
                 + '</td>'
                 + '<td style="width: 30%;vertical-align: middle;">'
-                + '    <button type="button" class="btn btn-warning cancel">删除</button>        '
+                + '    <button type="button" class="btn btn-warning btn-sm cancel">删除</button>        '
                 + '</td>'
                 + '<input type="hidden" name="' + fieldName + '" value="${fileIds_}" class="att"/>'
                 + '</tr>';
@@ -1335,7 +1353,7 @@
                                 alert("表单提交成功");
                             }
                         } else {
-                            alert(data.message);
+                            that._alert(data.message);
                         }
                     },
                     error: function (data) {
@@ -1358,6 +1376,9 @@
             var ele = this.$form.find("[name='" + name + "']");
             if (ele.is('input[type="text"]')) {
                 if (ele.attr("data-type") == "tree-input") {
+                    if ($.isArray(value)) {
+                        value = value.toString();
+                    }
                     ele.attr("value", value);
                     var tree = $.fn.zTree.getZTreeObj("tree_" + ele.attr("id"));
                     if (tree != undefined) {
@@ -1411,6 +1432,9 @@
             } else if (ele.is('input[type="hidden"]')) {
                 if (value != null && value != "") {
                     if (ele.attr("data-type") == "tree-input") {
+                        if ($.isArray(value)) {
+                            value = value.toString();
+                        }
                         ele.val(value);
                         var tree = $.fn.zTree.getZTreeObj("tree_"
                             + ele.attr("id"));

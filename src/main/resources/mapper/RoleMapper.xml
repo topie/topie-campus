@@ -13,12 +13,29 @@
         <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="pId" jdbcType="INTEGER"/>
+        <result column="role_name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="HasRoleUser" type="com.topie.campus.core.dto.HasRoleUserDto">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+        <result column="display_name" property="displayName" jdbcType="VARCHAR"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, role_name, default_action, state, insert_time, update_time
     </sql>
     <insert id="insertRoleFunction" parameterType="java.lang.Integer">
         insert into sys_role_function (role_id,function_id) values(#{roleId,jdbcType=INTEGER},#{functionId,jdbcType=INTEGER});
     </insert>
+    <delete id="deleteFunctionByRoleId">
+        delete from sys_role_function where role_id=#{roleId}
+    </delete>
+    <delete id="deleteUserRoleRelateByRoleId">
+        delete from sys_user_role where role_id=#{roleId}
+    </delete>
     <select id="findRoleMatchUpFunctions" resultType="java.util.Map">
         select
         f.action as function,r.id as role
@@ -28,5 +45,47 @@
         join sys_function f
         on f.id=rf.function_id
         order by f.function_desc
+    </select>
+    <select id="selectRoleTreeNodes" resultMap="TreeNodeMap">
+        select id,0 parent_id,role_name from sys_role
+        <if test="roleName!=null and roleName!=''">
+            role_name like concat('%',concat(#{roleName},'%'))
+        </if>
+    </select>
+    <select id="findRoleList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                role_name like concat('%',concat(#{roleName}, '%'))
+            </if>
+        </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
+    </select>
+    <select id="findFunctionByRoleId" resultType="java.lang.Integer">
+        select function_id from sys_role_function where role_id=#{roleId}
+    </select>
+    <select id="findHasRoleUserDtoList" resultMap="HasRoleUser">
+        select
+        u.id user_id,u.login_name,u.display_name,ur.role_id
+        from sys_user u
+        left join sys_user_role ur on u.id=ur.user_id
+        <if test="roleId != null">
+            and ur.role_id=#{roleId}
+        </if>
+        <where>
+            <if test="loginName != null and loginName != ''">
+                and u.login_name like concat('%',concat(#{loginName}, '%'))
+            </if>
+            <if test="displayName != null and displayName != ''">
+                and u.display_name like concat('%',concat(#{displayName}, '%'))
+            </if>
+        </where>
+    </select>
+    <select id="findHasRoleUserIdsByRoleId" resultType="java.lang.Integer">
+        select user_id from sys_user_role where role_id=#{roleId}
     </select>
 </mapper>

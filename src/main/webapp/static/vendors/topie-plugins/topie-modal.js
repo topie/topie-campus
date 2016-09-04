@@ -21,11 +21,11 @@
         minHeight: "500px"
     };
     Modal.statics = {
-        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
+        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="border-radius:0;border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
         headerTmpl: '<div id="${id_}head" class="modal-header" style="background-color: ${color_};"></div>',
         closeBtnTmpl: '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>',
         titleTmpl: '<h3 id="${id_}title" class="modal-title" >${title_}</h3>',
-        bodyTmpl: '<div id="${id_}body" class="modal-body"></div>',
+        bodyTmpl: '<div  id="${id_}body" class="modal-body"><div class="panel-body"></div></div>',
         footerTmpl: '<div id="${id_}footer" class="modal-footer"></div>',
         buttonTmpl: '<button type="button" ${attrbute_} class="btn ${cls_}">${text_}</button>'
     };
@@ -121,7 +121,7 @@
                 "id_": that._elementId
             });
             modal.append(body);
-            this.$body = body;
+            this.$body = body.find("div.panel-body");
 
             // footer
             if (this._buttons != undefined) {

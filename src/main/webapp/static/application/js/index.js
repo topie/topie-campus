@@ -4,8 +4,8 @@
 ;
 (function ($, window, document, undefined) {
     $(document).ready(function () {
-        App.initIndex();
-        App.initMenu();
+        initIndex();
+        initMenu();
     });
     var that = this;
     var requestMapping = {
@@ -47,6 +47,7 @@
                 text: '关闭',
                 handle: function () {
                     form.setValue("attachmentIds", 1);
+                    form.setValue("roles", "1,2,3");
                 }
             }],
             buttonsAlign: "center",
@@ -101,8 +102,8 @@
                 }
             }, {
                 type: 'tree',//类型
-                name: 'menuGroupIds',//name
-                id: 'menuGroupIds',//id
+                name: 'roles',//name
+                id: 'roles',//id
                 label: '菜单',//左边label
                 url: App.href + "/api/sys/function/treeNodes?topie_token=" + App.token,
                 data: {},
@@ -161,5 +162,168 @@
             }]
         };
         var form = App.content.find("#index_grid").topieForm(formOpts);
+    }
+
+    function initIndex() {
+        var token = $.cookie('tc_t');
+        if (token == undefined) {
+            window.location.href = './login.html';
+        }
+        App.token = token;
+    }
+
+    function getSubMenu(menus, menuId) {
+        var subMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.parentId == menuId) {
+                subMenus.push(m);
+            }
+        });
+        return subMenus;
+    }
+
+    function getMenu(menus, menuId) {
+        var subMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.id == menuId) {
+                subMenus.push(m);
+            }
+        });
+        return subMenus;
+    }
+
+    function getTopMenu(menus) {
+        var topMenus = [];
+        $.each(menus, function (i, m) {
+            if (m.parentId == 0) {
+                topMenus.push(m);
+            } else {
+                var subMenus = getMenu(menus, m.parentId);
+                if (subMenus.length == 0) {
+                    topMenus.push(m);
+                }
+            }
+        });
+        return topMenus;
+    }
+
+    function recursionMenu(ele, menus, subMenus) {
+        if (subMenus.length > 0) {
+            ele += "<ul>";
+            $.each(subMenus, function (i, m) {
+                ele += ('<li data-level="sub">'
+                + '<a data-url="' + m.action
+                + '" data-title="' + m.functionName
+                + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
+                + m.functionName
+                + '</a>');
+                var sMenus = getSubMenu(menus, m.id);
+                ele += '</li>';
+            });
+            ele += "</ul>";
+        }
+        return ele;
+    }
+
+    function initMenu() {
+        $.ajax(
+            {
+                type: 'GET',
+                url: "../api/sys/function/current",
+                contentType: "application/json",
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-Auth-Token", App.token);
+                },
+                success: function (result) {
+                    if (result.code === 200) {
+                        var menus = result.data;
+                        var topMenus = getTopMenu(menus);
+                        $.each(topMenus, function (i, m) {
+                            if (m.parentId == 0) {
+                                var ele = '<li data-level="top">'
+                                    + '<a data-url="' + m.action
+                                    + '" data-title="' + m.functionName
+                                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
+                                    + m.functionName
+                                    + '</a>';
+                                var subMenus = getSubMenu(menus, m.id);
+                                if (subMenus.length > 0) {
+                                    ele = recursionMenu(ele, menus, subMenus);
+                                }
+                                ele += '</li>';
+                                var li = $(ele);
+                                li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
+                                $("div.sidebar > .nav").append(li);
+                            }
+                        });
+                        $("div.sidebar > .nav").find("li.submenu > a").click(function (e) {
+                            e.preventDefault();
+                            var $li = $(this).parent("li");
+                            var $ul = $(this).next("ul");
+                            if ($li.hasClass("open")) {
+                                $ul.slideUp(150);
+                                $li.removeClass("open");
+                            } else {
+                                if ($li.parent("ul").hasClass("nav")) {
+                                    $(".nav > li > ul").slideUp(150);
+                                    $(".nav > li").removeClass("open");
+                                }
+                                $ul.slideDown(150);
+                                $li.addClass("open");
+                            }
+                        });
+
+                        $("div.sidebar > .nav").find("li[class!=submenu] > a").click(function (e) {
+                            e.preventDefault();
+                            var $li = $(this).parent("li");
+                            if ($li.parent("ul").hasClass("nav")) {
+                                $(".nav > li > ul").slideUp(150);
+                                $(".nav > li").removeClass("open");
+                            }
+                            $("div.sidebar > .nav").find("li.current").removeClass("current");
+                            $(this).parents("li").addClass("current");
+                        });
+
+                        $("div.sidebar > .nav").find("li[class!=submenu] > a")
+                            .each(function () {
+                                    var url = $(this).attr("data-url");
+                                    var f = App.requestMapping[url];
+                                    if (f != undefined) {
+                                        $(this).on("click", function () {
+                                            var title = $(this).attr("data-title");
+                                            $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
+                                            App[f].page(title);
+                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/index.html#!' + url);
+                                        });
+                                    }
+                                }
+                            );
+                        refreshHref();
+                    } else if (result.code === 401) {
+                        alert("token失效,请登录!");
+                        window.location.href = './login.html';
+                    }
+                },
+                error: function (err) {
+                }
+            }
+        );
+    }
+
+    /**
+     * 完成后执行
+     */
+    var refreshHref = function () {
+        var location = window.location.href;
+        var url = location.substring(location.lastIndexOf("#!") + 2);
+        if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
+            $('a[data-url="' + url + '"]').trigger("click");
+        } else {
+            window.location.href = window.location.href + "#!/api/index";
+            url = "/api/index";
+            $('a[data-url="' + url + '"]').trigger("click");
+        }
+
     }
 })(jQuery, window, document);

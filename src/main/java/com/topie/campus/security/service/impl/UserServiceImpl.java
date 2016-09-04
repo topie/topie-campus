@@ -5,10 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.User;
+import com.topie.campus.security.security.OrangeSecurityMetadataSourceImpl;
 import com.topie.campus.security.security.OrangeSideUserCache;
+import com.topie.campus.security.service.RoleService;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.vo.FunctionVO;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +28,22 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     UserMapper userMapper;
 
     @Autowired
+    RoleService roleService;
+
+    @Autowired
     OrangeSideUserCache orangeSideUserCache;
 
     @Override
     public int insertUser(User user) {
         user.setPassword(SecurityUtil.encodeString(user.getPassword()));
-        return getMapper().insertSelective(user);
+        int result = getMapper().insertSelective(user);
+        if (CollectionUtils.isNotEmpty(user.getRoles())) {
+            deleteUserAllRoles(user.getId());
+            for (Integer roleId : user.getRoles()) {
+                insertUserRole(user.getId(), roleId);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -38,11 +51,22 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         if (StringUtils.isNotEmpty(user.getPassword())) {
             user.setPassword(SecurityUtil.encodeString(user.getPassword()));
         }
-        return getMapper().updateByPrimaryKeySelective(user);
+        int result = getMapper().updateByPrimaryKeySelective(user);
+        if (CollectionUtils.isNotEmpty(user.getRoles())) {
+            deleteUserAllRoles(user.getId());
+            for (Integer roleId : user.getRoles()) {
+                insertUserRole(user.getId(), roleId);
+            }
+        }
+        if (result > 0) {
+            orangeSideUserCache.removeUserFromCacheByUserId(user.getId());
+            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
+        }
+        return result;
     }
 
     @Override
-    public User findUserById(int id) {
+    public User findUserById(Integer id) {
         return getMapper().selectByPrimaryKey(id);
     }
 
@@ -52,13 +76,21 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public int deleteUser(int id) {
-        return getMapper().deleteByPrimaryKey(id);
+    public int deleteUser(Integer id) {
+        int result = getMapper().deleteByPrimaryKey(id);
+        if (result > 0) {
+            deleteUserAllRoles(id);
+        }
+        return result;
     }
 
     @Override
-    public int insertUserRole(int userId, int roleId) {
-        return userMapper.insertUserRole(userId, roleId);
+    public int insertUserRole(Integer userId, Integer roleId) {
+        int result = userMapper.insertUserRole(userId, roleId);
+        if (result > 0) {
+            orangeSideUserCache.removeUserFromCacheByUserId(userId);
+        }
+        return result;
     }
 
     @Override
@@ -101,5 +133,23 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public String findLoginNameByUserId(Integer userId) {
         return userMapper.findLoginNameByUserId(userId);
+    }
+
+    @Override
+    public int deleteUserAllRoles(Integer userId) {
+        int result = userMapper.deleteUserAllRoles(userId);
+        if (result > 0) {
+            orangeSideUserCache.removeUserFromCacheByUserId(userId);
+        }
+        return result;
+    }
+
+    @Override
+    public int deleteUserRole(Integer userId, Integer roleId) {
+        int result = userMapper.deleteUserRole(userId, roleId);
+        if (result > 0) {
+            orangeSideUserCache.removeUserFromCacheByUserId(userId);
+        }
+        return result;
     }
 }
