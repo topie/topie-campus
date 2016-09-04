@@ -16,8 +16,9 @@ none auth : redis-cli -a {redis password} keys "*" | grep topie_ | xargs redis-c
 
 ```
 **Redis-server** is required! 
-Start the redis server and configure **config/properties/redis.properties** !
+Start redis server and edit **config/properties/redis.properties** !
 
+Edit **/static/application/js/app.js** and set your projectName!
 ###Start the project and enjoy it!
 
 2 Build-in user:

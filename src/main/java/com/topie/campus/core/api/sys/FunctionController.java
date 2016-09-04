@@ -1,6 +1,8 @@
 package com.topie.campus.core.api.sys;
 
+import com.github.pagehelper.PageInfo;
 import com.topie.campus.common.TreeNode;
+import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.security.SecurityConstant;
@@ -15,9 +17,7 @@ import com.topie.campus.tools.redis.RedisCache;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +36,43 @@ public class FunctionController {
 
     @Autowired
     RedisCache redisCache;
+
+    @RequestMapping(value = "/pageList", method = RequestMethod.GET)
+    @ResponseBody
+    public Result functions(Function function,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        PageInfo<Function> pageInfo = functionService.findFunctionList(pageNum, pageSize, function);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    @ResponseBody
+    public Result insertFunction(Function function) {
+        int result = functionService.insertFunction(function);
+        return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateFunction(Function function) {
+        functionService.updateFunction(function);
+        return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/load/{functionId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result loadFunction(@PathVariable(value = "functionId") Integer functionId) {
+        Function function = functionService.findFunctionById(functionId);
+        return ResponseUtil.success(function);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result delete(@RequestParam(value = "functionId") Integer functionId) {
+        functionService.deleteFunctionById(functionId);
+        return ResponseUtil.success();
+    }
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody

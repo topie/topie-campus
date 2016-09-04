@@ -9,7 +9,7 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="function_name" property="functionName" jdbcType="VARCHAR"/>
-        <result column="display" property="display" jdbcType="INTEGER"/>
+        <result column="display" property="display" jdbcType="BIT"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="action" property="action" jdbcType="VARCHAR"/>
@@ -22,13 +22,38 @@
         <result column="parent_id" property="pId" jdbcType="INTEGER"/>
         <result column="function_name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, function_name, display, state, icon, action, function_desc, insert_time, update_time
+    </sql>
     <select id="selectFunctionTreeNodes" resultMap="TreeNodeMap">
         select id,parent_id,function_name from sys_function
         <where>
             <if test="functionName!=null and functionName!=''">
                 function_name like concat('%',concat(#{functionName},'%'))
             </if>
+            <if test="display!=null">
+                display = #{display}
+            </if>
         </where>
+    </select>
+    <select id="findFunctionList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_function
+        <where>
+            <if test="parentId!=null">
+                parent_id = #{parentId}
+            </if>
+            <if test="display!=null">
+                display = #{display}
+            </if>
+            <if test="functionName!=null and functionName!=''">
+                function_name like concat('%',concat(#{functionName},'%'))
+            </if>
+        </where>
+        <if test="sort_ != null and sort_ != ''">
+            ${sort_}
+        </if>
     </select>
 
 </mapper>

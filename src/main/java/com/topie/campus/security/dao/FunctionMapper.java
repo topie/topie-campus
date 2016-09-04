@@ -9,4 +9,6 @@ import java.util.List;
 public interface FunctionMapper extends Mapper<Function> {
 
     public List<TreeNode> selectFunctionTreeNodes(Function function);
+
+    List<Function> findFunctionList(Function function);
 }

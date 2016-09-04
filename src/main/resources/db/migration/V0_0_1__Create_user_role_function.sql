@@ -102,30 +102,26 @@ CREATE TABLE `sys_user_role` (
   DEFAULT CHARSET = utf8;
 INSERT INTO `sys_function` VALUES ('1', '0', '首页', '1', '1', "glyphicon glyphicon-home", '/api/index', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('2', '0', '系统管理', '1', '1', NULL, '#', '2', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('3', '0', '信息管理', '1', '1', NULL, '#', '3', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('4', '3', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('5', '2', '用户管理', '1', '1', NULL, '/api/sys/user/pageList', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('6', '2', '角色管理', '1', '1', NULL, '/api/sys/role/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('3', '2', '用户管理', '1', '1', NULL, '/api/sys/user/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('4', '2', '角色管理', '1', '1', NULL, '/api/sys/role/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('5', '2', '菜单管理', '1', '1', NULL, '/api/sys/function/pageList', '1', NULL, NULL);
 
 INSERT INTO `sys_role` VALUES ('1', '管理员', '/', '1', NULL, NULL);
-INSERT INTO `sys_role` VALUES ('2', '信息管理员', '/', '1', NULL, NULL);
+INSERT INTO `sys_role` VALUES ('2', '普通用户', '/', '1', NULL, NULL);
 
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '2');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '4');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '5');
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '6');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '1');
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '3');
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '4');
 
 INSERT INTO `sys_user` VALUES
-  ('1', 'admin', '$2a$10$oWaepJdwE7OjANCEEuQCW.aSxzOCZTsJglNcDpi8cnGXRLRppNZKG', 'admin', '1', '1',
+  ('1', 'admin', '$2a$10$oWaepJdwE7OjANCEEuQCW.aSxzOCZTsJglNcDpi8cnGXRLRppNZKG', '系统管理员', '1', '1',
         '1', '1', NULL, NULL, '597160667@qq.com', '18600200791', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `sys_user` VALUES
-  ('2', 'info', '$2a$10$Yf1GtWji0EfTtgZqXXUE/u.0yorIMF5j3GIG1OF6EwmJfuxw5rM.C', 'info', '1', '1',
+  ('2', 'user', '$2a$10$cQ/pNK.KzrjjQM0I/dRa1Owmuxb4P6NqMNp1Fs7VethhJq9F/W3L6', '普通用户', '1', '1',
         '1', '1', NULL, NULL, '18600200791@163.com', '18600200791', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 

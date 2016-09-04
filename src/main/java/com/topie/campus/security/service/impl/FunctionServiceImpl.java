@@ -1,5 +1,7 @@
 package com.topie.campus.security.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.dao.FunctionMapper;
@@ -21,16 +23,16 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
 
     @Override
     public int insertFunction(Function function) {
-        return getMapper().insert(function);
+        return getMapper().insertSelective(function);
     }
 
     @Override
     public int updateFunction(Function function) {
-        return getMapper().updateByPrimaryKey(function);
+        return getMapper().updateByPrimaryKeySelective(function);
     }
 
     @Override
-    public Function findFuntionById(int id) {
+    public Function findFunctionById(int id) {
         return getMapper().selectByPrimaryKey(id);
     }
 
@@ -42,5 +44,13 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
     @Override
     public List<TreeNode> getFunctionTreeNodes(Function function) {
         return functionMapper.selectFunctionTreeNodes(function);
+    }
+
+    @Override
+    public PageInfo<Function> findFunctionList(int pageNum, int pageSize, Function function) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Function> list = functionMapper.findFunctionList(function);
+        PageInfo<Function> page = new PageInfo<Function>(list);
+        return page;
     }
 }

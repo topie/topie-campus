@@ -1,15 +1,15 @@
 package com.topie.campus.security.model;
 
+import com.topie.campus.common.handler.Sortable;
+
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Table(name = "sys_function")
-public class Function {
+public class Function extends Sortable {
+
+    private static final long serialVersionUID = -3601166032902209525L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,7 +29,7 @@ public class Function {
     /**
      * 是否显示到菜单栏
      */
-    private Integer display;
+    private Boolean display;
 
     /**
      * 是否启用，0=不启用，1=启用
@@ -119,7 +119,7 @@ public class Function {
      *
      * @return display - 是否显示到菜单栏
      */
-    public Integer getDisplay() {
+    public Boolean getDisplay() {
         return display;
     }
 
@@ -128,7 +128,8 @@ public class Function {
      *
      * @param display 是否显示到菜单栏
      */
-    public void setDisplay(Integer display) {
+
+    public void setDisplay(Boolean display) {
         this.display = display;
     }
 
