@@ -33,9 +33,16 @@ public class UserController {
 
     @RequestMapping(value = "/pageList", method = RequestMethod.GET)
     @ResponseBody
-    public Result users(User user, @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+    public Result users(User user, @RequestParam(value = "roleId", required = false) Integer roleId,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
-        PageInfo<User> pageInfo = userService.findUserList(pageNum, pageSize, user);
+        PageInfo<User> pageInfo;
+        if (roleId != null) {
+            pageInfo = userService.findUserListByRoleId(pageNum, pageSize, user, roleId);
+        } else {
+            pageInfo = userService.findUserList(pageNum, pageSize, user);
+        }
+
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 

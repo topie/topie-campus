@@ -1,7 +1,7 @@
 package com.topie.campus.security.dao;
 
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.model.User;
-import com.topie.campus.security.vo.FunctionVO;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -23,7 +23,7 @@ public interface UserMapper extends Mapper<User> {
 
     int findExistUser(User user);
 
-    List<FunctionVO> findUserFunction(@Param("loginName") String loginName);
+    List<TreeNode> findUserFunctionByLoginName(@Param("loginName") String loginName);
 
     int countByLoginName(@Param("loginName") String loginName);
 
@@ -31,4 +31,5 @@ public interface UserMapper extends Mapper<User> {
 
     String findLoginNameByUserId(@Param("userId") Integer userId);
 
+    List<User> findUserListByRoleId(@Param("user") User user, @Param("roleId") Integer roleId);
 }

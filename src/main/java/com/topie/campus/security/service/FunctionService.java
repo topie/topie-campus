@@ -23,4 +23,5 @@ public interface FunctionService extends IService<Function> {
     List<TreeNode> getFunctionTreeNodes(Function function);
 
     PageInfo<Function> findFunctionList(int pageNum, int pageSize, Function function);
+
 }

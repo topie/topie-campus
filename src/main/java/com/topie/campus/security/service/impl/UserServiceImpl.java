@@ -3,6 +3,7 @@ package com.topie.campus.security.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.security.OrangeSecurityMetadataSourceImpl;
@@ -10,7 +11,6 @@ import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.service.RoleService;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
-import com.topie.campus.security.vo.FunctionVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,8 +112,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
-    public List<FunctionVO> findUserFunctionByLoginName(String loginName) {
-        return userMapper.findUserFunction(loginName);
+    public List<TreeNode> findUserFunctionByLoginName(String loginName) {
+        return userMapper.findUserFunctionByLoginName(loginName);
     }
 
     @Override
@@ -151,5 +151,13 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
         }
         return result;
+    }
+
+    @Override
+    public PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, Integer roleId) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> list = userMapper.findUserListByRoleId(user,roleId);
+        PageInfo<User> page = new PageInfo<User>(list);
+        return page;
     }
 }

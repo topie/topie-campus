@@ -34,6 +34,8 @@ public interface RoleService extends IService<Role> {
 
     PageInfo<Role> findRoleList(int pageNum, int pageSize, Role role);
 
+    List<Role> findRoleList(Role role);
+
     List<Integer> findHasRoleUserIdsByRoleId(Integer roleId);
 
     PageInfo<HasRoleUserDto> findHasRoleUserDtoListByRoleId(int pageNum, int pageSize, HasRoleUserDto hasRoleUserDto);

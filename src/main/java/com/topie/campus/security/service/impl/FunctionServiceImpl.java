@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.dao.FunctionMapper;
+import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.Function;
 import com.topie.campus.security.service.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
 
     @Autowired
     private FunctionMapper functionMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public int insertFunction(Function function) {
@@ -53,4 +57,5 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
         PageInfo<Function> page = new PageInfo<Function>(list);
         return page;
     }
+
 }

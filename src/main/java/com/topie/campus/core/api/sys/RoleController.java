@@ -1,6 +1,7 @@
 package com.topie.campus.core.api.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.Option;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,8 +100,20 @@ public class RoleController {
     @ResponseBody
     public Result cancelUser(@RequestParam(value = "roleId") Integer roleId,
             @RequestParam(value = "userId") Integer userId) {
-        userService.deleteUserRole(userId,roleId);
+        userService.deleteUserRole(userId, roleId);
         return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/options", method = RequestMethod.GET)
+    @ResponseBody
+    public Result options() {
+        List<Role> list = roleService.findRoleList(null);
+        List<Option> options = new ArrayList<>();
+        for (Role role : list) {
+            Option option = new Option(role.getRoleName(), role.getId());
+            options.add(option);
+        }
+        return ResponseUtil.success(options);
     }
 
 }

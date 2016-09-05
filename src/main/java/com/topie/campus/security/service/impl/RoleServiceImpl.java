@@ -102,6 +102,11 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     }
 
     @Override
+    public List<Role> findRoleList(Role role) {
+        return roleMapper.findRoleList(role);
+    }
+
+    @Override
     public int deleteFunctionByRoleId(Integer roleId) {
         return roleMapper.deleteFunctionByRoleId(roleId);
     }

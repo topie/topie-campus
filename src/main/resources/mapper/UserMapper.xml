@@ -45,15 +45,13 @@
 
     </resultMap>
 
-    <resultMap id="FunctionVoMap" type="com.topie.campus.security.vo.FunctionVO">
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
-        <id column="function_name" property="functionName" jdbcType="VARCHAR"/>
-        <id column="icon" property="icon" jdbcType="VARCHAR"/>
-        <id column="action" property="action" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="pId" jdbcType="INTEGER"/>
+        <result column="function_name" property="name" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="action" property="url" jdbcType="VARCHAR"/>
     </resultMap>
-
-
     <sql id="Base_Column_List">
         <!--
           WARNING - @mbggenerated
@@ -122,18 +120,45 @@
             </if>
         </where>
     </select>
-    <select id="findUserFunction" resultMap="FunctionVoMap">
+    <select id="findUserFunctionByLoginName" resultMap="TreeNodeMap">
         select distinct f.id,f.parent_id,f.function_name,f.icon,f.`action`
         from topie_campus.sys_user u left join topie_campus.sys_user_role ur
         on u.id = ur.user_id left join topie_campus.sys_role_function rf
         on ur.role_id=rf.role_id left join topie_campus.sys_function f
         on rf.function_id = f.id
-        where u.login_name = #{loginName} and f.display=1
+        where
+        u.login_name = #{loginName}
+        and f.display=1
     </select>
     <select id="countByLoginName" resultType="java.lang.Integer">
         select count(1) from sys_user where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
     <select id="findLoginNameByUserId" resultType="java.lang.String">
         select login_name from sys_user where id=#{userId}
+    </select>
+    <select id="findUserListByRoleId" resultMap="BaseResultMap">
+        select
+        u.id, u.login_name, u.password, u.display_name, u.enabled, u.account_non_locked, u.account_non_expired,
+        u.credentials_non_expired, u.last_login_ip, u.last_login_time, u.email, u.contact_phone, u.insert_time,
+        u.update_time,u.last_password_reset
+        from sys_user u inner join sys_user_role ur
+        on u.id = ur.user_id and ur.role_id=#{roleId}
+        <where>
+            <if test="user.displayName != null and user.displayName != ''">
+                u.display_name like concat('%',concat(#{user.displayName}, '%'))
+            </if>
+            <if test="user.loginName != null and user.loginName != ''">
+                and u.login_name like concat('%',concat(#{user.loginName}, '%'))
+            </if>
+            <if test="user.email != null and user.email != ''">
+                and u.email like concat('%',concat(#{user.email}, '%'))
+            </if>
+            <if test="user.contactPhone != null and user.contactPhone != ''">
+                and u.contact_phone like concat('%',concat(#{user.contactPhone}, '%'))
+            </if>
+        </where>
+        <if test="user.sort_ != null and user.sort_ != ''">
+            ${user.sort_}
+        </if>
     </select>
 </mapper>

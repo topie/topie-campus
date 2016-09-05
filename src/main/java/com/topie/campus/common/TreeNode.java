@@ -1,21 +1,51 @@
 package com.topie.campus.common;
 
+import java.io.Serializable;
+
 /**
  * Created by cgj on 2015/11/23.
  */
-public class TreeNode {
+public class TreeNode implements Serializable {
+
+    private static final long serialVersionUID = -5642499451755338385L;
+
     private int id;
+
     private int pId;
+
     private String name;
+
     private boolean checked;
+
     private boolean open;
-    
+
+    private String icon;
+
+    private String url;
+
     private String type;
 
     private int i;
+
     private String s;
+
     private boolean b;
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public int getId() {
         return id;
@@ -81,13 +111,12 @@ public class TreeNode {
         this.b = b;
     }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
-    
-    
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

@@ -946,7 +946,7 @@
                 } : data.beforeCheck;
                 var setting = {
                     check: {
-                        enable: true,
+                        enable: (data.checkable==undefined?true:data.checkable),
                         chkStyle: data.chkStyle,
                         radioType: "all",
                         chkboxType: chkboxType

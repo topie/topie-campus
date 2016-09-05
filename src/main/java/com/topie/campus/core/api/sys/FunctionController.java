@@ -12,11 +12,10 @@ import com.topie.campus.security.model.Function;
 import com.topie.campus.security.service.FunctionService;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
-import com.topie.campus.security.vo.FunctionVO;
 import com.topie.campus.tools.redis.RedisCache;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -77,15 +76,15 @@ public class FunctionController {
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
     public Result myFunction() {
-        String currentLoginName = SecurityUtil.getCurrentUserName();
-        if (StringUtils.isEmpty(currentLoginName)) {
+        String currentUserName = SecurityUtil.getCurrentUserName();
+        if (StringUtils.isEmpty(currentUserName)) {
             throw new AuthBusinessException(AuBzConstant.IS_NOT_LOGIN);
         }
-        List<FunctionVO> function = (List<FunctionVO>) redisCache
-                .get(SecurityConstant.FUNCTION_CACHE_PREFIX + currentLoginName);
+        List<TreeNode> function = (List<TreeNode>) redisCache
+                .get(SecurityConstant.FUNCTION_CACHE_PREFIX + currentUserName);
         if (function == null) {
-            function = userService.findUserFunctionByLoginName(currentLoginName);
-            redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + currentLoginName, function);
+            function = userService.findUserFunctionByLoginName(currentUserName);
+            redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + currentUserName, function);
         }
         return ResponseUtil.success(function);
     }
@@ -95,6 +94,13 @@ public class FunctionController {
     public Object treeNodes(Function function) {
         List<TreeNode> list = functionService.getFunctionTreeNodes(function);
         return list;
+    }
+
+    @RequestMapping(value = "/userTreeNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public Object treeNodes(@RequestParam(value = "userName") String userName) {
+        List<TreeNode> function = userService.findUserFunctionByLoginName(userName);
+        return function;
     }
 
 }

@@ -399,10 +399,11 @@
                                 if (item.itemsUrl != undefined) {
                                     $
                                         .ajax({
-                                            type: "POST",
+                                            type: (item.method == undefined ? "GET" : item.type),
                                             dataType: "json",
                                             url: item.itemsUrl,
                                             success: function (data) {
+                                                data = data.data;
                                                 $
                                                     .each(
                                                         data,

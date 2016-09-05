@@ -1,9 +1,9 @@
 package com.topie.campus.security.security;
 
 import com.topie.campus.common.IBasicCache;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.service.UserService;
-import com.topie.campus.security.vo.FunctionVO;
 import com.topie.campus.tools.redis.RedisCache;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.userdetails.UserCache;
@@ -52,7 +52,7 @@ public class OrangeSideUserCache implements UserCache, InitializingBean {
     @Override
     public void putUserInCache(UserDetails user) {
         cache.set(SecurityConstant.USER_CACHE_PREFIX + user.getUsername(), user);
-        List<FunctionVO> function = userService.findUserFunctionByLoginName(user.getUsername());
+        List<TreeNode> function = userService.findUserFunctionByLoginName(user.getUsername());
         redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + user.getUsername(), function);
     }
 

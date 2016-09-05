@@ -205,6 +205,49 @@
                     });
                 }
             }, {
+                text: "菜单",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                    var modal = $.topieModal({
+                        id: "userForm",
+                        title: "用户菜单预览",
+                        destroy: true
+                    });
+                    var formOpts = {
+                        id: "function_preview",//表单id
+                        name: "function_preview",//表单名
+                        method: "POST",//表单method
+                        showSubmit: false,
+                        showReset: false,//是否显示重置按钮
+                        buttons: [{
+                            type: 'button',
+                            text: '刷新缓存',
+                            handle: function () {
+                                modal.hide();
+                            }
+                        }, {
+                            type: 'button',
+                            text: '关闭',
+                            handle: function () {
+                                modal.hide();
+                            }
+                        }],
+                        buttonsAlign: "center",
+                        items: [{
+                            type: 'tree',//类型
+                            name: 'roles',//name
+                            id: 'roles',//id
+                            label: '用户菜单预览',//左边label
+                            url: App.href + "/api/sys/function/userTreeNodes?topie_token=" + App.token + "&userName=" + data.loginName,
+                            expandAll: true,
+                            autoParam: ["id", "name", "pId"],
+                            checkable: false
+                        }]
+                    };
+                    var form = modal.$body.topieForm(formOpts);
+                    modal.show();
+                }
+            }, {
                 text: "删除",
                 cls: "btn-danger btn-sm",
                 handle: function (index, data) {
@@ -421,17 +464,30 @@
             search: {
                 rowEleNum: 2,
                 //搜索栏元素
-                items: [{
-                    type: "text",
-                    label: "登录名",
-                    name: "loginName",
-                    placeholder: "输入要搜索的登录名"
-                }, {
-                    type: "text",
-                    label: "昵称",
-                    name: "displayName",
-                    placeholder: "输入要搜索的昵称"
-                }]
+                items: [
+                    {
+                        type: "select",
+                        label: "角色",
+                        name: "roleId",
+                        items: [
+                            {
+                                text: "请选择角色",
+                                value: ""
+                            }
+                        ],
+                        itemsUrl: App.href + "/api/sys/role/options?topie_token=" + App.token
+                    }, {
+                        type: "text",
+                        label: "登录名",
+                        name: "loginName",
+                        placeholder: "输入要搜索的登录名"
+                    }, {
+                        type: "text",
+                        label: "昵称",
+                        name: "displayName",
+                        placeholder: "输入要搜索的昵称"
+                    }
+                ]
             }
         };
         grid = window.App.content.find("#user_grid").topieGrid(options);

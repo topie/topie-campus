@@ -2,8 +2,8 @@ package com.topie.campus.security.service;
 
 import com.github.pagehelper.PageInfo;
 import com.topie.campus.basedao.service.IService;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.security.model.User;
-import com.topie.campus.security.vo.FunctionVO;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface UserService extends IService<User> {
 
     int findExistUser(User user);
 
-    List<FunctionVO> findUserFunctionByLoginName(String loginName);
+    List<TreeNode> findUserFunctionByLoginName(String loginName);
 
     int countByLoginName(String loginName);
 
@@ -41,4 +41,6 @@ public interface UserService extends IService<User> {
     String findLoginNameByUserId(Integer userId);
 
     int deleteUserRole(Integer userId, Integer roleId);
+
+    PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, Integer roleId);
 }
