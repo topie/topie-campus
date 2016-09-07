@@ -1,7 +1,7 @@
 package com.topie.campus.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.topie.campus.common.handler.Sortable;
+import com.topie.campus.common.Sortable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 

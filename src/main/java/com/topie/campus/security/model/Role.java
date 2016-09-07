@@ -1,6 +1,6 @@
 package com.topie.campus.security.model;
 
-import com.topie.campus.common.handler.Sortable;
+import com.topie.campus.common.Sortable;
 
 import javax.persistence.*;
 import java.util.Date;

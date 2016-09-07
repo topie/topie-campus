@@ -1,23 +1,10 @@
 DROP TABLE IF EXISTS `t_info_basic`;
 CREATE TABLE `t_info_basic` (
-  `user_id`      INT(11)     NOT NULL DEFAULT 0
+  `user_id`   INT(11)    NOT NULL DEFAULT 0
   COMMENT '用户id',
-  `user_name`    VARCHAR(64)          DEFAULT ''
-  COMMENT '用户名称',
-  `user_type`    TINYINT(1)  NOT NULL DEFAULT 0
+  `user_type` TINYINT(1) NOT NULL DEFAULT 0
   COMMENT '用户类型 0 学生 1 老师 2 领导 3 其他',
-  `user_code`    VARCHAR(32) NOT NULL
-  COMMENT '用户唯一编码',
-  `mobile_phone` VARCHAR(32)          DEFAULT ''
-  COMMENT '手机',
-  `gender`       TINYINT(1)           DEFAULT 1
-  COMMENT '性别:0 女 1 男',
-  `birth`        DATE
-  COMMENT '出生日期',
-  `intro`        VARCHAR(255)         DEFAULT ''
-  COMMENT '个人简介',
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY (`user_code`)
+  PRIMARY KEY (`user_id`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '基本信息';
@@ -112,3 +99,89 @@ CREATE TABLE `t_relate_student_teacher` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '学生老师关联表';
+DROP TABLE IF EXISTS `t_teacher`;
+CREATE TABLE `t_teacher` (
+  `id`                          INT(11)     NOT NULL          AUTO_INCREMENT
+  COMMENT 'ID',
+  `user_id`                     INT(11)     NOT NULL
+  COMMENT '平台用户id',
+  `employee_no`                 VARCHAR(32) NOT NULL
+  COMMENT '职工号',
+  `name`                        VARCHAR(64) NOT NULL          DEFAULT ''
+  COMMENT '姓名',
+  `gender`                      TINYINT(1)  NOT NULL          DEFAULT 1
+  COMMENT '性别:0 女 1 男',
+  `ethnic_group`                SMALLINT(2)                   DEFAULT 0
+  COMMENT '民族',
+  `birth`                       DATE
+  COMMENT '出生日期',
+  `political_status`            TINYINT(1)                    DEFAULT 0
+  COMMENT '政治面貌',
+  `academe`                     VARCHAR(64)                   DEFAULT ''
+  COMMENT '学院',
+  `department`                  VARCHAR(64)                   DEFAULT ''
+  COMMENT '系(所)',
+  `contact_phone`               VARCHAR(32)                   DEFAULT ''
+  COMMENT '联系电话',
+  `email`                       VARCHAR(64)                   DEFAULT ''
+  COMMENT '邮箱',
+  `graduated_university`        VARCHAR(64)                   DEFAULT ''
+  COMMENT '毕业院校',
+  `graduated_major`             VARCHAR(64)                   DEFAULT ''
+  COMMENT '毕业专业',
+  `education_background`        SMALLINT                      DEFAULT 0
+  COMMENT '学历',
+  `degree`                      SMALLINT                      DEFAULT 0
+  COMMENT '学位',
+  `professional_title`          VARCHAR(64)                   DEFAULT ''
+  COMMENT '职称',
+  `professional_position`       VARCHAR(64)                   DEFAULT ''
+  COMMENT '职务',
+  `subject_direction`           VARCHAR(64)                   DEFAULT ''
+  COMMENT '学科方向',
+  `teacher_certificate_no`      VARCHAR(32)                   DEFAULT ''
+  COMMENT '教师资格证号',
+  `main_teacher_certificate_no` VARCHAR(32)                   DEFAULT ''
+  COMMENT '主讲教师资格证号',
+  `staff_no`                    VARCHAR(32)                   DEFAULT ''
+  COMMENT '人事职工号',
+  `is_lab_staff`                TINYINT(1)                    DEFAULT 0
+  COMMENT '是否实验室人员 0：否 1：是',
+  `teach_quality_comment`       TEXT COMMENT '教学质量评价',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`user_id`),
+  UNIQUE KEY (`employee_no`)
+)
+  DEFAULT CHARSET = utf8
+  COMMENT '老师信息表';
+DROP TABLE IF EXISTS `t_student`;
+CREATE TABLE `t_student` (
+  `id`               INT(11)     NOT NULL          AUTO_INCREMENT
+  COMMENT 'ID',
+  `user_id`          INT(11)     NOT NULL
+  COMMENT '平台用户id',
+  `student_no`       VARCHAR(32) NOT NULL
+  COMMENT '学号',
+  `name`             VARCHAR(64) NOT NULL          DEFAULT ''
+  COMMENT '姓名',
+  `gender`           TINYINT(1)  NOT NULL          DEFAULT 1
+  COMMENT '性别:0 女 1 男',
+  `ethnic_group`     SMALLINT(2)                   DEFAULT 0
+  COMMENT '民族',
+  `birth`            DATE
+  COMMENT '出生日期',
+  `political_status` TINYINT(1)                    DEFAULT 0
+  COMMENT '政治面貌',
+  `academe`          VARCHAR(32)                   DEFAULT ''
+  COMMENT '学院',
+  `subject`          VARCHAR(32)                   DEFAULT ''
+  COMMENT '专业',
+  `contact_phone`    VARCHAR(32)                   DEFAULT ''
+  COMMENT '联系电话',
+  `email`            VARCHAR(64)                   DEFAULT ''
+  COMMENT '邮箱',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`user_id`)
+)
+  DEFAULT CHARSET = utf8
+  COMMENT '学生信息表';

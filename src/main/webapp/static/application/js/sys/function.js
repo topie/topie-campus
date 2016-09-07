@@ -7,10 +7,10 @@
      * 菜单菜单 对应 当前的唯一别名
      * @type {{/api/sys/function/pageList: string}}
      */
-    var uploadMapping = {
+    var mapping = {
         "/api/sys/function/pageList": "sysFunction"
-    }
-    App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
+    };
+    App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
     App.sysFunction = {
         page: function (title) {
             window.App.content.empty();
@@ -19,7 +19,7 @@
             window.App.content.append(content);
             App.sysFunction.initEvents();
         }
-    }
+    };
     App.sysFunction.initEvents = function () {
         var grid;
         var options = {
@@ -39,12 +39,12 @@
                 title: "id",
                 field: "id",
                 sort: true,
-                width: "5%",
+                width: "5%"
             }, {
                 title: "父id",
                 field: "parentId",
                 sort: true,
-                width: "5%",
+                width: "5%"
             }, {
                 title: "菜单名称",
                 field: "functionName",

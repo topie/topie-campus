@@ -7,13 +7,13 @@
      * 功能菜单 对应 当前的唯一别名
      * @type {{/api/sys/user/pageList: string}}
      */
-    var uploadMapping = {
+    var mapping = {
         "/api/sys/user/pageList": "sysUser"
     }
     /**
      * 加入全局mapping
      */
-    App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
+    App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
     /**
      * 对应requestMapping值 sysUser page函数为进入页面入口方法
      * @type {{page: App.sysUser.page}}
@@ -49,7 +49,7 @@
                 title: "id",
                 field: "id",
                 sort: true,
-                width: "5%",
+                width: "5%"
             }, {
                 title: "登录名",
                 field: "loginName",

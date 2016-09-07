@@ -5,25 +5,25 @@
 (function ($, window, document, undefined) {
     /**
      * 功能菜单 对应 当前的唯一别名
-     * @type {{/api/sys/role/pageList: string}}
+     * @type {{/api/info/teacher/pageList: string}}
      */
     var mapping = {
-        "/api/sys/role/pageList": "sysRole"
-    };
+        "/api/info/teacher/pageList": "infoTeacher"
+    }
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.sysRole = {
+    App.infoTeacher = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="role_grid"></div>');
+            var content = $('<div class="panel-body" id="teacher_grid"></div>');
             window.App.content.append(content);
-            App.sysRole.initEvents();
+            App.infoTeacher.initEvents();
         }
-    };
-    App.sysRole.initEvents = function () {
+    }
+    App.infoTeacher.initEvents = function () {
         var grid;
         var options = {
-            url: App.href + "/api/sys/role/pageList",
+            url: App.href + "/api/info/teacher/pageList",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -41,8 +41,8 @@
                 sort: true,
                 width: "5%"
             }, {
-                title: "角色名称",
-                field: "roleName",
+                title: "教师名称",
+                field: "name",
                 sort: true
             }],
             actionColumnText: "操作",//操作列文本
@@ -52,15 +52,15 @@
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
-                        id: "roleForm",
-                        title: "编辑角色",
+                        id: "teacherForm",
+                        title: "编辑教师",
                         destroy: true
                     });
                     var formOpts = {
                         id: "index_form",//表单id
                         name: "index_form",//表单名
                         method: "POST",//表单method
-                        action: App.href + "/api/sys/role/update",//表单action
+                        action: App.href + "/api/info/teacher/update",//表单action
                         ajaxSubmit: true,//是否使用ajax提交表单
                         beforeSubmit: function () {
                         },
@@ -89,23 +89,23 @@
                             id: 'id'
                         }, {
                             type: 'text',//类型
-                            name: 'roleName',//name
-                            id: 'roleName',//id
-                            label: '角色名',//左边label
+                            name: 'name',//name
+                            id: 'name',//id
+                            label: '教师名',//左边label
                             cls: 'input-large',
                             readonly: true,
                             rule: {
                                 required: true
                             },
                             message: {
-                                required: "请输入角色名"
+                                required: "请输入教师名"
                             }
                         }, {
                             type: 'tree',//类型
                             name: 'functions',
                             id: 'functions',//id
                             label: '菜单',//左边label
-                            url: App.href + "/api/sys/function/treeNodes?topie_token=" + App.token,
+                            url: App.href + "/api/info/function/treeNodes?topie_token=" + App.token,
                             expandAll: true,
                             autoParam: ["id", "name", "pId"],
                             chkStyle: "checkbox",
@@ -118,66 +118,63 @@
                         }]
                     };
                     var form = modal.$body.topieForm(formOpts);
-                    form.loadRemote(App.href + "/api/sys/role/load/" + data.id);
+                    form.loadRemote(App.href + "/api/info/teacher/load/" + data.id);
                     modal.show();
                 }
             }, {
-                text: "设置用户",
+                text: "学生",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
-                    var userGrid;
+                    var studentGrid;
                     var modal = $.topieModal({
-                        id: "user_grid",
-                        title: "设置用户",
+                        id: "student_grid",
+                        title: "学生",
                         destroy: true
                     });
                     var options = {
-                        url: App.href + "/api/sys/role/hasRoleUserList?roleId=" + data.id,
+                        url: App.href + "/api/info/teacher/hasTeacherUserList?teacherId=" + data.id,
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },
                         pageNum: 1,//当前页码
                         pageSize: 15,//每页显示条数
-                        idFiled: "userId",//id域指定
+                        idFiled: "id",//id域指定
                         showCheckbox: true,//是否显示checkbox
                         checkboxWidth: "3%",
                         showIndexNum: false,
                         indexNumWidth: "5%",
                         pageSelect: [2, 15, 30, 50],
                         columns: [{
-                            title: "用户id",
-                            field: "userId",
+                            title: "设置学生id",
+                            field: "id",
                             sort: true,
-                            width: "5%"
+                            width: "5%",
                         }, {
-                            title: "登录名",
-                            field: "loginName",
+                            title: "姓名",
+                            field: "name",
                             sort: true
-                        }, {
-                            title: "昵称",
-                            field: "displayName"
                         }],
                         actionColumnText: "操作",//操作列文本
                         actionColumnWidth: "20%",
                         actionColumns: [{
-                            textHandle: function (index, userData) {
-                                if (userData.hasRole) {
+                            textHandle: function (index, studentData) {
+                                if (studentData.hasTeacher) {
                                     return "取消";
                                 } else {
                                     return "选择";
                                 }
                             },
-                            clsHandle: function (index, userData) {
-                                if (userData.hasRole) {
+                            clsHandle: function (index, studentData) {
+                                if (studentData.hasTeacher) {
                                     return "btn-danger btn-sm";
                                 } else {
                                     return "btn-primary btn-sm";
                                 }
                             },
-                            handle: function (index, userData) {
-                                var requestUrl = App.href + "/api/sys/role/selectUser";
-                                if (userData.hasRole) {
-                                    requestUrl = App.href + "/api/sys/role/cancelUser";
+                            handle: function (index, studentData) {
+                                var requestUrl = App.href + "/api/info/teacher/selectUser";
+                                if (studentData.hasTeacher) {
+                                    requestUrl = App.href + "/api/info/teacher/cancelUser";
                                 }
                                 $.ajax({
                                     type: "GET",
@@ -186,13 +183,13 @@
                                     },
                                     dataType: "json",
                                     data: {
-                                        roleId: data.id,
-                                        userId: userData.userId
+                                        teacherId: data.id,
+                                        id: studentData.id
                                     },
                                     url: requestUrl,
                                     success: function (data) {
                                         if (data.code === 200) {
-                                            userGrid.reload();
+                                            studentGrid.reload();
                                         } else {
                                             alert(data.message);
                                         }
@@ -208,25 +205,20 @@
                             //搜索栏元素
                             items: [{
                                 type: "text",
-                                label: "登录名",
-                                name: "loginName",
-                                placeholder: "输入要搜索的登录名"
-                            }, {
-                                type: "text",
-                                label: "昵称",
-                                name: "displayName",
-                                placeholder: "输入要搜索的昵称"
+                                label: "姓名",
+                                name: "name",
+                                placeholder: "输入要搜索的姓名"
                             }]
                         }
                     };
-                    userGrid = modal.$body.topieGrid(options);
+                    studentGrid = modal.$body.topieGrid(options);
                     modal.show();
                 }
             }, {
                 text: "删除",
                 cls: "btn-danger btn-sm",
                 handle: function (index, data) {
-                    var requestUrl = App.href + "/api/sys/role/delete";
+                    var requestUrl = App.href + "/api/info/teacher/delete";
                     $.ajax({
                         type: "POST",
                         beforeSend: function (request) {
@@ -234,7 +226,7 @@
                         },
                         dataType: "json",
                         data: {
-                            roleId: data.id
+                            teacherId: data.id
                         },
                         url: requestUrl,
                         success: function (data) {
@@ -257,15 +249,15 @@
                     icon: "fa fa-cubes",
                     handle: function (grid) {
                         var modal = $.topieModal({
-                            id: "roleForm",
-                            title: "添加角色",
+                            id: "teacherForm",
+                            title: "添加教师",
                             destroy: true
                         });
                         var formOpts = {
-                            id: "add_role_form",
-                            name: "add_role_form",
+                            id: "add_teacher_form",
+                            name: "add_teacher_form",
                             method: "POST",
-                            action: App.href + "/api/sys/role/insert",//表单action
+                            action: App.href + "/api/info/teacher/insert",//表单action
                             ajaxSubmit: true,//是否使用ajax提交表单
                             rowEleNum: 1,
                             beforeSubmit: function () {
@@ -290,30 +282,15 @@
                             buttonsAlign: "center",
                             items: [{
                                 type: 'text',
-                                name: 'roleName',
-                                id: 'roleName',
-                                label: '角色名',//左边label
+                                name: 'name',
+                                id: 'name',
+                                label: '教师名',//左边label
                                 cls: 'input-large',
                                 rule: {
                                     required: true
                                 },
                                 message: {//对应验证提示信息
-                                    required: "请输入角色名"
-                                }
-                            }, {
-                                type: 'tree',
-                                name: 'functions',
-                                id: 'functions',
-                                label: '菜单',
-                                url: App.href + "/api/sys/function/treeNodes?topie_token=" + App.token,
-                                expandAll: true,
-                                autoParam: ["id", "name", "pId"],
-                                chkStyle: "checkbox",
-                                rule: {
-                                    required: true
-                                },
-                                message: {
-                                    required: "请选择至少一个菜单"
+                                    required: "请输入教师名"
                                 }
                             }]
                         };
@@ -327,12 +304,12 @@
                 //搜索栏元素
                 items: [{
                     type: "text",
-                    label: "角色名",
-                    name: "loginName",
-                    placeholder: "输入要搜索的角色名"
+                    label: "教师名",
+                    name: "name",
+                    placeholder: "输入要搜索的教师名"
                 }]
             }
         };
-        grid = window.App.content.find("#role_grid").topieGrid(options);
+        grid = window.App.content.find("#teacher_grid").topieGrid(options);
     }
 })(jQuery, window, document);

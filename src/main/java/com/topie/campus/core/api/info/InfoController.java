@@ -1,7 +1,14 @@
 package com.topie.campus.core.api.info;
 
+import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.enums.Degree;
+import com.topie.campus.core.enums.EducationBackground;
+import com.topie.campus.core.enums.Gender;
+import com.topie.campus.core.enums.PoliticalStatus;
+import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
 import com.topie.campus.tools.excel.ExcelLogs;
@@ -16,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -36,7 +45,12 @@ public class InfoController {
     @RequestMapping(value = "/user/upload", method = RequestMethod.GET)
     @ResponseBody
     public Object page() throws Exception {
-        String html = freeMarkerUtil.getStringFromTemplate("/info/", "upload.ftl", null);
+        Map params = new HashMap<>();
+        params.put("gender", Gender.getNameList());
+        params.put("eb", EducationBackground.getNameList());
+        params.put("degree", Degree.getNameList());
+        params.put("ps", PoliticalStatus.getNameList());
+        String html = freeMarkerUtil.getStringFromTemplate("/info/", "upload.ftl", params);
         return ResponseUtil.success(html);
     }
 
@@ -47,15 +61,24 @@ public class InfoController {
     }
 
     @RequestMapping(value = "/user/uploadExcel", method = RequestMethod.POST)
-    public void userUpload(HttpServletResponse response,
+    @ResponseBody
+    public Result userUpload(HttpServletResponse response,
             @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         if (file == null || file.isEmpty()) {
-            ResponseUtil.writeJson(response, new Result(500, "附件为空"));
-            return;
+            return ResponseUtil.error("附件为空");
         }
         ExcelLogs logs = new ExcelLogs();
         iInfoBasicService.userUpload(file, logs);
-        ResponseUtil.writeJson(response, new Result(200, logs.getErrorLogList()));
+        return ResponseUtil.success(logs.getErrorLogList());
+    }
+
+    @RequestMapping(value = "/teacher/pageList", method = RequestMethod.GET)
+    @ResponseBody
+    public Result teacherList(Teacher teacher,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        PageInfo<Teacher> pageInfo = iInfoBasicService.findTeacherList(pageNum, pageSize, teacher);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
 }

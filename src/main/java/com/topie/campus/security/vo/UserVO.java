@@ -22,6 +22,21 @@ public class UserVO extends User {
         return user;
     }
 
+    @JsonIgnore
+    public static User buildSimpleUser(String loginName,String mobile, String name, String email) {
+        User user = new User();
+        user.setLoginName(loginName);
+        user.setPassword(mobile);
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setContactPhone(mobile);
+        user.setEmail(email);
+        user.setDisplayName(name);
+        user.setCredentialsNonExpired(true);
+        return user;
+    }
+
     @Override
     @JsonIgnore
     public String getPassword() {

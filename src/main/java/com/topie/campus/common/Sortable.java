@@ -1,4 +1,4 @@
-package com.topie.campus.common.handler;
+package com.topie.campus.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.topie.campus.common.utils.CamelUtil;
@@ -18,6 +18,7 @@ public class Sortable implements Serializable {
     @JsonIgnore
     private String sort_;
 
+    @JsonIgnore
     public String getSort_() {
         String sortStr = "";
         if (!StringUtils.isEmpty(sort_)) {
@@ -35,6 +36,21 @@ public class Sortable implements Serializable {
 
     public void setSort_(String sort_) {
         this.sort_ = sort_;
+    }
+
+    @JsonIgnore
+    public String getSortCause() {
+        String sortStr = "";
+        if (!StringUtils.isEmpty(sort_)) {
+            if (sort_.indexOf("_desc") != -1) {
+                String filed = CamelUtil.camelToUnderline(sort_.replace("_desc", ""));
+                sortStr = filed + " desc";
+            } else if (sort_.indexOf("_asc") != -1) {
+                String filed = CamelUtil.camelToUnderline(sort_.replace("_asc", ""));
+                sortStr = filed + " asc";
+            }
+        }
+        return sortStr;
     }
 
 }

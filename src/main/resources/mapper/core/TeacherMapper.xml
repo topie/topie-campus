@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.TeacherMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Teacher">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="ethnic_group" jdbcType="SMALLINT" property="ethnicGroup"/>
+        <result column="birth" jdbcType="DATE" property="birth"/>
+        <result column="political_status" jdbcType="INTEGER" property="politicalStatus"/>
+        <result column="academe" jdbcType="VARCHAR" property="academe"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="graduated_university" jdbcType="VARCHAR" property="graduatedUniversity"/>
+        <result column="graduated_major" jdbcType="VARCHAR" property="graduatedMajor"/>
+        <result column="education_background" jdbcType="INTEGER" property="educationBackground"/>
+        <result column="degree" jdbcType="INTEGER" property="degree"/>
+        <result column="professional_title" jdbcType="VARCHAR" property="professionalTitle"/>
+        <result column="professional_position" jdbcType="VARCHAR" property="professionalPosition"/>
+        <result column="subject_direction" jdbcType="VARCHAR" property="subjectDirection"/>
+        <result column="teacher_certificate_no" jdbcType="VARCHAR" property="teacherCertificateNo"/>
+        <result column="main_teacher_certificate_no" jdbcType="VARCHAR" property="mainTeacherCertificateNo"/>
+        <result column="staff_no" jdbcType="VARCHAR" property="staffNo"/>
+        <result column="is_lab_staff" jdbcType="BIT" property="isLabStaff"/>
+        <result column="teach_quality_comment" jdbcType="LONGVARCHAR" property="teachQualityComment"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
+    graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
+    subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff,
+    teach_quality_comment
+  </sql>
+    <sql id="Simple_Base_Column_List">
+        id,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
+        graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
+        subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff
+    </sql>
+</mapper>
