@@ -328,7 +328,7 @@
                 items: [{
                     type: "text",
                     label: "角色名",
-                    name: "loginName",
+                    name: "roleName",
                     placeholder: "输入要搜索的角色名"
                 }]
             }

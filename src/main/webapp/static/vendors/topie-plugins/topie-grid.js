@@ -6,6 +6,7 @@
     var Grid = function (element, options) {
         this._setVariable(element, options);
         this._setOptions(this._options);
+        this._initEmpty();
         if (this._url != undefined) {
             this._load();
             return;
@@ -222,7 +223,6 @@
                 url: that._url + (parameters == undefined ? "" : parameters),
                 success: function (data) {
                     if (data.code === 200) {
-                        that._remove();
                         that._setData(data.data);
                         that._init();
                     } else {
@@ -240,8 +240,12 @@
             this._grids = data.data;
             this._total = data.total;
         },
+        _initEmpty: function () {
+            this._renderEles();
+        },
         // 初始化
         _init: function () {
+            this._remove();
             this._renderEles();
             this._regiestEvents();
             this._doAfterInit();
@@ -922,7 +926,19 @@
                 td.html("暂无数据");
                 tr.append(td);
                 tbody.append(tr);
-            }
+            };
+            var renderLoadingTbody = function (tbody) {
+                var tr = $.tmpl(trTmpl, {
+                    "class_": "odd gradeX"
+                });
+                var cols = that._columns.length + (that._showCheck == true ? 1 : 0) + (that._showIndexNum ? 1 : 0) + (that._actionColumns ? that._actionColumns.length : 0);
+                var td = $.tmpl(tdTmpl, {});
+                td.css("text-align", "center");
+                td.attr("colspan", cols);
+                td.html("加载中...");
+                tr.append(td);
+                tbody.append(tr);
+            };
             var tbody = $('<tbody></tbody>');
             if (that._grids != undefined && that._grids != null) {
                 if (that._grids.length == 0)
@@ -930,6 +946,8 @@
                 $.each(that._grids, function (index, grid) {
                     renderTbody(tbody, grid, index);
                 });
+            } else {
+                renderLoadingTbody(tbody);
             }
             table.append(tbody);
 
@@ -1087,30 +1105,26 @@
                         .each(
                             function () {
                                 if (checked) {
-                                    $(this).attr("checked", true);
+                                    $(this).prop("checked", true);
                                     $(this).parent().parent()
-                                        .parent().parent()
                                         .addClass("active");
                                 } else {
-                                    $(this).attr("checked", false);
+                                    $(this).prop("checked", false);
                                     $(this).parent().parent()
-                                        .parent().parent()
                                         .removeClass("active");
                                 }
                             });
-                    $.uniform.update(set);
                 });
             this.$gridWrapper.find(".checkboxes").change(
                 function () {
                     var checked = $(this).is(":checked");
                     if (checked) {
-                        $(this).parent().parent().parent().parent()
+                        $(this).parent().parent()
                             .addClass("active");
                     } else {
-                        $(this).parent().parent().parent().parent()
+                        $(this).parent().parent()
                             .removeClass("active");
                     }
-                    $.uniform.update($(this));
                 });
             // 分页相关
             this.$gridWrapper.find('ul.pagination li').not(".disabled").on(
