@@ -24,14 +24,11 @@
 
 package com.topie.campus.basedao.service.impl;
 
-
 import com.topie.campus.basedao.service.IService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
-
-import tk.mybatis.mapper.common.Mapper;
 
 /**
  * Created by liuzh on 2014/12/11.
@@ -50,8 +47,12 @@ public abstract class BaseService<T> implements IService<T> {
         return mapper.selectByPrimaryKey(key);
     }
 
-    public int save(T entity) {
+    public int insert(T entity) {
         return mapper.insert(entity);
+    }
+
+    public int insertSelective(T entity) {
+        return mapper.insertSelective(entity);
     }
 
     public int delete(Object key) {
@@ -62,7 +63,7 @@ public abstract class BaseService<T> implements IService<T> {
         return mapper.updateByPrimaryKey(entity);
     }
 
-    public int updateNotNull(T entity) {
+    public int updateSelective(T entity) {
         return mapper.updateByPrimaryKeySelective(entity);
     }
 

@@ -36,13 +36,15 @@ public interface IService<T> {
 
     T selectByKey(Object key);
 
-    int save(T entity);
+    int insert(T entity);
+
+    int insertSelective(T entity);
 
     int delete(Object key);
 
     int updateAll(T entity);
 
-    int updateNotNull(T entity);
+    int updateSelective(T entity);
 
     List<T> selectByExample(Object example);
 

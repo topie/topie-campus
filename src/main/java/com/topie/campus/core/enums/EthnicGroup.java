@@ -72,6 +72,7 @@ public enum EthnicGroup {
             Option option = new Option();
             option.setText(item.getName());
             option.setValue(item.getCode());
+            list.add(option);
         }
         return list;
     }

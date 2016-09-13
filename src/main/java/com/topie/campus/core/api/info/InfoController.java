@@ -1,6 +1,6 @@
 package com.topie.campus.core.api.info;
 
-import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
@@ -16,10 +16,7 @@ import com.topie.campus.tools.freemarker.FreeMarkerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -77,8 +74,16 @@ public class InfoController {
     public Result teacherList(Teacher teacher,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
-        PageInfo<Teacher> pageInfo = iInfoBasicService.findTeacherList(pageNum, pageSize, teacher);
+        SimplePageInfo<Teacher> pageInfo = iInfoBasicService.findTeacherList(teacher, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
+
+    @RequestMapping(value = "/teacher/load/{teacherId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result loadUser(@PathVariable(value = "teacherId") int teacherId) {
+        Teacher teacher = iInfoBasicService.findOneById(teacherId);
+        return ResponseUtil.success(teacher);
+    }
+
 
 }

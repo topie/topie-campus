@@ -41,4 +41,32 @@
         graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
         subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff
     </sql>
+    <select id="findTeacherByPageNumAndPageSize" resultMap="BaseResultMap">
+        select
+        <include refid="Simple_Base_Column_List"/>
+        from topie_campus.t_teacher
+        <where>
+            <if test="teacher.name!=null and teacher.name!=''">
+                and `name` like concat('%',concat(#{teacher.name},'%'))
+            </if>
+        </where>
+        <if test="teacher.sort_ != null and teacher.sort_ != ''">
+            ${teacher.sort_}
+        </if>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countTeacher" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_teacher
+        <where>
+            <if test="teacher.name!=null and teacher.name!=''">
+                and `name` like concat('%',concat(#{teacher.name},'%'))
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

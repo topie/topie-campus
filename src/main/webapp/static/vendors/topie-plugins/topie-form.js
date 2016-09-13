@@ -165,7 +165,7 @@
             });
             this.$element.prepend(alertDiv);
             alertDiv.delay(seconds * 1000).fadeOut();
-            App.scrollTo(alertDiv,-200);
+            App.scrollTo(alertDiv, -200);
         },
         _setVariable: function (element, options) {
             this.$element = $(element);
@@ -274,6 +274,11 @@
                                 formBody.append(ele);
                                 return;
                             }
+                            var itemSpan = item.span > 1 ? item.span : 1;
+                            itemSpan = itemSpan > rowEleNum ? rowEleNum : itemSpan;
+                            if (itemSpan > 1) {
+                                that._labelInline = false;
+                            }
                             // 计算分布
                             if (count % rowEleNum == 0) {
                                 row = $.tmpl(Form.statics.rowTmpl, {
@@ -281,11 +286,12 @@
                                 });
                                 formBody.append(row);
                             }
-                            count++;
+                            count += itemSpan;
                             var wrapper = $.tmpl(Form.statics.eleTmpl,
                                 {
-                                    "span_": rowEleSpan
-                                });
+                                    "span_": rowEleSpan * itemSpan
+                                }
+                            );
 
                             // 构建元素
                             that._buildModuleWrapper(wrapper, item);
@@ -946,7 +952,7 @@
                 } : data.beforeCheck;
                 var setting = {
                     check: {
-                        enable: (data.checkable==undefined?true:data.checkable),
+                        enable: (data.checkable == undefined ? true : data.checkable),
                         chkStyle: data.chkStyle,
                         radioType: "all",
                         chkboxType: chkboxType

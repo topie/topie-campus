@@ -1,11 +1,10 @@
 package com.topie.campus.core.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.topie.campus.core.dao.TeacherMapper;
+import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.TeacherExcelDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
@@ -13,15 +12,12 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tk.mybatis.mapper.entity.Example;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +30,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     private UserService userService;
 
     @Autowired
-    private TeacherMapper teacherMapper;
+    private ITeacherService iTeacherService;
 
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
@@ -60,24 +56,18 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             userService.insertUser(user);
             Teacher teacher = teacherDto.buildTeacher();
             teacher.setUserId(user.getId());
-            teacherMapper.insertSelective(teacher);
+            iTeacherService.insertSelective(teacher);
         }
 
     }
 
     @Override
-    public PageInfo<Teacher> findTeacherList(Integer pageNum, Integer pageSize, Teacher teacher) {
-        Example example = new Example(Teacher.class);
-        Example.Criteria criteria = example.createCriteria();
-        if (StringUtils.isNotEmpty(teacher.getName())) {
-            criteria.andLike("name", "%" + teacher.getName() + "%");
-        }
-        if (StringUtils.isNotEmpty(teacher.getSortCause())) {
-            example.setOrderByClause(teacher.getSortCause());
-        }
-        PageHelper.startPage(pageNum, pageSize);
-        List<Teacher> teachers = teacherMapper.selectByExample(example);
-        PageInfo<Teacher> pageInfo = new PageInfo<>(teachers);
-        return pageInfo;
+    public SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize) {
+        return iTeacherService.findTeacherList(teacher, pageNum, pageSize);
+    }
+
+    @Override
+    public Teacher findOneById(Integer teacherId) {
+        return iTeacherService.selectByKey(teacherId);
     }
 }

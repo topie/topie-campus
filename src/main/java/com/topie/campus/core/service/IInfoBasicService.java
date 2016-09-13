@@ -1,6 +1,6 @@
 package com.topie.campus.core.service;
 
-import com.github.pagehelper.PageInfo;
+import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.tools.excel.ExcelLogs;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,5 +14,7 @@ public interface IInfoBasicService {
 
     void userUpload(MultipartFile file, ExcelLogs logs) throws IOException;
 
-    PageInfo<Teacher> findTeacherList(Integer pageNum, Integer pageSize, Teacher teacher);
+    SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize);
+
+    Teacher findOneById(Integer teacherId);
 }

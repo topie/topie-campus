@@ -2,6 +2,7 @@ package com.topie.campus.core.api.common;
 
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.enums.EthnicGroup;
 import com.topie.campus.core.model.Attachment;
 import com.topie.campus.core.service.IAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by chenguojun on 8/31/16.
@@ -118,6 +120,12 @@ public class CommonController {
             }
         }
         return ResponseUtil.error("附件id不存在。");
+    }
+
+    @RequestMapping(value = "/ethnicGroup/option", method = RequestMethod.POST)
+    @ResponseBody
+    public List ethnicGroupOption() {
+        return EthnicGroup.getOptions();
     }
 
 }

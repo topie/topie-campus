@@ -31,8 +31,7 @@ public enum Gender {
     }
 
     public static Integer getCode(String name) {
-        if(StringUtils.isEmpty(name))
-            return null;
+        if (StringUtils.isEmpty(name)) return null;
         for (Gender item : Gender.values()) {
             if (item.getName().equals(name.trim())) {
                 return item.getCode();
@@ -63,6 +62,7 @@ public enum Gender {
             Option option = new Option();
             option.setText(item.getName());
             option.setValue(item.getCode());
+            list.add(option);
         }
         return list;
     }

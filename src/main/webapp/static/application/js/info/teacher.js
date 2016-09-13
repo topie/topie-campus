@@ -37,6 +37,10 @@
                 title: "教师名称",
                 field: "name",
                 sort: true
+            }, {
+                title: "联系电话",
+                field: "contactPhone",
+                sort: true
             }],
             actionColumnText: "操作",
             actionColumnWidth: "20%",
@@ -64,6 +68,7 @@
                         },
                         submitText: "保存",
                         showReset: true,
+                        rowEleNum: 2,
                         resetText: "重置",
                         isValidate: true,
                         buttons: [{
@@ -92,6 +97,42 @@
                                 message: {
                                     required: "请输入教师名"
                                 }
+                            }, {
+                                type: 'text',
+                                name: 'employeeNo',
+                                id: 'employeeNo',
+                                label: '职工号',
+                                cls: 'input-large',
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请输入职工号"
+                                }
+                            }, {
+                                type: 'radioGroup',
+                                name: 'gender',
+                                id: 'gender',
+                                label: '性别',
+                                inline: true,
+                                items: [{
+                                    value: 1,
+                                    text: '男'
+                                }, {
+                                    value: 0,
+                                    text: '女'
+                                }]
+                            }, {
+                                type: "select",
+                                label: "民族",
+                                name: "ethnicGroup",
+                                items: [
+                                    {
+                                        text: "请选择民族",
+                                        value: ""
+                                    }
+                                ],
+                                itemsUrl: App.href + "/api/common/ethnicGroup/option?topie_token=" + App.token
                             }
                         ]
                     };
@@ -192,6 +233,10 @@
                     label: "教师名",
                     name: "name",
                     placeholder: "输入要搜索的教师名"
+                }, {
+                    title: "联系电话",
+                    field: "contactPhone",
+                    sort: true
                 }]
             }
         };
