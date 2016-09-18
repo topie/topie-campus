@@ -2,7 +2,10 @@ package com.topie.campus.core.api.common;
 
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.enums.Degree;
+import com.topie.campus.core.enums.EducationBackground;
 import com.topie.campus.core.enums.EthnicGroup;
+import com.topie.campus.core.enums.PoliticalStatus;
 import com.topie.campus.core.model.Attachment;
 import com.topie.campus.core.service.IAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +129,24 @@ public class CommonController {
     @ResponseBody
     public List ethnicGroupOption() {
         return EthnicGroup.getOptions();
+    }
+
+    @RequestMapping(value = "/politicalStatus/option", method = RequestMethod.POST)
+    @ResponseBody
+    public List politicalStatusOption() {
+        return PoliticalStatus.getOptions();
+    }
+
+    @RequestMapping(value = "/educationBackground/option", method = RequestMethod.POST)
+    @ResponseBody
+    public List educationBackgroundOption() {
+        return EducationBackground.getOptions();
+    }
+
+    @RequestMapping(value = "/degree/option", method = RequestMethod.POST)
+    @ResponseBody
+    public List degreeOption() {
+        return Degree.getOptions();
     }
 
 }

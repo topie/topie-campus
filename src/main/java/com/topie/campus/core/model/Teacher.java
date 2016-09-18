@@ -90,7 +90,7 @@ public class Teacher extends Sortable {
     private String graduatedMajor;
 
     /**
-     * 学历
+     * c
      */
     @Column(name = "education_background")
     private Integer educationBackground;

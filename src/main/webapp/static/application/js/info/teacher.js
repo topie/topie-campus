@@ -133,6 +133,117 @@
                                     }
                                 ],
                                 itemsUrl: App.href + "/api/common/ethnicGroup/option?topie_token=" + App.token
+                            }, {
+                                type: "select",
+                                label: "政治面貌",
+                                name: "ethnicGroup",
+                                items: [
+                                    {
+                                        text: "请选择政治面貌",
+                                        value: ""
+                                    }
+                                ],
+                                itemsUrl: App.href + "/api/common/politicalStatus/option?topie_token=" + App.token
+                            }, {
+                                type: 'text',
+                                name: 'academe',
+                                id: 'academe',
+                                label: '学院',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'department',
+                                id: 'department',
+                                label: '系(所)',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'contactPhone',
+                                id: 'contactPhone',
+                                label: '联系电话',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'email',
+                                id: 'email',
+                                label: '邮箱',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'graduatedUniversity',
+                                id: 'graduatedUniversity',
+                                label: '毕业院校',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'graduatedMajor',
+                                id: 'graduatedMajor',
+                                label: '毕业专业',
+                                cls: 'input-large'
+                            }, {
+                                type: "select",
+                                label: "学历",
+                                name: "educationBackground",
+                                items: [
+                                    {
+                                        text: "请选择学历",
+                                        value: ""
+                                    }
+                                ],
+                                itemsUrl: App.href + "/api/common/educationBackground/option?topie_token=" + App.token
+                            }, {
+                                type: "select",
+                                label: "学位",
+                                name: "degree",
+                                items: [
+                                    {
+                                        text: "请选择学位",
+                                        value: ""
+                                    }
+                                ],
+                                itemsUrl: App.href + "/api/common/degree/option?topie_token=" + App.token
+                            }, {
+                                type: 'text',
+                                name: 'professionalTitle',
+                                id: 'professionalTitle',
+                                label: '职称',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'professionalPosition',
+                                id: 'professionalPosition',
+                                label: '职务',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'subjectDirection',
+                                id: 'subjectDirection',
+                                label: '学科方向',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'teacherCertificateNo',
+                                id: 'teacherCertificateNo',
+                                label: '教师资格证号',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'mainTeacherCertificateNo',
+                                id: 'mainTeacherCertificateNo',
+                                label: '主讲教师资格证号',
+                                cls: 'input-large'
+                            }, {
+                                type: 'text',
+                                name: 'staffNo',
+                                id: 'staffNo',
+                                label: '人事职工号',
+                                cls: 'input-large'
+                            }, {
+                                type: 'textarea',
+                                name: 'teachQualityComment',
+                                id: 'teachQualityComment',
+                                label: '教学质量评价',
+                                cls: 'input-large'
                             }
                         ]
                     };

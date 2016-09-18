@@ -17,12 +17,12 @@
         backdrop: true,
         scroll: true,
         keyboard: true,
-        maxHeight: "650px",
-        minHeight: "500px",
+        maxHeight: "550px",
+        minHeight: "450px",
         width: "75%"
     };
     Modal.statics = {
-        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="${width_} border-radius:0;border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
+        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="border-radius:0;border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
         headerTmpl: '<div id="${id_}head" class="modal-header" style="background-color: ${color_};"></div>',
         closeBtnTmpl: '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>',
         titleTmpl: '<h3 id="${id_}title" class="modal-title" >${title_}</h3>',
@@ -97,8 +97,7 @@
                 "scroll_": that._scroll ? "modal-scroll" : "",
                 "backdrop_": that._backdrop ? "data-backdrop=static" : "",
                 "keyboard_": that._keyboard ? "data-keyboard=true" : "data-keyboard=false",
-                "color_": that._color,
-                "width_": "width:"+that._width
+                "color_": that._color
             });
             this.$render.append(modal);
             this.$modal = modal;
