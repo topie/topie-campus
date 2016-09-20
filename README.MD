@@ -11,8 +11,8 @@ create database topie_campus DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 redis-cli
 >>
-auth: redis-cli -a {redis password} keys "*" | grep topie_ | xargs redis-cli -a {redis password}} del
-none auth : redis-cli -a {redis password} keys "*" | grep topie_ | xargs redis-cli -a {redis password}} del
+auth: redis-cli -a {redis password} keys "*" | grep topie_ | xargs redis-cli -a {redis password} del
+none auth : redis-cli -a {redis password} keys "*" | grep topie_ | xargs redis-cli -a {redis password} del
 
 ```
 **Redis-server** is required! 

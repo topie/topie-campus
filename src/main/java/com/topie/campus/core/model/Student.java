@@ -1,10 +1,17 @@
 package com.topie.campus.core.model;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.topie.campus.common.Sortable;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_student")
-public class Student {
+public class Student extends Sortable {
+
+    private static final long serialVersionUID = 3217420487250884241L;
+
     /**
      * ID
      */
@@ -43,6 +50,7 @@ public class Student {
     /**
      * 出生日期
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birth;
 
     /**
@@ -185,6 +193,7 @@ public class Student {
      *
      * @return birth - 出生日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }

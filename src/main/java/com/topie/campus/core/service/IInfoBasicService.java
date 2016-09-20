@@ -1,6 +1,7 @@
 package com.topie.campus.core.service;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.tools.excel.ExcelLogs;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,22 @@ public interface IInfoBasicService {
 
     SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize);
 
-    Teacher findOneById(Integer teacherId);
+    Teacher findOneByTeacherId(Integer teacherId);
 
     int insertTeacher(Teacher teacher);
 
     int updateTeacher(Teacher teacher);
+
+    int deleteTeacher(Integer teacherId);
+
+
+    SimplePageInfo<Student> findStudentList(Student student, int pageNum, int pageSize);
+
+    Student findOneByStudentId(Integer studentId);
+
+    int insertStudent(Student student);
+
+    int updateStudent(Student student);
+
+    int deleteStudent(Integer studentId);
 }

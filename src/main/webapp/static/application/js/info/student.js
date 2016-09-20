@@ -1,19 +1,19 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/info/teacher/pageList": "infoTeacher"
+        "/api/info/student/pageList": "infoStudent"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.infoTeacher = {
+    App.infoStudent = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="teacher_grid"></div>');
+            var content = $('<div class="panel-body" id="student_grid"></div>');
             window.App.content.append(content);
-            App.infoTeacher.initEvents();
+            App.infoStudent.initEvents();
         }
     };
-    App.infoTeacher.formItems = [
+    App.infoStudent.formItems = [
         {
             type: 'hidden',
             name: 'id',
@@ -22,25 +22,25 @@
             type: 'text',
             name: 'name',
             id: 'name',
-            label: '教师名',
+            label: '学生名',
             cls: 'input-large',
             rule: {
                 required: true
             },
             message: {
-                required: "请输入教师名"
+                required: "请输入学生名"
             }
         }, {
             type: 'text',
-            name: 'employeeNo',
-            id: 'employeeNo',
-            label: '职工号',
+            name: 'studentNo',
+            id: 'studentNo',
+            label: '学号',
             cls: 'input-large',
             rule: {
                 required: true
             },
             message: {
-                required: "请输入职工号"
+                required: "请输入学号"
             }
         }, {
             type: 'radioGroup',
@@ -103,9 +103,9 @@
             cls: 'input-large'
         }, {
             type: 'text',
-            name: 'department',
-            id: 'department',
-            label: '系(所)',
+            name: 'subject',
+            id: 'subject',
+            label: '专业',
             cls: 'input-large'
         }, {
             type: 'text',
@@ -119,91 +119,15 @@
             id: 'email',
             label: '邮箱',
             cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'graduatedUniversity',
-            id: 'graduatedUniversity',
-            label: '毕业院校',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'graduatedMajor',
-            id: 'graduatedMajor',
-            label: '毕业专业',
-            cls: 'input-large'
-        }, {
-            type: "select",
-            label: "学历",
-            name: "educationBackground",
-            items: [
-                {
-                    text: "请选择学历",
-                    value: ""
-                }
-            ],
-            itemsUrl: App.href + "/api/common/educationBackground/option?topie_token=" + App.token
-        }, {
-            type: "select",
-            label: "学位",
-            name: "degree",
-            items: [
-                {
-                    text: "请选择学位",
-                    value: ""
-                }
-            ],
-            itemsUrl: App.href + "/api/common/degree/option?topie_token=" + App.token
-        }, {
-            type: 'text',
-            name: 'professionalTitle',
-            id: 'professionalTitle',
-            label: '职称',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'professionalPosition',
-            id: 'professionalPosition',
-            label: '职务',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'subjectDirection',
-            id: 'subjectDirection',
-            label: '学科方向',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'teacherCertificateNo',
-            id: 'teacherCertificateNo',
-            label: '教师资格证号',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'mainTeacherCertificateNo',
-            id: 'mainTeacherCertificateNo',
-            label: '主讲教师资格证号',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'staffNo',
-            id: 'staffNo',
-            label: '人事职工号',
-            cls: 'input-large'
-        }, {
-            type: 'textarea',
-            name: 'teachQualityComment',
-            id: 'teachQualityComment',
-            label: '教学质量评价',
-            cls: 'input-large'
         }
     ];
-    App.infoTeacher.columns = [{
+    App.infoStudent.columns = [{
         title: "id",
         field: "id",
         sort: true,
         width: "5%"
     }, {
-        title: "教师名称",
+        title: "学生名称",
         field: "name",
         sort: true
     }, {
@@ -211,10 +135,10 @@
         field: "contactPhone",
         sort: true
     }];
-    App.infoTeacher.initEvents = function () {
+    App.infoStudent.initEvents = function () {
         var grid;
         var options = {
-            url: App.href + "/api/info/teacher/pageList",
+            url: App.href + "/api/info/student/pageList",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -226,7 +150,7 @@
             showIndexNum: true,
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
-            columns: App.infoTeacher.columns,
+            columns: App.infoStudent.columns,
             actionColumnText: "操作",
             actionColumnWidth: "20%",
             actionColumns: [{
@@ -234,15 +158,15 @@
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
-                        id: "teacherForm",
-                        title: "编辑教师",
+                        id: "studentForm",
+                        title: "编辑学生",
                         destroy: true
                     });
                     var formOpts = {
-                        id: "teacher_form",
-                        name: "teacher_form",
+                        id: "student_form",
+                        name: "student_form",
                         method: "POST",
-                        action: App.href + "/api/info/teacher/update",
+                        action: App.href + "/api/info/student/update",
                         ajaxSubmit: true,
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
@@ -264,17 +188,17 @@
                             }
                         }],
                         buttonsAlign: "center",
-                        items: App.infoTeacher.formItems
+                        items: App.infoStudent.formItems
                     };
                     var form = modal.$body.topieForm(formOpts);
-                    form.loadRemote(App.href + "/api/info/teacher/load/" + data.id);
+                    form.loadRemote(App.href + "/api/info/student/load/" + data.id);
                     modal.show();
                 }
             }, {
                 text: "删除",
                 cls: "btn-danger btn-sm",
                 handle: function (index, data) {
-                    var requestUrl = App.href + "/api/info/teacher/delete";
+                    var requestUrl = App.href + "/api/info/student/delete";
                     $.ajax({
                         type: "POST",
                         beforeSend: function (request) {
@@ -282,7 +206,7 @@
                         },
                         dataType: "json",
                         data: {
-                            teacherId: data.id
+                            studentId: data.id
                         },
                         url: requestUrl,
                         success: function (data) {
@@ -305,15 +229,15 @@
                     icon: "fa fa-cubes",
                     handle: function (grid) {
                         var modal = $.topieModal({
-                            id: "teacher_modal",
-                            title: "添加教师",
+                            id: "student_modal",
+                            title: "添加学生",
                             destroy: true
                         });
                         var formOpts = {
-                            id: "add_teacher_form",
-                            name: "add_teacher_form",
+                            id: "add_student_form",
+                            name: "add_student_form",
                             method: "POST",
-                            action: App.href + "/api/info/teacher/insert",
+                            action: App.href + "/api/info/student/insert",
                             ajaxSubmit: true,
                             rowEleNum: 1,
                             beforeSend: function (request) {
@@ -335,7 +259,7 @@
                                 }
                             }],
                             buttonsAlign: "center",
-                            items: App.infoTeacher.formItems
+                            items: App.infoStudent.formItems
                         };
                         var form = modal.$body.topieForm(formOpts);
                         modal.show();
@@ -346,9 +270,9 @@
                 rowEleNum: 2,
                 items: [{
                     type: "text",
-                    label: "教师名",
+                    label: "学生名",
                     name: "name",
-                    placeholder: "输入要搜索的教师名"
+                    placeholder: "输入要搜索的学生名"
                 }, {
                     title: "联系电话",
                     field: "contactPhone",
@@ -356,6 +280,6 @@
                 }]
             }
         };
-        grid = window.App.content.find("#teacher_grid").topieGrid(options);
+        grid = window.App.content.find("#student_grid").topieGrid(options);
     }
 })(jQuery, window, document);

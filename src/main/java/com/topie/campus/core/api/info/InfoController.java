@@ -9,6 +9,7 @@ import com.topie.campus.core.enums.Degree;
 import com.topie.campus.core.enums.EducationBackground;
 import com.topie.campus.core.enums.Gender;
 import com.topie.campus.core.enums.PoliticalStatus;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
@@ -81,8 +82,8 @@ public class InfoController {
 
     @RequestMapping(value = "/teacher/load/{teacherId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadUser(@PathVariable(value = "teacherId") int teacherId) {
-        Teacher teacher = iInfoBasicService.findOneById(teacherId);
+    public Result loadTeacher(@PathVariable(value = "teacherId") int teacherId) {
+        Teacher teacher = iInfoBasicService.findOneByTeacherId(teacherId);
         return ResponseUtil.success(teacher);
     }
 
@@ -102,4 +103,51 @@ public class InfoController {
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
+    @RequestMapping(value = "/teacher/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public Result teacherDelete(@RequestParam("id") Integer teacherId) {
+        int result = iInfoBasicService.deleteTeacher(teacherId);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
+
+    @RequestMapping(value = "/student/pageList", method = RequestMethod.GET)
+    @ResponseBody
+    public Result studentList(Student student,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<Student> pageInfo = iInfoBasicService.findStudentList(student, pageNum, pageSize);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping(value = "/student/load/{studentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result loadStudent(@PathVariable(value = "studentId") int studentId) {
+        Student student = iInfoBasicService.findOneByStudentId(studentId);
+        return ResponseUtil.success(student);
+    }
+
+    @RequestMapping(value = "/student/insert", method = RequestMethod.POST)
+    @ResponseBody
+    public Result studentInsert(Student student) {
+        int result = iInfoBasicService.insertStudent(student);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
+
+    @RequestMapping(value = "/student/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result studentUpdate(Student student) {
+        int result = iInfoBasicService.updateStudent(student);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
+
+    @RequestMapping(value = "/student/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public Result studentDelete(@RequestParam("id") Integer studentId) {
+        int result = iInfoBasicService.deleteStudent(studentId);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
 }

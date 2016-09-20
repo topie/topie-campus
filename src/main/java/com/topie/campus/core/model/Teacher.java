@@ -1,6 +1,8 @@
 package com.topie.campus.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -48,6 +50,7 @@ public class Teacher extends Sortable {
     /**
      * 出生日期
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birth;
 
     /**
@@ -261,6 +264,7 @@ public class Teacher extends Sortable {
      *
      * @return birth - 出生日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }

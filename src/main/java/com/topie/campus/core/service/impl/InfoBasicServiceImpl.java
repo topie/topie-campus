@@ -1,9 +1,12 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.StudentExcelDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
@@ -18,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -32,6 +34,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Autowired
     private ITeacherService iTeacherService;
 
+    @Autowired
+    private IStudentService iStudentService;
+
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
         Collection<TeacherExcelDto> teacherList;
@@ -40,11 +45,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         } else {
             teacherList = ExcelUtil.importExcel(TeacherExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
         }
-        Collection<Map> student;
+        Collection<StudentExcelDto> studentList;
         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-            student = ExcelUtil.importExcelX(Map.class, file.getInputStream(), 1, "dd/MM/yy", logs);
+            studentList = ExcelUtil.importExcelX(StudentExcelDto.class, file.getInputStream(), 1, "dd/MM/yy", logs);
         } else {
-            student = ExcelUtil.importExcel(Map.class, file.getInputStream(), 1, "dd/MM/yy", logs);
+            studentList = ExcelUtil.importExcel(StudentExcelDto.class, file.getInputStream(), 1, "dd/MM/yy", logs);
         }
         for (TeacherExcelDto teacherDto : teacherList) {
             //TODO 检测教师职工号是否唯一
@@ -59,7 +64,19 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             teacher.setUserId(user.getId());
             iTeacherService.insertSelective(teacher);
         }
-
+        for (StudentExcelDto studentDto : studentList) {
+            //TODO 检测学号是否唯一
+            User user = UserVO
+                    .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
+                            studentDto.getEmail());
+            if (userService.findExistUser(user) > 0) {
+                throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+            }
+            userService.insertUser(user);
+            Student student = studentDto.buildStudent();
+            student.setUserId(user.getId());
+            iStudentService.insertSelective(student);
+        }
     }
 
     @Override
@@ -68,7 +85,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
-    public Teacher findOneById(Integer teacherId) {
+    public Teacher findOneByTeacherId(Integer teacherId) {
         return iTeacherService.selectByKey(teacherId);
     }
 
@@ -88,5 +105,53 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public int updateTeacher(Teacher teacher) {
         return iTeacherService.updateSelective(teacher);
+    }
+
+    @Override
+    public int deleteTeacher(Integer teacherId) {
+        //TODO 删除用户
+        Teacher teacher = iTeacherService.selectByKey(teacherId);
+        if (teacher != null) {
+            userService.delete(teacher.getUserId());
+        }
+        return iTeacherService.delete(teacherId);
+    }
+
+    @Override
+    public SimplePageInfo<Student> findStudentList(Student student, int pageNum, int pageSize) {
+        return iStudentService.findStudentList(student, pageNum, pageSize);
+    }
+
+    @Override
+    public Student findOneByStudentId(Integer studentId) {
+        return iStudentService.selectByKey(studentId);
+    }
+
+    @Override
+    public int insertStudent(Student student) {
+        //TODO 检测学号是否唯一
+        User user = UserVO.buildSimpleUser(student.getStudentNo(), student.getContactPhone(), student.getName(),
+                student.getEmail());
+        if (userService.findExistUser(user) > 0) {
+            throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+        }
+        userService.insertUser(user);
+        student.setUserId(user.getId());
+        return iStudentService.insertSelective(student);
+    }
+
+    @Override
+    public int updateStudent(Student student) {
+        return iStudentService.updateSelective(student);
+    }
+
+    @Override
+    public int deleteStudent(Integer studentId) {
+        //TODO 删除用户
+        Student student = iStudentService.selectByKey(studentId);
+        if (student != null) {
+            userService.delete(student.getUserId());
+        }
+        return iStudentService.delete(studentId);
     }
 }
