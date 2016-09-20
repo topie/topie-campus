@@ -1,6 +1,7 @@
 package com.topie.campus.core.api.info;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
@@ -85,5 +86,20 @@ public class InfoController {
         return ResponseUtil.success(teacher);
     }
 
+    @RequestMapping(value = "/teacher/insert", method = RequestMethod.POST)
+    @ResponseBody
+    public Result teacherInsert(Teacher teacher) {
+        int result = iInfoBasicService.insertTeacher(teacher);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
+
+    @RequestMapping(value = "/teacher/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result teacherUpdate(Teacher teacher) {
+        int result = iInfoBasicService.updateTeacher(teacher);
+        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
 
 }

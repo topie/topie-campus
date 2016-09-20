@@ -17,4 +17,8 @@ public interface IInfoBasicService {
     SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize);
 
     Teacher findOneById(Integer teacherId);
+
+    int insertTeacher(Teacher teacher);
+
+    int updateTeacher(Teacher teacher);
 }

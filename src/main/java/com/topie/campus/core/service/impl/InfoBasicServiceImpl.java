@@ -47,6 +47,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             student = ExcelUtil.importExcel(Map.class, file.getInputStream(), 1, "dd/MM/yy", logs);
         }
         for (TeacherExcelDto teacherDto : teacherList) {
+            //TODO 检测教师职工号是否唯一
             User user = UserVO
                     .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getContactPhone(), teacherDto.getName(),
                             teacherDto.getEmail());
@@ -69,5 +70,23 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public Teacher findOneById(Integer teacherId) {
         return iTeacherService.selectByKey(teacherId);
+    }
+
+    @Override
+    public int insertTeacher(Teacher teacher) {
+        //TODO 检测教师职工号是否唯一
+        User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getContactPhone(), teacher.getName(),
+                teacher.getEmail());
+        if (userService.findExistUser(user) > 0) {
+            throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+        }
+        userService.insertUser(user);
+        teacher.setUserId(user.getId());
+        return iTeacherService.insertSelective(teacher);
+    }
+
+    @Override
+    public int updateTeacher(Teacher teacher) {
+        return iTeacherService.updateSelective(teacher);
     }
 }

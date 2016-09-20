@@ -3,8 +3,8 @@
  */
 ;
 (function ($, window, document, undefined) {
+    initIndex();
     $(document).ready(function () {
-        initIndex();
         initMenu();
     });
     var that = this;
