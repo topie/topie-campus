@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/api/leader")
-public class LeaderController {
+public class FrontLeaderController {
 
 }

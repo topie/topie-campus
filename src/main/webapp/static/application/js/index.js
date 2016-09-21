@@ -46,6 +46,7 @@
                 type: 'button',
                 text: '加载内容',
                 handle: function () {
+                    form.setValue("introduce","aaaa");
                     form.setValue("attachmentIds", 1);
                     form.setValue("roles", "1,2,3");
                     form.setValue("html", "这是加载内容！");

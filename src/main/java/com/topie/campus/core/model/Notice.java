@@ -1,5 +1,8 @@
 package com.topie.campus.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -24,6 +27,7 @@ public class Notice {
      * 通知公告发布时间
      */
     @Column(name = "notice_publish_time")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date noticePublishTime;
 
     /**
@@ -73,6 +77,7 @@ public class Notice {
      *
      * @return notice_publish_time - 通知公告发布时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
     public Date getNoticePublishTime() {
         return noticePublishTime;
     }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by chenguojun on 8/31/16.
  */
 @Controller
-@RequestMapping("/api/teacher")
-public class TeacherController {
+@RequestMapping("/api/student")
+public class FrontStudentController {
 
 }

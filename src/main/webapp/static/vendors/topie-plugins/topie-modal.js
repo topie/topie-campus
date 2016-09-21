@@ -16,13 +16,13 @@
         destroy: true,
         backdrop: true,
         scroll: true,
-        keyboard: true,
+        keyboard: false,
         maxHeight: "550px",
         minHeight: "450px",
         width: "75%"
     };
     Modal.statics = {
-        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" tabindex="-1" style="border-radius:0;border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
+        modalTmpl: '<div id="${id_}" class="modal fade container ${scroll_}" style="border-radius:0;border: 1px solid ${color_};" ${backdrop_} ${keyboard_}></div>',
         headerTmpl: '<div id="${id_}head" class="modal-header" style="background-color: ${color_};"></div>',
         closeBtnTmpl: '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>',
         titleTmpl: '<h5 id="${id_}title" class="modal-title" >${title_}</h5>',
@@ -154,6 +154,9 @@
 
         },
         _destroyModal: function () {
+            if (KindEditor != undefined) {
+                KindEditor.remove('textarea[role=kindEditor]');
+            }
             this.$modal.remove();
         }
     };

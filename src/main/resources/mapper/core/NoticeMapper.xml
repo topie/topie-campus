@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.topie.campus.core.dao.NoticeMapper" >
-  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Notice" >
-    <!--
-      WARNING - @mbggenerated
-    -->
-    <id column="notice_id" property="noticeId" jdbcType="INTEGER" />
-    <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR" />
-    <result column="notice_publish_time" property="noticePublishTime" jdbcType="TIMESTAMP" />
-    <result column="notice_content" property="noticeContent" jdbcType="LONGVARCHAR" />
-  </resultMap>
+<mapper namespace="com.topie.campus.core.dao.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Notice">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="notice_id" property="noticeId" jdbcType="INTEGER"/>
+        <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR"/>
+        <result column="notice_publish_time" property="noticePublishTime" jdbcType="TIMESTAMP"/>
+        <result column="notice_content" property="noticeContent" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <select id="findNoticeByPageNumAndPageSize" resultMap="BaseResultMap">
+        select
+        notice_id,notice_title,notice_publish_time
+        from topie_campus.t_common_notice
+        <where>
+            <if test="notice.noticeTitle!=null and notice.noticeTitle!=''">
+                and `notice_title` like concat('%',concat(#{notice.noticeTitle},'%'))
+            </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countNotice" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_common_notice
+        <where>
+            <if test="notice.noticeTitle!=null and notice.noticeTitle!=''">
+                and `notice_title` like concat('%',concat(#{notice.noticeTitle},'%'))
+            </if>
+        </where>
+    </select>
 </mapper>

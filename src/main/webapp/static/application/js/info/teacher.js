@@ -1,7 +1,7 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/info/teacher/pageList": "infoTeacher"
+        "/api/info/teacher/page": "infoTeacher"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
     App.infoTeacher = {
@@ -214,7 +214,7 @@
     App.infoTeacher.initEvents = function () {
         var grid;
         var options = {
-            url: App.href + "/api/info/teacher/pageList",
+            url: App.href + "/api/info/teacher/page",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },

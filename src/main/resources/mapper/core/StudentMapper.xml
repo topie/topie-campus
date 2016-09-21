@@ -31,7 +31,7 @@
             </if>
         </where>
         <if test="student.sort_ != null and student.sort_ != ''">
-            ${teacher.sort_}
+            ${student.sort_}
         </if>
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}

@@ -4,18 +4,21 @@ INSERT INTO `sys_user` VALUES
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `sys_role` VALUES ('3', '信息管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('6', '0', '信息管理', '1', '1', NULL, '#', '3', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('7', '6', '信息上传', '1', '1', NULL, '/api/info/user/upload', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('8', '6', '教师列表', '1', '1', NULL, '/api/info/teacher/pageList', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('9', '6', '学生', '1', '1', NULL, '/api/info/student/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('7', '6', '信息上传', '1', '1', NULL, '/api/info/upload/page', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('8', '6', '教师管理', '1', '1', NULL, '/api/info/teacher/page', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('9', '6', '学生管理', '1', '1', NULL, '/api/info/student/page', '1', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('10', '6', '公告管理', '1', '1', NULL, '/api/info/notice/page', '1', NULL, NULL);
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('3', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '6');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '7');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '8');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '9');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '10');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '6');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '7');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '8');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '9');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '10');
 
 

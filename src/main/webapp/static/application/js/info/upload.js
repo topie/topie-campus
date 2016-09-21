@@ -4,9 +4,9 @@
 ;
 (function ($, window, document, undefined) {
     var that = this;
-    that.uploadUrl = window.App.href + "/api/info/user/uploadExcel";
+    that.uploadUrl = window.App.href + "/api/info/upload/uploadExcel";
     var uploadMapping = {
-        "/api/info/user/upload": "upload"
+        "/api/info/upload/page": "upload"
     }
     App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     App.upload = {
@@ -14,7 +14,7 @@
             $.ajax(
                 {
                     type: 'GET',
-                    url: App.href + "/api/info/user/upload",
+                    url: App.href + "/api/info/upload/page",
                     contentType: "application/json",
                     dataType: "json",
                     beforeSend: function (request) {
@@ -26,7 +26,7 @@
                             window.App.title(title);
                             window.App.content.append(result.message);
                             window.App.content.find("a[role=template]").click(function () {
-                                window.App.download("/api/info/user/downloadTemplate");
+                                window.App.download("/api/info/upload/downloadTemplate");
                             });
                             App.upload.initEvents();
                         } else {

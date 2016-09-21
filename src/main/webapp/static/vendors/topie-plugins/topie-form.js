@@ -690,13 +690,14 @@
             },
             'datepicker': function (data, form) {
                 var dateTmpl = '<div class="input-group input-medium">'
-                    + '<input type="text" role="date-input" id="${id_}" name=${name_} class="form-control">'
+                    + '<input type="text" role="date-input" id="${id_}" name=${name_} value="${value_}" class="form-control">'
                     + '<span role="icon" class="input-group-addon">'
                     + '<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>' + '</span></div>';
                 var ele = $.tmpl(dateTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name,
-                    "cls_": data.cls == undefined ? "" : data.cls
+                    "cls_": data.cls == undefined ? "" : data.cls,
+                    "value_": (data.value == undefined ? moment().format('YYYY-MM-DD HH:mm:ss') : data.value)
                 });
                 config = (data.config == undefined ? {} : data.config);
                 var option = $.extend(true, dataDefaults, config);
@@ -1078,8 +1079,7 @@
                             var edWith = ele
                                 .data("width") == undefined ? 0 : ele.data("width");
                             var editor = KE
-                                .create(
-                                    '#' + ele.attr("id"),
+                                .create('#' + ele.attr("id"),
                                     {
                                         uploadJson: App.href
                                         + '/api/KE/fileUpload?topie_token=' + App.token,
@@ -1087,15 +1087,13 @@
                                         + '/api/KE/fileManager?topie_token=' + App.token,
                                         minWidth: 0,
                                         width: edWith,
-                                        height: ele
-                                            .data("height") == undefined ? '400px'
-                                            : ele
-                                            .data("height"),
+                                        height: (ele
+                                            .data("height") == undefined ? '400px' : ele.data("height")),
                                         allowFileManager: true,
+                                        resizeType: 1,
                                         afterBlur: function () {
                                             this.sync();
-                                        },
-                                        resizeType: 1
+                                        }
                                     });
                             if (edWith == 0)
                                 ele.prev("div.ke-container").addClass("col-md-12").css("width", "");
