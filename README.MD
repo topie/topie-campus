@@ -31,3 +31,6 @@ Admin - admin:admin
 ```
 /static/index.html
 ```
+
+4. Notice!!
+When using modal and form plugins, you must modal.show() before modal.form() to avoid the kindeditor bug!
