@@ -339,7 +339,7 @@
                 help.append(item.detail);
             }
             if (that._labelInline) {
-                var div = $('<div class="col-md-10"></div>');
+                var div = $('<div formele="' + item.type + '" class="col-md-10"></div>');
                 if (item.showIcon) {
                     item.icon = "";
                 }
@@ -363,7 +363,7 @@
                 wrapper.find(".form-group").append(div);
             } else {
                 if (item.icon != undefined) {
-                    var iconDiv = $('<div class="input-icon '
+                    var iconDiv = $('<div formele="' + item.type + '" class="input-icon '
                         + (item.iconAlign == undefined ? "right"
                             : item.iconAlign) + '"></div>');
                     if (item.cls != undefined) {
@@ -377,7 +377,7 @@
                         wrapper.find(".form-group").append(help);
                     }
                 } else {
-                    var inputWrapper = $('<div></div>')
+                    var inputWrapper = $('<div formele="' + item.type + '"></div>')
                     inputWrapper.append(ele);
                     wrapper.find(".form-group").append(inputWrapper);
                     if (help != undefined) {
@@ -437,6 +437,20 @@
             }
         },
         _formEles: {
+            'html': function (data, form) {
+                var htmlWrapper = '<div id="${id_}" name="${name_}" ${attribute_} ></div>';
+                var ele = $.tmpl(htmlWrapper, {
+                    "id_": (data.id == undefined ? data.name : data.id),
+                    "name_": data.name,
+                    "attribute_": (data.attribute == undefined ? ""
+                        : data.attribute)
+                });
+                ele.append(data.html);
+                if (data.loadHandle != undefined) {
+                    ele.data("load", data.loadHandle);
+                }
+                return ele;
+            },
             'display': function (data, form) {
                 var textTmpl = '<p id="${id_}" name="${name_}" ${attribute_} class="form-control-static"></p>';
                 var ele = $.tmpl(textTmpl, {
@@ -1031,6 +1045,7 @@
             this._initTree();
             this._initKindEditor();
             this._initMultiFileUpload();
+            this._initHtmlHandle();
         },
         _uniform: function () {
             if (!$().uniform) {
@@ -1265,6 +1280,14 @@
                     }
                 });
             }
+        },
+        _initHtmlHandle: function () {
+            $("div[formele=html]").each(function () {
+                var data = $(this).parent().parent().data("data");
+                if (data != undefined && data.eventHandle != undefined) {
+                    data.eventHandle($(this));
+                }
+            });
         },
         _initValidate: function () {
             var that = this;
@@ -1505,6 +1528,10 @@
                 this._renderMultipleFiles(ele, name, value);
             } else {
                 ele.val(value);
+            }
+            var loadHandle = ele.data("load");
+            if (loadHandle != undefined) {
+                loadHandle(ele, value);
             }
             this._uniform();
         },

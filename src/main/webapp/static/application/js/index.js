@@ -44,10 +44,11 @@
             isValidate: true,//开启验证
             buttons: [{
                 type: 'button',
-                text: '关闭',
+                text: '加载内容',
                 handle: function () {
                     form.setValue("attachmentIds", 1);
                     form.setValue("roles", "1,2,3");
+                    form.setValue("html", "这是加载内容！");
                 }
             }],
             buttonsAlign: "center",
@@ -157,9 +158,24 @@
                     required: true
                 },
                 message: {
-                    required: "上传附件",
+                    required: "上传附件"
                 }
-            }]
+            }, {
+                type: 'html',
+                id: 'html',
+                name: 'html',
+                html: '<div class="row"><div class="col-md-12"><div class="content-box-header"><div class="panel-title"><a href="javascript:void(0);">自定义html示例</a></div></div> <div class="content-box-large box-with-header"><p class="content">默认内容</p> </div> </div> </div>',
+                eventHandle: function (ele) {
+                    ele.find("a").click(function (e) {
+                        alert("我点击了自定义链接");
+                        e.preventDefault();
+                    });
+                },
+                loadHandle: function (ele, value) {
+                    ele.find("p.content").html(value);
+                }
+            }
+            ]
         };
         var form = App.content.find("#index_grid").topieForm(formOpts);
     }
