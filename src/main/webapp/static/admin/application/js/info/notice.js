@@ -113,7 +113,6 @@
                         },
                         submitText: "保存",
                         showReset: true,
-                        rowEleNum: 2,
                         resetText: "重置",
                         isValidate: true,
                         buttons: [{
@@ -127,7 +126,7 @@
                         items: App.infoNotice.formItems
                     };
                     var form = modal.$body.topieForm(formOpts);
-                    form.loadRemote(App.href + "/api/info/notice/load/" + data.id);
+                    form.loadRemote(App.href + "/api/info/notice/load/" + data.noticeId);
                 }
             }, {
                 text: "删除",

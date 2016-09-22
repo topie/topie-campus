@@ -27,7 +27,7 @@ public class Notice {
      * 通知公告发布时间
      */
     @Column(name = "notice_publish_time")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date noticePublishTime;
 
     /**

@@ -46,7 +46,7 @@
                 type: 'button',
                 text: '加载内容',
                 handle: function () {
-                    form.setValue("introduce","aaaa");
+                    form.setValue("introduce", "aaaa");
                     form.setValue("attachmentIds", 1);
                     form.setValue("roles", "1,2,3");
                     form.setValue("html", "这是加载内容！");
@@ -246,7 +246,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: "../api/sys/function/current",
+                url: App.href + "/api/sys/function/current",
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {
@@ -311,7 +311,7 @@
                                             var title = $(this).attr("data-title");
                                             $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
                                             App[f].page(title);
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/index.html#!' + url);
+                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/admin/index.html#!' + url);
                                         });
                                     }
                                 }

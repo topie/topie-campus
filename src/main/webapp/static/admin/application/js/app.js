@@ -5,7 +5,7 @@
 (function ($, window, document, undefined) {
     window.App = {
         projectName: "/topie-campus",
-        href: "..",
+        href: "../..",
         requestMapping: {}
     };
 

@@ -54,12 +54,12 @@ footer .copy {
 /* Logo & Navigation */
 
 .header {
-    height: 50px;
+    height: 40px;
     background-color: #6887c4;
 }
 
 .header .logo h1 {
-    font-size: 30px;
+    font-size: 20px;
     margin: 0px;
     padding: 10px 0px;
 }

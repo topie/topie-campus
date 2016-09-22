@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>loading</title>
     <script type="text/javascript">
-        window.location.href="./static/login.html";
+        window.location.href="./static/admin/login.html";
     </script>
 </head>
 <body>
