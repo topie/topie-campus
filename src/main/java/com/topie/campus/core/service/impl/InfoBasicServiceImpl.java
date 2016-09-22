@@ -2,6 +2,7 @@ package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.StudentExcelDto;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
@@ -123,6 +124,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
+    public SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
+            Integer teacherId, Integer pageNum, Integer pageSize) {
+        return iStudentService.findStudentSimpleDtoListWithBindInfo(studentSimpleDto, teacherId, pageNum, pageSize);
+    }
+
+    @Override
     public Student findOneByStudentId(Integer studentId) {
         return iStudentService.selectByKey(studentId);
     }
@@ -153,5 +160,15 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             userService.delete(student.getUserId());
         }
         return iStudentService.delete(studentId);
+    }
+
+    @Override
+    public void insertToBindStudent(Integer studentId, Integer teacherId) {
+        iTeacherService.insertToBindStudent(studentId, teacherId);
+    }
+
+    @Override
+    public void deleteToUnbindStudent(Integer studentId, Integer teacherId) {
+        iTeacherService.deleteToUnBindStudent(studentId, teacherId);
     }
 }

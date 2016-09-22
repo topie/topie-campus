@@ -41,6 +41,14 @@
         graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
         subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff
     </sql>
+    <insert id="insertRelate">
+        insert ignore into
+        topie_campus.t_relate_student_teacher(student_id,teacher_id)
+        values(#{studentId},#{teacherId})
+    </insert>
+    <delete id="deleteRelate">
+        delete from topie_campus.t_relate_student_teacher where student_id=#{studentId} and teacher_id=#{teacherId}
+    </delete>
     <select id="findTeacherByPageNumAndPageSize" resultMap="BaseResultMap">
         select
         <include refid="Simple_Base_Column_List"/>
@@ -67,6 +75,5 @@
             </if>
         </where>
     </select>
-
 
 </mapper>

@@ -27,4 +27,14 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         return pageInfo;
     }
 
+    @Override
+    public void insertToBindStudent(Integer studentId, Integer teacherId) {
+        teacherMapper.insertRelate(studentId, teacherId);
+    }
+
+    @Override
+    public void deleteToUnBindStudent(Integer studentId, Integer teacherId) {
+        teacherMapper.deleteRelate(studentId, teacherId);
+    }
+
 }

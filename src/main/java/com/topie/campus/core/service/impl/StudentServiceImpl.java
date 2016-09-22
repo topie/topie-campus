@@ -3,6 +3,7 @@ package com.topie.campus.core.service.impl;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.StudentMapper;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,17 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
         List<Student> list = studentMapper.findStudentByPageNumAndPageSize(student, (pageNum - 1) * pageSize, pageSize);
         Long total = studentMapper.countStudent(student);
         SimplePageInfo<Student> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+        return pageInfo;
+    }
+
+    @Override
+    public SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
+            Integer teacherId, Integer pageNum, Integer pageSize) {
+        List<StudentSimpleDto> list = studentMapper
+                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(studentSimpleDto, teacherId,
+                        (pageNum - 1) * pageSize, pageSize);
+        Long total = studentMapper.countStudentSimpleDtoListByTeacherId(studentSimpleDto, teacherId);
+        SimplePageInfo<StudentSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
     }
 
