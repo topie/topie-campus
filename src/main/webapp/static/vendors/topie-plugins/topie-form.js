@@ -1090,10 +1090,10 @@
                                         height: (ele
                                             .data("height") == undefined ? '400px' : ele.data("height")),
                                         allowFileManager: true,
-                                        resizeType: 1,
                                         afterBlur: function () {
                                             this.sync();
-                                        }
+                                        },
+                                        resizeType: 1
                                     });
                             if (edWith == 0)
                                 ele.prev("div.ke-container").addClass("col-md-12").css("width", "");
