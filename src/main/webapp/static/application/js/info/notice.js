@@ -97,6 +97,7 @@
                         title: "编辑公告",
                         destroy: true
                     });
+                    modal.show();
                     var formOpts = {
                         id: "notice_form",
                         name: "notice_form",
@@ -127,7 +128,6 @@
                     };
                     var form = modal.$body.topieForm(formOpts);
                     form.loadRemote(App.href + "/api/info/notice/load/" + data.id);
-                    modal.show();
                 }
             }, {
                 text: "删除",
@@ -167,7 +167,7 @@
                             id: "notice_modal",
                             title: "添加公告",
                             destroy: true
-                        });
+                        }).show();
                         var formOpts = {
                             id: "add_notice_form",
                             name: "add_notice_form",
@@ -197,7 +197,6 @@
                             items: App.infoNotice.formItems
                         };
                         var form = modal.$body.topieForm(formOpts);
-                        modal.show();
                     }
                 }
             ],
