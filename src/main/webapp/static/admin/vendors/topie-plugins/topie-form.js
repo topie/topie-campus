@@ -1090,10 +1090,10 @@
                                         height: (ele
                                             .data("height") == undefined ? '400px' : ele.data("height")),
                                         allowFileManager: true,
-                                        resizeType: 1,
                                         afterBlur: function () {
                                             this.sync();
-                                        }
+                                        },
+                                        resizeType: 1
                                     });
                             that._editor[ele.attr("id")] = editor;
                         });
