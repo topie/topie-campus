@@ -1,156 +1,91 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/job/page": "infoEmploy"
+        "/api/info/notice/page": "infoNotice"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.infoEmploy = {
+    App.infoNotice = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="student_grid"></div>');
+            var content = $('<div class="panel-body" id="notice_grid">f</div>');
             window.App.content.append(content);
-            App.infoEmploy.initEvents();
+            App.infoNotice.initEvents();
         }
     };
-    App.infoEmploy.formItems = [
+    App.infoNotice.formItems = [
         {
             type: 'hidden',
-            name: 'id',
-            id: 'id'
+            name: 'noticeId',
+            id: 'noticeId'
         }, {
             type: 'text',
-            name: 'name',
-            id: 'name',
-            label: '学生名',
+            name: 'noticeTitle',
+            id: 'noticeTitle',
+            label: '通知公告标题',
             cls: 'input-large',
             rule: {
                 required: true
             },
             message: {
-                required: "请输入学生名"
+                required: "请输入公告名"
             }
-        }, {
-            type: 'text',
-            name: 'studentNo',
-            id: 'studentNo',
-            label: '学号',
-            cls: 'input-large',
-            rule: {
-                required: true
-            },
-            message: {
-                required: "请输入学号"
-            }
-        }, {
-            type: 'radioGroup',
-            name: 'gender',
-            id: 'gender',
-            label: '性别',
-            inline: true,
-            items: [{
-                value: 1,
-                text: '男'
-            }, {
-                value: 0,
-                text: '女'
-            }]
         }, {
             type: 'datepicker',
-            name: 'birth',
-            id: 'birth',
-            label: '出生日期',
+            name: 'noticePublishTime',
+            id: 'noticePublishTime',
+            label: '发布时间',
             config: {
-                timePicker: false,
+                timePicker: true,
                 singleDatePicker: true,
                 locale: {
-                    format: 'YYYY-MM-DD'
+                    format: 'YYYY-MM-DD HH:mm:ss'
                 }
             },
             rule: {
                 required: true
             },
             message: {
-                required: "请选择出生日期"
+                required: "请选择发布时间"
             }
         }, {
-            type: "select",
-            label: "民族",
-            name: "ethnicGroup",
-            items: [
-                {
-                    text: "请选择民族",
-                    value: ""
-                }
-            ],
-            itemsUrl: App.href + "/api/common/ethnicGroup/option?topie_token=" + App.token
-        }, {
-            type: "select",
-            label: "政治面貌",
-            name: "ethnicGroup",
-            items: [
-                {
-                    text: "请选择政治面貌",
-                    value: ""
-                }
-            ],
-            itemsUrl: App.href + "/api/common/politicalStatus/option?topie_token=" + App.token
-        }, {
-            type: 'text',
-            name: 'academe',
-            id: 'academe',
-            label: '学院',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'subject',
-            id: 'subject',
-            label: '专业',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'contactPhone',
-            id: 'contactPhone',
-            label: '联系电话',
-            cls: 'input-large'
-        }, {
-            type: 'text',
-            name: 'email',
-            id: 'email',
-            label: '邮箱',
-            cls: 'input-large'
+            type: 'kindEditor',
+            name: 'noticeContent',
+            id: 'noticeContent',
+            label: '公告内容',
+            height: "300px",
+            rule: {
+                required: true
+            },
+            message: {
+                required: "请输入公告内容"
+            }
         }
     ];
-    App.infoEmploy.columns = [{
-        title: "id",
-        field: "id",
-        sort: true,
+    App.infoNotice.columns = [{
+        title: "noticeId",
+        field: "noticeId",
         width: "5%"
     }, {
-        title: "学生名称",
-        field: "name",
-        sort: true
-    }, {
-        title: "联系电话",
-        field: "contactPhone",
-        sort: true
+        title: "公告标题",
+        field: "noticeTitle"
     }];
-    App.infoEmploy.initEvents = function () {
+    App.infoNotice.initEvents = function () {
         var grid;
         var options = {
-            url: App.href + "/api/job/page",
+            url: App.href + "/api/info/notice/page",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
             pageNum: 1,
             pageSize: 15,
-            idFiled: "id",
+            idFiled: "noticeId",
             showCheckbox: true,
             checkboxWidth: "3%",
             showIndexNum: true,
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
-            columns: App.infoEmploy.columns,
+            columns: App.infoNotice.columns,
             actionColumnText: "操作",
             actionColumnWidth: "20%",
             actionColumns: [{
@@ -158,15 +93,16 @@
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
-                        id: "studentForm",
-                        title: "编辑学生",
+                        id: "noticeForm",
+                        title: "编辑公告",
                         destroy: true
                     });
+                    modal.show();
                     var formOpts = {
-                        id: "student_form",
-                        name: "student_form",
+                        id: "notice_form",
+                        name: "notice_form",
                         method: "POST",
-                        action: App.href + "/api/info/student/update",
+                        action: App.href + "/api/info/notice/update",
                         ajaxSubmit: true,
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
@@ -177,7 +113,6 @@
                         },
                         submitText: "保存",
                         showReset: true,
-                        rowEleNum: 2,
                         resetText: "重置",
                         isValidate: true,
                         buttons: [{
@@ -188,17 +123,16 @@
                             }
                         }],
                         buttonsAlign: "center",
-                        items: App.infoEmploy.formItems
+                        items: App.infoNotice.formItems
                     };
                     var form = modal.$body.topieForm(formOpts);
-                    form.loadRemote(App.href + "/api/info/student/load/" + data.id);
-                    modal.show();
+                    form.loadRemote(App.href + "/api/info/notice/load/" + data.noticeId);
                 }
             }, {
                 text: "删除",
                 cls: "btn-danger btn-sm",
                 handle: function (index, data) {
-                    var requestUrl = App.href + "/api/info/student/delete";
+                    var requestUrl = App.href + "/api/info/notice/delete";
                     $.ajax({
                         type: "POST",
                         beforeSend: function (request) {
@@ -206,7 +140,7 @@
                         },
                         dataType: "json",
                         data: {
-                            studentId: data.id
+                            noticeId: data.id
                         },
                         url: requestUrl,
                         success: function (data) {
@@ -229,15 +163,15 @@
                     icon: "fa fa-cubes",
                     handle: function (grid) {
                         var modal = $.topieModal({
-                            id: "student_modal",
-                            title: "添加学生",
+                            id: "notice_modal",
+                            title: "添加公告",
                             destroy: true
-                        });
+                        }).show();
                         var formOpts = {
-                            id: "add_student_form",
-                            name: "add_student_form",
+                            id: "add_notice_form",
+                            name: "add_notice_form",
                             method: "POST",
-                            action: App.href + "/api/info/student/insert",
+                            action: App.href + "/api/info/notice/insert",
                             ajaxSubmit: true,
                             rowEleNum: 1,
                             beforeSend: function (request) {
@@ -259,10 +193,9 @@
                                 }
                             }],
                             buttonsAlign: "center",
-                            items: App.infoEmploy.formItems
+                            items: App.infoNotice.formItems
                         };
                         var form = modal.$body.topieForm(formOpts);
-                        modal.show();
                     }
                 }
             ],
@@ -270,16 +203,12 @@
                 rowEleNum: 2,
                 items: [{
                     type: "text",
-                    label: "学生名",
-                    name: "name",
-                    placeholder: "输入要搜索的学生名"
-                }, {
-                    title: "联系电话",
-                    field: "contactPhone",
-                    sort: true
+                    label: "标题",
+                    name: "noticeTitle",
+                    placeholder: "输入要搜索的标题"
                 }]
             }
         };
-        grid = window.App.content.find("#student_grid").topieGrid(options);
+        grid = window.App.content.find("#notice_grid").topieGrid(options);
     }
 })(jQuery, window, document);

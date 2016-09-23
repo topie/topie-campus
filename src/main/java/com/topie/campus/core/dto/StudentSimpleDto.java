@@ -1,0 +1,61 @@
+package com.topie.campus.core.dto;
+
+import java.io.Serializable;
+
+/**
+ * Created by chenguojun on 9/22/16.
+ */
+public class StudentSimpleDto implements Serializable {
+
+    private static final long serialVersionUID = 3697874889676508444L;
+
+    private Integer id;
+
+    private String studentNo;
+
+    private String name;
+
+    private String contactPhone;
+
+    private Integer isBind;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public Integer getIsBind() {
+        return isBind;
+    }
+
+    public void setIsBind(Integer isBind) {
+        this.isBind = isBind;
+    }
+}

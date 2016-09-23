@@ -18,6 +18,14 @@
         <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
     </resultMap>
+    <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.StudentSimpleDto">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="is_bind" jdbcType="INTEGER" property="isBind"/>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,user_id,student_no,name,gender,ethnic_group,birth,political_status,academe,subject,contact_phone,email
     </sql>
@@ -47,4 +55,55 @@
             </if>
         </where>
     </select>
+    <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize"
+            resultMap="SimpleDtoResultMap">
+        select s.id,s.student_no,s.name,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind
+        from topie_campus.t_student s
+        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id
+        <where>
+            <if test="student.name != null and student.name != ''">
+                and s.name like concat('%',concat(#{student.name}, '%'))
+            </if>
+            <if test="student.studentNo != null and student.studentNo != ''">
+                and s.student_no like concat('%',concat(#{student.studentNo}, '%'))
+            </if>
+            <if test="student.contactPhone != null and student.contactPhone != ''">
+                and s.contact_phone like concat('%',concat(#{student.contactPhone}, '%'))
+            </if>
+            <if test="student.isBind != null and student.isBind == 0">
+                and st.teacher_id is null
+            </if>
+            <if test="student.isBind != null and student.isBind == 1">
+                and st.teacher_id is not null
+            </if>
+        </where>
+        order by is_bind desc,s.id asc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countStudentSimpleDtoListByTeacherId" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_student s
+        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id
+        <where>
+            <if test="student.name != null and student.name != ''">
+                and s.name like concat('%',concat(#{student.name}, '%'))
+            </if>
+            <if test="student.studentNo != null and student.studentNo != ''">
+                and s.student_no like concat('%',concat(#{student.studentNo}, '%'))
+            </if>
+            <if test="student.contactPhone != null and student.contactPhone != ''">
+                and s.contact_phone like concat('%',concat(#{student.contactPhone}, '%'))
+            </if>
+            <if test="student.isBind != null and student.isBind == 0">
+                and st.teacher_id is null
+            </if>
+            <if test="student.isBind != null and student.isBind == 1">
+                and st.teacher_id is not null
+            </if>
+        </where>
+    </select>
+
 </mapper>

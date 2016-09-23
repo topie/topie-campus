@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface TeacherMapper extends Mapper<Teacher> {
 
-    List<Teacher> findTeacherByPageNumAndPageSize(@Param("teacher") Teacher teacher, @Param("pageOffset") Integer pageOffset,
-            @Param("pageSize") Integer pageSize);
+    List<Teacher> findTeacherByPageNumAndPageSize(@Param("teacher") Teacher teacher,
+            @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
 
     long countTeacher(@Param("teacher") Teacher param);
+
+    void insertRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
+
+    void deleteRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
 }

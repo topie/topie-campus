@@ -23,7 +23,7 @@
             });
         $.ajax({
             type: 'POST',
-            url: "../api/token/generate",
+            url: "../../api/token/generate",
             contentType: "application/json",
             dataType: "json",
             data: fields,

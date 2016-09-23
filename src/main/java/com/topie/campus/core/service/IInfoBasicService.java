@@ -1,6 +1,7 @@
 package com.topie.campus.core.service;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.tools.excel.ExcelLogs;
@@ -25,8 +26,10 @@ public interface IInfoBasicService {
 
     int deleteTeacher(Integer teacherId);
 
-
     SimplePageInfo<Student> findStudentList(Student student, int pageNum, int pageSize);
+
+    SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
+            Integer teacherId, Integer pageNum, Integer pageSize);
 
     Student findOneByStudentId(Integer studentId);
 
@@ -35,4 +38,8 @@ public interface IInfoBasicService {
     int updateStudent(Student student);
 
     int deleteStudent(Integer studentId);
+
+    void insertToBindStudent(Integer studentId, Integer teacherId);
+
+    void deleteToUnbindStudent(Integer studentId, Integer teacherId);
 }

@@ -5,6 +5,7 @@ import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,31 @@ public class InfoTeacherController {
         if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
+
+    @RequestMapping(value = "/student", method = RequestMethod.GET)
+    @ResponseBody
+    public Result student(StudentSimpleDto studentSimpleDto, @RequestParam("teacherId") Integer teacherId,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StudentSimpleDto> pageInfo = iInfoBasicService
+                .findStudentSimpleDtoListWithBindInfo(studentSimpleDto, teacherId, pageNum, pageSize);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping(value = "/selectStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public Result selectStudent(@RequestParam(value = "studentId") Integer studentId,
+            @RequestParam(value = "teacherId") Integer teacherId) {
+        iInfoBasicService.insertToBindStudent(studentId, teacherId);
+        return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/cancelStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public Result cancelStudent(@RequestParam(value = "studentId") Integer studentId,
+            @RequestParam(value = "teacherId") Integer teacherId) {
+        iInfoBasicService.deleteToUnbindStudent(studentId, teacherId);
+        return ResponseUtil.success();
+    }
+
 }

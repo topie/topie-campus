@@ -1,5 +1,6 @@
 package com.topie.campus.core.dao;
 
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
@@ -12,4 +13,11 @@ public interface StudentMapper extends Mapper<Student> {
             @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
 
     Long countStudent(@Param("student") Student student);
+
+    List<StudentSimpleDto> findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(
+            @Param("student") StudentSimpleDto studentSimpleDto, @Param("teacherId") Integer teacherId,
+            @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
+
+    Long countStudentSimpleDtoListByTeacherId(@Param("student") StudentSimpleDto studentSimpleDto,
+            @Param("teacherId") Integer teacherId);
 }

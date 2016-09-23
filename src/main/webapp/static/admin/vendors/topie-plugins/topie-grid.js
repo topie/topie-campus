@@ -923,7 +923,7 @@
                 var td = $.tmpl(tdTmpl, {});
                 td.css("text-align", "center");
                 td.attr("colspan", cols);
-                td.html("暂无数据");
+                td.html("没有数据！");
                 tr.append(td);
                 tbody.append(tr);
             };
