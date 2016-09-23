@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.EmploymentMapper">
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Employment">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="enter_date" jdbcType="VARCHAR" property="enterDate" />
+    <result column="graduate_date" jdbcType="VARCHAR" property="graduateDate" />
+    <result column="identify_id" jdbcType="VARCHAR" property="identifyId" />
+    <result column="home_address" jdbcType="VARCHAR" property="homeAddress" />
+    <result column="employ_process" jdbcType="VARCHAR" property="employProcess" />
+    <result column="employ_pattern" jdbcType="VARCHAR" property="employPattern" />
+    <result column="sign_pattern" jdbcType="VARCHAR" property="signPattern" />
+    <result column="sign_company" jdbcType="VARCHAR" property="signCompany" />
+    <result column="sign_company_address" jdbcType="VARCHAR" property="signCompanyAddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,stu_id,name,phone,education,college,major,enter_date,graduate_date,identify_id,home_address,employ_process,employ_pattern,sign_pattern,sign_company,sign_company_address
+  </sql>
+  <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_employment
+        <where>
+         <if test = "employment!=null">
+            <if test="employment.name!=null and employment.name!=''">
+                `name` like concat('%',concat(#{employment.name},'%'))
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countEmploy" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_employment
+        <where>
+            <if test="employment.name!=null and employment.name!=''">
+                and `name` like concat('%',concat(#{employment.name},'%'))
+            </if>
+        </where>
+    </select>
+  
+</mapper>
