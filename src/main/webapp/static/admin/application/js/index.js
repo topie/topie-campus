@@ -300,6 +300,7 @@
                             }
                             $("div.sidebar > .nav").find("li.current").removeClass("current");
                             $(this).parents("li").addClass("current");
+                            $li.parent("ul").parent("li").addClass("open");
                         });
 
                         $("div.sidebar > .nav").find("li[class!=submenu] > a")
