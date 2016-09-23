@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Front</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendors/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="application/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href="../vendors/bootstrap-comment/css/comment-small.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../vendors/html5shiv/dist/html5shiv.js"></script>
+    <script src="../vendors/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-comment fa-fw"></i> Comment</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                    </li>
+                    <li>
+                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="panels-wells.html">Panels and Wells</a>
+                            </li>
+                            <li>
+                                <a href="buttons.html">Buttons</a>
+                            </li>
+                            <li>
+                                <a href="notifications.html">Notifications</a>
+                            </li>
+                            <li>
+                                <a href="typography.html">Typography</a>
+                            </li>
+                            <li>
+                                <a href="icons.html"> Icons</a>
+                            </li>
+                            <li>
+                                <a href="grid.html">Grid</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Second Level Item</a>
+                            </li>
+                            <li>
+                                <a href="#">Second Level Item</a>
+                            </li>
+                            <li>
+                                <a href="#">Third Level <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                    <li>
+                                        <a href="#">Third Level Item</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Third Level Item</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Third Level Item</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Third Level Item</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-third-level -->
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="login.html">Login Page</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Profile</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- /.panel -->
+                <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <article class="row">
+                            <div class="col-md-2 col-sm-2 hidden-xs">
+                                <figure class="thumbnail">
+                                    <img class="img-responsive"
+                                         src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg"/>
+                                    <figcaption class="text-center">username</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <tr>
+                                        <td>Department:</td>
+                                        <td>Programming</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hire date:</td>
+                                        <td>06/23/2013</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Birth</td>
+                                        <td>01/24/1988</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>Gender</td>
+                                        <td>Male</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Home Address</td>
+                                        <td>Metro Manila,Philippines</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                    </tr>
+                                    <td>Phone Number</td>
+                                    <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                                    </td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <a href="#" class="btn btn-primary">Comment</a>
+                        <hr>
+                        <div class="post-comments">
+                            <div class="row">
+
+                                <div class="media">
+                                    <!-- first comment -->
+                                    <div class="media-heading">
+                                        <button class="btn btn-default btn-xs" type="button" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="false"
+                                                aria-controls="collapseExample">
+                                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                        </button>
+                                        <span class="label label-info"><a href="#">Echo</a></span>
+                                    </div>
+
+                                    <div class="panel-collapse collapse in" id="collapseOne">
+
+                                        <div class="media-left">
+                                            <div class="vote-wrap">
+
+                                            </div>
+                                        </div>
+                                        <!-- media-left -->
+
+
+                                        <div class="media-body">
+                                            <p>yazmayın artık amk, görmeyeyim sol framede. insan bi meraklanıyor,
+                                                ümitleniyor. sonra yine özlem dolu yazıları görüp hayal kırıklığıyla
+                                                okuyorum.</p>
+                                            <div class="comment-meta">
+                                                <span><a href="#">delete</a></span>
+                                                <span>
+                                                    <a class="" role="button" data-toggle="collapse"
+                                                       href="#replyCommentT" aria-expanded="false"
+                                                       aria-controls="collapseExample">reply</a>
+                                                </span>
+                                            </div>
+                                            <!-- comment-meta -->
+
+                                            <div class="media">
+                                                <!-- answer to the first comment -->
+                                                <div class="media-heading">
+                                                    <button class="btn btn-default btn-collapse btn-xs" type="button"
+                                                            data-toggle="collapse" data-target="#collapseTwo"
+                                                            aria-expanded="false" aria-controls="collapseExample">
+                                                        <span class="glyphicon glyphicon-minus"
+                                                              aria-hidden="true"></span>
+                                                    </button>
+                                                    <span class="label label-info">12314</span> vertu 12 sat once yazmis
+                                                </div>
+
+                                                <div class="panel-collapse collapse in" id="collapseTwo">
+
+                                                    <div class="media-body">
+                                                        <p>yazmayın artık amk, görmeyeyim sol framede. insan bi
+                                                            meraklanıyor, ümitleniyor. sonra yine özlem dolu yazıları
+                                                            görüp hayal kırıklığıyla okuyorum.</p>
+                                                        <div class="comment-meta">
+                                                            <span><a href="#">delete</a></span>
+                                                            <span>
+                                                              <a class="" role="button" data-toggle="collapse"
+                                                                 href="#replyCommentThree"
+                                                                 aria-expanded="false" aria-controls="collapseExample">reply</a>
+                                                            </span>
+                                                        </div>
+                                                        <!-- comment-meta -->
+                                                    </div>
+                                                </div>
+                                                <!-- comments -->
+
+                                            </div>
+                                            <!-- answer to the first comment -->
+
+                                        </div>
+                                    </div>
+                                    <!-- comments -->
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- post-comments -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="../vendors/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="application/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>
