@@ -265,6 +265,7 @@ footer .copy {
 .sidebar ul.nav ul {
     margin: 0px;
     padding: 0px;
+    display: none;
 }
 
 .sidebar .nav li.open ul {
