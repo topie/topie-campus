@@ -14,4 +14,6 @@ public interface ITeacherService extends IService<Teacher> {
     void insertToBindStudent(Integer studentId, Integer teacherId);
 
     void deleteToUnBindStudent(Integer studentId, Integer teacherId);
+
+    Teacher findTeacherByUserId(Integer UserId);
 }

@@ -43,14 +43,14 @@
             resetText: "重置",//重置按钮文本
             isValidate: true,//开启验证
             buttons: [{
-                type: 'button',
+                type: 'submit',
                 text: '加载内容',
+                attribute: 'role=submit',
                 handle: function () {
                     form.setValue("introduce", "aaaa");
                     form.setValue("attachmentIds", 1);
                     form.setValue("roles", "1,2,3");
                     form.setValue("html", "这是加载内容！");
-
                 }
             }],
             buttonsAlign: "center",

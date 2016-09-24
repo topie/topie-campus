@@ -16,4 +16,6 @@ public interface TeacherMapper extends Mapper<Teacher> {
     void insertRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
 
     void deleteRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
+
+    Teacher selectOneByUserId(@Param("userId") Integer userId);
 }

@@ -167,35 +167,6 @@
                             title: "添加公告",
                             destroy: true
                         }).show();
-                        var formOpts = {
-                            id: "add_notice_form",
-                            name: "add_notice_form",
-                            method: "POST",
-                            action: App.href + "/api/info/notice/insert",
-                            ajaxSubmit: true,
-                            rowEleNum: 1,
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            ajaxSuccess: function () {
-                                modal.hide();
-                                grid.reload();
-                            },
-                            submitText: "保存",
-                            showReset: true,
-                            resetText: "重置",
-                            isValidate: true,
-                            buttons: [{
-                                type: 'button',
-                                text: '关闭',
-                                handle: function () {
-                                    modal.hide();
-                                }
-                            }],
-                            buttonsAlign: "center",
-                            items: App.infoNotice.formItems
-                        };
-                        var form = modal.$body.topieForm(formOpts);
                     }
                 }
             ],

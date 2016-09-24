@@ -2,6 +2,7 @@ package com.topie.campus.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import com.topie.campus.core.enums.EthnicGroup;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -50,7 +51,7 @@ public class Teacher extends Sortable {
     /**
      * 出生日期
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
 
     /**
@@ -259,12 +260,16 @@ public class Teacher extends Sortable {
         this.ethnicGroup = ethnicGroup;
     }
 
+    public String getEthnicGroupStr() {
+        return EthnicGroup.getName(ethnicGroup);
+    }
+
     /**
      * 获取出生日期
      *
      * @return birth - 出生日期
      */
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }

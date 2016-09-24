@@ -75,5 +75,9 @@
             </if>
         </where>
     </select>
+    <select id="selectOneByUserId" resultMap="BaseResultMap">
+        select * from topie_campus.t_teacher
+        where user_id=#{userId}
+    </select>
 
 </mapper>

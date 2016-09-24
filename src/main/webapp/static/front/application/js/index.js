@@ -16,7 +16,7 @@
         page: function (title) {
             App.content.empty();
             App.title(title);
-            var content = $('<div class="panel-body" id="index_grid"></div>');
+            var content = $('<div class="panel-body" id="profile"></div>');
             App.content.append(content);
             App.index.initEvents();
         }
@@ -25,8 +25,38 @@
      * 初始化事件
      */
     App.index.initEvents = function () {
-
-    }
+        $("#profile").load("./tmpl/profile.html",
+            function () {
+                var that = $(this);
+                var source = $(this).html();
+                that.empty();
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: App.href + "/api/frontCommon/profile",
+                        contentType: "application/json",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+                        },
+                        success: function (result) {
+                            if (result.code === 200) {
+                                var data = result.data;
+                                if (data == null) {
+                                    return;
+                                }
+                                var render = template.compile(source);
+                                var html = render(data);
+                                that.html(html);
+                            } else {
+                                alert(result.message);
+                            }
+                        }
+                    }
+                );
+            }
+        );
+    };
 
     function initIndex() {
         var token = $.cookie('tc_t');

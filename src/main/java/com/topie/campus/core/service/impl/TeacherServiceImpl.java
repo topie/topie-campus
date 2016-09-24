@@ -37,4 +37,9 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         teacherMapper.deleteRelate(studentId, teacherId);
     }
 
+    @Override
+    public Teacher findTeacherByUserId(Integer UserId) {
+        return teacherMapper.selectOneByUserId(UserId);
+    }
+
 }
