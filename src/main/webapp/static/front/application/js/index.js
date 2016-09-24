@@ -16,7 +16,7 @@
         page: function (title) {
             App.content.empty();
             App.title(title);
-            var content = $('<div class="panel-body" id="profile"></div>');
+            var content = $('<div class="panel-body" style="display: none" id="profile"></div>');
             App.content.append(content);
             App.index.initEvents();
         }
@@ -47,7 +47,7 @@
                                 }
                                 var render = template.compile(source);
                                 var html = render(data);
-                                that.html(html);
+                                that.html(html).show();
                             } else {
                                 alert(result.message);
                             }

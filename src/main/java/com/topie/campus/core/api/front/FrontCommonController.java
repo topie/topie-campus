@@ -31,7 +31,7 @@ public class FrontCommonController {
         }
         List<Integer> roles = SecurityUtil.getCurrentRoles();
         if (roles.contains(1)) {
-            Teacher teacher = iTeacherService.findTeacherByUserId(4);
+            Teacher teacher = iTeacherService.findTeacherByUserId(userId);
             return ResponseUtil.success(teacher);
         }
         return ResponseUtil.success();
