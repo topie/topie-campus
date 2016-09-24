@@ -65,22 +65,30 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     public int deleteRole(Integer id) {
         int result = getMapper().deleteByPrimaryKey(id);
         if (result > 0) {
-            List<Integer> userIds = roleMapper.findFunctionByRoleId(id);
             roleMapper.deleteUserRoleRelateByRoleId(id);
             roleMapper.deleteFunctionByRoleId(id);
-            if (CollectionUtils.isNotEmpty(userIds)) {
-                for (Integer userId : userIds) {
-                    orangeSideUserCache.removeUserFromCacheByUserId(userId);
-                }
-            }
-            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
+            refreshAuthAndResource(id);
         }
         return result;
     }
 
     @Override
     public int insertRoleFunction(Integer roleId, Integer functionId) {
-        return roleMapper.insertRoleFunction(roleId, functionId);
+        int result = roleMapper.insertRoleFunction(roleId, functionId);
+        if (result > 0) {
+            refreshAuthAndResource(roleId);
+        }
+        return result;
+    }
+    @Override
+    public void refreshAuthAndResource(Integer roleId) {
+        List<Integer> userIds = roleMapper.findFunctionByRoleId(roleId);
+        if (CollectionUtils.isNotEmpty(userIds)) {
+            for (Integer userId : userIds) {
+                orangeSideUserCache.removeUserFromCacheByUserId(userId);
+            }
+        }
+        OrangeSecurityMetadataSourceImpl.refreshResourceMap();
     }
 
     @Override

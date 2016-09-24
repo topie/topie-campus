@@ -25,6 +25,9 @@
     <sql id="Base_Column_List">
         id, parent_id, function_name, display, state, icon, action, function_desc, insert_time, update_time
     </sql>
+    <delete id="deleteRoleFunctionByFunctionId">
+        delete from orange_base.sys_role_function where function_id=#{id}
+    </delete>
     <select id="selectFunctionTreeNodes" resultMap="TreeNodeMap">
         select id,parent_id,function_name from sys_function
         <where>
@@ -54,6 +57,9 @@
         <if test="sort_ != null and sort_ != ''">
             ${sort_}
         </if>
+    </select>
+    <select id="findRoleIdsByFunctionId" resultType="java.lang.Integer">
+        select distinct role_id from orange_base.sys_role_function where function_id=#{functionId}
     </select>
 
 </mapper>

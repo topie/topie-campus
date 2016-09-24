@@ -89,6 +89,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         int result = userMapper.insertUserRole(userId, roleId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
+            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
         }
         return result;
     }
@@ -140,6 +141,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         int result = userMapper.deleteUserAllRoles(userId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
+            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
         }
         return result;
     }
@@ -149,6 +151,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         int result = userMapper.deleteUserRole(userId, roleId);
         if (result > 0) {
             orangeSideUserCache.removeUserFromCacheByUserId(userId);
+            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
         }
         return result;
     }
