@@ -36,8 +36,8 @@ public class ResponseUtil {
         return new Result(HttpServletResponse.SC_OK, msg);
     }
 
-    public static <T> Result success(T data) {
-        return new Result(HttpServletResponse.SC_OK, data);
+        public static <T> Result success(T data) {
+        	return new Result(HttpServletResponse.SC_OK, data);
     }
 
     public static Result error() {

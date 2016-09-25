@@ -9,7 +9,7 @@ public class Employment {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     /**
      * ѧ��
@@ -93,7 +93,7 @@ public class Employment {
      *
      * @return id - ID
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -102,7 +102,7 @@ public class Employment {
      *
      * @param id ID
      */
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

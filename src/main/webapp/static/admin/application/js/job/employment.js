@@ -8,12 +8,34 @@
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="student_grid"></div>');
+            var content = $('<div class="panel-body" id="employment_grid"></div>');
             window.App.content.append(content);
             App.infoEmploy.initEvents();
         }
     };
-    
+    App.infoEmploy.loadJobInfo =  function(fileId)
+    {
+        if ($("#"+fileId).val() == "") {
+            alert("请选择上传的文件");
+            return;
+        }
+        $.ajaxFileUpload(
+            {
+                url: window.App.projectName+"/api/job/importJobData?topie_token=" + App.token,
+                type: "POST",
+                secureuri: false,
+                fileElementId: "jobfile",
+                dataType: "json",
+                success: function (json, status) {
+                    console.info(json);
+                    alert(json.message)
+                },
+                error: function (data, status, e) {
+                    alert(e);
+                }
+            }
+        );
+    };
     App.infoEmploy.formItems = [
                                  {
                                      type: 'display',
@@ -63,7 +85,8 @@
     }
     ];
     App.infoEmploy.initEvents = function () {
-        var grid;
+        
+    	var grid;
         var options = {
             url: App.href + "/api/job/page",
             beforeSend: function (request) {
@@ -115,19 +138,54 @@
                 }
             }],
             tools: [
+				{
+				    text: " 导入",
+				    cls: "btn btn-primary",
+				    icon: "fa fa-cubes",
+				    handle: function (grid) {
+				        var modal = $.topieModal({
+				            id: "employment_modal",
+				            title: "数据导入",
+				            destroy: true
+				        });
+				        $.ajax(
+				                {
+				                    type: 'GET',
+				                    url: App.href + "/api/job/importPage",
+				                    contentType: "application/json",
+				                    dataType: "json",
+				                    beforeSend: function (request) {
+				                        request.setRequestHeader("X-Auth-Token", App.token);
+				                    },
+				                    success: function (result) {
+				                        if (result.code === 200) {
+				                        	 var form = modal.$body.html(result.message);
+				     				        modal.show();
+				                            window.App.content.find("a[role=template]").click(function () {
+				                                window.App.download("/api/info/upload/downloadTemplate");
+				                            });
+				                            App.upload.initEvents();
+				                        } else {
+				                            alert(result.message);
+				                        }
+				                    }
+				                }
+				            );
+				    }
+				}/*,
                 {
-                    text: " 导入",
+                    text: " 手动添加",
                     cls: "btn btn-primary",
                     icon: "fa fa-cubes",
                     handle: function (grid) {
                         var modal = $.topieModal({
-                            id: "student_modal",
+                            id: "employment_modal",
                             title: "添加学生",
                             destroy: true
                         });
                         var formOpts = {
-                            id: "add_student_form",
-                            name: "add_student_form",
+                            id: "add_employment_form",
+                            name: "add_employment_form",
                             method: "POST",
                             action: "",
                             ajaxSubmit: true,
@@ -156,7 +214,7 @@
                         var form = modal.$body.topieForm(formOpts);
                         modal.show();
                     }
-                }
+                }*/
             ],
             search: {
                 rowEleNum: 2,
@@ -172,6 +230,6 @@
                 }]
             }
         };
-        grid = window.App.content.find("#student_grid").topieGrid(options);
+        grid = window.App.content.find("#employment_grid").topieGrid(options);
     }
 })(jQuery, window, document);

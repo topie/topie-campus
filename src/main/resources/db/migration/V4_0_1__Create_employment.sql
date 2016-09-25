@@ -1,16 +1,12 @@
-
--- ----------------------------
--- Table structure for t_employment
--- ----------------------------
 DROP TABLE IF EXISTS `t_employment`;
 CREATE TABLE `t_employment` (
-  `id` varchar(50) NOT NULL COMMENT 'ID',
+  `id` int(50) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `stu_id` varchar(50) DEFAULT '' COMMENT '学号',
   `name` varchar(100) DEFAULT NULL COMMENT '姓名',
   `phone` varchar(255) DEFAULT '' COMMENT '电话',
   `education` varchar(255) DEFAULT '' COMMENT '学历',
-  `college` varchar(255) DEFAULT NULL,
-  `major` varchar(255) DEFAULT NULL,
+  `college` varchar(255) DEFAULT '' COMMENT '学院',
+  `major` varchar(255) DEFAULT '' COMMENT '专业',
   `enter_date` varchar(255) DEFAULT '' COMMENT '入学日期',
   `graduate_date` varchar(255) DEFAULT '' COMMENT '毕业日期',
   `identify_id` varchar(255) DEFAULT '' COMMENT '身份证号',
@@ -21,4 +17,4 @@ CREATE TABLE `t_employment` (
   `sign_company` varchar(255) DEFAULT '' COMMENT '签约公司',
   `sign_company_address` varchar(255) DEFAULT '' COMMENT '签约公司地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) 

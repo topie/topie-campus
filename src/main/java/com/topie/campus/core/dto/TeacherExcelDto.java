@@ -96,7 +96,7 @@ public class TeacherExcelDto implements Serializable {
         this.name = name;
     }
 
-    public String getGender() {
+    public String getGender() {   
         return gender;
     }
 
