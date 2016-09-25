@@ -8,6 +8,7 @@ import com.topie.campus.security.dao.FunctionMapper;
 import com.topie.campus.security.dao.UserMapper;
 import com.topie.campus.security.model.Function;
 import com.topie.campus.security.service.FunctionService;
+import com.topie.campus.security.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
     private FunctionMapper functionMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private RoleService roleService;
 
     @Override
     public int insertFunction(Function function) {
@@ -42,7 +43,15 @@ public class FunctionServiceImpl extends BaseService<Function> implements Functi
 
     @Override
     public int deleteFunctionById(int id) {
-        return getMapper().deleteByPrimaryKey(id);
+        int result = getMapper().deleteByPrimaryKey(id);
+        List<Integer> roleIds = functionMapper.findRoleIdsByFunctionId(id);
+        if (roleIds.size() > 0) {
+            functionMapper.deleteRoleFunctionByFunctionId(id);
+            for (Integer roleId : roleIds) {
+                roleService.refreshAuthAndResource(roleId);
+            }
+        }
+        return result;
     }
 
     @Override

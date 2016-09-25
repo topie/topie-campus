@@ -1,20 +1,14 @@
 package com.topie.campus.core.model;
 
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.*;
 
-@Table(name = "t_common_message")
+@Table(name = "t_message")
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageId;
-
-    /**
-     * 引用留言id
-     */
-    @Column(name = "refer_message_id")
-    private Integer referMessageId;
 
     /**
      * 留言内容
@@ -58,24 +52,6 @@ public class Message {
      */
     public void setMessageId(Integer messageId) {
         this.messageId = messageId;
-    }
-
-    /**
-     * 获取引用留言id
-     *
-     * @return refer_message_id - 引用留言id
-     */
-    public Integer getReferMessageId() {
-        return referMessageId;
-    }
-
-    /**
-     * 设置引用留言id
-     *
-     * @param referMessageId 引用留言id
-     */
-    public void setReferMessageId(Integer referMessageId) {
-        this.referMessageId = referMessageId;
     }
 
     /**

@@ -6,7 +6,6 @@
       WARNING - @mbggenerated
     -->
     <id column="message_id" property="messageId" jdbcType="INTEGER" />
-    <result column="refer_message_id" property="referMessageId" jdbcType="INTEGER" />
     <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
     <result column="message_to_user_id" property="messageToUserId" jdbcType="INTEGER" />
     <result column="message_from_user_id" property="messageFromUserId" jdbcType="INTEGER" />

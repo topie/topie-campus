@@ -1,0 +1,200 @@
+<link href="../vendors/bootstrap-comment/css/comment-mini.css" rel="stylesheet" type="text/css">
+<article class="row">
+    <div class="col-md-2 col-sm-2 hidden-xs">
+        <figure class="thumbnail">
+            <img class="img-responsive"
+                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+            <figcaption class="text-center">username</figcaption>
+        </figure>
+    </div>
+    <div class="col-md-10 col-sm-10">
+        <table class="table table-user-information">
+            <tbody>
+            <tr>
+                <td>名字:</td>
+                <td><p style='color:blue;'>{{name}}</p></td>
+                <td>职工号:</td>
+                <td><p style='color:blue;'>{{employeeNo}}</p></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <p style='color:blue;'>
+                        {{if gender==1}}男{{/if}}
+                        {{if gender==0}}女{{/if}}
+                    </p>
+                </td>
+                <td>民族</td>
+                <td><p style='color:blue;'>{{ethnicGroupStr}}</p></td>
+            </tr>
+
+            <tr>
+            <tr>
+                <td>出生日期</td>
+                <td><p style='color:blue;'>{{birth}}</p></td>
+                <td>政治面貌</td>
+                <td><p style='color:blue;'>{{politicalStatusStr}}</p></td>
+            </tr>
+            <tr>
+                <td>学院</td>
+                <td><p style='color:blue;'>{{academe}}</p></td>
+                <td>系(所)</td>
+                <td>
+                    <p style='color:blue;'>
+                        {{department}}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td><p style='color:blue;'>{{contactPhone}}</p></td>
+                <td>邮箱</td>
+                <td>
+                    <p style='color:blue;'>{{email}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>毕业院校</td>
+                <td><p style='color:blue;'>{{graduatedUniversity}}</p></td>
+                <td>毕业专业</td>
+                <td>
+                    {{graduatedMajor}}
+                </td>
+            </tr>
+            <tr>
+                <td>学历</td>
+                <td><p style='color:blue;'>{{educationBackgroundStr}}</p></td>
+                <td>学位</td>
+                <td>
+                    <p style='color:blue;'>{{degreeStr}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>职称</td>
+                <td><p style='color:blue;'>{{professionalTitle}}</p></td>
+                <td>职务</td>
+                <td>
+                    <p style='color:blue;'>{{professionalPosition}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>学科方向</td>
+                <td><p style='color:blue;'>{{subjectDirection}}</p></td>
+                <td>是否实验室人员</td>
+                <td>
+                    <p style='color:blue;'>{{isLabStaff}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>教师资格证号</td>
+                <td><p style='color:blue;'>{{teacherCertificateNo}}</p></td>
+                <td>主讲教师资格证号</td>
+                <td>
+                    <p style='color:blue;'>{{mainTeacherCertificateNo}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>人事职工号</td>
+                <td><p style='color:blue;'>{{staffNo}}</p></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>教学评价</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><p style='color:blue;'>{{teachQualityComment}}</p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</article>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">留言</h3>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="panel panel-white post panel-shadow">
+    <div class="post-heading">
+        <div class="pull-left image">
+            <img src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                 class="img-circle avatar"
+                 alt="user profile image">
+        </div>
+        <div class="pull-left meta">
+            <div class="title h5">
+                <a href="#"><b>Ryan Haywood</b></a>
+                made a post.
+            </div>
+            <h6 class="text-muted time">1 minute ago</h6>
+        </div>
+    </div>
+    <div class="post-description">
+        <p>Bootdey is a gallery of free snippets resources templates and utilities for bootstrap
+            css hmtl js framework. Codes for developers and web designers</p>
+        <div class="stats">
+            <a href="#" class="btn btn-default stat-item">
+                <i class="fa fa-thumbs-up icon"></i>2
+            </a>
+            <a href="#" class="btn btn-default stat-item">
+                <i class="fa fa-reply icon"></i>回复
+            </a>
+        </div>
+    </div>
+    <div class="post-footer">
+        <ul class="comments-list">
+            <li class="comment">
+                <a class="pull-left" href="#">
+                    <img class="avatar"
+                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                         alt="avatar">
+                </a>
+                <div class="comment-body">
+                    <div class="comment-heading">
+                        <h4 class="user">Gavino Free</h4>
+                        <h5 class="time">5 minutes ago</h5>
+                    </div>
+                    <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                    <a href="#" class="btn btn-sm btn-danger stat-item">
+                        删除
+                    </a>
+                    <a href="#" class="btn btn-sm btn-default stat-item">
+                        <i class="fa fa-reply icon"></i>回复
+                    </a>
+                </div>
+                <ul class="comments-list">
+                    <li class="comment">
+                        <a class="pull-left" href="#">
+                            <img class="avatar"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                                 alt="avatar">
+                        </a>
+                        <div class="comment-body">
+                            <div class="comment-heading">
+                                <h4 class="user">Ryan Haywood</h4>
+                                <h5 class="time">3 minutes ago</h5>
+                            </div>
+                            <p>Relax my friend</p>
+                        </div>
+                    </li>
+                    <li class="comment">
+                        <a class="pull-left" href="#">
+                            <img class="avatar"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                                 alt="avatar">
+                        </a>
+                        <div class="comment-body">
+                            <div class="comment-heading">
+                                <h4 class="user">Gavino Free</h4>
+                                <h5 class="time">3 minutes ago</h5>
+                            </div>
+                            <p>Ok, cool.</p>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

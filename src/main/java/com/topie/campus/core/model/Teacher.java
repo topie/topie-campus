@@ -2,6 +2,10 @@ package com.topie.campus.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import com.topie.campus.core.enums.Degree;
+import com.topie.campus.core.enums.EducationBackground;
+import com.topie.campus.core.enums.EthnicGroup;
+import com.topie.campus.core.enums.PoliticalStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -50,7 +54,7 @@ public class Teacher extends Sortable {
     /**
      * 出生日期
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
 
     /**
@@ -93,7 +97,7 @@ public class Teacher extends Sortable {
     private String graduatedMajor;
 
     /**
-     * c
+     * 学历
      */
     @Column(name = "education_background")
     private Integer educationBackground;
@@ -150,6 +154,14 @@ public class Teacher extends Sortable {
      */
     @Column(name = "teach_quality_comment")
     private String teachQualityComment;
+
+    public String getDegreeStr() {
+        return Degree.getName(degree);
+    }
+
+    public String getEducationBackgroundStr() {
+        return EducationBackground.getName(educationBackground);
+    }
 
     /**
      * 获取ID
@@ -259,12 +271,16 @@ public class Teacher extends Sortable {
         this.ethnicGroup = ethnicGroup;
     }
 
+    public String getEthnicGroupStr() {
+        return EthnicGroup.getName(ethnicGroup);
+    }
+
     /**
      * 获取出生日期
      *
      * @return birth - 出生日期
      */
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }
@@ -294,6 +310,10 @@ public class Teacher extends Sortable {
      */
     public void setPoliticalStatus(Integer politicalStatus) {
         this.politicalStatus = politicalStatus;
+    }
+
+    public String getPoliticalStatusStr() {
+        return PoliticalStatus.getName(politicalStatus);
     }
 
     /**

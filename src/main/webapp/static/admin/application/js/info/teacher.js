@@ -87,7 +87,7 @@
         }, {
             type: "select",
             label: "政治面貌",
-            name: "ethnicGroup",
+            name: "politicalStatus",
             items: [
                 {
                     text: "请选择政治面貌",

@@ -8,7 +8,7 @@
         initMenu();
     });
     var requestMapping = {
-        "/api/index": "index"
+        "/api/front/index": "index"
     };
     App.requestMapping = $.extend({}, App.requestMapping, requestMapping);
 
@@ -16,7 +16,7 @@
         page: function (title) {
             App.content.empty();
             App.title(title);
-            var content = $('<div class="panel-body" id="index_grid"></div>');
+            var content = $('<div class="panel-body" style="display: none" id="profile"></div>');
             App.content.append(content);
             App.index.initEvents();
         }
@@ -25,8 +25,38 @@
      * 初始化事件
      */
     App.index.initEvents = function () {
-
-    }
+        $("#profile").load("./tmpl/profile.html",
+            function () {
+                var that = $(this);
+                var source = $(this).html();
+                that.empty();
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: App.href + "/api/frontCommon/profile",
+                        contentType: "application/json",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+                        },
+                        success: function (result) {
+                            if (result.code === 200) {
+                                var data = result.data;
+                                if (data == null) {
+                                    return;
+                                }
+                                var render = template.compile(source);
+                                var html = render(data);
+                                that.html(html).show();
+                            } else {
+                                alert(result.message);
+                            }
+                        }
+                    }
+                );
+            }
+        );
+    };
 
     function initIndex() {
         var token = $.cookie('tc_t');
@@ -111,7 +141,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: App.href + "/api/sys/function/current",
+                url: App.href + "/api/frontCommon/current",
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {
@@ -176,8 +206,8 @@
         if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
             $('a[data-url="' + url + '"]').trigger("click");
         } else {
-            window.location.href = window.location.href + "#!/api/index";
-            url = "/api/index";
+            window.location.href = window.location.href + "#!/api/front/index";
+            url = "/api/front/index";
             $('a[data-url="' + url + '"]').trigger("click");
         }
 

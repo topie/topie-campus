@@ -154,7 +154,7 @@
 
         },
         _destroyModal: function () {
-            if (KindEditor != undefined) {
+            if (typeof (KindEditor) != "undefined") {
                 KindEditor.remove('textarea[role=kindEditor]');
             }
             this.$modal.remove();

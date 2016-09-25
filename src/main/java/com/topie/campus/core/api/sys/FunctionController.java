@@ -81,10 +81,10 @@ public class FunctionController {
             throw new AuthBusinessException(AuBzConstant.IS_NOT_LOGIN);
         }
         List<TreeNode> function = (List<TreeNode>) redisCache
-                .get(SecurityConstant.FUNCTION_CACHE_PREFIX + currentUserName);
+                .get(SecurityConstant.FUNCTION_CACHE_ADMIN_PREFIX + currentUserName);
         if (function == null) {
-            function = userService.findUserFunctionByLoginName(currentUserName);
-            redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + currentUserName, function);
+            function = userService.findUserFunctionByLoginNameAndDisplayType(currentUserName, SecurityConstant.ADMIN);
+            redisCache.set(SecurityConstant.FUNCTION_CACHE_ADMIN_PREFIX + currentUserName, function);
         }
         return ResponseUtil.success(function);
     }

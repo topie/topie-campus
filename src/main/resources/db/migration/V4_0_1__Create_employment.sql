@@ -18,3 +18,4 @@ CREATE TABLE `t_employment` (
   `sign_company_address` varchar(255) DEFAULT '' COMMENT '签约公司地址',
   PRIMARY KEY (`id`)
 ) 
+

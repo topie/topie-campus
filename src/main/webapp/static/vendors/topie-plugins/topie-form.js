@@ -15,57 +15,58 @@
         var postfix = string.substring(string.lastIndexOf("."), string.length);
         return postfix.toLowerCase();
     };
-
-    var dataDefaults = {
-        showDropdowns: true,
-        linkedCalendars: false,
-        autoApply: false,
-        ranges: {
-            '今天': [moment().startOf('day'), moment()],
-            '昨天': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-            '最近七天': [moment().subtract(6, 'days'), moment()],
-            '最近三十天': [moment().subtract(29, 'days'), moment()],
-            '本月': [moment().startOf('month'), moment().endOf('month')],
-            '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        locale: {
-            "format": 'YYYY-MM-DD HH:mm:ss',
-            "separator": " 到 ",
-            "applyLabel": "确定",
-            "cancelLabel": "取消",
-            "fromLabel": "从",
-            "toLabel": "到",
-            "customRangeLabel": "自定义",
-            "daysOfWeek": [
-                "周日",
-                "周一",
-                "周二",
-                "周三",
-                "周四",
-                "周五",
-                "周六"
-            ],
-            "monthNames": [
-                "一月",
-                "二月",
-                "三月",
-                "四月",
-                "五月",
-                "六月",
-                "七月",
-                "八月",
-                "九月",
-                "十月",
-                "十一月",
-                "十二月"
-            ],
-            "firstDay": 1
-        },
-        timePicker: true,
-        timePicker24Hour: true,
-        timePickerSeconds: true
-    };
-
+    var dataDefaults = {};
+    if (typeof(moment) != "undefined") {
+        dataDefaults = {
+            showDropdowns: true,
+            linkedCalendars: false,
+            autoApply: false,
+            ranges: {
+                '今天': [moment().startOf('day'), moment()],
+                '昨天': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                '最近七天': [moment().subtract(6, 'days'), moment()],
+                '最近三十天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                "format": 'YYYY-MM-DD HH:mm:ss',
+                "separator": " 到 ",
+                "applyLabel": "确定",
+                "cancelLabel": "取消",
+                "fromLabel": "从",
+                "toLabel": "到",
+                "customRangeLabel": "自定义",
+                "daysOfWeek": [
+                    "周日",
+                    "周一",
+                    "周二",
+                    "周三",
+                    "周四",
+                    "周五",
+                    "周六"
+                ],
+                "monthNames": [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月"
+                ],
+                "firstDay": 1
+            },
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerSeconds: true
+        };
+    }
     var Form = function (element, options, callback) {
         this._setVariable(element, options);
         this._setOptions(this._options);
@@ -693,6 +694,14 @@
                     + '<input type="text" role="date-input" id="${id_}" name=${name_} value="${value_}" class="form-control">'
                     + '<span role="icon" class="input-group-addon">'
                     + '<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>' + '</span></div>';
+                if (typeof(moment) == "undefined") {
+                    return $.tmpl(dateTmpl, {
+                        "id_": (data.id == undefined ? data.name : data.id),
+                        "name_": data.name,
+                        "cls_": data.cls == undefined ? "" : data.cls,
+                        "value_": ""
+                    });
+                }
                 var ele = $.tmpl(dateTmpl, {
                     "id_": (data.id == undefined ? data.name : data.id),
                     "name_": data.name,
@@ -799,7 +808,9 @@
                     });
                 }
                 return ele;
-            },
+            }
+
+            ,
             'files': function (data, form) {
                 var filesTmpl = '<span class="btn btn-success fileinput-button">'
                     + '<span class="glyphicon glyphicon-plus"></span>'
@@ -824,7 +835,9 @@
                 ele.append(btn);
                 ele.append(table);
                 return ele;
-            },
+            }
+
+            ,
             'image': function (data, form) {
                 var imageTmpl = '<div><div class="fileinput fileinput-new" data-provides="fileinput">'
                     + '<div class="fileinput-preview thumbnail" role="preview" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"></div>'
@@ -954,7 +967,9 @@
                     }
                 }
                 return ele;
-            },
+            }
+
+            ,
             'tree': function (data, form) {
                 var treeTmp = '<input role="tree_${id_}_input" data-type="tree-input" type="text" id="${id_}" name="${name_}" value="" class="hide"/>'
                     + '<ul id="tree_${id_}" role="tree" class="ztree"></ul>';
@@ -1026,7 +1041,9 @@
                 };
                 ele.data("setting", setting);
                 return ele;
-            },
+            }
+
+            ,
             'kindEditor': function (data, form) {
                 var kindeditorTmpl = '<textarea role="kindEditor" class="form-control" id="${id_}" name="${name_}"></textarea>';
                 var ele = $.tmpl(kindeditorTmpl, {

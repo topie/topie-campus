@@ -34,6 +34,8 @@ public interface UserService extends IService<User> {
 
     List<TreeNode> findUserFunctionByLoginName(String loginName);
 
+    List<TreeNode> findUserFunctionByLoginNameAndDisplayType(String loginName,Integer displayType);
+
     int countByLoginName(String loginName);
 
     int updateLockStatusByUserId(int userId, Boolean accountNonLocked);

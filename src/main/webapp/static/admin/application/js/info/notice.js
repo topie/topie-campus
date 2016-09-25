@@ -8,7 +8,7 @@
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="notice_grid">f</div>');
+            var content = $('<div class="panel-body" id="notice_grid"></div>');
             window.App.content.append(content);
             App.infoNotice.initEvents();
         }

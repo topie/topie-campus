@@ -4,7 +4,7 @@
 ;
 (function ($, window, document, undefined) {
     var that = this;
-    that.uploadUrl = window.App.href + "/api/info/upload/uploadExcel";
+    that.uploadUrl = App.href + "/api/info/upload/uploadExcel";
     var uploadMapping = {
         "/api/info/upload/page": "upload"
     }
@@ -26,7 +26,7 @@
                             window.App.title(title);
                             window.App.content.append(result.message);
                             window.App.content.find("a[role=template]").click(function () {
-                                window.App.download("/api/info/upload/downloadTemplate");
+                                window.App.download(App.href + "/api/info/upload/downloadTemplate");
                             });
                             App.upload.initEvents();
                         } else {

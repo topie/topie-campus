@@ -43,8 +43,9 @@
             resetText: "重置",//重置按钮文本
             isValidate: true,//开启验证
             buttons: [{
-                type: 'button',
+                type: 'submit',
                 text: '加载内容',
+                attribute: 'role=submit',
                 handle: function () {
                     form.setValue("introduce", "aaaa");
                     form.setValue("attachmentIds", 1);
@@ -271,10 +272,10 @@
                                 ele += '</li>';
                                 var li = $(ele);
                                 li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
-                                $("div.sidebar > .nav").append(li);
+                                $("#side-menu").append(li);
                             }
                         });
-                        $("div.sidebar > .nav").find("li.submenu > a").click(function (e) {
+                        $("#side-menu").find("li.submenu > a").click(function (e) {
                             e.preventDefault();
                             var $li = $(this).parent("li");
                             var $ul = $(this).next("ul");
@@ -291,19 +292,19 @@
                             }
                         });
 
-                        $("div.sidebar > .nav").find("li[class!=submenu] > a").click(function (e) {
+                        $("#side-menu").find("li[class!=submenu] > a").click(function (e) {
                             e.preventDefault();
                             var $li = $(this).parent("li");
                             if ($li.parent("ul").hasClass("nav")) {
                                 $(".nav > li > ul").slideUp(150);
                                 $(".nav > li").removeClass("open");
                             }
-                            $("div.sidebar > .nav").find("li.current").removeClass("current");
+                            $("#side-menu").find("li.current").removeClass("current");
                             $(this).parents("li").addClass("current");
                             $li.parent("ul").parent("li").addClass("open");
                         });
 
-                        $("div.sidebar > .nav").find("li[class!=submenu] > a")
+                        $("#side-menu").find("li[class!=submenu] > a")
                             .each(function () {
                                     var url = $(this).attr("data-url");
                                     var f = App.requestMapping[url];
