@@ -7,8 +7,8 @@ CREATE TABLE `sys_function` (
   COMMENT '功能名称',
   `display`       INT(1)       NOT NULL DEFAULT '1'
   COMMENT '是否显示到菜单栏',
-  `state`         INT(1)                DEFAULT '1'
-  COMMENT '是否启用，0=不启用，1=启用',
+  `display_type`  INT(1)                DEFAULT '1'
+  COMMENT '展示类型，1=后台 2=前台',
   `icon`          VARCHAR(32)           DEFAULT ''
   COMMENT 'icon',
   `action`        VARCHAR(255) NOT NULL

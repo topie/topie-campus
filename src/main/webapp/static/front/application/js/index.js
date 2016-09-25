@@ -8,7 +8,7 @@
         initMenu();
     });
     var requestMapping = {
-        "/api/index": "index"
+        "/api/front/index": "index"
     };
     App.requestMapping = $.extend({}, App.requestMapping, requestMapping);
 
@@ -141,7 +141,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: App.href + "/api/sys/function/current",
+                url: App.href + "/api/frontCommon/current",
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {
@@ -206,8 +206,8 @@
         if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
             $('a[data-url="' + url + '"]').trigger("click");
         } else {
-            window.location.href = window.location.href + "#!/api/index";
-            url = "/api/index";
+            window.location.href = window.location.href + "#!/api/front/index";
+            url = "/api/front/index";
             $('a[data-url="' + url + '"]').trigger("click");
         }
 

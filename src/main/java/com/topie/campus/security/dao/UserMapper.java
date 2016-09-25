@@ -25,6 +25,9 @@ public interface UserMapper extends Mapper<User> {
 
     List<TreeNode> findUserFunctionByLoginName(@Param("loginName") String loginName);
 
+    List<TreeNode> findUserFunctionByLoginNameAndDisplayType(@Param("loginName") String loginName,
+            @Param("displayType") Integer displayType);
+
     int countByLoginName(@Param("loginName") String loginName);
 
     int updateAccountNonLocked(@Param("userId") Integer UserId, @Param("accountNonLocked") Boolean accountNonLocked);

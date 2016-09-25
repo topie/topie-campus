@@ -52,14 +52,19 @@ public class OrangeSideUserCache implements UserCache, InitializingBean {
     @Override
     public void putUserInCache(UserDetails user) {
         cache.set(SecurityConstant.USER_CACHE_PREFIX + user.getUsername(), user);
-        List<TreeNode> function = userService.findUserFunctionByLoginName(user.getUsername());
-        redisCache.set(SecurityConstant.FUNCTION_CACHE_PREFIX + user.getUsername(), function);
+        List<TreeNode> adminFunction = userService
+                .findUserFunctionByLoginNameAndDisplayType(user.getUsername(), SecurityConstant.ADMIN);
+        redisCache.set(SecurityConstant.FUNCTION_CACHE_ADMIN_PREFIX + user.getUsername(), adminFunction);
+        List<TreeNode> frontFunction = userService
+                .findUserFunctionByLoginNameAndDisplayType(user.getUsername(), SecurityConstant.FRONT);
+        redisCache.set(SecurityConstant.FUNCTION_CACHE_FRONT_PREFIX + user.getUsername(), frontFunction);
     }
 
     @Override
     public void removeUserFromCache(String username) {
         cache.del(SecurityConstant.USER_CACHE_PREFIX + username);
-        redisCache.del(SecurityConstant.FUNCTION_CACHE_PREFIX + username);
+        redisCache.del(SecurityConstant.FUNCTION_CACHE_ADMIN_PREFIX + username);
+        redisCache.del(SecurityConstant.FUNCTION_CACHE_FRONT_PREFIX + username);
     }
 
     public void setCache(IBasicCache<String, UserDetails> cache) {

@@ -46,6 +46,16 @@
                 sort: true,
                 width: "5%"
             }, {
+                title: "前后台",
+                field: "displayType",
+                format: function (i, data) {
+                    if (data.displayType == 1) {
+                        return '<span class="label label-default">后台</span>';
+                    } else {
+                        return '<span class="label label-info">前台</span>';
+                    }
+                }
+            }, {
                 title: "菜单名称",
                 field: "functionName",
                 sort: true

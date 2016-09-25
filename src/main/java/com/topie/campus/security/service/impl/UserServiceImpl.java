@@ -118,6 +118,11 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
+    public List<TreeNode> findUserFunctionByLoginNameAndDisplayType(String loginName, Integer displayType) {
+        return userMapper.findUserFunctionByLoginNameAndDisplayType(loginName, displayType);
+    }
+
+    @Override
     public int countByLoginName(String loginName) {
         return userMapper.countByLoginName(loginName);
     }
@@ -159,7 +164,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public PageInfo<User> findUserListByRoleId(int pageNum, int pageSize, User user, Integer roleId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<User> list = userMapper.findUserListByRoleId(user,roleId);
+        List<User> list = userMapper.findUserListByRoleId(user, roleId);
         PageInfo<User> page = new PageInfo<User>(list);
         return page;
     }

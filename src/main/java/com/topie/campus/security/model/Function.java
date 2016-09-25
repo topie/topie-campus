@@ -32,9 +32,10 @@ public class Function extends Sortable {
     private Boolean display;
 
     /**
-     * 是否启用，0=不启用，1=启用
+     * 展示类型 1=后台，2=前台
      */
-    private Integer state;
+    @Column(name = "display_type")
+    private Integer displayType;
 
     /**
      * icon
@@ -133,22 +134,12 @@ public class Function extends Sortable {
         this.display = display;
     }
 
-    /**
-     * 获取是否启用，0=不启用，1=启用
-     *
-     * @return state - 是否启用，0=不启用，1=启用
-     */
-    public Integer getState() {
-        return state;
+    public Integer getDisplayType() {
+        return displayType;
     }
 
-    /**
-     * 设置是否启用，0=不启用，1=启用
-     *
-     * @param state 是否启用，0=不启用，1=启用
-     */
-    public void setState(Integer state) {
-        this.state = state;
+    public void setDisplayType(Integer displayType) {
+        this.displayType = displayType;
     }
 
     /**

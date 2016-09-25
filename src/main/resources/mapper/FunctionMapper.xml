@@ -10,7 +10,7 @@
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="function_name" property="functionName" jdbcType="VARCHAR"/>
         <result column="display" property="display" jdbcType="BIT"/>
-        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="display_type" property="displayType" jdbcType="INTEGER"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="action" property="action" jdbcType="VARCHAR"/>
         <result column="function_desc" property="functionDesc" jdbcType="INTEGER"/>
@@ -23,7 +23,7 @@
         <result column="function_name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, parent_id, function_name, display, state, icon, action, function_desc, insert_time, update_time
+        id, parent_id, function_name, display, display_type, icon, action, function_desc, insert_time, update_time
     </sql>
     <delete id="deleteRoleFunctionByFunctionId">
         delete from orange_base.sys_role_function where function_id=#{id}
