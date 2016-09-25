@@ -8,11 +8,9 @@ CREATE TABLE `t_info_basic` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '基本信息';
-DROP TABLE IF EXISTS `t_common_message`;
-CREATE TABLE `t_common_message` (
+DROP TABLE IF EXISTS `t_message`;
+CREATE TABLE `t_message` (
   `message_id`           INT(11)   NOT NULL  AUTO_INCREMENT,
-  `refer_message_id`     INT(11)             DEFAULT 0
-  COMMENT '引用留言id',
   `message_content`      VARCHAR(255)        DEFAULT ''
   COMMENT '留言内容',
   `message_to_user_id`   INT(11)   NOT NULL  DEFAULT 0
@@ -27,6 +25,26 @@ CREATE TABLE `t_common_message` (
   KEY k_user(`message_to_user_id`, `message_from_user_id`, `message_date_time`),
   KEY k_read(`message_to_user_id`, `message_date_time`),
   KEY k_time(`message_date_time`)
+)
+  DEFAULT CHARSET = utf8
+  COMMENT '留言信息表';
+DROP TABLE IF EXISTS `t_message_reply`;
+CREATE TABLE `t_message_reply` (
+  `reply_id`        INT(11)    NOT NULL  AUTO_INCREMENT,
+  `message_id`      INT(11)    NOT NULL
+  COMMENT '留言id',
+  `reply_comment`   VARCHAR(255)         DEFAULT ''
+  COMMENT '回复内容',
+  `reply_user_id`   INT(11)    NOT NULL  DEFAULT 0
+  COMMENT '回复用户id',
+  `position`        TINYINT(1) NOT NULL  DEFAULT 0
+  COMMENT '被回复用户id',
+  `reply_date_time` TIMESTAMP  NOT NULL
+  COMMENT '留言时间',
+  `is_read`         TINYINT(1)           DEFAULT 0
+  COMMENT '是否读取:0 未读取 1:已读取',
+  PRIMARY KEY (`reply_id`),
+  KEY k_time(`message_id`, `reply_date_time`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言信息表';
