@@ -360,9 +360,9 @@
                                 }
                             },
                             handle: function (index, stData) {
-                                var requestUrl = App.href + "/api/info/teacher/selectStudent";
+                                var requestUrl = App.href + "/api/info/basic/bind";
                                 if (stData.isBind == 1) {
-                                    requestUrl = App.href + "/api/info/teacher/cancelStudent";
+                                    requestUrl = App.href + "/api/info/basic/unbind";
                                 }
                                 $.ajax({
                                     type: "GET",

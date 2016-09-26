@@ -2,6 +2,7 @@ package com.topie.campus.core.service;
 
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
 
 /**
@@ -20,4 +21,7 @@ public interface ITeacherService extends IService<Teacher> {
     Integer findTeacherIdByUserId(Integer userId);
 
     String findTeacherNameByUserId(Integer userId);
+
+    SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto, Integer studentId, Integer pageNum,
+            Integer pageSize);
 }
