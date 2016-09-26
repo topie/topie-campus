@@ -76,7 +76,6 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
             }
             userService.insertUser(user);
-            userService.insertUser(user);
             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
             Student student = studentDto.buildStudent();
             student.setUserId(user.getId());

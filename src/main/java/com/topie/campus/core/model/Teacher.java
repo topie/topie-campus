@@ -23,6 +23,8 @@ public class Teacher extends Sortable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String avatar;
+
     /**
      * 平台用户id
      */
@@ -179,6 +181,14 @@ public class Teacher extends Sortable {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     /**

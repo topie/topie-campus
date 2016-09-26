@@ -14,4 +14,10 @@ public interface IStudentService extends IService<Student> {
 
     SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
             Integer teacherId, Integer pageNum, Integer pageSize);
+
+    Student findStudentByUserId(Integer userId);
+
+    Integer findStudentIdByUserId(Integer userId);
+
+    String findStudentNameByUserId(Integer userId);
 }

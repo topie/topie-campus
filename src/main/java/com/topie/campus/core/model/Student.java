@@ -2,6 +2,8 @@ package com.topie.campus.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import com.topie.campus.core.enums.EthnicGroup;
+import com.topie.campus.core.enums.PoliticalStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -18,6 +20,8 @@ public class Student extends Sortable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String avatar;
 
     /**
      * 平台用户id
@@ -50,7 +54,7 @@ public class Student extends Sortable {
     /**
      * 出生日期
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
 
     /**
@@ -79,6 +83,14 @@ public class Student extends Sortable {
      * 邮箱
      */
     private String email;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     /**
      * 获取ID
@@ -193,7 +205,7 @@ public class Student extends Sortable {
      *
      * @return birth - 出生日期
      */
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }
@@ -295,5 +307,13 @@ public class Student extends Sortable {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getEthnicGroupStr() {
+        return EthnicGroup.getName(ethnicGroup);
+    }
+
+    public String getPoliticalStatusStr() {
+        return PoliticalStatus.getName(politicalStatus);
     }
 }

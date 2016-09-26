@@ -10,16 +10,20 @@ CREATE TABLE `t_info_basic` (
   COMMENT '基本信息';
 DROP TABLE IF EXISTS `t_message`;
 CREATE TABLE `t_message` (
-  `message_id`           INT(11)   NOT NULL  AUTO_INCREMENT,
-  `message_content`      VARCHAR(255)        DEFAULT ''
+  `message_id`             INT(11)   NOT NULL  AUTO_INCREMENT,
+  `message_content`        VARCHAR(255)        DEFAULT ''
   COMMENT '留言内容',
-  `message_to_user_id`   INT(11)   NOT NULL  DEFAULT 0
+  `message_to_user_id`     INT(11)   NOT NULL  DEFAULT 0
   COMMENT '接收留言用户id',
-  `message_from_user_id` INT(11)   NOT NULL  DEFAULT 0
+  `message_to_user_name`   VARCHAR(64)         DEFAULT ''
+  COMMENT '接收留言用户',
+  `message_from_user_id`   INT(11)   NOT NULL  DEFAULT 0
   COMMENT '留言用户id',
-  `message_date_time`    TIMESTAMP NOT NULL
+  `message_from_user_name` VARCHAR(64)         DEFAULT ''
+  COMMENT '留言用户',
+  `message_date_time`      TIMESTAMP NOT NULL
   COMMENT '留言时间',
-  `is_read`              TINYINT(1)          DEFAULT 0
+  `is_read`                TINYINT(1)          DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
   PRIMARY KEY (`message_id`),
   KEY k_user(`message_to_user_id`, `message_from_user_id`, `message_date_time`),
@@ -121,6 +125,8 @@ DROP TABLE IF EXISTS `t_teacher`;
 CREATE TABLE `t_teacher` (
   `id`                          INT(11)     NOT NULL          AUTO_INCREMENT
   COMMENT 'ID',
+  `avatar`                      VARCHAR(255)                  DEFAULT ''
+  COMMENT '头像',
   `user_id`                     INT(11)     NOT NULL
   COMMENT '平台用户id',
   `employee_no`                 VARCHAR(32) NOT NULL
@@ -176,6 +182,8 @@ DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
   `id`               INT(11)     NOT NULL          AUTO_INCREMENT
   COMMENT 'ID',
+  `avatar`           VARCHAR(255)                  DEFAULT ''
+  COMMENT '头像',
   `user_id`          INT(11)     NOT NULL
   COMMENT '平台用户id',
   `student_no`       VARCHAR(32) NOT NULL

@@ -19,6 +19,19 @@
             name: 'id',
             id: 'id'
         }, {
+            type: 'image',
+            id: 'avatar',
+            name: 'avatar',
+            span: 2,
+            label: '头像',
+            isAjaxUpload: true,
+            onSuccess: function (data) {
+                $("#avatar").attr("value", data.attachmentUrl);
+            },
+            deleteHandle: function () {
+                $("#avatar").attr("value", "");
+            }
+        }, {
             type: 'text',
             name: 'name',
             id: 'name',
@@ -177,6 +190,19 @@
             id: 'teacherCertificateNo',
             label: '教师资格证号',
             cls: 'input-large'
+        }, {
+            type: 'radioGroup',
+            name: 'isLabStaff',
+            id: 'isLabStaff',
+            label: '是否实验室人员',
+            inline: true,
+            items: [{
+                value: true,
+                text: '是'
+            }, {
+                value: false,
+                text: '否'
+            }]
         }, {
             type: 'text',
             name: 'mainTeacherCertificateNo',

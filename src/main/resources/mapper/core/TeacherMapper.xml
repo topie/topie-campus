@@ -7,6 +7,7 @@
         -->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="gender" jdbcType="INTEGER" property="gender"/>
@@ -31,7 +32,7 @@
         <result column="teach_quality_comment" jdbcType="LONGVARCHAR" property="teachQualityComment"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
+    id,avatar,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
     graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
     subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff,
     teach_quality_comment
@@ -77,6 +78,14 @@
     </select>
     <select id="selectOneByUserId" resultMap="BaseResultMap">
         select * from topie_campus.t_teacher
+        where user_id=#{userId}
+    </select>
+    <select id="selectTeacherIdByUserId" resultType="java.lang.Integer">
+        select id from topie_campus.t_teacher
+        where user_id=#{userId}
+    </select>
+    <select id="selectTeacherNameByUserId" resultType="java.lang.String">
+        select name from topie_campus.t_teacher
         where user_id=#{userId}
     </select>
 

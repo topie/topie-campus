@@ -882,11 +882,11 @@
                     var _index = index;
                     var current_data = grid;
                     $.each(that._actionColumns, function (index, colum) {
-                        var visable = true;
-                        if (colum.visable != undefined) {
-                            visable = colum.visable(_index, current_data);
+                        var visible = true;
+                        if (colum.visible != undefined) {
+                            visible = colum.visible(_index, current_data);
                         }
-                        if (visable == false) {
+                        if (visible == false) {
                             return;
                         }
                         var text = colum.text;

@@ -42,4 +42,14 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         return teacherMapper.selectOneByUserId(UserId);
     }
 
+    @Override
+    public Integer findTeacherIdByUserId(Integer userId) {
+        return teacherMapper.selectTeacherIdByUserId(userId);
+    }
+
+    @Override
+    public String findTeacherNameByUserId(Integer userId) {
+        return teacherMapper.selectTeacherNameByUserId(userId);
+    }
+
 }

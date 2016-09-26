@@ -16,4 +16,8 @@ public interface ITeacherService extends IService<Teacher> {
     void deleteToUnBindStudent(Integer studentId, Integer teacherId);
 
     Teacher findTeacherByUserId(Integer UserId);
+
+    Integer findTeacherIdByUserId(Integer userId);
+
+    String findTeacherNameByUserId(Integer userId);
 }

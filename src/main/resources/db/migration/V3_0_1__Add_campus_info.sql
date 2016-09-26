@@ -21,10 +21,3 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '8');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '9');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '10');
 
-INSERT INTO `sys_role` VALUES ('4', '教师', '/', '1', NULL, NULL);
-INSERT INTO `sys_role` VALUES ('5', '学生', '/', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('11', '0', '首页', '1', '2', NULL, '/api/front/index', '4', NULL, NULL);
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('4', '11');
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '11');
-
-

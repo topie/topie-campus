@@ -20,4 +20,10 @@ public interface StudentMapper extends Mapper<Student> {
 
     Long countStudentSimpleDtoListByTeacherId(@Param("student") StudentSimpleDto studentSimpleDto,
             @Param("teacherId") Integer teacherId);
+
+    Integer findStudentIdByUserId(@Param("userId") Integer userId);
+
+    String findStudentNameByUserId(@Param("userId") Integer userId);
+
+    Student findStudentByUserId(@Param("userId") Integer userId);
 }

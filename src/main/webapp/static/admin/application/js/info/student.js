@@ -19,6 +19,18 @@
             name: 'id',
             id: 'id'
         }, {
+            type: 'image',
+            id: 'avatar',
+            name: 'avatar',
+            label: '头像',
+            isAjaxUpload: true,
+            onSuccess: function (data) {
+                $("#avatar").attr("value", data.attachmentUrl);
+            },
+            deleteHandle: function () {
+                $("#avatar").attr("value", "");
+            }
+        }, {
             type: 'text',
             name: 'name',
             id: 'name',

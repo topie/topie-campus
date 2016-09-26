@@ -3,7 +3,9 @@ package com.topie.campus.core.api.front;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
+import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.exception.AuBzConstant;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 9/24/16.
@@ -29,6 +33,9 @@ public class FrontCommonController {
 
     @Autowired
     private ITeacherService iTeacherService;
+
+    @Autowired
+    private IStudentService iStudentService;
 
     @Autowired
     private UserService userService;
@@ -60,10 +67,19 @@ public class FrontCommonController {
             return ResponseUtil.error(401, "未登录");
         }
         List<Integer> roles = SecurityUtil.getCurrentRoles();
-        if (roles.contains(SecurityConstant.ROLE_TEACHER) || roles.contains(SecurityConstant.ROLE_STUDENT)) {
+        Integer role = 0;
+        Map result = new HashMap<>();
+        if (roles.contains(SecurityConstant.ROLE_TEACHER)) {
             Teacher teacher = iTeacherService.findTeacherByUserId(userId);
-            return ResponseUtil.success(teacher);
+            role = SecurityConstant.ROLE_TEACHER;
+            result.put("data", teacher);
+        } else if (roles.contains(SecurityConstant.ROLE_STUDENT)) {
+            Student student = iStudentService.findStudentByUserId(userId);
+            role = SecurityConstant.ROLE_STUDENT;
+            result.put("data", student);
         }
-        return ResponseUtil.success();
+        result.put("role", role);
+        return ResponseUtil.success(result);
     }
+
 }
