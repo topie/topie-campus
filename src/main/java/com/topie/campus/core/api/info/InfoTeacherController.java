@@ -72,20 +72,4 @@ public class InfoTeacherController {
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
-    @RequestMapping(value = "/selectStudent", method = RequestMethod.GET)
-    @ResponseBody
-    public Result selectStudent(@RequestParam(value = "studentId") Integer studentId,
-            @RequestParam(value = "teacherId") Integer teacherId) {
-        iInfoBasicService.insertToBindStudent(studentId, teacherId);
-        return ResponseUtil.success();
-    }
-
-    @RequestMapping(value = "/cancelStudent", method = RequestMethod.GET)
-    @ResponseBody
-    public Result cancelStudent(@RequestParam(value = "studentId") Integer studentId,
-            @RequestParam(value = "teacherId") Integer teacherId) {
-        iInfoBasicService.deleteToUnbindStudent(studentId, teacherId);
-        return ResponseUtil.success();
-    }
-
 }

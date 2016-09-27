@@ -6,6 +6,7 @@
           WARNING - @mbggenerated
         -->
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -27,7 +28,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,student_no,name,gender,ethnic_group,birth,political_status,academe,subject,contact_phone,email
+        id,avatar,user_id,student_no,name,gender,ethnic_group,birth,political_status,academe,subject,contact_phone,email
     </sql>
     <select id="findStudentByPageNumAndPageSize" resultMap="BaseResultMap">
         select
@@ -105,5 +106,22 @@
             </if>
         </where>
     </select>
-
+    <select id="findStudentIdByUserId" resultType="java.lang.Integer">
+        select
+        id
+        from topie_campus.t_student
+        where user_id = #{userId}
+    </select>
+    <select id="findStudentNameByUserId" resultType="java.lang.String">
+        select
+        name
+        from topie_campus.t_student
+        where user_id = #{userId}
+    </select>
+    <select id="findStudentByUserId" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_student
+        where user_id = #{userId}
+    </select>
 </mapper>

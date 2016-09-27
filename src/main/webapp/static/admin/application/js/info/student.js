@@ -19,6 +19,18 @@
             name: 'id',
             id: 'id'
         }, {
+            type: 'image',
+            id: 'avatar',
+            name: 'avatar',
+            label: '头像',
+            isAjaxUpload: true,
+            onSuccess: function (data) {
+                $("#avatar").attr("value", data.attachmentUrl);
+            },
+            deleteHandle: function () {
+                $("#avatar").attr("value", "");
+            }
+        }, {
             type: 'text',
             name: 'name',
             id: 'name',
@@ -192,6 +204,140 @@
                     };
                     var form = modal.$body.topieForm(formOpts);
                     form.loadRemote(App.href + "/api/info/student/load/" + data.id);
+                    modal.show();
+                }
+            }, {
+                text: "选择教师",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                    var modal = $.topieModal({
+                        id: "selectTeacherGrid",
+                        title: "选择教师",
+                        destroy: true
+                    });
+                    var studentGrid;
+                    var studentOpt = {
+                        url: App.href + "/api/info/student/teacher?studentId=" + data.id,
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+                        },
+                        pageNum: 1,//当前页码
+                        pageSize: 15,//每页显示条数
+                        idFiled: "id",//id域指定
+                        showCheckbox: true,//是否显示checkbox
+                        checkboxWidth: "3%",
+                        showIndexNum: false,
+                        indexNumWidth: "5%",
+                        pageSelect: [2, 15, 30, 50],
+                        columns: [
+                            {
+                                title: "教师id",
+                                field: "id",
+                                width: "5%"
+                            }, {
+                                title: "教师名称",
+                                field: "name"
+                            }, {
+                                title: "职工号",
+                                field: "employeeNo"
+                            }, {
+                                title: "联系电话",
+                                field: "contactPhone"
+                            }, {
+                                title: "是否我的教师",
+                                field: "isBind",
+                                format: function (num, grid) {
+                                    if (grid.isBind == 1) {
+                                        return "是";
+                                    } else {
+                                        return "否"
+                                    }
+                                }
+                            }],
+                        actionColumnText: "操作",//操作列文本
+                        actionColumnWidth: "20%",
+                        actionColumns: [{
+                            textHandle: function (index, stData) {
+                                if (stData.isBind == 1) {
+                                    return "取消";
+                                } else {
+                                    return "选择";
+                                }
+                            },
+                            clsHandle: function (index, stData) {
+                                if (stData.isBind == 1) {
+                                    return "btn-danger btn-sm";
+                                } else {
+                                    return "btn-primary btn-sm";
+                                }
+                            },
+                            handle: function (index, stData) {
+                                var requestUrl = App.href + "/api/info/basic/bind";
+                                if (stData.isBind == 1) {
+                                    requestUrl = App.href + "/api/info/basic/unbind";
+                                }
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    dataType: "json",
+                                    data: {
+                                        studentId: data.id,
+                                        teacherId: stData.id
+                                    },
+                                    url: requestUrl,
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            studentGrid.reload();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
+                            }
+                        }],
+                        search: {
+                            rowEleNum: 2,
+                            //搜索栏元素
+                            items: [{
+                                type: "text",
+                                label: "教师名称",
+                                name: "name",
+                                placeholder: "输入要搜索的教师名称"
+                            }, {
+                                type: "text",
+                                label: "职工号",
+                                name: "employeeNo",
+                                placeholder: "输入要搜索的职工号"
+                            }, {
+                                type: "text",
+                                label: "手机号",
+                                name: "contactPhone",
+                                placeholder: "输入要搜索的手机号"
+                            }, {
+                                type: "select",
+                                label: "是否绑定",
+                                name: "isBind",
+                                items: [
+                                    {
+                                        value: "",
+                                        text: "全部"
+                                    }, {
+                                        value: 1,
+                                        text: "是"
+                                    }, {
+                                        value: 0,
+                                        text: "否"
+                                    }
+                                ]
+                            }]
+                        }
+                    };
+                    studentGrid = modal.$body.topieGrid(studentOpt);
                     modal.show();
                 }
             }, {

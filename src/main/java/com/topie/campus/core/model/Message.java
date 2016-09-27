@@ -1,10 +1,14 @@
 package com.topie.campus.core.model;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_message")
 public class Message {
+
     @Id
     @Column(name = "message_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +26,23 @@ public class Message {
     @Column(name = "message_to_user_id")
     private Integer messageToUserId;
 
+    @Column(name = "message_to_user_name")
+    private String messageToUserName;
+
     /**
      * 留言用户id
      */
     @Column(name = "message_from_user_id")
     private Integer messageFromUserId;
 
+    @Column(name = "message_from_user_name")
+    private String messageFromUserName;
+
     /**
      * 留言时间
      */
     @Column(name = "message_date_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date messageDateTime;
 
     /**
@@ -39,6 +50,22 @@ public class Message {
      */
     @Column(name = "is_read")
     private Boolean isRead;
+
+    public String getMessageToUserName() {
+        return messageToUserName;
+    }
+
+    public void setMessageToUserName(String messageToUserName) {
+        this.messageToUserName = messageToUserName;
+    }
+
+    public String getMessageFromUserName() {
+        return messageFromUserName;
+    }
+
+    public void setMessageFromUserName(String messageFromUserName) {
+        this.messageFromUserName = messageFromUserName;
+    }
 
     /**
      * @return message_id
@@ -113,6 +140,7 @@ public class Message {
      *
      * @return message_date_time - 留言时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     public Date getMessageDateTime() {
         return messageDateTime;
     }

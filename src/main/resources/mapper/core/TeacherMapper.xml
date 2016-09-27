@@ -7,6 +7,7 @@
         -->
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="gender" jdbcType="INTEGER" property="gender"/>
@@ -30,8 +31,15 @@
         <result column="is_lab_staff" jdbcType="BIT" property="isLabStaff"/>
         <result column="teach_quality_comment" jdbcType="LONGVARCHAR" property="teachQualityComment"/>
     </resultMap>
+    <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.TeacherSimpleDto">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="is_bind" jdbcType="INTEGER" property="isBind"/>
+    </resultMap>
     <sql id="Base_Column_List">
-    id,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
+    id,avatar,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,
     graduated_university,graduated_major,education_background,degree,professional_title,professional_position,
     subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff,
     teach_quality_comment
@@ -78,6 +86,62 @@
     <select id="selectOneByUserId" resultMap="BaseResultMap">
         select * from topie_campus.t_teacher
         where user_id=#{userId}
+    </select>
+    <select id="selectTeacherIdByUserId" resultType="java.lang.Integer">
+        select id from topie_campus.t_teacher
+        where user_id=#{userId}
+    </select>
+    <select id="selectTeacherNameByUserId" resultType="java.lang.String">
+        select name from topie_campus.t_teacher
+        where user_id=#{userId}
+    </select>
+    <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize" resultMap="SimpleDtoResultMap">
+        select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind
+        from topie_campus.t_teacher t
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id
+        <where>
+            <if test="teacher.name != null and teacher.name != ''">
+                and t.name like concat('%',concat(#{teacher.name}, '%'))
+            </if>
+            <if test="teacher.employeeNo != null and teacher.employeeNo != ''">
+                and t.employee_no like concat('%',concat(#{teacher.employeeNo}, '%'))
+            </if>
+            <if test="teacher.contactPhone != null and teacher.contactPhone != ''">
+                and t.contact_phone like concat('%',concat(#{teacher.contactPhone}, '%'))
+            </if>
+            <if test="teacher.isBind != null and teacher.isBind == 0">
+                and st.student_id is null
+            </if>
+            <if test="teacher.isBind != null and teacher.isBind == 1">
+                and st.student_id is not null
+            </if>
+        </where>
+        order by is_bind desc,t.id asc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countStudentSimpleDtoListByTeacherId" resultType="java.lang.Long">
+        select count(1)
+        from topie_campus.t_teacher t
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id
+        <where>
+            <if test="teacher.name != null and teacher.name != ''">
+                and t.name like concat('%',concat(#{teacher.name}, '%'))
+            </if>
+            <if test="teacher.employeeNo != null and teacher.employeeNo != ''">
+                and t.employee_no like concat('%',concat(#{teacher.employeeNo}, '%'))
+            </if>
+            <if test="teacher.contactPhone != null and teacher.contactPhone != ''">
+                and t.contact_phone like concat('%',concat(#{teacher.contactPhone}, '%'))
+            </if>
+            <if test="teacher.isBind != null and teacher.isBind == 0">
+                and st.student_id is null
+            </if>
+            <if test="teacher.isBind != null and teacher.isBind == 1">
+                and st.student_id is not null
+            </if>
+        </where>
     </select>
 
 </mapper>

@@ -1,0 +1,117 @@
+<article class="row">
+    <div class="col-md-2 col-sm-2 hidden-xs">
+        <figure class="thumbnail">
+            {{if avatar==""}}
+            <img class="img-responsive"
+                 src="../vendors/bootstrap-comment/img/default-avatar.jpg" />
+            {{/if}}
+            {{if avatar!=""}}
+            <img class="img-responsive"
+                 src="{{avatar}}" />
+            {{/if}}
+            <figcaption class="text-center">{{name}}</figcaption>
+        </figure>
+    </div>
+    <div class="col-md-10 col-sm-10">
+        <table class="table table-user-information">
+            <tbody>
+            <tr>
+                <td>名字:</td>
+                <td><p style='color:blue;'>{{name}}</p></td>
+                <td>职工号:</td>
+                <td><p style='color:blue;'>{{employeeNo}}</p></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <p style='color:blue;'>
+                        {{if gender==1}}男{{/if}}
+                        {{if gender==0}}女{{/if}}
+                    </p>
+                </td>
+                <td>民族</td>
+                <td><p style='color:blue;'>{{ethnicGroupStr}}</p></td>
+            </tr>
+
+            <tr>
+            <tr>
+                <td>出生日期</td>
+                <td><p style='color:blue;'>{{birth}}</p></td>
+                <td>政治面貌</td>
+                <td><p style='color:blue;'>{{politicalStatusStr}}</p></td>
+            </tr>
+            <tr>
+                <td>学院</td>
+                <td><p style='color:blue;'>{{academe}}</p></td>
+                <td>系(所)</td>
+                <td>
+                    <p style='color:blue;'>
+                        {{department}}
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td><p style='color:blue;'>{{contactPhone}}</p></td>
+                <td>邮箱</td>
+                <td>
+                    <p style='color:blue;'>{{email}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>毕业院校</td>
+                <td><p style='color:blue;'>{{graduatedUniversity}}</p></td>
+                <td>毕业专业</td>
+                <td>
+                    {{graduatedMajor}}
+                </td>
+            </tr>
+            <tr>
+                <td>学历</td>
+                <td><p style='color:blue;'>{{educationBackgroundStr}}</p></td>
+                <td>学位</td>
+                <td>
+                    <p style='color:blue;'>{{degreeStr}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>职称</td>
+                <td><p style='color:blue;'>{{professionalTitle}}</p></td>
+                <td>职务</td>
+                <td>
+                    <p style='color:blue;'>{{professionalPosition}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>学科方向</td>
+                <td><p style='color:blue;'>{{subjectDirection}}</p></td>
+                <td>是否实验室人员</td>
+                <td>
+                    <p style='color:blue;'>{{if isLabStaff==true}}是{{/if}}{{if isLabStaff==false}}否{{/if}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>教师资格证号</td>
+                <td><p style='color:blue;'>{{teacherCertificateNo}}</p></td>
+                <td>主讲教师资格证号</td>
+                <td>
+                    <p style='color:blue;'>{{mainTeacherCertificateNo}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>人事职工号</td>
+                <td><p style='color:blue;'>{{staffNo}}</p></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>教学评价</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><p style='color:blue;'>{{teachQualityComment}}</p></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</article>

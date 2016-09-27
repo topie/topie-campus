@@ -4,6 +4,7 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.StudentExcelDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
+import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
@@ -76,7 +77,6 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
             }
             userService.insertUser(user);
-            userService.insertUser(user);
             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
             Student student = studentDto.buildStudent();
             student.setUserId(user.getId());
@@ -134,6 +134,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
+    public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
+            Integer studentId, Integer pageNum, Integer pageSize) {
+        return iTeacherService.findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto,studentId,pageNum,pageSize);
+    }
+
+    @Override
     public Student findOneByStudentId(Integer studentId) {
         return iStudentService.selectByKey(studentId);
     }
@@ -167,12 +173,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
-    public void insertToBindStudent(Integer studentId, Integer teacherId) {
+    public void insertToBindStudentTeacher(Integer studentId, Integer teacherId) {
         iTeacherService.insertToBindStudent(studentId, teacherId);
     }
 
     @Override
-    public void deleteToUnbindStudent(Integer studentId, Integer teacherId) {
+    public void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId) {
         iTeacherService.deleteToUnBindStudent(studentId, teacherId);
     }
 }

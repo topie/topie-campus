@@ -3,6 +3,7 @@ package com.topie.campus.core.service.impl;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.TeacherMapper;
+import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,27 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     @Override
     public Teacher findTeacherByUserId(Integer UserId) {
         return teacherMapper.selectOneByUserId(UserId);
+    }
+
+    @Override
+    public Integer findTeacherIdByUserId(Integer userId) {
+        return teacherMapper.selectTeacherIdByUserId(userId);
+    }
+
+    @Override
+    public String findTeacherNameByUserId(Integer userId) {
+        return teacherMapper.selectTeacherNameByUserId(userId);
+    }
+
+    @Override
+    public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
+            Integer studentId, Integer pageNum, Integer pageSize) {
+        List<TeacherSimpleDto> list = teacherMapper
+                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, studentId,
+                        (pageNum - 1) * pageSize, pageSize);
+        Long total = teacherMapper.countStudentSimpleDtoListByTeacherId(teacherSimpleDto, studentId);
+        SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+        return pageInfo;
     }
 
 }

@@ -39,4 +39,19 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
         return pageInfo;
     }
 
+    @Override
+    public Student findStudentByUserId(Integer userId) {
+        return studentMapper.findStudentByUserId(userId);
+    }
+
+    @Override
+    public Integer findStudentIdByUserId(Integer userId) {
+        return studentMapper.findStudentIdByUserId(userId);
+    }
+
+    @Override
+    public String findStudentNameByUserId(Integer userId) {
+        return studentMapper.findStudentNameByUserId(userId);
+    }
+
 }

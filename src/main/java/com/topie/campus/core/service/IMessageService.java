@@ -1,6 +1,7 @@
 package com.topie.campus.core.service;
 
 import com.topie.campus.basedao.service.IService;
+import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.model.Message;
 
 /**
@@ -8,4 +9,7 @@ import com.topie.campus.core.model.Message;
  */
 public interface IMessageService extends IService<Message> {
 
+    SimplePageInfo<Message> findReceiveMessageListByPage(Integer toUserId, int pageNum, int pageSize);
+
+    SimplePageInfo<Message> findSendMessageListByPage(Integer fromUserId, int pageNum, int pageSize);
 }
