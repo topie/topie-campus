@@ -1,10 +1,16 @@
 package com.topie.campus.core.api.front;
 
+import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.TreeNode;
+import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.model.Message;
+import com.topie.campus.core.model.Notice;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
+import com.topie.campus.core.service.IMessageService;
+import com.topie.campus.core.service.INoticeService;
 import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.SecurityConstant;
@@ -28,8 +34,8 @@ import java.util.Map;
  * Created by chenguojun on 9/24/16.
  */
 @Controller
-@RequestMapping("/api/frontCommon")
-public class FrontCommonController {
+@RequestMapping("/api/frontIndex")
+public class FrontIndexController {
 
     @Autowired
     private ITeacherService iTeacherService;
@@ -42,6 +48,12 @@ public class FrontCommonController {
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private IMessageService iMessageService;
+
+    @Autowired
+    private INoticeService iNoticeService;
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
@@ -82,4 +94,21 @@ public class FrontCommonController {
         return ResponseUtil.success(result);
     }
 
+    @RequestMapping(value = "/receiveTop5Message", method = RequestMethod.GET)
+    @ResponseBody
+    public Result receiveTop5Message() {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        SimplePageInfo<Message> pageInfo = iMessageService.findReceiveMessageListByPage(userId, 1, 5);
+        return ResponseUtil.success(pageInfo.getList());
+    }
+
+    @RequestMapping(value = "/noticeTop5", method = RequestMethod.GET)
+    @ResponseBody
+    public Result noticeTop5() {
+        SimplePageInfo<Notice> pageInfo = iNoticeService.findNoticeList(new Notice(), 1, 5);
+        return ResponseUtil.success(pageInfo.getList());
+    }
 }

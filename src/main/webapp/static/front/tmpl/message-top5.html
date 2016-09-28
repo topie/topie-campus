@@ -1,0 +1,90 @@
+<link href="../vendors/bootstrap-comment/css/comment-mini.css" rel="stylesheet" type="text/css">
+{{if list.length==0}}
+没有数据
+{{/if}}
+{{each list}}
+<div class="panel panel-white post panel-shadow">
+    <div class="post-heading">
+        <div class="pull-left image">
+            <img src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                 class="img-circle avatar"
+                 alt="user profile image">
+        </div>
+        <div class="pull-left meta">
+            <div class="title h5">
+                <a href="#"><b>{{$value.messageFromUserName}}</b></a>
+                对 {{$value.messageToUserName}} 留言
+            </div>
+            <h6 class="text-muted time">{{$value.messageDateTime}}</h6>
+        </div>
+    </div>
+    <div class="post-description">
+        <p>{{$value.messageContent}}</p>
+        <div class="stats">
+            <button type="button" role="message-btn" class="btn btn-default stat-item">
+                <i class="fa fa-messages-o icon"></i>3条回复
+            </button>
+        </div>
+    </div>
+    <div class="post-footer" style="display: none;" role="message">
+        <ul class="comments-list">
+            <li class="comment">
+                <a class="pull-left" href="#">
+                    <img class="avatar"
+                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                         alt="avatar">
+                </a>
+                <div class="comment-body">
+                    <div class="comment-heading">
+                        <h4 class="user">Gavino Free</h4>
+                        <h5 class="time">5 minutes ago</h5>
+                    </div>
+                    <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                    <a href="#" class="btn btn-sm btn-danger stat-item">
+                        删除
+                    </a>
+                </div>
+            </li>
+            <li class="comment">
+                <a class="pull-left" href="#">
+                    <img class="img-circle avatar"
+                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                         alt="avatar">
+                </a>
+                <div class="comment-body">
+                    <div class="comment-heading">
+                        <h4 class="user">Ryan Haywood</h4>
+                        <h5 class="time">3 minutes ago</h5>
+                    </div>
+                    <p>Relax my friend</p>
+                </div>
+            </li>
+            <li class="comment">
+                <a class="pull-left" href="#">
+                    <img class="avatar"
+                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
+                         alt="avatar">
+                </a>
+                <div class="comment-body">
+                    <div class="comment-heading">
+                        <h4 class="user">Gavino Free</h4>
+                        <h5 class="time">3 minutes ago</h5>
+                    </div>
+                    <p>Ok, cool.</p>
+                </div>
+            </li>
+        </ul>
+        <div style="margin-bottom: 10px;">
+            <button type="button" class="btn btn-default stat-item" role="reply-btn">
+                <i class="fa fa-reply icon"></i>回复
+            </button>
+        </div>
+        <div role="reply" class="input-group" style="display: none">
+            <input class="form-control" placeholder="Add a message" type="text">
+            <span class="input-group-addon">
+                    <a href="#"><i class="fa fa-edit"></i></a>
+            </span>
+        </div>
+    </div>
+</div>
+{{/each}}
