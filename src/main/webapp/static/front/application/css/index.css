@@ -34,7 +34,7 @@ div.head-link {
 
 .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
     text-shadow: none;
-    color: #FFF;
+    color: #bce8f1;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
@@ -48,7 +48,7 @@ div.head-link {
     background-image: #60B078;
     background: #60B078;
     background-color: #60B078 !important; /*necessario para forcar a regra do bootstrap que tem important*/
-    color: #FFF;
+    color: #bce8f1;
     -webkit-transition: all ease-in .3s;
     -o-transition: all ease-in .3s;
     -moz-transition: all ease-in .3s;
@@ -58,7 +58,7 @@ div.head-link {
 }
 
 .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
-    color: #FFF;
+    color: #bce8f1;
     text-decoration: none;
     background-color: #60B078;
 }
@@ -70,7 +70,7 @@ div.head-link {
 .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
     margin-top: 0px;
     margin-bottom: 0px;
-    color: #FFF;
+    color: #bce8f1;
     font-weight: 200;
     background-color: #60B078;
     background-image: none;
@@ -117,7 +117,7 @@ ul.nav.navbar-nav.navbar-right:last-child {
 }
 
 .navbar-static-top .navbar-nav > li > a {
-    color: #4D5061
+    color: #bce8f1
 }
 
 .navbar-static-top .navbar-nav > li > a:hover {

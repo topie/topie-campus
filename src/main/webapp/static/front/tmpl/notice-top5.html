@@ -1,0 +1,11 @@
+<script src="../vendors/jquery-bootstrap-newsbox/jquery.bootstrap.newsbox.min.js"></script>
+{{if list.length==0}}
+没有数据
+{{/if}}
+<ul class="notice" style="overflow-y: hidden; height: 210px;">
+    {{each list}}
+    <li style="" class="news-item">
+        <a href="#">{{$value.noticeTitle}}</a>
+    </li>
+    {{/each}}
+</ul>
