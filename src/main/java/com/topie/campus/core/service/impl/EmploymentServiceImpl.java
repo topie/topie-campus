@@ -1,9 +1,11 @@
 package com.topie.campus.core.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,7 +54,20 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         }
         for (EmploymentExcelDto employmentExcelDto : employmentExcelDtos) {
             //TODO 检测教师职工号是否唯一
-        	employmentMapper.insertSelective(employmentExcelDto.buildEmployment(employmentExcelDto));
+        	Employment employMent =  employmentExcelDto.buildEmployment(employmentExcelDto);
+        	List<Employment> employMents = new ArrayList<Employment>();
+        	if(StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
+        	employMents = employmentMapper.findByStuId(employmentExcelDto.getStuId());
+        	if(employMents.size()>0)
+        	{
+        		employMent.setId(employMents.get(0).getId());
+        		employmentMapper.updateByPrimaryKey(employMent);
+        	}
+        	else
+        	{
+        		employmentMapper.insertSelective(employMent);
+        	}
+        	
         }
 	}
 	

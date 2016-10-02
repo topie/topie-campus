@@ -10,7 +10,9 @@ import tk.mybatis.mapper.common.Mapper;
 
 public interface EmploymentMapper extends Mapper<Employment> {
 
-	List<Employment> findByPage(@Param("employment") Employment employment, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
+	List<Employment> findByPage(Employment employMent, int i, int pageSize);
 
-	Long countEmploy(@Param("employment") Employment employment);
+	Long countEmploy(Employment employMent);
+	
+	List<Employment> findByStuId(@Param("stuId") String stuId);
 }
