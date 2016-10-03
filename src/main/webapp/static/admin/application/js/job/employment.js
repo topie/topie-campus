@@ -74,13 +74,18 @@
         field: "phone",
         sort: true
     },{
-        title: "就业进度",
-        field: "employProcess",
+        title: "领表",
+        field: "takeTable",
         sort: true
     },
     {
-        title: "毕业去向",
-        field: "signCompany",
+        title: "就业",
+        field: "employmentStatus",
+        sort: true
+    },
+    {
+        title: "签约",
+        field: "signStatus",
         sort: true
     }
     ];

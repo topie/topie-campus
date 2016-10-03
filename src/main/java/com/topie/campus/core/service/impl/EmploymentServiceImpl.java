@@ -17,6 +17,7 @@ import com.topie.campus.core.dto.EmploymentExcelDto;
 import com.topie.campus.core.dto.StudentExcelDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
 import com.topie.campus.core.model.Employment;
+import com.topie.campus.core.model.StaticEmployment;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IEmploymentService;
@@ -69,6 +70,36 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         	}
         	
         }
+	}
+
+	@Override
+	public SimplePageInfo<StaticEmployment> findByPageGroupByMajor(int pageNum,
+			int pageSize, Employment employment) {
+		// TODO Auto-generated method stub
+		List<StaticEmployment> staticEmployments = employmentMapper.findByPageGroupByMajor(employment, (pageNum - 1) * pageSize, pageSize);
+		Long total = employmentMapper.countByPageGroupByMajor(employment);
+		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
+		return pageInfo;
+	}
+	
+	@Override
+	public SimplePageInfo<StaticEmployment> findByPageGroupByClassNum(int pageNum,
+			int pageSize, Employment employment) {
+		// TODO Auto-generated method stub
+		List<StaticEmployment> staticEmployments = employmentMapper.findByPageGroupByClassNum(employment, (pageNum - 1) * pageSize, pageSize);
+		Long total = employmentMapper.countByPageGroupByClassNum(employment);
+		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
+		return pageInfo;
+	}
+	
+	@Override
+	public SimplePageInfo<StaticEmployment> findByPageGroupByTutor(int pageNum,
+			int pageSize, Employment employment) {
+		// TODO Auto-generated method stub
+		List<StaticEmployment> staticEmployments = employmentMapper.findByPageGroupByTutor(employment, (pageNum - 1) * pageSize, pageSize);
+		Long total = employmentMapper.countByPageGroupByTutor(employment);
+		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
+		return pageInfo;
 	}
 	
 }

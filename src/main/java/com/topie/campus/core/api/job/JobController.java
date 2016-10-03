@@ -5,15 +5,18 @@ import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.model.Employment;
+import com.topie.campus.core.model.StaticEmployment;
 import com.topie.campus.core.service.IEmploymentService;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,13 +35,13 @@ public class JobController {
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
-    public Result users(Employment employMent,
+    public Result users(Employment employment,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
-        SimplePageInfo<Employment> pageInfo = employmentService.findByPage(pageNum, pageSize, employMent);
+        SimplePageInfo<Employment> pageInfo = employmentService.findByPage(pageNum, pageSize, employment);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-
+    
     @RequestMapping(value = "/importPage", method = RequestMethod.GET)
     @ResponseBody
     public Object page() throws Exception {
@@ -49,7 +52,7 @@ public class JobController {
 
     @RequestMapping(value = "/load/{employId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result load(@PathVariable("employId") String id) {
+    public Result load(@PathVariable("employId") Integer id) {
         Employment emp = employmentService.selectByKey(id);
         return ResponseUtil.success(emp);
     }
@@ -66,4 +69,32 @@ public class JobController {
         if (logs.getErrorLogList().size() > 0) return ResponseUtil.success(logs.getErrorLogList());
         else return ResponseUtil.success("导入成功！");
     }
+    
+    @RequestMapping(value = "/staticEmploy", method = RequestMethod.GET)
+    @ResponseBody
+    public Result staticjob(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByMajor(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
+    @RequestMapping(value = "/staticClassNum", method = RequestMethod.GET)
+    @ResponseBody
+    public Result pageClassNum(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByClassNum(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
+    @RequestMapping(value = "/staticTutor", method = RequestMethod.GET)
+    @ResponseBody
+    public Result pageTutor(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByTutor(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
 }
