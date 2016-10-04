@@ -77,6 +77,18 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 			int pageSize, Employment employment) {
 		// TODO Auto-generated method stub
 		List<StaticEmployment> staticEmployments = employmentMapper.findByPageGroupByMajor(employment, (pageNum - 1) * pageSize, pageSize);
+		for(StaticEmployment se:staticEmployments)
+		{
+			Employment em = new Employment();
+			em.setMajor(se.getMajor());
+			List<StaticEmployment> seo = employmentMapper.findOtherByPageGroupByMajor(em);
+			if(seo.size()>0)
+			{
+			se.setMan(seo.get(0).getMan());
+			se.setWoman(seo.get(0).getWoman());
+			se.setPoorRate(seo.get(0).getPoorRate());
+			}
+		}
 		Long total = employmentMapper.countByPageGroupByMajor(employment);
 		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
 		return pageInfo;

@@ -36,12 +36,14 @@
      <result column="tutor" property="tutor" jdbcType="VARCHAR" />
      <result column="sign_rate" property="signRate" jdbcType="DOUBLE" />
      <result column="employment_rate" property="employmentRate" jdbcType="DOUBLE" />
+     <result column="poor_rate" property="poorRate" jdbcType="DOUBLE" />
+     <result column="man" property="man" jdbcType="INTEGER" />
+     <result column="woman" property="woman" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List">
   id,stu_id,name,gender,phone,education,college,major,class_num,enter_date,graduate_date,identify_id,home_address,take_table,employment_status,sign_status,poor_student,employ_pattern,sign_pattern,sign_company,tutor,comment,sign_company_address
   </sql>
-  
   <select id="findByPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -145,6 +147,29 @@
         <where>
           <if test="employment.tutor!=null and employment.tutor!=''">
             w.tutor like concat('%',concat(#{employment.tutor},'%'))
+          </if>
+        </where>
+    </select>
+    
+    <select id="findOtherByPageGroupByMajor" resultMap="StaticResultMap">
+      select man,woman,poor_rate,w.major from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
+      left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+             w.major = #{employment.major}
+          </if>
+        </where>
+       <!--  <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if> -->
+    </select>
+    
+    <select id="countOtherByPageGroupByMajor" resultType="java.lang.Long">
+         select count(w.major) from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
+        left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+             w.major = #{employment.major}
           </if>
         </where>
     </select>

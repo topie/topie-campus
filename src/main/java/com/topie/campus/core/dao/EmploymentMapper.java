@@ -28,4 +28,8 @@ public interface EmploymentMapper extends Mapper<Employment> {
 	List<StaticEmployment> findByPageGroupByTutor(@Param("employment") Employment employment, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
 	   
 	Long countByPageGroupByTutor(@Param("employment") Employment employment);
+	
+	List<StaticEmployment> findOtherByPageGroupByMajor(@Param("employment") Employment employment);
+	
+	Long countOtherByPageGroupByMajor(@Param("employment") Employment employment);
 }

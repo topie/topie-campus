@@ -16,9 +16,41 @@ public class StaticEmployment implements Serializable{
 	
 	private String classNum;
 	
-	private Double signRate;
+	private double signRate;
 	
-	private Double employmentRate;
+	private double employmentRate;
+
+	private int man;
+	
+	private int woman;
+	
+	private double poorRate;
+	
+	
+	public int getMan() {
+		return man;
+	}
+
+	public void setMan(int man) {
+		this.man = man;
+	}
+
+	public int getWoman() {
+		return woman;
+	}
+
+	public void setWoman(int woman) {
+		this.woman = woman;
+	}
+
+	public double getPoorRate() {
+		return poorRate;
+	}
+
+	public void setPoorRate(double poorRate) {
+		this.poorRate = poorRate;
+	}
+
 
 	public String getMajor() {
 		return major;
@@ -44,19 +76,19 @@ public class StaticEmployment implements Serializable{
 		this.classNum = classNum;
 	}
 
-	public Double getSignRate() {
+	public double getSignRate() {
 		return signRate;
 	}
 
-	public void setSignRate(Double signRate) {
+	public void setSignRate(double signRate) {
 		this.signRate = signRate;
 	}
 
-	public Double getEmploymentRate() {
+	public double getEmploymentRate() {
 		return employmentRate;
 	}
 
-	public void setEmploymentRate(Double employmentRate) {
+	public void setEmploymentRate(double employmentRate) {
 		this.employmentRate = employmentRate;
 	}
 	

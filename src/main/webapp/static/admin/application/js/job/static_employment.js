@@ -57,6 +57,23 @@
         format: function(i, c) {
         	return (c.employmentRate*100).toFixed(2)+"%"
         }
+    },{
+        field: 'poorRate',
+        title: '困难生率',
+        width: "10%",
+        sort: true,
+        format: function(i, c) {
+        	return (c.poorRate*100).toFixed(2)+"%"
+        }
+    },
+    {
+        field: 'manToWoman',
+        title: '男/女',
+        width: "10%",
+        sort: true,
+        format: function(i, c) {
+        	return c.man+'/'+c.woman;
+        }
     }
     ];
     
