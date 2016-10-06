@@ -7,6 +7,7 @@
         "initVerticalMenu": initVerticalMenu,
         "initSideMenu": initSideMenu
     };
+    App.menusMapping = {};
     function getSubMenu(menus, menuId) {
         var subMenus = [];
         $.each(menus, function (i, m) {
@@ -138,12 +139,12 @@
                                             var title = $(this).attr("data-title");
                                             App[f].page(title);
                                             $(this).parent().parent().removeClass("collapse").addClass("in");
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/front/index.html#!' + url);
+                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/front/index.html?u=' + url);
                                         });
                                     }
                                 }
                             );
-                        refreshHref();
+                        refreshHref(ul);
                     } else if (result.code === 401) {
                         alert("token失效,请登录!");
                         window.location.href = './login.html';
@@ -168,6 +169,9 @@
                 success: function (result) {
                     if (result.code === 200) {
                         var menus = result.data;
+                        $.each(menus, function (i, m) {
+                            App.menusMapping[m.url] = m.name;
+                        });
                         var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
                             if (m.pId == 0) {
@@ -182,6 +186,7 @@
                                     + '" data-title="' + m.name
                                     + '" href="javascript:void(0);"> '
                                     + m.name
+                                    //+ '<span class="label label-danger" style="position: absolute;font-size:5px;border-radius: 8px 8px 8px 8px;">&nbsp;</span>'
                                     + '</a>';
                                 if (subMenus.length > 0) {
                                     ele = secondVerticalMenu(ele, menus, subMenus);
@@ -197,16 +202,12 @@
                                     var f = App.requestMapping[url];
                                     if (f != undefined) {
                                         $(this).on("click", function () {
-                                            var title = $(this).attr("data-title");
-                                            App[f].page(title);
-                                            $(this).parent().siblings("li").removeClass("active");
-                                            $(this).parent().addClass("active");
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/front/index.html#!' + url);
+                                            window.location.href ='http://' + window.location.host + App.projectName + '/static/front/index.html?u=' + url;
                                         });
                                     }
                                 }
                             );
-                        refreshHref();
+                        refreshHref(ul);
                     } else if (result.code === 401) {
                         alert("token失效,请登录!");
                         window.location.href = './login.html';
@@ -221,15 +222,28 @@
     /**
      * 完成后执行
      */
-    var refreshHref = function () {
+    var refreshHref = function (ul) {
         var location = window.location.href;
-        var url = location.substring(location.lastIndexOf("#!") + 2);
-        if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
-            $('a[data-url="' + url + '"]').trigger("click");
+        var url = location.substring(location.lastIndexOf("?u=") + 3);
+        if (location.lastIndexOf("?u=") > 0 && url != undefined && $.trim(url) != "") {
+            var title = App.menusMapping[url];
+            var f = App.requestMapping[url];
+            if (f != undefined) {
+                App[f].page(title);
+                if (ul == "#vertical-menu") {
+                    a = $(ul).find("li[class!=dropdown] > a[data-url='" + url + "']");
+                    a.parent().siblings("li").removeClass("active");
+                    a.parent().parent().parent().siblings("li").removeClass("active");
+                    a.parent().addClass("active");
+                    a.parent().parent().parent().addClass("active");
+                } else {
+                    a = $(ul).find("li[class!=submenu] > a[data-url='" + url + "']");
+                    a.addClass("active");
+                    a.parent().parent().removeClass("collapse").addClass("in");
+                }
+            }
         } else {
-            window.location.href = window.location.href + "#!/api/front/index";
-            url = "/api/front/index";
-            $('a[data-url="' + url + '"]').trigger("click");
+            window.location.href = window.location.href + "?u=/api/front/index";
         }
 
     }

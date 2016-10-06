@@ -171,4 +171,15 @@ public class Message {
     public void setIsRead(Boolean isRead) {
         this.isRead = isRead;
     }
+
+    @Transient
+    private Long replayCount;
+
+    public Long getReplayCount() {
+        return replayCount;
+    }
+
+    public void setReplayCount(Long replayCount) {
+        this.replayCount = replayCount;
+    }
 }

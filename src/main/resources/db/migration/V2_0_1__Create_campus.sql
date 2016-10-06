@@ -34,21 +34,21 @@ CREATE TABLE `t_message` (
   COMMENT '留言信息表';
 DROP TABLE IF EXISTS `t_message_reply`;
 CREATE TABLE `t_message_reply` (
-  `reply_id`        INT(11)    NOT NULL  AUTO_INCREMENT,
-  `message_id`      INT(11)    NOT NULL
+  `reply_id`        INT(11)   NOT NULL  AUTO_INCREMENT,
+  `message_id`      INT(11)   NOT NULL
   COMMENT '留言id',
-  `reply_comment`   VARCHAR(255)         DEFAULT ''
+  `reply_content`   VARCHAR(255)        DEFAULT ''
   COMMENT '回复内容',
-  `reply_user_id`   INT(11)    NOT NULL  DEFAULT 0
+  `reply_user_id`   INT(11)   NOT NULL  DEFAULT 0
   COMMENT '回复用户id',
-  `position`        TINYINT(1) NOT NULL  DEFAULT 0
-  COMMENT '被回复用户id',
-  `reply_date_time` TIMESTAMP  NOT NULL
+  `reply_user_name` VARCHAR(32)         DEFAULT ''
+  COMMENT '回复用户名称',
+  `reply_date_time` TIMESTAMP NOT NULL
   COMMENT '留言时间',
-  `is_read`         TINYINT(1)           DEFAULT 0
+  `is_read`         TINYINT(1)          DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
   PRIMARY KEY (`reply_id`),
-  KEY k_time(`message_id`, `reply_date_time`)
+  KEY k_time(`message_id`, `reply_date_time`, `reply_user_id`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言信息表';

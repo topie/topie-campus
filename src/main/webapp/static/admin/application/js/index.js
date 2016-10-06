@@ -3,10 +3,12 @@
  */
 ;
 (function ($, window, document, undefined) {
-    initIndex();
-    $(document).ready(function () {
-        initMenu();
-    });
+    var token = $.cookie('tc_t');
+    if (token == undefined) {
+        window.location.href = './login.html';
+    }
+    App.token = token;
+    App.menusMapping = {};
     var that = this;
     var requestMapping = {
         "/api/index": "index"
@@ -182,14 +184,6 @@
         var form = App.content.find("#index_grid").topieForm(formOpts);
     }
 
-    function initIndex() {
-        var token = $.cookie('tc_t');
-        if (token == undefined) {
-            window.location.href = './login.html';
-        }
-        App.token = token;
-    }
-
     function getSubMenu(menus, menuId) {
         var subMenus = [];
         $.each(menus, function (i, m) {
@@ -243,7 +237,7 @@
         return ele;
     }
 
-    function initMenu() {
+    function initMenu(ul) {
         $.ajax(
             {
                 type: 'GET',
@@ -256,6 +250,9 @@
                 success: function (result) {
                     if (result.code === 200) {
                         var menus = result.data;
+                        $.each(menus, function (i, m) {
+                            App.menusMapping[m.url] = m.name;
+                        });
                         var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
                             if (m.pId == 0) {
@@ -272,10 +269,10 @@
                                 ele += '</li>';
                                 var li = $(ele);
                                 li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
-                                $("#side-menu").append(li);
+                                $(ul).append(li);
                             }
                         });
-                        $("#side-menu").find("li.submenu > a").click(function (e) {
+                        $(ul).find("li.submenu > a").click(function (e) {
                             e.preventDefault();
                             var $li = $(this).parent("li");
                             var $ul = $(this).next("ul");
@@ -292,33 +289,30 @@
                             }
                         });
 
-                        $("#side-menu").find("li[class!=submenu] > a").click(function (e) {
+                        $(ul).find("li[class!=submenu] > a").click(function (e) {
                             e.preventDefault();
                             var $li = $(this).parent("li");
                             if ($li.parent("ul").hasClass("nav")) {
                                 $(".nav > li > ul").slideUp(150);
                                 $(".nav > li").removeClass("open");
                             }
-                            $("#side-menu").find("li.current").removeClass("current");
+                            $(ul).find("li.current").removeClass("current");
                             $(this).parents("li").addClass("current");
                             $li.parent("ul").parent("li").addClass("open");
                         });
 
-                        $("#side-menu").find("li[class!=submenu] > a")
+                        $(ul).find("li[class!=submenu] > a")
                             .each(function () {
                                     var url = $(this).attr("data-url");
                                     var f = App.requestMapping[url];
                                     if (f != undefined) {
                                         $(this).on("click", function () {
-                                            var title = $(this).attr("data-title");
-                                            $(this).parent("li").parent("ul").show().parent("li").parent("ul").show();
-                                            App[f].page(title);
-                                            window.history.pushState({}, 0, 'http://' + window.location.host + App.projectName + '/static/admin/index.html#!' + url);
+                                            window.location.href = 'http://' + window.location.host + App.projectName + '/static/admin/index.html?u=' + url;
                                         });
                                     }
                                 }
                             );
-                        refreshHref();
+                        refreshHref(ul);
                     } else if (result.code === 401) {
                         alert("token失效,请登录!");
                         window.location.href = './login.html';
@@ -333,16 +327,25 @@
     /**
      * 完成后执行
      */
-    var refreshHref = function () {
+    var refreshHref = function (ul) {
         var location = window.location.href;
-        var url = location.substring(location.lastIndexOf("#!") + 2);
-        if (location.lastIndexOf("#!") > 0 && url != undefined && $.trim(url) != "") {
-            $('a[data-url="' + url + '"]').trigger("click");
+        var url = location.substring(location.lastIndexOf("?u=") + 3);
+        if (location.lastIndexOf("?u=") > 0 && url != undefined && $.trim(url) != "") {
+            var title = App.menusMapping[url];
+            var f = App.requestMapping[url];
+            if (f != undefined) {
+                var a = $(ul).find("li[class!=submenu] > a[data-url='" + url + "']");
+                App[f].page(title);
+                a.parent("li").addClass("current");
+                a.parent("li").parent("ul").show().parent("li").parent("ul").show();
+            }
         } else {
-            window.location.href = window.location.href + "#!/api/index";
-            url = "/api/index";
-            $('a[data-url="' + url + '"]').trigger("click");
+            window.location.href = window.location.href + "?u=/api/index";
         }
 
-    }
+    };
+
+    $(document).ready(function () {
+        initMenu("#side-menu");
+    });
 })(jQuery, window, document);
