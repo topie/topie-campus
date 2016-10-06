@@ -46,4 +46,6 @@ public interface IInfoBasicService {
     void insertToBindStudentTeacher(Integer studentId, Integer teacherId);
 
     void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId);
+
+	void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException;
 }

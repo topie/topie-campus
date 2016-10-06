@@ -96,5 +96,12 @@ public class JobController {
         SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByTutor(pageNum, pageSize, employment);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
+    
+    @RequestMapping(value = "/updateEmployment", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateEmployment(Employment employment) {
+    	employmentService.updateEmploymentStatus(employment);
+        return ResponseUtil.success("保存成功！");
+    }
 
 }

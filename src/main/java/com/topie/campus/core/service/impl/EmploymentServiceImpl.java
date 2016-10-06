@@ -99,6 +99,18 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 			int pageSize, Employment employment) {
 		// TODO Auto-generated method stub
 		List<StaticEmployment> staticEmployments = employmentMapper.findByPageGroupByClassNum(employment, (pageNum - 1) * pageSize, pageSize);
+		for(StaticEmployment se:staticEmployments)
+		{
+			Employment em = new Employment();
+			em.setClassNum(se.getClassNum());
+			List<StaticEmployment> seo = employmentMapper.findOtherByPageGroupByClassNum(em);
+			if(seo.size()>0)
+			{
+			se.setMan(seo.get(0).getMan());
+			se.setWoman(seo.get(0).getWoman());
+			se.setPoorRate(seo.get(0).getPoorRate());
+			}
+		}
 		Long total = employmentMapper.countByPageGroupByClassNum(employment);
 		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
 		return pageInfo;
@@ -112,6 +124,16 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 		Long total = employmentMapper.countByPageGroupByTutor(employment);
 		SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
 		return pageInfo;
+	}
+
+	@Override
+	public void updateEmploymentStatus(Employment employment) {
+		// TODO Auto-generated method stub
+		Employment old =  employmentMapper.selectByPrimaryKey(employment.getId());
+		old.setTakeTable(employment.getTakeTable());
+        old.setEmploymentStatus(employment.getEmploymentStatus());
+        old.setSignStatus(employment.getSignStatus());
+        employmentMapper.updateByPrimaryKey(old);
 	}
 	
 }

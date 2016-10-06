@@ -174,4 +174,27 @@
         </where>
     </select>
     
+    <select id="findOtherByPageGroupByClassNum" resultMap="StaticResultMap">
+      select man,woman,poor_rate,w.class_num from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
+      left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+             w.class_num = #{employment.classNum}
+          </if>
+        </where>
+       <!--  <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if> -->
+    </select>
+    
+    <select id="countOtherByPageGroupByClassNum" resultType="java.lang.Long">
+    select count(w.class_num) from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
+    left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+             w.class_num = #{employment.classNum}
+          </if>
+        </where>
+    </select>
+    
 </mapper>

@@ -36,7 +36,12 @@
             }
         );
     };
-    App.infoEmploy.formItems = [
+				    App.infoEmploy.formItems = [
+								{
+								    type: 'hidden',
+								    name: 'id',
+								    id: 'id'
+								},
                                  {
                                      type: 'display',
                                      name: 'stuId',
@@ -58,37 +63,135 @@
                                      id: 'education',
                                      label: '学历'
                                  }
+                                 ,{
+                                     type: 'display',
+                                     name: 'gender',
+                                     id: 'gender',
+                                     label: '性别'
+                                 }
+                                 ,{
+                                     type: 'display',
+                                     name: 'major',
+                                     id: 'major',
+                                     label: '专业'
+                                 }
+                                 ,{
+                                     type: 'display',
+                                     name: 'class_num',
+                                     id: 'class_num',
+                                     label: '班号'
+                                 }
+                                 ,{
+                                     type: 'display',
+                                     name: 'homeAddress',
+                                     id: 'homeAddress',
+                                     label: '生源地'
+                                 }
+                                 ,{
+                                     type: 'select',
+                                     name: 'takeTable',
+                                     id: 'takeTable',
+                                     label: '领表',
+                                     items:[{
+                                    	 text:"未领取",
+                                    	 value:"0"
+                                     },{
+                                    	 text:"领取",
+                                    	 value:"1"
+                                     }
+                                            ]                                     
+                                 }
+                                 ,{
+                                     type: 'select',
+                                     name: 'employmentStatus',
+                                     id: 'employmentStatus',
+                                     label: '就业状态',
+                                     items:[
+                                       	    {
+                                           	 text:"证明",
+                                           	 value:"证明"
+                                            },
+                                            {
+                                           	 text:"自谋",
+                                           	 value:"自谋"
+                                            } 
+                                        ]
+                                  }
+                                 ,{
+                                     type: 'select',
+                                     name: 'signStatus',
+                                     id: 'signStatus',
+                                     label: '签约状态',
+                                     items:[
+                                    	 {
+                                        	 text:"参军",
+                                        	 value:"参军"
+                                         },{
+                                        	 text:"出国",
+                                        	 value:"出国"
+                                         } ,{
+                                        	 text:"合同",
+                                        	 value:"合同"
+                                         } ,{
+                                        	 text:"三方",
+                                        	 value:"三方"
+                                         } ,{
+                                        	 text:"升本",
+                                        	 value:"升本"
+                                         } ,{
+                                        	 text:"升硕",
+                                        	 value:"升硕"
+                                         } ,{
+                                        	 text:"村官",
+                                        	 value:"村官"
+                                         } ,{
+                                        	 text:"社区",
+                                        	 value:"社区"
+                                         } ,{
+                                        	 text:"西部",
+                                        	 value:"西部"
+                                         } ,{
+                                        	 text:"其他",
+                                        	 value:"其他"
+                                         } 
+                                     ]
+                                 },{
+                                     type: 'display',
+                                     name: 'poorStudent',
+                                     id: 'poorStudent',
+                                     label: '贫困生'
+                                 }
                                  ]
     
-    App.infoEmploy.columns = [{
-        title: "学号",
-        field: "stuId",
-        sort: true,
-        width: "5%"
-    }, {
-        title: "学生名称",
-        field: "name",
-        sort: true
-    }, {
-        title: "联系电话",
-        field: "phone",
-        sort: true
-    },{
-        title: "领表",
-        field: "takeTable",
-        sort: true
-    },
-    {
-        title: "就业",
-        field: "employmentStatus",
-        sort: true
-    },
-    {
-        title: "签约",
-        field: "signStatus",
-        sort: true
-    }
-    ];
+				    App.infoEmploy.columns = [{
+				        title: "学号",
+				        field: "stuId",
+				        sort: true,
+				        width: "5%"
+				    }, {
+				        title: "学生名称",
+				        field: "name",
+				        sort: true
+				    }, {
+				        title: "联系电话",
+				        field: "phone",
+				        sort: true
+				    },{
+				        title: "领表",
+				        field: "takeTable",
+				        sort: true
+				    },
+				    {
+				        title: "就业",
+				        field: "employmentStatus",
+				        sort: true
+				    },
+				    {
+				        title: "签约",
+				        field: "signStatus",
+				        sort: true
+				    }
+				    ];
     App.infoEmploy.initEvents = function () {
         
     	var grid;
@@ -109,12 +212,12 @@
             actionColumnText: "操作",
             actionColumnWidth: "20%",
             actionColumns: [{
-                text: "查看详情",
+                text: "编辑",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
-                        id: "empForm",
-                        title: "查看详情",
+                        id: "empFormModal",
+                        title: "编辑",
                         destroy: true
                     });
                     var formOpts = {
@@ -122,11 +225,19 @@
                         name: "empForm",
                         method: "POST",
                         ajaxSubmit: true,
+                        action: App.href + "/api/job/updateEmployment",
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },
-                        showReset: false,
+                        ajaxSuccess: function () {
+                            modal.hide();
+                            grid.reload();
+                        },
+                        submitText: "保存",
+                        showReset: true,
                         rowEleNum: 2,
+                        resetText: "重置",
+                        isValidate: true,
                         buttons: [{
                             type: 'button',
                             text: '关闭',
@@ -138,6 +249,7 @@
                         items: App.infoEmploy.formItems
                     };
                     var form = modal.$body.topieForm(formOpts);
+                    console.log($("#empForm"),"11111");
                    form.loadRemote(App.href + "/api/job/load/" + data.id);
                     modal.show();
                 }

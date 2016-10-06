@@ -1,13 +1,16 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.StuScoreExcelDto;
 import com.topie.campus.core.dto.StudentExcelDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
+import com.topie.campus.core.model.StuScore;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.IStudentScoreService;
 import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.SecurityConstant;
@@ -18,6 +21,7 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +43,10 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private IStudentService iStudentService;
+    
+    @Autowired
+    private IStudentScoreService stuScoreService;
+    
 
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
@@ -181,4 +189,21 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     public void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId) {
         iTeacherService.deleteToUnBindStudent(studentId, teacherId);
     }
+    
+    @Override
+    public void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException
+    {
+    	 Collection<StuScoreExcelDto> stuScoreList;
+    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+    		stuScoreList = ExcelUtil.importExcelX(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+        	stuScoreList = ExcelUtil.importExcel(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+      for(StuScoreExcelDto dto :stuScoreList)
+      {
+    	  StuScore stuScore = dto.buildStuScore(dto);
+    	  stuScoreService.insert(stuScore);
+      }
+    }
+    
 }

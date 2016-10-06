@@ -99,7 +99,7 @@ public class InfoUploadController {
     	  }
     	  else if(excelType==3)
     	  {
-    		  
+    		  iInfoBasicService.uploadStuScore(file, logs);
     	  }
     	  else if(excelType==4)
     	  {
