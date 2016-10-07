@@ -2,7 +2,6 @@ package com.topie.campus.core.api.front;
 
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.TreeNode;
-import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.model.Message;
@@ -101,7 +100,7 @@ public class FrontIndexController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        SimplePageInfo<Message> pageInfo = iMessageService.findReceiveMessageListByPage(userId, 1, 5);
+        SimplePageInfo<Message> pageInfo = iMessageService.findReceiveMessageListByPage(userId, 1, 5, 1);
         return ResponseUtil.success(pageInfo.getList());
     }
 

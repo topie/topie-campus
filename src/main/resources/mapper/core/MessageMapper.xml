@@ -12,8 +12,12 @@
         <result column="message_to_user_name" property="messageToUserName" jdbcType="VARCHAR"/>
         <result column="message_from_user_name" property="messageFromUserName" jdbcType="VARCHAR"/>
         <result column="message_date_time" property="messageDateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="is_read" property="isRead" jdbcType="BIT"/>
     </resultMap>
+    <update id="updateTimeByPrimaryKey">
+        update topie_campus.t_message set update_time=now() where message_id = #{messageId}
+    </update>
     <select id="findMessageByPageNumAndPageSize" resultMap="BaseResultMap">
         select
         *
@@ -26,7 +30,12 @@
                 and message_from_user_id=#{message.messageFromUserId}
             </if>
         </where>
-        order by message_date_time desc
+        <if test="sortType==0">
+            order by update_time desc,message_date_time desc
+        </if>
+        <if test="sortType==1">
+            order by message_date_time desc
+        </if>
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}
         </if>

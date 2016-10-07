@@ -35,7 +35,8 @@
                     field: "name"
                 }, {
                     title: "学号",
-                    field: "studentNo"
+                    field: "studentNo",
+                    sort : true
                 }, {
                     title: "联系电话",
                     field: "contactPhone"

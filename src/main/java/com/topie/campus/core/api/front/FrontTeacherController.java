@@ -83,6 +83,7 @@ public class FrontTeacherController {
         message.setMessageToUserName(teacherName);
         message.setMessageDateTime(new Date());
         message.setMessageContent(messageContent);
+        message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
         return ResponseUtil.success();
     }

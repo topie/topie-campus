@@ -20,22 +20,31 @@ public class MessageServiceImpl extends BaseService<Message> implements IMessage
     private MessageMapper messageMapper;
 
     @Override
-    public SimplePageInfo<Message> findReceiveMessageListByPage(Integer toUserId, int pageNum, int pageSize) {
+    public SimplePageInfo<Message> findReceiveMessageListByPage(Integer toUserId, int pageNum, int pageSize,
+            int sortType) {
         Message arg = new Message();
         arg.setMessageToUserId(toUserId);
-        List<Message> list = messageMapper.findMessageByPageNumAndPageSize(arg, (pageNum - 1) * pageSize, pageSize);
+        List<Message> list = messageMapper
+                .findMessageByPageNumAndPageSize(arg, (pageNum - 1) * pageSize, pageSize, sortType);
         Long total = messageMapper.countMessage(arg);
         SimplePageInfo<Message> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
     }
 
     @Override
-    public SimplePageInfo<Message> findSendMessageListByPage(Integer fromUserId, int pageNum, int pageSize) {
+    public SimplePageInfo<Message> findSendMessageListByPage(Integer fromUserId, int pageNum, int pageSize,
+            int sortType) {
         Message arg = new Message();
         arg.setMessageFromUserId(fromUserId);
-        List<Message> list = messageMapper.findMessageByPageNumAndPageSize(arg, (pageNum - 1) * pageSize, pageSize);
+        List<Message> list = messageMapper
+                .findMessageByPageNumAndPageSize(arg, (pageNum - 1) * pageSize, pageSize, sortType);
         Long total = messageMapper.countMessage(arg);
         SimplePageInfo<Message> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
+    }
+
+    @Override
+    public int updateMessageUpdateTime(Integer messageId) {
+        return messageMapper.updateTimeByPrimaryKey(messageId);
     }
 }

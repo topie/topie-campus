@@ -1,4 +1,10 @@
 <link href="../vendors/bootstrap-comment/css/comment-mini.css" rel="stylesheet" type="text/css">
+{{if list.length}}
+<ul id="message-sort" class="pagination">
+    <li sort-type="0"><a href="javascript:void(0);">最新回复排序</a></li>
+    <li sort-type="1"><a href="javascript:void(0);">留言时间排序</a></li>
+</ul>
+{{/if}}
 {{each list}}
 <div class="panel panel-white post panel-shadow">
     <div class="post-heading">
@@ -17,88 +23,33 @@
     </div>
     <div class="post-description">
         <p>{{$value.messageContent}}</p>
-        <div class="stats">
-            <button type="button" role="message-btn" class="btn btn-default stat-item">
-                <i class="fa fa-messages-o icon"></i>3条回复
-            </button>
+        <div class="stats" style="margin-bottom: 10px;">
+            <a role="message-btn" reply-target="{{$value.messageId}}" href="javascript:void(0);">
+                <i class="fa fa-messages-o icon"></i>
+                回复(<span id="reply_count_{{$value.messageId}}">{{$value.replayCount}}</span>)
+            </a>
         </div>
     </div>
-    <div class="post-footer" style="display: none;" role="message">
-        <ul class="comments-list">
-            <li class="comment">
-                <a class="pull-left" href="#">
-                    <img class="avatar"
-                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
-                         alt="avatar">
-                </a>
-                <div class="comment-body">
-                    <div class="comment-heading">
-                        <h4 class="user">Gavino Free</h4>
-                        <h5 class="time">5 minutes ago</h5>
-                    </div>
-                    <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                    <a href="#" class="btn btn-sm btn-danger stat-item">
-                        删除
-                    </a>
-                </div>
-            </li>
-            <li class="comment">
-                <a class="pull-left" href="#">
-                    <img class="img-circle avatar"
-                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
-                         alt="avatar">
-                </a>
-                <div class="comment-body">
-                    <div class="comment-heading">
-                        <h4 class="user">Ryan Haywood</h4>
-                        <h5 class="time">3 minutes ago</h5>
-                    </div>
-                    <p>Relax my friend</p>
-                </div>
-            </li>
-            <li class="comment">
-                <a class="pull-left" href="#">
-                    <img class="avatar"
-                         src="../vendors/bootstrap-comment/img/default-avatar.jpg"
-                         alt="avatar">
-                </a>
-                <div class="comment-body">
-                    <div class="comment-heading">
-                        <h4 class="user">Gavino Free</h4>
-                        <h5 class="time">3 minutes ago</h5>
-                    </div>
-                    <p>Ok, cool.</p>
-                </div>
-            </li>
-        </ul>
-        <div style="margin-bottom: 10px;">
-            <button type="button" class="btn btn-default stat-item" role="reply-btn">
-                <i class="fa fa-reply icon"></i>回复
-            </button>
-        </div>
-        <div role="reply" class="input-group" style="display: none">
-            <input class="form-control" placeholder="Add a message" type="text">
+    <div class="post-footer" role="message">
+        <div class="input-group">
+            <input type="hidden" id="messageId" name="messageId" value="{{$value.messageId}}">
+            <input class="form-control" id="replyContent" name="replyContent" placeholder="输入回复内容" type="text">
             <span class="input-group-addon">
-                    <a href="#"><i class="fa fa-edit"></i></a>
+                <a href="javascript:void(0);" role="reply-submit"><i class="fa fa-check-circle"></i>回复</a>
             </span>
         </div>
+        <ul class="comments-list" id="reply_{{$value.messageId}}">
+
+        </ul>
+        <ul id="reply-pager_{{$value.messageId}}" class="pagination">
+        </ul>
     </div>
 </div>
 {{/each}}
-<ul class="pagination">
-    <li><a href="#">&laquo;</a></li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">&raquo;</a></li>
+{{if list.length==0}}
+还没有留言
+{{/if}}
+{{if list.length}}
+<ul id="message-pager" class="pagination">
 </ul>
-<script>
-    $("button[role=message-btn]").click(function () {
-        $(this).parent().parent().next("div[role=message]").toggle();
-    });
-    $("button[role=reply-btn]").click(function () {
-        $(this).parent().next("div[role=reply]").toggle();
-    });
-</script>
+{{/if}}
