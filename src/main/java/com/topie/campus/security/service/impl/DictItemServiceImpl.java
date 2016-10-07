@@ -1,6 +1,9 @@
 package com.topie.campus.security.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +22,16 @@ public class DictItemServiceImpl extends BaseService<Dict> implements IDictItemS
 	DictItemMapper dictItemMapper;
 	
 	@Override
-	public List<DictItem> findByDictId(int dictId)
+	public List<Map> findByDictId(int dictId)
 	{
-		return dictItemMapper.findItemsByDictId(dictId);
+		List<DictItem> items =  dictItemMapper.findItemsByDictId(dictId);
+		List<Map> ls = new ArrayList<Map>();
+		for(DictItem item:items){
+			Map mp = new HashMap();
+			mp.put("text", item.getItemName());
+			mp.put("value", item.getItemCode());
+			ls.add(mp);
+		}
+		return ls;
 	}
 }

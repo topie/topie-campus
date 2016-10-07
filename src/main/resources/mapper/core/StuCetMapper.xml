@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.StuCetMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StuCet" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
+    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="cet_name" property="cetName" jdbcType="VARCHAR" />
+    <result column="cet_time" property="cetTime" jdbcType="VARCHAR" />
+    <result column="cet_score" property="cetScore" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="listen_score" property="listenScore" jdbcType="VARCHAR" />
+    <result column="write_score" property="writeScore" jdbcType="VARCHAR" />
+    <result column="read_score" property="readScore" jdbcType="VARCHAR" />
+    <result column="compre_score" property="compreScore" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <sql id="Base_Column_List">
+   id,study_year,study_year_num,stu_id,cet_name,cet_time,cet_score,comment,listen_score,write_score,read_score,compre_score
+   </sql>
+   
+   <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_cet
+        <where>
+         <if test = "stuCet!=null">
+            <if test="stuCet.stuId!=null and stuCet.stuId!=''">
+                stu_id = #{stuCet.stuId}
+            </if>
+             <if test="stuCet.studyYear!=null and stuCet.studyYear!=''">
+               and study_year = #{stuCet.studyYear}
+            </if>
+             <if test="stuCet.studyYearNum!=null and stuCet.studyYearNum!=''">
+               and study_year_num = #{stuCet.studyYearNum}
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+         from t_stu_cet
+        <where>
+         <if test = "stuCet!=null">
+            <if test="stuCet.stuId!=null and stuCet.stuId!=''">
+                stu_id = #{stuCet.stuId}
+            </if>
+             <if test="stuCet.studyYear!=null and stuCet.studyYear!=''">
+               and study_year = #{stuCet.studyYear}
+            </if>
+             <if test="stuCet.studyYearNum!=null and stuCet.studyYearNum!=''">
+               and study_year_num = #{stuCet.studyYearNum}
+            </if>
+         </if>
+        </where>
+    </select>
+</mapper>

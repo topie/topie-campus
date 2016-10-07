@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.StuSeleCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StuSeleCourse" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
+    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
+    <result column="select_course_num" property="selectCourseNum" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="is_select" property="isSelect" jdbcType="VARCHAR" />
+    <result column="select_times" property="selectTimes" jdbcType="VARCHAR" />
+    <result column="exam_time" property="examTime" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="restudy_flag" property="restudyFlag" jdbcType="VARCHAR" />
+    <result column="classroom_num" property="classroomNum" jdbcType="VARCHAR" />
+    <result column="classroom_name" property="classroomName" jdbcType="VARCHAR" />
+    <result column="couse_study_time" property="couseStudyTime" jdbcType="VARCHAR" />
+    <result column="select_time" property="selectTime" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="is_minor" property="isMinor" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  id,study_year,study_year_num,select_course_num,stu_id,name,course_name,major,is_select,select_times,exam_time,comment,restudy_flag,classroom_num,classroom_name,couse_study_time,select_time,grade,is_minor
+  </sql>
+  
+   <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_sele_course
+        <where>
+         <if test = "stuSeleCourse !=null">
+            <if test="stuSeleCourse.stuId!=null and stuSeleCourse.stuId!=''">
+                stu_id = #{stuSeleCourse.stuId}
+            </if>
+             <if test="stuSeleCourse.studyYear!=null and stuSeleCourse.studyYear!=''">
+               and study_year = #{stuSeleCourse.studyYear}
+            </if>
+             <if test="stuSeleCourse.studyYearNum!=null and stuSeleCourse.studyYearNum!=''">
+               and study_year_num = #{stuSeleCourse.studyYearNum}
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_stu_sele_course
+        <where>
+         <if test = "stuSeleCourse!=null">
+            <if test="stuSeleCourse.stuId!=null and stuSeleCourse.stuId!=''">
+                stu_id = #{stuSeleCourse.stuId}
+            </if>
+             <if test="stuSeleCourse.studyYear!=null and stuSeleCourse.studyYear!=''">
+               and study_year = #{stuSeleCourse.studyYear}
+            </if>
+             <if test="stuSeleCourse.studyYearNum!=null and stuSeleCourse.studyYearNum!=''">
+               and study_year_num = #{stuSeleCourse.studyYearNum}
+            </if>
+         </if>
+        </where>
+    </select>
+  
+  
+</mapper>

@@ -1,23 +1,23 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/front/student/score": "frontStuScore"
+        "/api/front/student/selectCourse": "stuSelectCourse"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.frontStuScore = {
+    App.stuSelectCourse = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
             var content = $('<div class="panel-body" id="score_grid"></div>');
             window.App.content.append(content);
-            App.frontStuScore.initEvents();
+            App.stuSelectCourse.initEvents();
         }
     };
 
-    App.frontStuScore.initEvents = function () {
+    App.stuSelectCourse.initEvents = function () {
         var grid;
         var scoreOpts = {
-            url: App.href + "/api/front/student/score",
+            url: App.href + "/api/front/student/selectCourse",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -39,49 +39,23 @@
 				    field: "studyYearNum"
 				},
                 {
-                    title: "学生名称",
-                    field: "name"
+                    title: "选课课号",
+                    field: "selectCourseNum"
                 }, {
-                    title: "课程代码",
-                    field: "courceCode"
-                }, {
-                    title: "课程名称",
-                    field: "courceName"
-                }, {
-                    title: "课程性质",
-                    field: "courceType",
+                    title: "是否选中",
+                    field: "isSelect"
                 },
                 {
-                    title: "课程归属",
-                    field: "courceAttr",
+                    title: "上课时间",
+                    field: "couseStudyTime"
                 },
                 {
-                    title: "学分",
-                    field: "credit",
+                    title: "教室编号",
+                    field: "classroomNum"
                 },
                 {
-                    title: "绩点",
-                    field: "scorePoint",
-                },
-                {
-                    title: "成绩",
-                    field: "score",
-                },
-                {
-                    title: "辅修标记",
-                    field: "minorFlag",
-                },
-                {
-                    title: "补考成绩",
-                    field: "secondScore",
-                },
-                {
-                    title: "重修成绩",
-                    field: "restudyScore",
-                },
-                {
-                    title: "重修标记",
-                    field: "minorFlag",
+                    title: "教室名称",
+                    field: "classroomName"
                 }
                 ],
             actionColumnText: "操作",//操作列文本

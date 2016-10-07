@@ -48,4 +48,11 @@ public interface IInfoBasicService {
     void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId);
 
 	void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException;
+
+	void uploadStuCet(MultipartFile file, ExcelLogs logs) throws IOException;
+
+	void uploadStuSeleCourse(MultipartFile file, ExcelLogs logs)
+			throws IOException;
+
+	void uploadStuTimetable(MultipartFile file, ExcelLogs logs) throws IOException;
 }

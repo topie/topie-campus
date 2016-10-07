@@ -67,3 +67,4 @@ CREATE TABLE `t_stu_score` (
   `invalid` varchar(255) DEFAULT NULL COMMENT '是否作废',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+

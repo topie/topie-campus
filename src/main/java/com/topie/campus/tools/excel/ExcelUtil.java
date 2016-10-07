@@ -977,7 +977,7 @@ public class ExcelUtil {
                                         value = annoCell.defaultValue();
                                     }
                                 }
-                                System.out.println(field.getName()+"--"+value.getClass().getTypeName());
+                                //System.out.println(field.getName()+"--"+value.getClass().getTypeName());
                                 field.set(t, value);
                             }
                             if (StringUtils.isNotBlank(errMsg)) {

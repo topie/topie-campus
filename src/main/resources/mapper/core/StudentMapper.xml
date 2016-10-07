@@ -18,6 +18,10 @@
         <result column="subject" jdbcType="VARCHAR" property="subject"/>
         <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
     </resultMap>
     <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.StudentSimpleDto">
         <id column="id" jdbcType="INTEGER" property="id"/>

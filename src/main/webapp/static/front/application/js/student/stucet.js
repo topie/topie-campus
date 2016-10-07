@@ -1,23 +1,23 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/front/student/score": "frontStuScore"
+        "/api/front/student/cetscore": "frontStuCet"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.frontStuScore = {
+    App.frontStuCet = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
             var content = $('<div class="panel-body" id="score_grid"></div>');
             window.App.content.append(content);
-            App.frontStuScore.initEvents();
+            App.frontStuCet.initEvents();
         }
     };
 
-    App.frontStuScore.initEvents = function () {
+    App.frontStuCet.initEvents = function () {
         var grid;
         var scoreOpts = {
-            url: App.href + "/api/front/student/score",
+            url: App.href + "/api/front/student/cetscore",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -39,49 +39,33 @@
 				    field: "studyYearNum"
 				},
                 {
-                    title: "学生名称",
-                    field: "name"
+                    title: "等考名称",
+                    field: "cetName"
                 }, {
-                    title: "课程代码",
-                    field: "courceCode"
+                    title: "考试时间",
+                    field: "cetTime"
                 }, {
-                    title: "课程名称",
-                    field: "courceName"
+                    title: "总成绩",
+                    field: "cetScore"
                 }, {
-                    title: "课程性质",
-                    field: "courceType",
+                    title: "备注",
+                    field: "comment"
                 },
                 {
-                    title: "课程归属",
-                    field: "courceAttr",
+                    title: "听力",
+                    field: "listenScore"
                 },
                 {
-                    title: "学分",
-                    field: "credit",
+                    title: "写作",
+                    field: "writeScore"
                 },
                 {
-                    title: "绩点",
-                    field: "scorePoint",
+                    title: "阅读",
+                    field: "readScore"
                 },
                 {
-                    title: "成绩",
-                    field: "score",
-                },
-                {
-                    title: "辅修标记",
-                    field: "minorFlag",
-                },
-                {
-                    title: "补考成绩",
-                    field: "secondScore",
-                },
-                {
-                    title: "重修成绩",
-                    field: "restudyScore",
-                },
-                {
-                    title: "重修标记",
-                    field: "minorFlag",
+                    title: "综合",
+                    field: "compreScore"
                 }
                 ],
             actionColumnText: "操作",//操作列文本

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.topie.campus.core.dao.DictItemMapper" >
+<mapper namespace="com.topie.campus.security.dao.DictItemMapper" >
   <resultMap id="BaseResultMap" type="com.topie.campus.security.model.DictItem" >
     <!--
       WARNING - @mbggenerated
@@ -14,10 +14,10 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-  ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,item_id,item_code,item_name,item_seq,dict_id,item_pid,item_id,item_code,item_name,item_seq,dict_id,item_pid,item_id,item_code,item_name,item_seq,dict_id,item_pid,item_id,item_code,item_name,item_seq,dict_id,item_pid,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,item_id,item_code,item_name,item_seq,dict_id,item_pid,ITEM_ID,DICT_ID,ITEM_CODE,ITEM_NAME,ITEM_PID,ITEM_SEQ,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,item_id,item_code,item_name,item_seq,dict_id,item_pid,item_id,item_code,item_name,item_seq,dict_id,item_pid,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID,ITEM_ID,ITEM_CODE,ITEM_NAME,ITEM_SEQ,DICT_ID,ITEM_PID
+   item_id,item_code,item_name,item_seq,dict_id,item_pid
   </sql>
   
-  <select id="findItemsByDictId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="findItemsByDictId"  parameterType="java.lang.Integer" resultMap="BaseResultMap"> 
         select
         <include refid="Base_Column_List"/>
         from t_dict_item

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dao.StuCetMapper;
 import com.topie.campus.core.dao.StuScoreMapper;
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.core.model.StuScore;

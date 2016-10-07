@@ -103,15 +103,15 @@ public class InfoUploadController {
     	  }
     	  else if(excelType==4)
     	  {
-    		  
+    		  iInfoBasicService.uploadStuTimetable(file, logs);
     	  }
     	  else if(excelType==5)
     	  {
-    		  
+    		  iInfoBasicService.uploadStuCet(file, logs);
     	  }
     	  else if(excelType==6)
     	  {
-    		  
+    		  iInfoBasicService.uploadStuSeleCourse(file, logs);
     	  }
     	  else if(excelType==7)
     	  {

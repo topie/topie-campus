@@ -1,15 +1,24 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.StuCetExcelDto;
 import com.topie.campus.core.dto.StuScoreExcelDto;
+import com.topie.campus.core.dto.StuSeleExcelDto;
+import com.topie.campus.core.dto.StuTimeTableExcelDto;
 import com.topie.campus.core.dto.StudentExcelDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherExcelDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
+import com.topie.campus.core.model.StuCet;
 import com.topie.campus.core.model.StuScore;
+import com.topie.campus.core.model.StuSeleCourse;
+import com.topie.campus.core.model.StuTimeTable;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.IStuCetService;
+import com.topie.campus.core.service.IStuSeleCourseService;
+import com.topie.campus.core.service.IStuTimeTableService;
 import com.topie.campus.core.service.IStudentScoreService;
 import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
@@ -47,7 +56,15 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Autowired
     private IStudentScoreService stuScoreService;
     
-
+    @Autowired
+    IStuCetService stuCetService;    
+    
+    @Autowired
+    IStuSeleCourseService stuSeleCourseService;
+    
+    @Autowired
+    IStuTimeTableService stuTimeTableService;
+    
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
         Collection<TeacherExcelDto> teacherList;
@@ -205,5 +222,59 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     	  stuScoreService.insert(stuScore);
       }
     }
+
+	@Override
+	public void uploadStuCet(MultipartFile file, ExcelLogs logs) throws IOException {
+		// TODO Auto-generated method stub
+		
+		 Collection<StuCetExcelDto> StuCetExcelDtos;
+	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+	    		StuCetExcelDtos = ExcelUtil.importExcelX(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        } else {
+	        	StuCetExcelDtos = ExcelUtil.importExcel(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        }
+	      for(StuCetExcelDto dto :StuCetExcelDtos)
+	      {
+	    	  StuCet stuCet = dto.buildStuCet(dto);
+	    	  stuCetService.insert(stuCet);
+	      }
+	}
+	
+	@Override
+	public void uploadStuSeleCourse(MultipartFile file, ExcelLogs logs) throws IOException {
+		// TODO Auto-generated method stub
+		
+		 Collection<StuSeleExcelDto> stuSeleExcelDtos;
+	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+	    		stuSeleExcelDtos = ExcelUtil.importExcelX(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        } else {
+	        	stuSeleExcelDtos = ExcelUtil.importExcel(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        }
+	      for(StuSeleExcelDto dto :stuSeleExcelDtos)
+	      {
+	    	  
+              StuSeleCourse stuSeleCourse = dto.buildstuSeleCourse(dto);
+              stuSeleCourseService.insert(stuSeleCourse);
+	      }
+	}
+
+	@Override
+	public void uploadStuTimetable(MultipartFile file, ExcelLogs logs) throws IOException {
+		// TODO Auto-generated method stub
+		
+		 Collection<StuTimeTableExcelDto> stuTimeTableExcelDtos;
+	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+	    		stuTimeTableExcelDtos = ExcelUtil.importExcelX(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        } else {
+	        	stuTimeTableExcelDtos = ExcelUtil.importExcel(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+	        }
+	      for(StuTimeTableExcelDto dto :stuTimeTableExcelDtos)
+	      {
+           StuTimeTable stuTimeTable = dto.buildStuTimeTable(dto);
+           stuTimeTableService.insert(stuTimeTable);
+	      }
+         
+		
+	}
     
 }
