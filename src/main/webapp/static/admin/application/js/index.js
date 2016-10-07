@@ -255,22 +255,20 @@
                         });
                         var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
-                            if (m.pId == 0) {
-                                var ele = '<li data-level="top">'
-                                    + '<a data-url="' + m.url
-                                    + '" data-title="' + m.name
-                                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                                    + m.name
-                                    + '</a>';
-                                var subMenus = getSubMenu(menus, m.id);
-                                if (subMenus.length > 0) {
-                                    ele = recursionMenu(ele, menus, subMenus);
-                                }
-                                ele += '</li>';
-                                var li = $(ele);
-                                li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
-                                $(ul).append(li);
+                            var ele = '<li data-level="top">'
+                                + '<a data-url="' + m.url
+                                + '" data-title="' + m.name
+                                + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
+                                + m.name
+                                + '</a>';
+                            var subMenus = getSubMenu(menus, m.id);
+                            if (subMenus.length > 0) {
+                                ele = recursionMenu(ele, menus, subMenus);
                             }
+                            ele += '</li>';
+                            var li = $(ele);
+                            li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
+                            $(ul).append(li);
                         });
                         $(ul).find("li.submenu > a").click(function (e) {
                             e.preventDefault();

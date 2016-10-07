@@ -33,12 +33,14 @@ public class FrontMessageController {
     @RequestMapping(value = "/receive", method = RequestMethod.GET)
     @ResponseBody
     public Result receive(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize,
+            @RequestParam(value = "sortType", required = false, defaultValue = "0") int sortType) {
         Integer userId = SecurityUtil.getCurrentUserId();
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        SimplePageInfo<Message> pageInfo = iMessageService.findReceiveMessageListByPage(userId, pageNum, pageSize);
+        SimplePageInfo<Message> pageInfo = iMessageService
+                .findReceiveMessageListByPage(userId, pageNum, pageSize, sortType);
         for (Message message : pageInfo.getList()) {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
@@ -49,12 +51,14 @@ public class FrontMessageController {
     @RequestMapping(value = "/send", method = RequestMethod.GET)
     @ResponseBody
     public Result send(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize,
+            @RequestParam(value = "sortType", required = false, defaultValue = "0") int sortType) {
         Integer userId = SecurityUtil.getCurrentUserId();
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        SimplePageInfo<Message> pageInfo = iMessageService.findSendMessageListByPage(userId, pageNum, pageSize);
+        SimplePageInfo<Message> pageInfo = iMessageService
+                .findSendMessageListByPage(userId, pageNum, pageSize, sortType);
         for (Message message : pageInfo.getList()) {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
@@ -90,6 +94,7 @@ public class FrontMessageController {
         messageReply.setIsRead(false);
         messageReply.setReplyContent(replyContent);
         iMessageReplyService.insertSelective(messageReply);
+        iMessageService.updateMessageUpdateTime(messageId);
         return ResponseUtil.success();
     }
 }

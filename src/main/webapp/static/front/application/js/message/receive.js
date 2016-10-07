@@ -20,43 +20,71 @@
         '<h4 class="user">{{$value.replyUserName}}</h4>' +
         '<h5 class="time">{{$value.replyDateTime}}</h5></div>' +
         '<p>{{$value.replyContent}}</p>' +
-        '<a href="#" class="btn btn-sm btn-danger stat-item">删除</a></div></li>{{/each}}';
+        '</div></li>{{/each}}';
 
     App.messageReceive.initEvents = function () {
+        var doInit = function (ele, source, pageNum) {
+            pageNum = pageNum == undefined ? 1 : pageNum;
+            var sortType = ele.find("#message-sort li.active").attr("sort-type");
+            sortType = sortType == undefined ? 0 : sortType;
+            ele.empty();
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/front/message/receive",
+                    data: {
+                        "pageNum": pageNum,
+                        "pageSize": 2,
+                        "sortType": sortType
+                    },
+                    dataType: "json",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", App.token);
+                    },
+                    success: function (result) {
+                        if (result.code === 200) {
+                            var data = result.data;
+                            var render = template.compile(source);
+                            var html = render({
+                                "list": data.list
+                            });
+                            ele.html(html).show();
+                            App.messagePager(ele.find("#message-pager"), pageNum, data.pages);
+                            ele.find('#message-pager li').not(".disabled").off("click");
+                            ele.find('#message-pager li').not(".disabled").on(
+                                "click", function () {
+                                    var pN = $(this).attr("aria-controls");
+                                    if (parseFloat(pN)) {
+                                        doInit(ele, source, pN);
+                                    }
+                                }
+                            );
+                            ele.find("#message-sort > li").on("click", function () {
+                                $(this).siblings("li").removeClass("active");
+                                $(this).addClass("active");
+                                doInit(ele, source);
+                            });
+                            ele.find("#message-sort > li[sort-type=\"" + sortType + "\"]").addClass("active");
+                            App.messageSend.replyInitEvents(ele);
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                }
+            );
+        };
         $("#message").load("./tmpl/message.html?t=" + new Date().getTime(),
             function () {
                 var that = $(this);
                 var source = $(this).html();
-                that.empty();
-                $.ajax(
-                    {
-                        type: 'GET',
-                        url: App.href + "/api/front/message/receive",
-                        dataType: "json",
-                        beforeSend: function (request) {
-                            request.setRequestHeader("X-Auth-Token", App.token);
-                        },
-                        success: function (result) {
-                            if (result.code === 200) {
-                                var data = result.data;
-                                var render = template.compile(source);
-                                var html = render({
-                                    "list": data.list
-                                });
-                                that.html(html).show();
-                                App.messageReceive.replyInitEvents(that);
-                            } else {
-                                alert(result.message);
-                            }
-                        }
-                    }
-                );
+                doInit(that, source);
             }
         );
     }
 
     App.messageReceive.replyInitEvents = function (ele) {
-        var loadReply = function (messageId) {
+        var loadReply = function (messageId, pageNum) {
+            pageNum = pageNum == undefined ? 1 : pageNum;
             $.ajax(
                 {
                     type: 'GET',
@@ -76,7 +104,18 @@
                                 "list": data.list
                             });
                             ele.find("#reply_" + messageId).empty();
+                            ele.find("#reply-pager_" + messageId).empty();
                             ele.find("#reply_" + messageId).append(html);
+                            App.messagePager(ele.find("#reply-pager_" + messageId), pageNum, data.pages);
+                            ele.find("#reply-pager_" + messageId + " li").not(".disabled").off("click");
+                            ele.find("#reply-pager_" + messageId + " li").not(".disabled").on(
+                                "click", function () {
+                                    var pN = $(this).attr("aria-controls");
+                                    if (parseFloat(pN)) {
+                                        loadReply(messageId, pN);
+                                    }
+                                }
+                            );
                         } else {
                             alert(result.message);
                         }
@@ -84,7 +123,7 @@
                 }
             );
         };
-        ele.find("button[role=message-btn]").click(function () {
+        ele.find("a[role=message-btn]").click(function () {
             var target = $(this).attr("reply-target");
             loadReply(target);
         });

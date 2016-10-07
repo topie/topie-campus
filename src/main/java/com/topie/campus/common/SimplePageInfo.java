@@ -27,7 +27,7 @@ public class SimplePageInfo<T> implements Serializable {
 
     public SimplePageInfo(int pageNum, int pageSize, long total, List<T> list) {
         this.pageNum = pageNum;
-        this.pageSize = pageSize > 0 ? DEFAULT_PAGESIZE : pageSize;
+        this.pageSize = pageSize > 0 ? pageSize : DEFAULT_PAGESIZE;
         this.total = total;
         this.list = list;
         this.pages = (int) (this.total / this.pageSize);

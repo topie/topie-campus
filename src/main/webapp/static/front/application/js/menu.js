@@ -174,27 +174,25 @@
                         });
                         var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
-                            if (m.pId == 0) {
-                                var subMenus = getSubMenu(menus, m.id);
-                                var dropDown = "";
-                                if (subMenus.length > 0) {
-                                    dropDown = 'class="dropdown"'
-                                }
-                                var ele =
-                                    '<li ' + dropDown + ' data-level="top">'
-                                    + '<a data-url="' + m.url
-                                    + '" data-title="' + m.name
-                                    + '" href="javascript:void(0);"> '
-                                    + m.name
-                                    //+ '<span class="label label-danger" style="position: absolute;font-size:5px;border-radius: 8px 8px 8px 8px;">&nbsp;</span>'
-                                    + '</a>';
-                                if (subMenus.length > 0) {
-                                    ele = secondVerticalMenu(ele, menus, subMenus);
-                                }
-                                ele += '</li>';
-                                var li = $(ele);
-                                $(ul).append(li);
+                            var subMenus = getSubMenu(menus, m.id);
+                            var dropDown = "";
+                            if (subMenus.length > 0) {
+                                dropDown = 'class="dropdown"'
                             }
+                            var ele =
+                                '<li ' + dropDown + ' data-level="top">'
+                                + '<a data-url="' + m.url
+                                + '" data-title="' + m.name
+                                + '" href="javascript:void(0);"> '
+                                + m.name
+                                //+ '<span class="label label-danger" style="position: absolute;font-size:5px;border-radius: 8px 8px 8px 8px;">&nbsp;</span>'
+                                + '</a>';
+                            if (subMenus.length > 0) {
+                                ele = secondVerticalMenu(ele, menus, subMenus);
+                            }
+                            ele += '</li>';
+                            var li = $(ele);
+                            $(ul).append(li);
                         });
                         $(ul).find("li[class!=dropdown] > a")
                             .each(function () {
@@ -202,7 +200,7 @@
                                     var f = App.requestMapping[url];
                                     if (f != undefined) {
                                         $(this).on("click", function () {
-                                            window.location.href ='http://' + window.location.host + App.projectName + '/static/front/index.html?u=' + url;
+                                            window.location.href = 'http://' + window.location.host + App.projectName + '/static/front/index.html?u=' + url;
                                         });
                                     }
                                 }

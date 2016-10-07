@@ -110,6 +110,77 @@
 
     App.$content = function () {
         return $("#main-body");
-    }
+    };
 
+    App.messageLiTemplate = '<li class="${class_}" aria-controls="${pageto_}" id="${id_}" tabindex="0"><a style="${style_}" href="javascript:;">${num_}</a></li>';
+    App.messagePager = function (ul, pageNum, totalP) {
+        var firstLi = $.tmpl(App.messageLiTemplate, {
+            "class_": pageNum == 1 ? "disabled" : "prev",
+            "pageto_": 1,
+            "num_": "首页"
+        });
+        ul.append(firstLi);
+        if (totalP <= 5 && totalP > 0) {
+            for (var i = 1; i <= totalP; i++) {
+                var li = $.tmpl(App.messageLiTemplate, {
+                    "class_": pageNum == i ? "active"
+                        : "",
+
+                    "pageto_": i,
+                    "num_": i
+                });
+                ul.append(li);
+            }
+        } else if (totalP > 5) {
+            if (pageNum <= 3) {
+                for (var i = 1; i <= 5; i++) {
+                    var li = $
+                        .tmpl(
+                            App.messageLiTemplate,
+                            {
+                                "class_": pageNum == i ? "active"
+                                    : "",
+                                "id_": "",
+                                "pageto_": i,
+                                "num_": i
+                            });
+                    ul.append(li);
+                }
+            } else if (pageNum > 3 && pageNum < (totalP - 2)) {
+                for (var i = pageNum - 2; i <= pageNum + 2; i++) {
+                    var li = $
+                        .tmpl(
+                            App.messageLiTemplate,
+                            {
+                                "class_": pageNum == i ? "active"
+                                    : "",
+                                "id_": "",
+                                "pageto_": i,
+                                "num_": i
+                            });
+                    ul.append(li);
+                }
+            } else {
+                for (var i = totalP - 4; i <= totalP; i++) {
+                    var li = $
+                        .tmpl(
+                            App.messageLiTemplate,
+                            {
+                                "class_": pageNum == i ? "active"
+                                    : "",
+                                "id_": "",
+                                "pageto_": i,
+                                "num_": i
+                            });
+                    ul.append(li);
+                }
+            }
+        }
+        var lastLi = $.tmpl(App.messageLiTemplate, {
+            "class_": ((pageNum == totalP) || (totalP == 0)) ? "disabled" : "",
+            "pageto_": totalP,
+            "num_": "尾页"
+        });
+        ul.append(lastLi);
+    };
 })(jQuery, window, document);

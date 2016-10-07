@@ -21,31 +21,34 @@ CREATE TABLE `t_message` (
   COMMENT '留言用户id',
   `message_from_user_name` VARCHAR(64)         DEFAULT ''
   COMMENT '留言用户',
-  `message_date_time`      TIMESTAMP NOT NULL
+  `message_date_time`      TIMESTAMP NULL
   COMMENT '留言时间',
   `is_read`                TINYINT(1)          DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
+  `update_time`            TIMESTAMP           DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  COMMENT '更新时间',
   PRIMARY KEY (`message_id`),
-  KEY k_user(`message_to_user_id`, `message_from_user_id`, `message_date_time`),
-  KEY k_read(`message_to_user_id`, `message_date_time`),
+  KEY k_from(`message_from_user_id`, `update_time`, `message_date_time`),
+  KEY k_to(`message_to_user_id`, `update_time`, `message_date_time`),
+  KEY k_update_time(`update_time`, `message_date_time`),
   KEY k_time(`message_date_time`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言信息表';
 DROP TABLE IF EXISTS `t_message_reply`;
 CREATE TABLE `t_message_reply` (
-  `reply_id`        INT(11)   NOT NULL  AUTO_INCREMENT,
-  `message_id`      INT(11)   NOT NULL
+  `reply_id`        INT(11) NOT NULL  AUTO_INCREMENT,
+  `message_id`      INT(11) NOT NULL
   COMMENT '留言id',
-  `reply_content`   VARCHAR(255)        DEFAULT ''
+  `reply_content`   VARCHAR(255)      DEFAULT ''
   COMMENT '回复内容',
-  `reply_user_id`   INT(11)   NOT NULL  DEFAULT 0
+  `reply_user_id`   INT(11) NOT NULL  DEFAULT 0
   COMMENT '回复用户id',
-  `reply_user_name` VARCHAR(32)         DEFAULT ''
+  `reply_user_name` VARCHAR(32)       DEFAULT ''
   COMMENT '回复用户名称',
-  `reply_date_time` TIMESTAMP NOT NULL
+  `reply_date_time` TIMESTAMP NULL
   COMMENT '留言时间',
-  `is_read`         TINYINT(1)          DEFAULT 0
+  `is_read`         TINYINT(1)        DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
   PRIMARY KEY (`reply_id`),
   KEY k_time(`message_id`, `reply_date_time`, `reply_user_id`)

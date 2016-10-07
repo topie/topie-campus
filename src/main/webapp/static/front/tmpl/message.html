@@ -1,4 +1,10 @@
 <link href="../vendors/bootstrap-comment/css/comment-mini.css" rel="stylesheet" type="text/css">
+{{if list.length}}
+<ul id="message-sort" class="pagination">
+    <li sort-type="0"><a href="javascript:void(0);">最新回复排序</a></li>
+    <li sort-type="1"><a href="javascript:void(0);">留言时间排序</a></li>
+</ul>
+{{/if}}
 {{each list}}
 <div class="panel panel-white post panel-shadow">
     <div class="post-heading">
@@ -18,10 +24,10 @@
     <div class="post-description">
         <p>{{$value.messageContent}}</p>
         <div class="stats" style="margin-bottom: 10px;">
-            <button type="button" role="message-btn" reply-target="{{$value.messageId}}"
-                    class="btn btn-default stat-item">
-                <i class="fa fa-messages-o icon"></i>回复({{$value.replayCount}})
-            </button>
+            <a role="message-btn" reply-target="{{$value.messageId}}" href="javascript:void(0);">
+                <i class="fa fa-messages-o icon"></i>
+                回复(<span id="reply_count_{{$value.messageId}}">{{$value.replayCount}}</span>)
+            </a>
         </div>
     </div>
     <div class="post-footer" role="message">
@@ -35,15 +41,15 @@
         <ul class="comments-list" id="reply_{{$value.messageId}}">
 
         </ul>
+        <ul id="reply-pager_{{$value.messageId}}" class="pagination">
+        </ul>
     </div>
 </div>
 {{/each}}
-<ul class="pagination">
-    <li><a href="#">&laquo;</a></li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">&raquo;</a></li>
+{{if list.length==0}}
+还没有留言
+{{/if}}
+{{if list.length}}
+<ul id="message-pager" class="pagination">
 </ul>
+{{/if}}

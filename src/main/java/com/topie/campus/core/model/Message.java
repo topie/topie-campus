@@ -45,11 +45,17 @@ public class Message {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date messageDateTime;
 
+    @Column(name = "update_time")
+    private Date updateTime;
+
     /**
      * 是否读取:0 未读取 1:已读取
      */
     @Column(name = "is_read")
     private Boolean isRead;
+
+    @Transient
+    private Long replayCount;
 
     public String getMessageToUserName() {
         return messageToUserName;
@@ -172,14 +178,19 @@ public class Message {
         this.isRead = isRead;
     }
 
-    @Transient
-    private Long replayCount;
-
     public Long getReplayCount() {
         return replayCount;
     }
 
     public void setReplayCount(Long replayCount) {
         this.replayCount = replayCount;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
