@@ -1,24 +1,41 @@
-<form class="form-horizontal" action="">
+﻿<form class="form-horizontal" action="">
     <fieldset>
         <legend>上传用户信息(excel文件)</legend>
-        <div class="form-group">
-            <label class="col-md-2 control-label">选择文件</label>
-            <div class="col-md-10">
-                <div class="input-group">
-                    <input type="file" id="file" class="btn btn-default form-control" name="file"/>
-                    <span style="cursor: pointer" target="file" role=upload class="input-group-addon">上传</span>
+        <div class="form-group">    
+                  <label class="col-md-2 control-label">选择类型</label>
+                     <div class="col-md-5">
+                      <div class="input-group">
+                        <select class="btn btn-default form-control" name="excelType">
+                           <option>请选择上传类型</option>
+                           <option value=1>学生基本信息表</option>
+                           <option value=2>教师基本信息表</option>
+                           <option value=3>学生成绩信息表</option>
+                           <option value=4>学生课程信息表</option>
+                           <option value=5>学生等考信息表</option>
+                           <option value=6>学生选课信息表</option>
+                           <option value=7>学生就业信息表</option>
+                        </select>
+                    </div>
                 </div>
-                <p class="help-block">
-                    没有模板? <a href="javascript:void(0);" style="cursor: pointer" role="template">点击下载模板</a>
-                </p>
-            </div>
-        </div>
+                </div>
+                <div class="form-group">
+                     <label class="col-md-2 control-label">选择文件</label>
+                         <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="file" id="file" class="btn btn-default form-control" name="file"/>
+                                <span style="cursor: pointer" target="file" role=upload class="input-group-addon">上传</span>
+                            </div>
+                        </div>
+                    <p class="help-block">
+                        没有模板? <a href="javascript:void(0);" style="cursor: pointer" role="template">点击下载模板</a>
+                    </p>                
+                </div>
     </fieldset>
 </form>
-<div class="well-large">
+<!--<div class="well-large">
     <legend>字段内容限定</legend>
     <p>性别:<#list gender as item>${item}/</#list></p>
     <p>政治面貌:<#list ps as item>${item}/</#list></p>
     <p>学历:<#list eb as item>${item}/</#list></p>
     <p>学位:<#list degree as item>${item}/</#list></p>
-</div>
+</div>-->

@@ -25,7 +25,12 @@
 package com.topie.campus.basedao.service.impl;
 
 import com.topie.campus.basedao.service.IService;
+import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.model.Employment;
+import com.topie.campus.core.model.StaticEmployment;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -75,4 +80,5 @@ public abstract class BaseService<T> implements IService<T> {
     public List<T> selectAll() {
         return mapper.selectAll();
     }
+
 }

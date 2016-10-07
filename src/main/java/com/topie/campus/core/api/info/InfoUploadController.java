@@ -6,10 +6,12 @@ import com.topie.campus.core.enums.Degree;
 import com.topie.campus.core.enums.EducationBackground;
 import com.topie.campus.core.enums.Gender;
 import com.topie.campus.core.enums.PoliticalStatus;
+import com.topie.campus.core.service.IEmploymentService;
 import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +35,9 @@ public class InfoUploadController {
 
     @Autowired
     private IInfoBasicService iInfoBasicService;
+    
+    @Autowired
+    private IEmploymentService employmentService;
 
     @Value("${excel.template}")
     private String excelTemplate;
@@ -56,17 +62,61 @@ public class InfoUploadController {
         String filePath = this.getClass().getResource(excelTemplate + "template.xlsx").getPath();
         ExcelFileUtil.download(response, filePath, "模板.xlsx");
     }
-
+    
+    /**
+     * 
+     * @param response
+     * @param excelType
+     * <option value=1>学生基本信息表</option>
+       <option value=2>教师基本信息表</option>
+       <option value=3>学生成绩信息表</option>
+       <option value=4>学生课程信息表</option>
+       <option value=5>学生等考信息表</option>
+       <option value=6>学生选课信息表</option>
+       <option value=7>学生就业信息表</option>
+     * @param file
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
     @ResponseBody
-    public Result userUpload(HttpServletResponse response,
-            @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
-        if (file == null || file.isEmpty()) {
-            return ResponseUtil.error("附件为空");
-        }
-        ExcelLogs logs = new ExcelLogs();
-        iInfoBasicService.userUpload(file, logs);
-        return ResponseUtil.success(logs.getErrorLogList());
+    public Result userUpload(HttpServletResponse response, Integer excelType,
+    		@RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+    	 ExcelLogs logs = new ExcelLogs();  
+    	if (file == null || file.isEmpty()) {
+              return ResponseUtil.error("附件为空");
+          }
+    	else if(excelType==null)
+    	  {
+    		  return ResponseUtil.error("未选择附件类型");
+    	  }else if(excelType==1)
+    	  {
+              iInfoBasicService.userUpload(file, logs);
+    	  }
+    	  else if(excelType==2)
+    	  {
+    		  
+    	  }
+    	  else if(excelType==3)
+    	  {
+    		  iInfoBasicService.uploadStuScore(file, logs);
+    	  }
+    	  else if(excelType==4)
+    	  {
+    		  
+    	  }
+    	  else if(excelType==5)
+    	  {
+    		  
+    	  }
+    	  else if(excelType==6)
+    	  {
+    		  
+    	  }
+    	  else if(excelType==7)
+    	  {
+    		  employmentService.employUpload(file, logs);
+    	  }
+          return ResponseUtil.success(logs.getErrorLogList());
     }
-
 }

@@ -1,54 +1,85 @@
 package com.topie.campus.core.dto;
 
+import java.io.Serializable;
+
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.tools.excel.ExcelCell;
 
-public class EmploymentExcelDto {
+public class EmploymentExcelDto implements Serializable{
 
-	
-	    @ExcelCell(index = 0)
-	    private String stuId;
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7334040070907041634L;
 
-	    @ExcelCell(index = 1)
-	    private String name;
-
-	    @ExcelCell(index = 2)
-	    private String phone;
-
-	    @ExcelCell(index = 3)
-	    private String education;
-
-	    @ExcelCell(index = 4)
-	    private String college;
-
-	    @ExcelCell(index = 5)
+		@ExcelCell(index = 0)
+		private String college;
+		
+		@ExcelCell(index = 1)
 	    private String major;
 
+		@ExcelCell(index = 2)
+		private String classNum;
+		
+	    @ExcelCell(index = 3)
+	    private String stuId;
+
+	    @ExcelCell(index = 4)
+	    private String name;
+	    
+	    @ExcelCell(index = 5)
+	    private String gender;
+	    
 	    @ExcelCell(index = 6)
-	    private String enterDate;
+	    private String takeTable;
 
 	    @ExcelCell(index = 7)
-	    private String graduateDate;
-
+	    private String employmentStatus;
+	    
 	    @ExcelCell(index = 8)
-	    private String identifyId;
-
+	    private String signStatus;
+	    
 	    @ExcelCell(index = 9)
-	    private String homeAddress;
+	    private String poorStudent;
+	    
 
 	    @ExcelCell(index = 10)
-	    private String employProcess;
+	    private String homeAddress;
 
 	    @ExcelCell(index = 11)
-	    private String employPattern;
+	    private String phone;
 
 	    @ExcelCell(index = 12)
-	    private String signPattern;
+	    private String education;
 
 	    @ExcelCell(index = 13)
+	    private String tutor;
+	    
+	    @ExcelCell(index = 14)
+	    private String comment;
+	    
+	    @ExcelCell(index = 15)
+	    private String enterDate;
+
+	    @ExcelCell(index = 16)
+	    private String graduateDate;
+
+	    @ExcelCell(index = 17)
+	    private String identifyId;
+
+	    @ExcelCell(index = 18)
+	    private String employProcess;
+
+	    @ExcelCell(index = 19)
+	    private String employPattern;
+
+	    @ExcelCell(index = 20)
+	    private String signPattern;
+
+	    @ExcelCell(index = 21)
 	    private String signCompany;
 
-	    @ExcelCell(index = 14)
+	    @ExcelCell(index = 22)
 	    private String signCompanyAddress;
 
 	    /**
@@ -275,9 +306,73 @@ public class EmploymentExcelDto {
 	     */
 	    public void setSignPattern(String signPattern) {
 	        this.signPattern = signPattern;
-	    }
+	    }	    
 
-	    /**
+	    public String getClassNum() {
+			return classNum;
+		}
+
+		public void setClassNum(String classNum) {
+			this.classNum = classNum;
+		}
+
+		public String getGender() {
+			return gender;
+		}
+
+		public void setGender(String gender) {
+			this.gender = gender;
+		}
+
+		public String getTakeTable() {
+			return takeTable;
+		}
+
+		public void setTakeTable(String takeTable) {
+			this.takeTable = takeTable;
+		}
+
+		public String getEmploymentStatus() {
+			return employmentStatus;
+		}
+
+		public void setEmploymentStatus(String employmentStatus) {
+			this.employmentStatus = employmentStatus;
+		}
+
+		public String getSignStatus() {
+			return signStatus;
+		}
+
+		public void setSignStatus(String signStatus) {
+			this.signStatus = signStatus;
+		}
+
+		public String getPoorStudent() {
+			return poorStudent;
+		}
+
+		public void setPoorStudent(String poorStudent) {
+			this.poorStudent = poorStudent;
+		}
+
+		public String getTutor() {
+			return tutor;
+		}
+
+		public void setTutor(String tutor) {
+			this.tutor = tutor;
+		}
+
+		public String getComment() {
+			return comment;
+		}
+
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
+
+		/**
 	     * ��ȡǩԼ��˾
 	     *
 	     * @return sign_company - ǩԼ��˾
@@ -304,6 +399,7 @@ public class EmploymentExcelDto {
 	        return signCompanyAddress;
 	    }
 
+	    
 	    /**
 	     * ����ǩԼ��˾��ַ
 	     *
@@ -319,7 +415,6 @@ public class EmploymentExcelDto {
 	    	employment.setCollege(this.college);
 	    	employment.setEducation(this.education);
 	    	employment.setEmployPattern(this.employPattern);
-	    	employment.setEmployProcess(this.employProcess);
 	    	employment.setEnterDate(this.enterDate);
 	    	employment.setGraduateDate(this.graduateDate);
 	    	employment.setHomeAddress(this.homeAddress);
@@ -331,6 +426,14 @@ public class EmploymentExcelDto {
 	    	employment.setSignCompanyAddress(signCompanyAddress);
 	    	employment.setSignPattern(signPattern);
 	    	employment.setStuId(stuId);
+	    	employment.setClassNum(classNum);
+	    	employment.setComment(comment);
+	    	employment.setEmploymentStatus(employmentStatus);
+	    	employment.setGender(gender);
+	    	employment.setPoorStudent(poorStudent);
+	    	employment.setTakeTable(takeTable);
+	    	employment.setTutor(tutor);
+	    	employment.setSignStatus(signStatus);
 			return employment;
 	    }
 

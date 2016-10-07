@@ -8,48 +8,64 @@ public class Employment {
      * ID
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Ñ§ï¿½ï¿½
+     * Ñ§ºÅ
      */
     @Column(name = "stu_id")
     private String stuId;
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½
+     * ÐÕÃû
      */
     private String name;
 
     /**
-     * ï¿½ç»°
+     * ÐÔ±ð
+     */
+    private String gender;
+
+    /**
+     * µç»°
      */
     private String phone;
 
     /**
-     * Ñ§ï¿½ï¿½
+     * Ñ§Àú
      */
     private String education;
 
+    /**
+     * Ñ§Ôº
+     */
     private String college;
 
+    /**
+     * ×¨Òµ
+     */
     private String major;
 
     /**
-     * ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+     * °à¼¶ºÅ
+     */
+    @Column(name = "class_num")
+    private String classNum;
+
+    /**
+     * ÈëÑ§ÈÕÆÚ
      */
     @Column(name = "enter_date")
     private String enterDate;
 
     /**
-     * ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
+     * ±ÏÒµÈÕÆÚ
      */
     @Column(name = "graduate_date")
     private String graduateDate;
 
     /**
-     * ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
+     * Éí·ÝÖ¤ºÅ
      */
     @Column(name = "identify_id")
     private String identifyId;
@@ -58,38 +74,62 @@ public class Employment {
     private String homeAddress;
 
     /**
-     * ï¿½ï¿½Òµ×´Ì¬:
-ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ç©Ô¼
+     * ÊÇ·ñÁì±í0,Î´ÁìÈ¡£¬1ÁìÈ¡
      */
-    @Column(name = "employ_process")
-    private String employProcess;
+    @Column(name = "take_table")
+    private String takeTable;
 
     /**
-     * ï¿½ï¿½ÒµÄ£Ê½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±
+     * ¾ÍÒµ×´Ì¬£¬Ö¤Ã÷£¬×ÔÄ±
+     */
+    @Column(name = "employment_status")
+    private String employmentStatus;
+
+    /**
+     * Ç©Ô¼×´Ì¬£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
+     */
+    @Column(name = "sign_status")
+    private String signStatus;
+
+    /**
+     * À§ÄÑÉú
+     */
+    @Column(name = "poor_student")
+    private String poorStudent;
+
+    /**
+     * ¾ÍÒµÄ£Ê½£ºÖ¤Ã÷¡¢×ÔÄ±
      */
     @Column(name = "employ_pattern")
     private String employPattern;
 
     /**
-     * Ç©Ô¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * Ç©Ô¼·½Ê½£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
      */
     @Column(name = "sign_pattern")
     private String signPattern;
 
     /**
-     * Ç©Ô¼ï¿½ï¿½Ë¾
+     * Ç©Ô¼¹«Ë¾
      */
     @Column(name = "sign_company")
     private String signCompany;
 
     /**
-     * Ç©Ô¼ï¿½ï¿½Ë¾ï¿½ï¿½Ö·
+     * µ¼Ê¦
+     */
+    private String tutor;
+
+    private String comment;
+
+    /**
+     * Ç©Ô¼¹«Ë¾µØÖ·
      */
     @Column(name = "sign_company_address")
     private String signCompanyAddress;
 
     /**
-     * ï¿½ï¿½È¡ID
+     * »ñÈ¡ID
      *
      * @return id - ID
      */
@@ -98,7 +138,7 @@ public class Employment {
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½ID
+     * ÉèÖÃID
      *
      * @param id ID
      */
@@ -107,154 +147,198 @@ public class Employment {
     }
 
     /**
-     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
+     * »ñÈ¡Ñ§ºÅ
      *
-     * @return stu_id - Ñ§ï¿½ï¿½
+     * @return stu_id - Ñ§ºÅ
      */
     public String getStuId() {
         return stuId;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+     * ÉèÖÃÑ§ºÅ
      *
-     * @param stuId Ñ§ï¿½ï¿½
+     * @param stuId Ñ§ºÅ
      */
     public void setStuId(String stuId) {
         this.stuId = stuId;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+     * »ñÈ¡ÐÕÃû
      *
-     * @return name - ï¿½ï¿½ï¿½ï¿½
+     * @return name - ÐÕÃû
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÉèÖÃÐÕÃû
      *
-     * @param name ï¿½ï¿½ï¿½ï¿½
+     * @param name ÐÕÃû
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ç»°
+     * »ñÈ¡ÐÔ±ð
      *
-     * @return phone - ï¿½ç»°
+     * @return gender - ÐÔ±ð
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * ÉèÖÃÐÔ±ð
+     *
+     * @param gender ÐÔ±ð
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    /**
+     * »ñÈ¡µç»°
+     *
+     * @return phone - µç»°
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * ï¿½ï¿½ï¿½Ãµç»°
+     * ÉèÖÃµç»°
      *
-     * @param phone ï¿½ç»°
+     * @param phone µç»°
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
+     * »ñÈ¡Ñ§Àú
      *
-     * @return education - Ñ§ï¿½ï¿½
+     * @return education - Ñ§Àú
      */
     public String getEducation() {
         return education;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
+     * ÉèÖÃÑ§Àú
      *
-     * @param education Ñ§ï¿½ï¿½
+     * @param education Ñ§Àú
      */
     public void setEducation(String education) {
         this.education = education;
     }
 
     /**
-     * @return college
+     * »ñÈ¡Ñ§Ôº
+     *
+     * @return college - Ñ§Ôº
      */
     public String getCollege() {
         return college;
     }
 
     /**
-     * @param college
+     * ÉèÖÃÑ§Ôº
+     *
+     * @param college Ñ§Ôº
      */
     public void setCollege(String college) {
         this.college = college;
     }
 
     /**
-     * @return major
+     * »ñÈ¡×¨Òµ
+     *
+     * @return major - ×¨Òµ
      */
     public String getMajor() {
         return major;
     }
 
     /**
-     * @param major
+     * ÉèÖÃ×¨Òµ
+     *
+     * @param major ×¨Òµ
      */
     public void setMajor(String major) {
         this.major = major;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+     * »ñÈ¡°à¼¶ºÅ
      *
-     * @return enter_date - ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+     * @return class_num - °à¼¶ºÅ
+     */
+    public String getClassNum() {
+        return classNum;
+    }
+
+    /**
+     * ÉèÖÃ°à¼¶ºÅ
+     *
+     * @param classNum °à¼¶ºÅ
+     */
+    public void setClassNum(String classNum) {
+        this.classNum = classNum;
+    }
+
+    /**
+     * »ñÈ¡ÈëÑ§ÈÕÆÚ
+     *
+     * @return enter_date - ÈëÑ§ÈÕÆÚ
      */
     public String getEnterDate() {
         return enterDate;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+     * ÉèÖÃÈëÑ§ÈÕÆÚ
      *
-     * @param enterDate ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
+     * @param enterDate ÈëÑ§ÈÕÆÚ
      */
     public void setEnterDate(String enterDate) {
         this.enterDate = enterDate;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
+     * »ñÈ¡±ÏÒµÈÕÆÚ
      *
-     * @return graduate_date - ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
+     * @return graduate_date - ±ÏÒµÈÕÆÚ
      */
     public String getGraduateDate() {
         return graduateDate;
     }
 
     /**
-     * ï¿½ï¿½ï¿½Ã±ï¿½Òµï¿½ï¿½ï¿½ï¿½
+     * ÉèÖÃ±ÏÒµÈÕÆÚ
      *
-     * @param graduateDate ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
+     * @param graduateDate ±ÏÒµÈÕÆÚ
      */
     public void setGraduateDate(String graduateDate) {
         this.graduateDate = graduateDate;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
+     * »ñÈ¡Éí·ÝÖ¤ºÅ
      *
-     * @return identify_id - ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
+     * @return identify_id - Éí·ÝÖ¤ºÅ
      */
     public String getIdentifyId() {
         return identifyId;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
+     * ÉèÖÃÉí·ÝÖ¤ºÅ
      *
-     * @param identifyId ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
+     * @param identifyId Éí·ÝÖ¤ºÅ
      */
     public void setIdentifyId(String identifyId) {
         this.identifyId = identifyId;
@@ -275,94 +359,176 @@ public class Employment {
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½Òµ×´Ì¬:
-ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ç©Ô¼
+     * »ñÈ¡ÊÇ·ñÁì±í0,Î´ÁìÈ¡£¬1ÁìÈ¡
      *
-     * @return employ_process - ï¿½ï¿½Òµ×´Ì¬:
-ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ç©Ô¼
+     * @return take_table - ÊÇ·ñÁì±í0,Î´ÁìÈ¡£¬1ÁìÈ¡
      */
-    public String getEmployProcess() {
-        return employProcess;
+    public String getTakeTable() {
+        return takeTable;
     }
 
     /**
-     * ï¿½ï¿½ï¿½Ã¾ï¿½Òµ×´Ì¬:
-ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ç©Ô¼
+     * ÉèÖÃÊÇ·ñÁì±í0,Î´ÁìÈ¡£¬1ÁìÈ¡
      *
-     * @param employProcess ï¿½ï¿½Òµ×´Ì¬:
-ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Ç©Ô¼
+     * @param takeTable ÊÇ·ñÁì±í0,Î´ÁìÈ¡£¬1ÁìÈ¡
      */
-    public void setEmployProcess(String employProcess) {
-        this.employProcess = employProcess;
+    public void setTakeTable(String takeTable) {
+        this.takeTable = takeTable;
     }
 
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½ÒµÄ£Ê½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±
+     * »ñÈ¡¾ÍÒµ×´Ì¬£¬Ö¤Ã÷£¬×ÔÄ±
      *
-     * @return employ_pattern - ï¿½ï¿½ÒµÄ£Ê½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±
+     * @return employment_status - ¾ÍÒµ×´Ì¬£¬Ö¤Ã÷£¬×ÔÄ±
+     */
+    public String getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    /**
+     * ÉèÖÃ¾ÍÒµ×´Ì¬£¬Ö¤Ã÷£¬×ÔÄ±
+     *
+     * @param employmentStatus ¾ÍÒµ×´Ì¬£¬Ö¤Ã÷£¬×ÔÄ±
+     */
+    public void setEmploymentStatus(String employmentStatus) {
+        this.employmentStatus = employmentStatus;
+    }
+
+    /**
+     * »ñÈ¡Ç©Ô¼×´Ì¬£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
+     *
+     * @return sign_status - Ç©Ô¼×´Ì¬£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
+     */
+    public String getSignStatus() {
+        return signStatus;
+    }
+
+    /**
+     * ÉèÖÃÇ©Ô¼×´Ì¬£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
+     *
+     * @param signStatus Ç©Ô¼×´Ì¬£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
+     */
+    public void setSignStatus(String signStatus) {
+        this.signStatus = signStatus;
+    }
+
+    /**
+     * »ñÈ¡À§ÄÑÉú
+     *
+     * @return poor_student - À§ÄÑÉú
+     */
+    public String getPoorStudent() {
+        return poorStudent;
+    }
+
+    /**
+     * ÉèÖÃÀ§ÄÑÉú
+     *
+     * @param poorStudent À§ÄÑÉú
+     */
+    public void setPoorStudent(String poorStudent) {
+        this.poorStudent = poorStudent;
+    }
+
+    /**
+     * »ñÈ¡¾ÍÒµÄ£Ê½£ºÖ¤Ã÷¡¢×ÔÄ±
+     *
+     * @return employ_pattern - ¾ÍÒµÄ£Ê½£ºÖ¤Ã÷¡¢×ÔÄ±
      */
     public String getEmployPattern() {
         return employPattern;
     }
 
     /**
-     * ï¿½ï¿½ï¿½Ã¾ï¿½ÒµÄ£Ê½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±
+     * ÉèÖÃ¾ÍÒµÄ£Ê½£ºÖ¤Ã÷¡¢×ÔÄ±
      *
-     * @param employPattern ï¿½ï¿½ÒµÄ£Ê½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±
+     * @param employPattern ¾ÍÒµÄ£Ê½£ºÖ¤Ã÷¡¢×ÔÄ±
      */
     public void setEmployPattern(String employPattern) {
         this.employPattern = employPattern;
     }
 
     /**
-     * ï¿½ï¿½È¡Ç©Ô¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * »ñÈ¡Ç©Ô¼·½Ê½£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
      *
-     * @return sign_pattern - Ç©Ô¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @return sign_pattern - Ç©Ô¼·½Ê½£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
      */
     public String getSignPattern() {
         return signPattern;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Ç©Ô¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÉèÖÃÇ©Ô¼·½Ê½£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
      *
-     * @param signPattern Ç©Ô¼ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½ï¿½Ù¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param signPattern Ç©Ô¼·½Ê½£º²Î¾ü¡¢³ö¹ú¡¢ºÏÍ¬¡¢Èý·½¡¢Éý±¾¡¢ÉýË¶¡¢´å¹Ù¡¢ÉçÇø¡¢Î÷²¿
      */
     public void setSignPattern(String signPattern) {
         this.signPattern = signPattern;
     }
 
     /**
-     * ï¿½ï¿½È¡Ç©Ô¼ï¿½ï¿½Ë¾
+     * »ñÈ¡Ç©Ô¼¹«Ë¾
      *
-     * @return sign_company - Ç©Ô¼ï¿½ï¿½Ë¾
+     * @return sign_company - Ç©Ô¼¹«Ë¾
      */
     public String getSignCompany() {
         return signCompany;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Ç©Ô¼ï¿½ï¿½Ë¾
+     * ÉèÖÃÇ©Ô¼¹«Ë¾
      *
-     * @param signCompany Ç©Ô¼ï¿½ï¿½Ë¾
+     * @param signCompany Ç©Ô¼¹«Ë¾
      */
     public void setSignCompany(String signCompany) {
         this.signCompany = signCompany;
     }
 
     /**
-     * ï¿½ï¿½È¡Ç©Ô¼ï¿½ï¿½Ë¾ï¿½ï¿½Ö·
+     * »ñÈ¡µ¼Ê¦
      *
-     * @return sign_company_address - Ç©Ô¼ï¿½ï¿½Ë¾ï¿½ï¿½Ö·
+     * @return tutor - µ¼Ê¦
+     */
+    public String getTutor() {
+        return tutor;
+    }
+
+    /**
+     * ÉèÖÃµ¼Ê¦
+     *
+     * @param tutor µ¼Ê¦
+     */
+    public void setTutor(String tutor) {
+        this.tutor = tutor;
+    }
+
+    /**
+     * @return comment
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * @param comment
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    /**
+     * »ñÈ¡Ç©Ô¼¹«Ë¾µØÖ·
+     *
+     * @return sign_company_address - Ç©Ô¼¹«Ë¾µØÖ·
      */
     public String getSignCompanyAddress() {
         return signCompanyAddress;
     }
 
     /**
-     * ï¿½ï¿½ï¿½ï¿½Ç©Ô¼ï¿½ï¿½Ë¾ï¿½ï¿½Ö·
+     * ÉèÖÃÇ©Ô¼¹«Ë¾µØÖ·
      *
-     * @param signCompanyAddress Ç©Ô¼ï¿½ï¿½Ë¾ï¿½ï¿½Ö·
+     * @param signCompanyAddress Ç©Ô¼¹«Ë¾µØÖ·
      */
     public void setSignCompanyAddress(String signCompanyAddress) {
         this.signCompanyAddress = signCompanyAddress;

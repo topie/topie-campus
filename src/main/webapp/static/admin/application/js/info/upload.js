@@ -45,7 +45,7 @@
             }
             $.ajaxFileUpload(
                 {
-                    url: that.uploadUrl + "?topie_token=" + App.token,
+                    url: that.uploadUrl + "?topie_token=" + App.token+"&excelType="+$("select[name=excelType]").val(),
                     type: "POST",
                     secureuri: false,
                     fileElementId: fileId,

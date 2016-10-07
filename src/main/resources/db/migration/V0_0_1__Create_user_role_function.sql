@@ -105,9 +105,13 @@ INSERT INTO `sys_function` VALUES ('2', '0', '系统管理', '1', '1', NULL, '#'
 INSERT INTO `sys_function` VALUES ('3', '2', '用户管理', '1', '1', NULL, '/api/sys/user/pageList', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('4', '2', '角色管理', '1', '1', NULL, '/api/sys/role/pageList', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('5', '2', '菜单管理', '1', '1', NULL, '/api/sys/function/pageList', '1', NULL, NULL);
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`) VALUES ('17', '6', '就业统计', '1', '1', '', '/api/job/static', '0', '2016-10-03 09:22:37', '2016-10-03 09:22:37');
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`) VALUES ('18', '6', '就业管理', '1', '1', '', '/api/job/page', '0', '2016-10-03 09:39:35', '2016-10-03 09:40:20');
 
 INSERT INTO `sys_role` VALUES ('1', '管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_role` VALUES ('2', '普通用户', '/', '1', NULL, NULL);
+INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('17', '1');
+
 
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '1');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '2');
@@ -115,6 +119,8 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '3');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '4');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '5');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('2', '1');
+INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('16', '5');
+
 
 INSERT INTO `sys_user` VALUES
   ('1', 'admin', '$2a$10$oWaepJdwE7OjANCEEuQCW.aSxzOCZTsJglNcDpi8cnGXRLRppNZKG', '系统管理员', '1', '1',

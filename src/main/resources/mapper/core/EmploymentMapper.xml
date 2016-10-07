@@ -1,29 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.topie.campus.core.dao.EmploymentMapper">
-  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Employment">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.EmploymentMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Employment" >
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="college" jdbcType="VARCHAR" property="college" />
-    <result column="major" jdbcType="VARCHAR" property="major" />
-    <result column="enter_date" jdbcType="VARCHAR" property="enterDate" />
-    <result column="graduate_date" jdbcType="VARCHAR" property="graduateDate" />
-    <result column="identify_id" jdbcType="VARCHAR" property="identifyId" />
-    <result column="home_address" jdbcType="VARCHAR" property="homeAddress" />
-    <result column="employ_process" jdbcType="VARCHAR" property="employProcess" />
-    <result column="employ_pattern" jdbcType="VARCHAR" property="employPattern" />
-    <result column="sign_pattern" jdbcType="VARCHAR" property="signPattern" />
-    <result column="sign_company" jdbcType="VARCHAR" property="signCompany" />
-    <result column="sign_company_address" jdbcType="VARCHAR" property="signCompanyAddress" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="college" property="college" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="class_num" property="classNum" jdbcType="VARCHAR" />
+    <result column="enter_date" property="enterDate" jdbcType="VARCHAR" />
+    <result column="graduate_date" property="graduateDate" jdbcType="VARCHAR" />
+    <result column="identify_id" property="identifyId" jdbcType="VARCHAR" />
+    <result column="home_address" property="homeAddress" jdbcType="VARCHAR" />
+    <result column="take_table" property="takeTable" jdbcType="VARCHAR" />
+    <result column="employment_status" property="employmentStatus" jdbcType="VARCHAR" />
+    <result column="sign_status" property="signStatus" jdbcType="VARCHAR" />
+    <result column="poor_student" property="poorStudent" jdbcType="VARCHAR" />
+    <result column="employ_pattern" property="employPattern" jdbcType="VARCHAR" />
+    <result column="sign_pattern" property="signPattern" jdbcType="VARCHAR" />
+    <result column="sign_company" property="signCompany" jdbcType="VARCHAR" />
+    <result column="tutor" property="tutor" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="sign_company_address" property="signCompanyAddress" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="StaticResultMap" type="com.topie.campus.core.model.StaticEmployment">
+     <result column="major" property="major" jdbcType="VARCHAR" />
+     <result column="class_num" property="classNum" jdbcType="VARCHAR" />
+     <result column="tutor" property="tutor" jdbcType="VARCHAR" />
+     <result column="sign_rate" property="signRate" jdbcType="DOUBLE" />
+     <result column="employment_rate" property="employmentRate" jdbcType="DOUBLE" />
+     <result column="poor_rate" property="poorRate" jdbcType="DOUBLE" />
+     <result column="man" property="man" jdbcType="INTEGER" />
+     <result column="woman" property="woman" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List">
-    id,stu_id,name,phone,education,college,major,enter_date,graduate_date,identify_id,home_address,employ_process,employ_pattern,sign_pattern,sign_company,sign_company_address
+  id,stu_id,name,gender,phone,education,college,major,class_num,enter_date,graduate_date,identify_id,home_address,take_table,employment_status,sign_status,poor_student,employ_pattern,sign_pattern,sign_company,tutor,comment,sign_company_address
   </sql>
   <select id="findByPage" resultMap="BaseResultMap">
         select
@@ -47,9 +66,135 @@
         from t_employment
         <where>
             <if test="employment.name!=null and employment.name!=''">
-                and `name` like concat('%',concat(#{employment.name},'%'))
+               `name` like concat('%',concat(#{employment.name},'%'))
             </if>
         </where>
     </select>
-  
+    
+    <select id="findByStuId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_employment
+        <where>
+           <if test="stuId!=null and stuId!=''">
+            stu_id = #{stuId}
+           </if> 
+        </where>
+    </select>
+    
+    <select id="findByPageGroupByMajor" resultMap="StaticResultMap">
+        select employment_rate,w.major,sign_rate from (select count(*)/total as employment_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) group by e.major) r
+        left join (select count(*)/total as sign_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.sign_status is not null) group by e.major) w on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+            w.major like concat(concat('%',#{employment.major}),'%')
+          </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPageGroupByMajor" resultType="java.lang.Long">
+        select count(w.major) from (select count(*)/total as employment_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) group by e.major) r
+        left join (select count(*)/total as sign_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.sign_status is not null) group by e.major) w on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+            w.major like concat('%',concat(#{employment.major},'%'))
+          </if>
+        </where>
+    </select>
+    
+    <select id="findByPageGroupByClassNum" resultMap="StaticResultMap">
+       select w.class_num,employment_rate,sign_rate from (select count(*)/total as employment_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) group by e.class_num) r
+        left join (select count(*)/total as sign_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.sign_status is not null) group by e.class_num) w on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+            w.class_num like concat('%',concat(#{employment.classNum},'%'))
+          </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPageGroupByClassNum" resultType="java.lang.Long">
+        select count(w.class_num) from (select count(*)/total as employment_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) group by e.class_num) r
+        left join (select count(*)/total as sign_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.sign_status is not null) group by e.class_num) w on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+            w.class_num like concat('%',concat(#{employment.classNum},'%'))
+          </if>
+        </where>
+    </select>
+    
+    <select id="findByPageGroupByTutor" resultMap="StaticResultMap">
+       select w.tutor,employment_rate,sign_rate from (select count(*)/total as employment_rate,e.tutor from t_employment e LEFT JOIN (select COUNT(*) as total,t.tutor  from t_employment t group by t.tutor) c on e.tutor = c.tutor where (e.employment_status is not null or e.sign_status is not null) group by e.tutor) r
+        left join (select count(*)/total as sign_rate,e.tutor from t_employment e LEFT JOIN (select COUNT(*) as total,t.tutor  from t_employment t group by t.tutor) c on e.tutor = c.tutor where (e.sign_status is not null) group by e.tutor) w on w.tutor = r.tutor
+        <where>
+          <if test="employment.tutor!=null and employment.tutor!=''">
+            w.tutor like concat('%',concat(#{employment.tutor},'%'))
+          </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPageGroupByTutor" resultType="java.lang.Long">
+        select count(w.tutor) from (select count(*)/total as employment_rate,e.tutor from t_employment e LEFT JOIN (select COUNT(*) as total,t.tutor  from t_employment t group by t.tutor) c on e.tutor = c.tutor where (e.employment_status is not null or e.sign_status is not null) group by e.tutor) r
+        left join (select count(*)/total as sign_rate,e.tutor from t_employment e LEFT JOIN (select COUNT(*) as total,t.tutor  from t_employment t group by t.tutor) c on e.tutor = c.tutor where (e.sign_status is not null) group by e.tutor) w on w.tutor = r.tutor
+        <where>
+          <if test="employment.tutor!=null and employment.tutor!=''">
+            w.tutor like concat('%',concat(#{employment.tutor},'%'))
+          </if>
+        </where>
+    </select>
+    
+    <select id="findOtherByPageGroupByMajor" resultMap="StaticResultMap">
+      select man,woman,poor_rate,w.major from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
+      left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+             w.major = #{employment.major}
+          </if>
+        </where>
+       <!--  <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if> -->
+    </select>
+    
+    <select id="countOtherByPageGroupByMajor" resultType="java.lang.Long">
+         select count(w.major) from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
+        left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        <where>
+          <if test="employment.major!=null and employment.major!=''">
+             w.major = #{employment.major}
+          </if>
+        </where>
+    </select>
+    
+    <select id="findOtherByPageGroupByClassNum" resultMap="StaticResultMap">
+      select man,woman,poor_rate,w.class_num from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
+      left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+             w.class_num = #{employment.classNum}
+          </if>
+        </where>
+       <!--  <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if> -->
+    </select>
+    
+    <select id="countOtherByPageGroupByClassNum" resultType="java.lang.Long">
+    select count(w.class_num) from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
+    left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+        <where>
+          <if test="employment.classNum!=null and employment.classNum!=''">
+             w.class_num = #{employment.classNum}
+          </if>
+        </where>
+    </select>
+    
 </mapper>

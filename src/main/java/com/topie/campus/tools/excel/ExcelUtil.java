@@ -938,7 +938,8 @@ public class ExcelUtil {
                                 value = new Double[count];
                             }
                             for (int i = 0; i < count; i++) {
-                                Cell cell = row.getCell(cellIndex);
+                               // Cell cell = row.getCell(cellIndex);
+                            	Cell cell = row.getCell(ffs.getIndex());
                                 String errMsg = validateCell(cell, field, cellIndex);
                                 if (StringUtils.isBlank(errMsg)) {
                                     value[i] = getCellValue(cell);
@@ -952,7 +953,8 @@ public class ExcelUtil {
                             field.set(t, value);
                             arrayIndex++;
                         } else {
-                            Cell cell = row.getCell(cellIndex);
+                            //Cell cell = row.getCell(cellIndex);
+                        	Cell cell = row.getCell(ffs.getIndex());
                             String errMsg = validateCell(cell, field, cellIndex);
                             if (StringUtils.isBlank(errMsg)) {
                                 Object value = null;
@@ -975,6 +977,7 @@ public class ExcelUtil {
                                         value = annoCell.defaultValue();
                                     }
                                 }
+                                System.out.println(field.getName()+"--"+value.getClass().getTypeName());
                                 field.set(t, value);
                             }
                             if (StringUtils.isNotBlank(errMsg)) {
@@ -1071,7 +1074,8 @@ public class ExcelUtil {
                                 value = new Double[count];
                             }
                             for (int i = 0; i < count; i++) {
-                                Cell cell = row.getCell(cellIndex);
+                                //Cell cell = row.getCell(cellIndex);
+                            	Cell cell = row.getCell(ffs.getIndex());
                                 String errMsg = validateCell(cell, field, cellIndex);
                                 if (StringUtils.isBlank(errMsg)) {
                                     value[i] = getCellValue(cell);
@@ -1085,7 +1089,8 @@ public class ExcelUtil {
                             field.set(t, value);
                             arrayIndex++;
                         } else {
-                            Cell cell = row.getCell(cellIndex);
+                            //Cell cell = row.getCell(cellIndex);
+                        	Cell cell = row.getCell(ffs.getIndex());
                             String errMsg = validateCell(cell, field, cellIndex);
                             if (StringUtils.isBlank(errMsg)) {
                                 Object value = null;

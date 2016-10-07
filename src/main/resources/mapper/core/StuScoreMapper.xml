@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.StuScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StuScore" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
+    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
+    <result column="course_num" property="courseNum" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cource_name" property="courceName" jdbcType="VARCHAR" />
+    <result column="credit" property="credit" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+    <result column="score_point" property="scorePoint" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="re_study_flag" property="reStudyFlag" jdbcType="VARCHAR" />
+    <result column="common_score" property="commonScore" jdbcType="VARCHAR" />
+    <result column="page_score" property="pageScore" jdbcType="VARCHAR" />
+    <result column="second_score" property="secondScore" jdbcType="VARCHAR" />
+    <result column="restudy_score" property="restudyScore" jdbcType="VARCHAR" />
+    <result column="cource_type" property="courceType" jdbcType="VARCHAR" />
+    <result column="cource_code" property="courceCode" jdbcType="VARCHAR" />
+    <result column="minor_flag" property="minorFlag" jdbcType="VARCHAR" />
+    <result column="cource_attr" property="courceAttr" jdbcType="VARCHAR" />
+    <result column="invalid" property="invalid" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List">
+  id,study_year,study_year_num,course_num,stu_id,name,cource_name,credit,score,score_point,comment,re_study_flag,common_score,page_score,second_score,restudy_score,cource_type,cource_code,minor_flag,cource_attr,invalid
+  </sql> 
+  
+  <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_score
+        <where>
+         <if test = "stuScore!=null">
+            <if test="stuScore.stuId!=null and stuScore.stuId!=''">
+                stu_id = #{stuScore.stuId}
+            </if>
+             <if test="stuScore.studyYear!=null and stuScore.studyYear!=''">
+               and study_year = #{stuScore.studyYear}
+            </if>
+             <if test="stuScore.studyYearNum!=null and stuScore.studyYearNum!=''">
+               and study_year_num = #{stuScore.studyYearNum}
+            </if>
+            <if test="stuScore.reStudyFlag!=null and stuScore.reStudyFlag!=''">
+               and re_study_flag = '1' or re_study_flag = '3'
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_stu_score
+        <where>
+         <if test = "stuScore!=null">
+            <if test="stuScore.stuId!=null and stuScore.stuId!=''">
+                stu_id = #{stuScore.stuId}
+            </if>
+             <if test="stuScore.studyYear!=null and stuScore.studyYear!=''">
+               and study_year = #{stuScore.studyYear}
+            </if>
+             <if test="stuScore.studyYearNum!=null and stuScore.studyYearNum!=''">
+               and study_year_num = #{stuScore.studyYearNum}
+            </if>
+            <if test="stuScore.reStudyFlag!=null and stuScore.reStudyFlag!=''">
+               and re_study_flag = '1' or re_study_flag = '3'
+            </if>
+         </if>
+        </where>
+    </select>
+  
+  
+</mapper>
