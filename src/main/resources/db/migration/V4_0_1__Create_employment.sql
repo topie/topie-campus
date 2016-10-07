@@ -13,7 +13,7 @@ CREATE TABLE `t_employment` (
   `graduate_date` varchar(255) DEFAULT '' COMMENT '毕业日期',
   `identify_id` varchar(255) DEFAULT '' COMMENT '身份证号',
   `home_address` varchar(255) DEFAULT NULL,
-  `take_table` varchar(255) DEFAULT '' COMMENT '是否领表0,未领取，1领取',
+  `take_table` varchar(255) DEFAULT NULL COMMENT '是否领表0,未领取，1领取',
   `employment_status` varchar(255) DEFAULT NULL COMMENT '就业状态，证明，自谋',
   `sign_status` varchar(255) DEFAULT NULL COMMENT '签约状态：参军、出国、合同、三方、升本、升硕、村官、社区、西部',
   `poor_student` varchar(255) DEFAULT NULL COMMENT '困难生',
@@ -24,4 +24,4 @@ CREATE TABLE `t_employment` (
   `comment` varchar(500) DEFAULT NULL,
   `sign_company_address` varchar(255) DEFAULT '' COMMENT '签约公司地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=844 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

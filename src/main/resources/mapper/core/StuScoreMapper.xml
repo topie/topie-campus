@@ -27,4 +27,57 @@
     <result column="cource_attr" property="courceAttr" jdbcType="VARCHAR" />
     <result column="invalid" property="invalid" jdbcType="VARCHAR" />
   </resultMap>
+ 
+  <sql id="Base_Column_List">
+  id,study_year,study_year_num,course_num,stu_id,name,cource_name,credit,score,score_point,comment,re_study_flag,common_score,page_score,second_score,restudy_score,cource_type,cource_code,minor_flag,cource_attr,invalid
+  </sql> 
+  
+  <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_score
+        <where>
+         <if test = "stuScore!=null">
+            <if test="stuScore.stuId!=null and stuScore.stuId!=''">
+                stu_id = #{stuScore.stuId}
+            </if>
+             <if test="stuScore.studyYear!=null and stuScore.studyYear!=''">
+               and study_year = #{stuScore.studyYear}
+            </if>
+             <if test="stuScore.studyYearNum!=null and stuScore.studyYearNum!=''">
+               and study_year_num = #{stuScore.studyYearNum}
+            </if>
+            <if test="stuScore.reStudyFlag!=null and stuScore.reStudyFlag!=''">
+               and re_study_flag = '1' or re_study_flag = '3'
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_stu_score
+        <where>
+         <if test = "stuScore!=null">
+            <if test="stuScore.stuId!=null and stuScore.stuId!=''">
+                stu_id = #{stuScore.stuId}
+            </if>
+             <if test="stuScore.studyYear!=null and stuScore.studyYear!=''">
+               and study_year = #{stuScore.studyYear}
+            </if>
+             <if test="stuScore.studyYearNum!=null and stuScore.studyYearNum!=''">
+               and study_year_num = #{stuScore.studyYearNum}
+            </if>
+            <if test="stuScore.reStudyFlag!=null and stuScore.reStudyFlag!=''">
+               and re_study_flag = '1' or re_study_flag = '3'
+            </if>
+         </if>
+        </where>
+    </select>
+  
+  
 </mapper>
