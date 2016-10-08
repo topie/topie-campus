@@ -152,10 +152,123 @@ public class Teacher extends Sortable {
     private Boolean isLabStaff;
 
     /**
-     * 教学质量评价
+     * 简介
      */
-    @Column(name = "teach_quality_comment")
-    private String teachQualityComment;
+    @Column(name = "short_introduce")
+    private String shortIntroduce;
+
+    /**
+     * 是否教师资格证(1是，0无）
+     */
+    @Column(name = "has_teacher_certificate")
+    private Boolean hasTeacherCertificate;
+
+    /**
+     * 教师类型
+     */
+    @Column(name = "teacher_type")
+    private String teacherType;
+
+    /**
+     * 教师级别
+     */
+    @Column(name = "teacher_lever")
+    private String teacherLever;
+
+    /**
+     * 是否外聘
+     */
+    @Column(name = "is_outside")
+    private Integer isOutside;
+
+    /**
+     * 姓名简拼
+     */
+    @Column(name = "short_name")
+    private String shortName;
+
+    /**
+     * 密码明文
+     */
+    private String password;
+
+    /**
+     * 所属专业（教那个系）
+     */
+    @Column(name = "teach_major")
+    private String teachMajor;
+
+    public Boolean getLabStaff() {
+        return isLabStaff;
+    }
+
+    public void setLabStaff(Boolean labStaff) {
+        isLabStaff = labStaff;
+    }
+
+    public String getShortIntroduce() {
+        return shortIntroduce;
+    }
+
+    public void setShortIntroduce(String shortIntroduce) {
+        this.shortIntroduce = shortIntroduce;
+    }
+
+    public Boolean getHasTeacherCertificate() {
+        return hasTeacherCertificate;
+    }
+
+    public void setHasTeacherCertificate(Boolean hasTeacherCertificate) {
+        this.hasTeacherCertificate = hasTeacherCertificate;
+    }
+
+    public Integer getIsOutside() {
+        return isOutside;
+    }
+
+    public void setIsOutside(Integer isOutside) {
+        this.isOutside = isOutside;
+    }
+
+    public String getTeacherType() {
+        return teacherType;
+    }
+
+    public void setTeacherType(String teacherType) {
+        this.teacherType = teacherType;
+    }
+
+    public String getTeacherLever() {
+        return teacherLever;
+    }
+
+    public void setTeacherLever(String teacherLever) {
+        this.teacherLever = teacherLever;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getTeachMajor() {
+        return teachMajor;
+    }
+
+    public void setTeachMajor(String teachMajor) {
+        this.teachMajor = teachMajor;
+    }
 
     public String getDegreeStr() {
         return Degree.getName(degree);
@@ -596,21 +709,4 @@ public class Teacher extends Sortable {
         this.isLabStaff = isLabStaff;
     }
 
-    /**
-     * 获取教学质量评价
-     *
-     * @return teach_quality_comment - 教学质量评价
-     */
-    public String getTeachQualityComment() {
-        return teachQualityComment;
-    }
-
-    /**
-     * 设置教学质量评价
-     *
-     * @param teachQualityComment 教学质量评价
-     */
-    public void setTeachQualityComment(String teachQualityComment) {
-        this.teachQualityComment = teachQualityComment;
-    }
 }

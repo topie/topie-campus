@@ -37,18 +37,18 @@ CREATE TABLE `t_message` (
   COMMENT '留言信息表';
 DROP TABLE IF EXISTS `t_message_reply`;
 CREATE TABLE `t_message_reply` (
-  `reply_id`        INT(11) NOT NULL  AUTO_INCREMENT,
-  `message_id`      INT(11) NOT NULL
+  `reply_id`        INT(11)   NOT NULL  AUTO_INCREMENT,
+  `message_id`      INT(11)   NOT NULL
   COMMENT '留言id',
-  `reply_content`   VARCHAR(255)      DEFAULT ''
+  `reply_content`   VARCHAR(255)        DEFAULT ''
   COMMENT '回复内容',
-  `reply_user_id`   INT(11) NOT NULL  DEFAULT 0
+  `reply_user_id`   INT(11)   NOT NULL  DEFAULT 0
   COMMENT '回复用户id',
-  `reply_user_name` VARCHAR(32)       DEFAULT ''
+  `reply_user_name` VARCHAR(32)         DEFAULT ''
   COMMENT '回复用户名称',
   `reply_date_time` TIMESTAMP NULL
   COMMENT '留言时间',
-  `is_read`         TINYINT(1)        DEFAULT 0
+  `is_read`         TINYINT(1)          DEFAULT 0
   COMMENT '是否读取:0 未读取 1:已读取',
   PRIMARY KEY (`reply_id`),
   KEY k_time(`message_id`, `reply_date_time`, `reply_user_id`)
@@ -147,7 +147,7 @@ CREATE TABLE `t_teacher` (
   `academe`                     VARCHAR(64)                   DEFAULT ''
   COMMENT '学院',
   `department`                  VARCHAR(64)                   DEFAULT ''
-  COMMENT '系(所)',
+  COMMENT '科室',
   `contact_phone`               VARCHAR(32)                   DEFAULT ''
   COMMENT '联系电话',
   `email`                       VARCHAR(64)                   DEFAULT ''
@@ -174,7 +174,22 @@ CREATE TABLE `t_teacher` (
   COMMENT '人事职工号',
   `is_lab_staff`                TINYINT(1)                    DEFAULT 0
   COMMENT '是否实验室人员 0：否 1：是',
-  `teach_quality_comment`       TEXT COMMENT '教学质量评价',
+  `short_introduce`             VARCHAR(2000)                 DEFAULT NULL
+  COMMENT '简介',
+  `has_teacher_certificate`     TINYINT(1)                    DEFAULT 0
+  COMMENT '是否教师资格证(1是，0无）',
+  `teacher_type`                VARCHAR(64)                   DEFAULT ''
+  COMMENT '教师类型',
+  `teacher_lever`               VARCHAR(64)                   DEFAULT ''
+  COMMENT '教师级别',
+  `is_outside`                  TINYINT(1)                    DEFAULT 0
+  COMMENT '是否外聘',
+  `short_name`                  VARCHAR(64)                   DEFAULT ''
+  COMMENT '姓名简拼',
+  `password`                    VARCHAR(64)                   DEFAULT ''
+  COMMENT '密码明文',
+  `teach_major`                 VARCHAR(64)                   DEFAULT ''
+  COMMENT '所属专业（教那个系）',
   PRIMARY KEY (`id`),
   UNIQUE KEY (`user_id`),
   UNIQUE KEY (`employee_no`)
@@ -182,35 +197,71 @@ CREATE TABLE `t_teacher` (
   DEFAULT CHARSET = utf8
   COMMENT '老师信息表';
 DROP TABLE IF EXISTS `t_student`;
+DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
-  `id`               INT(11)     NOT NULL          AUTO_INCREMENT
+  `id`               INT(11)     NOT NULL AUTO_INCREMENT
   COMMENT 'ID',
-  `avatar`           VARCHAR(255)                  DEFAULT ''
+  `avatar`           VARCHAR(255)         DEFAULT ''
   COMMENT '头像',
   `user_id`          INT(11)     NOT NULL
   COMMENT '平台用户id',
   `student_no`       VARCHAR(32) NOT NULL
   COMMENT '学号',
-  `name`             VARCHAR(64) NOT NULL          DEFAULT ''
+  `name`             VARCHAR(64) NOT NULL DEFAULT ''
   COMMENT '姓名',
-  `gender`           TINYINT(1)  NOT NULL          DEFAULT 1
+  `gender`           VARCHAR(10) NOT NULL DEFAULT '1'
   COMMENT '性别:0 女 1 男',
-  `ethnic_group`     SMALLINT(2)                   DEFAULT 0
-  COMMENT '民族',
-  `birth`            DATE
+  `birth`            DATE                 DEFAULT NULL
   COMMENT '出生日期',
-  `political_status` TINYINT(1)                    DEFAULT 0
+  `political_status` VARCHAR(100)         DEFAULT '0'
   COMMENT '政治面貌',
-  `academe`          VARCHAR(32)                   DEFAULT ''
+  `ethnic_group`     VARCHAR(255)         DEFAULT '0'
+  COMMENT '民族',
+  `src_region`       VARCHAR(255)         DEFAULT NULL
+  COMMENT '入取地区',
+  `academe`          VARCHAR(32)          DEFAULT ''
   COMMENT '学院',
-  `subject`          VARCHAR(32)                   DEFAULT ''
+  `subject`          VARCHAR(32)          DEFAULT ''
   COMMENT '专业',
-  `contact_phone`    VARCHAR(32)                   DEFAULT ''
-  COMMENT '联系电话',
-  `email`            VARCHAR(64)                   DEFAULT ''
+  `grade`            VARCHAR(255)         DEFAULT NULL,
+  `shool_len`        VARCHAR(255)         DEFAULT NULL
+  COMMENT '学制',
+  `school_roll`      VARCHAR(255)         DEFAULT ''
+  COMMENT '学籍',
+  `grade_year`       VARCHAR(255)         DEFAULT ''
+  COMMENT '年级',
+  `major_direction`  VARCHAR(255)         DEFAULT ''
+  COMMENT '专业方向',
+  `enter_date`       VARCHAR(255)         DEFAULT ''
+  COMMENT '入学日期',
+  `email`            VARCHAR(64)          DEFAULT ''
   COMMENT '邮箱',
+  `comment`          VARCHAR(255)         DEFAULT ''
+  COMMENT '备注',
+  `english_type`     VARCHAR(255)         DEFAULT ''
+  COMMENT '学生类别（英语A,英语B）',
+  `full_name`        VARCHAR(255)         DEFAULT ''
+  COMMENT '全拼',
+  `major_code`       VARCHAR(255)         DEFAULT ''
+  COMMENT '专业代码',
+  `gradation`        VARCHAR(255)         DEFAULT ''
+  COMMENT '层次（本科，高职等）',
+  `inschool`         VARCHAR(10)          DEFAULT ''
+  COMMENT '是否在校',
+  `is_register`      VARCHAR(255)         DEFAULT ''
+  COMMENT '是否注册',
+  `graduate_date`    VARCHAR(255)         DEFAULT NULL
+  COMMENT '毕业日期',
+  `contact_phone`    VARCHAR(32)          DEFAULT ''
+  COMMENT '联系电话',
+  `is_graduate`      VARCHAR(10)          DEFAULT NULL
+  COMMENT '是否毕业',
+  `college`          VARCHAR(255)         DEFAULT NULL
+  COMMENT '学院',
+  `password`         VARCHAR(255)         DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`user_id`)
+  UNIQUE KEY `user_id` (`user_id`)
 )
+  ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  COMMENT '学生信息表';
+  COMMENT = '学生信息表';

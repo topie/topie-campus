@@ -45,6 +45,18 @@
             }
         }, {
             type: 'text',
+            name: 'shortName',
+            id: 'shortName',
+            label: '姓名简拼',
+            cls: 'input-large'
+        }, {
+            type: 'text',
+            name: 'password',
+            id: 'password',
+            label: '密码明文',
+            cls: 'input-large'
+        }, {
+            type: 'text',
             name: 'employeeNo',
             id: 'employeeNo',
             label: '职工号',
@@ -118,7 +130,13 @@
             type: 'text',
             name: 'department',
             id: 'department',
-            label: '系(所)',
+            label: '科室',
+            cls: 'input-large'
+        }, {
+            type: 'text',
+            name: 'teachMajor',
+            id: 'teachMajor',
+            label: '所属专业',
             cls: 'input-large'
         }, {
             type: 'text',
@@ -213,13 +231,39 @@
             type: 'text',
             name: 'staffNo',
             id: 'staffNo',
-            label: '人事职工号',
+            label: '人事号',
             cls: 'input-large'
         }, {
+            type: 'radioGroup',
+            name: 'hasTeacherCertificate',
+            id: 'hasTeacherCertificate',
+            label: '是否教师资格证',
+            inline: true,
+            items: [{
+                value: true,
+                text: '是'
+            }, {
+                value: false,
+                text: '否'
+            }]
+        }, {
+            type: 'radioGroup',
+            name: 'isOutside',
+            id: 'isOutside',
+            label: '是否外聘',
+            inline: true,
+            items: [{
+                value: 1,
+                text: '是'
+            }, {
+                value: 0,
+                text: '否'
+            }]
+        }, {
             type: 'textarea',
-            name: 'teachQualityComment',
-            id: 'teachQualityComment',
-            label: '教学质量评价',
+            name: 'shortIntroduce',
+            id: 'shortIntroduce',
+            label: '简介',
             cls: 'input-large'
         }
     ];

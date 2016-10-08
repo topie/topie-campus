@@ -1,27 +1,9 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
-import com.topie.campus.core.dto.StuCetExcelDto;
-import com.topie.campus.core.dto.StuScoreExcelDto;
-import com.topie.campus.core.dto.StuSeleExcelDto;
-import com.topie.campus.core.dto.StuTimeTableExcelDto;
-import com.topie.campus.core.dto.StudentExcelDto;
-import com.topie.campus.core.dto.StudentSimpleDto;
-import com.topie.campus.core.dto.TeacherExcelDto;
-import com.topie.campus.core.dto.TeacherSimpleDto;
-import com.topie.campus.core.model.StuCet;
-import com.topie.campus.core.model.StuScore;
-import com.topie.campus.core.model.StuSeleCourse;
-import com.topie.campus.core.model.StuTimeTable;
-import com.topie.campus.core.model.Student;
-import com.topie.campus.core.model.Teacher;
-import com.topie.campus.core.service.IInfoBasicService;
-import com.topie.campus.core.service.IStuCetService;
-import com.topie.campus.core.service.IStuSeleCourseService;
-import com.topie.campus.core.service.IStuTimeTableService;
-import com.topie.campus.core.service.IStudentScoreService;
-import com.topie.campus.core.service.IStudentService;
-import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.core.dto.*;
+import com.topie.campus.core.model.*;
+import com.topie.campus.core.service.*;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
@@ -30,7 +12,6 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,6 +26,15 @@ import java.util.Collection;
 public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
+    IStuCetService stuCetService;
+
+    @Autowired
+    IStuSeleCourseService stuSeleCourseService;
+
+    @Autowired
+    IStuTimeTableService stuTimeTableService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -52,19 +42,10 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private IStudentService iStudentService;
-    
+
     @Autowired
     private IStudentScoreService stuScoreService;
-    
-    @Autowired
-    IStuCetService stuCetService;    
-    
-    @Autowired
-    IStuSeleCourseService stuSeleCourseService;
-    
-    @Autowired
-    IStuTimeTableService stuTimeTableService;
-    
+
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
         Collection<TeacherExcelDto> teacherList;
@@ -110,40 +91,62 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
-	public void uploadStudentTable(MultipartFile file, ExcelLogs logs) throws IOException {
-		// TODO Auto-generated method stub
-		
-    	 Collection<StudentExcelDto> studentList;
-         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-             studentList = ExcelUtil.importExcelX(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-         } else {
-             studentList = ExcelUtil.importExcel(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-         }
-         for (StudentExcelDto studentDto : studentList) {
-             //TODO 检测学号是否唯一
-             User user = UserVO
-                     .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
-                             studentDto.getEmail());
-             if (userService.findExistUser(user) > 0) {
+    public void uploadStudentTable(MultipartFile file, ExcelLogs logs) throws IOException {
+        // TODO Auto-generated method stub
+
+        Collection<StudentExcelDto> studentList;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            studentList = ExcelUtil.importExcelX(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            studentList = ExcelUtil.importExcel(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (StudentExcelDto studentDto : studentList) {
+            //TODO 检测学号是否唯一
+            User user = UserVO
+                    .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
+                            studentDto.getEmail());
+            if (userService.findExistUser(user) > 0) {
                 // throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-                 user.setPassword(studentDto.getPassword());
-                 userService.updateUser(user);
-             }
-             else
-             {
-             user.setPassword(studentDto.getPassword());
-             userService.insertUser(user);
-             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
-             Student student = studentDto.buildStudent();
-             System.out.println(student);
-             student.setUserId(user.getId());
-             iStudentService.insert(student);
-             }
-         }
-         
-		
-	}
-    
+                user.setPassword(studentDto.getPassword());
+                userService.updateUser(user);
+            } else {
+                user.setPassword(studentDto.getPassword());
+                userService.insertUser(user);
+                userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
+                Student student = studentDto.buildStudent();
+                System.out.println(student);
+                student.setUserId(user.getId());
+                iStudentService.insert(student);
+            }
+        }
+
+    }
+
+    @Override
+    public void uploadTeacherTable(MultipartFile file, ExcelLogs logs) throws IOException {
+        Collection<TeacherExcelDto> teacherList;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            teacherList = ExcelUtil.importExcelX(TeacherExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            teacherList = ExcelUtil.importExcel(TeacherExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (TeacherExcelDto teacherDto : teacherList) {
+            //TODO 检测教师职工号是否唯一
+            User user = UserVO
+                    .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getEmployeeNo(), teacherDto.getName(),
+                            teacherDto.getEmail());
+            if (userService.findExistUser(user) > 0) {
+                throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+            }
+            userService.insertUser(user);
+            userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
+            Teacher teacher = teacherDto.buildTeacher();
+            teacher.setPassword(teacherDto.getEmployeeNo());
+            teacher.setUserId(user.getId());
+            iTeacherService.insertSelective(teacher);
+        }
+    }
+
     @Override
     public SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize) {
         return iTeacherService.findTeacherList(teacher, pageNum, pageSize);
@@ -196,7 +199,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
             Integer studentId, Integer pageNum, Integer pageSize) {
-        return iTeacherService.findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto,studentId,pageNum,pageSize);
+        return iTeacherService.findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, studentId, pageNum, pageSize);
     }
 
     @Override
@@ -241,75 +244,72 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     public void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId) {
         iTeacherService.deleteToUnBindStudent(studentId, teacherId);
     }
-    
+
     @Override
-    public void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException
-    {
-    	 Collection<StuScoreExcelDto> stuScoreList;
-    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-    		stuScoreList = ExcelUtil.importExcelX(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+    public void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException {
+        Collection<StuScoreExcelDto> stuScoreList;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            stuScoreList = ExcelUtil.importExcelX(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
         } else {
-        	stuScoreList = ExcelUtil.importExcel(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+            stuScoreList = ExcelUtil.importExcel(StuScoreExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
         }
-      for(StuScoreExcelDto dto :stuScoreList)
-      {
-    	  StuScore stuScore = dto.buildStuScore(dto);
-    	  stuScoreService.insert(stuScore);
-      }
+        for (StuScoreExcelDto dto : stuScoreList) {
+            StuScore stuScore = dto.buildStuScore(dto);
+            stuScoreService.insert(stuScore);
+        }
     }
 
-	@Override
-	public void uploadStuCet(MultipartFile file, ExcelLogs logs) throws IOException {
-		// TODO Auto-generated method stub
-		
-		 Collection<StuCetExcelDto> StuCetExcelDtos;
-	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-	    		StuCetExcelDtos = ExcelUtil.importExcelX(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        } else {
-	        	StuCetExcelDtos = ExcelUtil.importExcel(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        }
-	      for(StuCetExcelDto dto :StuCetExcelDtos)
-	      {
-	    	  StuCet stuCet = dto.buildStuCet(dto);
-	    	  stuCetService.insert(stuCet);
-	      }
-	}
-	
-	@Override
-	public void uploadStuSeleCourse(MultipartFile file, ExcelLogs logs) throws IOException {
-		// TODO Auto-generated method stub
-		
-		 Collection<StuSeleExcelDto> stuSeleExcelDtos;
-	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-	    		stuSeleExcelDtos = ExcelUtil.importExcelX(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        } else {
-	        	stuSeleExcelDtos = ExcelUtil.importExcel(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        }
-	      for(StuSeleExcelDto dto :stuSeleExcelDtos)
-	      {
-	    	  
-              StuSeleCourse stuSeleCourse = dto.buildstuSeleCourse(dto);
-              stuSeleCourseService.insert(stuSeleCourse);
-	      }
-	}
+    @Override
+    public void uploadStuCet(MultipartFile file, ExcelLogs logs) throws IOException {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void uploadStuTimetable(MultipartFile file, ExcelLogs logs) throws IOException {
-		// TODO Auto-generated method stub
-		
-		 Collection<StuTimeTableExcelDto> stuTimeTableExcelDtos;
-	    	if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-	    		stuTimeTableExcelDtos = ExcelUtil.importExcelX(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        } else {
-	        	stuTimeTableExcelDtos = ExcelUtil.importExcel(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
-	        }
-	      for(StuTimeTableExcelDto dto :stuTimeTableExcelDtos)
-	      {
-           StuTimeTable stuTimeTable = dto.buildStuTimeTable(dto);
-           stuTimeTableService.insert(stuTimeTable);
-	      }
-         
-		
-	}
-    
+        Collection<StuCetExcelDto> StuCetExcelDtos;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            StuCetExcelDtos = ExcelUtil.importExcelX(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            StuCetExcelDtos = ExcelUtil.importExcel(StuCetExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (StuCetExcelDto dto : StuCetExcelDtos) {
+            StuCet stuCet = dto.buildStuCet(dto);
+            stuCetService.insert(stuCet);
+        }
+    }
+
+    @Override
+    public void uploadStuSeleCourse(MultipartFile file, ExcelLogs logs) throws IOException {
+        // TODO Auto-generated method stub
+
+        Collection<StuSeleExcelDto> stuSeleExcelDtos;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            stuSeleExcelDtos = ExcelUtil
+                    .importExcelX(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            stuSeleExcelDtos = ExcelUtil.importExcel(StuSeleExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (StuSeleExcelDto dto : stuSeleExcelDtos) {
+
+            StuSeleCourse stuSeleCourse = dto.buildstuSeleCourse(dto);
+            stuSeleCourseService.insert(stuSeleCourse);
+        }
+    }
+
+    @Override
+    public void uploadStuTimetable(MultipartFile file, ExcelLogs logs) throws IOException {
+        // TODO Auto-generated method stub
+
+        Collection<StuTimeTableExcelDto> stuTimeTableExcelDtos;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            stuTimeTableExcelDtos = ExcelUtil
+                    .importExcelX(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            stuTimeTableExcelDtos = ExcelUtil
+                    .importExcel(StuTimeTableExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (StuTimeTableExcelDto dto : stuTimeTableExcelDtos) {
+            StuTimeTable stuTimeTable = dto.buildStuTimeTable(dto);
+            stuTimeTableService.insert(stuTimeTable);
+        }
+
+    }
+
 }

@@ -1,10 +1,13 @@
 package com.topie.campus.core.model;
 
-import java.util.Date;
+import com.topie.campus.common.Sortable;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "t_student")
-public class Student {
+public class Student extends Sortable {
+
     /**
      * ID
      */

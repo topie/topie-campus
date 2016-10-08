@@ -10,8 +10,8 @@ import java.util.List;
  * Created by chenguojun on 9/6/16.
  */
 public enum EducationBackground {
-    XIAOXUE(1, "小学"), CHUZHONG(2, "初中"), ZHONGZHUAN(3, "中专"), GAOZHONG(4, "高中"), DAZHUAN(5, "大专"), BENKE(6, "本科"),
-    YANJIUSHENG(7, "研究生");
+    XIAOXUE(1, "小学毕业"), CHUZHONG(2, "初中毕业"), ZHONGZHUAN(3, "中专毕业"), GAOZHONG(4, "高中毕业"), DAZHUAN(5, "大专毕业"), BENKE(6, "本科毕业"),
+    YANJIUSHENG(7, "研究生毕业");
 
     private Integer code;
 

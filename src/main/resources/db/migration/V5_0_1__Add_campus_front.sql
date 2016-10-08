@@ -38,14 +38,17 @@ INSERT INTO `sys_user` VALUES
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `t_teacher` VALUES
   (1, '', 4, '32319', '老师', 1, 1, '1990-10-12', 0, '软件学院', '', '18600200791', '18600200791@163.com', '', '', 0, 0, '',
-                                                               '', '', '', '', '', 0, '我是陈老师');
+                                                               '', '', '', '', '', 0, '我是陈老师', '0', '1', '1', '0',
+                                                                           'chenguojun', 'teacher', '');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('4', '4');
 INSERT INTO `sys_user` VALUES
   ('5', 'student', '$2a$10$g9iJtxSdTyXj7I2jSDFpPOWN7xHlyasFOVb8Q5m/rX3EP5nTS4Pxi', '学生', '1', '1',
         '1', '1', NULL, NULL, 'teacher@163.com', '15802983637', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
-INSERT INTO `t_student`
-VALUES (1, '', 5, '32322', '学生', 1, 1, '1990-10-12', 0, '软件学院', '软件工程', '18600200791', '18600200791@163.com');
+INSERT INTO `t_student` (`id`, `user_id`, `student_no`, `name`, `birth`, `academe`, `subject`, `contact_phone`, `email`)
+VALUES
+  (1, 5, '32322', '学生', '1990-10-12', '软件学院', '软件工程', '18600200791',
+   '18600200791@163.com');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
 INSERT INTO `t_relate_student_teacher` (teacher_id, student_id) VALUES (1, 1);

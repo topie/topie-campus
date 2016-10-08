@@ -14,71 +14,163 @@ public class TeacherExcelDto implements Serializable {
 
     private static final long serialVersionUID = -3730836890003416948L;
 
-    @ExcelCell(index = 0)
+    @ExcelCell(index = 1)
     private String employeeNo;
 
-    @ExcelCell(index = 1)
+    @ExcelCell(index = 2)
     private String name;
 
-    @ExcelCell(index = 2)
+    @ExcelCell(index = 3)
     private String gender;
 
-    @ExcelCell(index = 3)
+    @ExcelCell(index = 46)
     private String ethnicGroup;
 
     @ExcelCell(index = 4)
     private Date birth;
 
-    @ExcelCell(index = 5)
+    @ExcelCell(index = 45)
     private String politicalStatus;
 
-    @ExcelCell(index = 6)
+    @ExcelCell(index = 8)
     private String academe;
 
-    @ExcelCell(index = 7)
+    @ExcelCell(index = 9)
     private String department;
 
-    @ExcelCell(index = 8)
+    @ExcelCell(index = 5)
     private String contactPhone;
 
-    @ExcelCell(index = 9)
+    @ExcelCell(index = 6)
     private String email;
 
-    @ExcelCell(index = 10)
+    @ExcelCell(index = 21)
     private String graduatedUniversity;
 
-    @ExcelCell(index = 11)
+    @ExcelCell(index = 20)
     private String graduatedMajor;
 
-    @ExcelCell(index = 12)
+    @ExcelCell(index = 16)
     private String educationBackground;
 
-    @ExcelCell(index = 13)
+    @ExcelCell(index = 47)
     private String degree;
 
-    @ExcelCell(index = 14)
+    @ExcelCell(index = 11)
     private String professionalTitle;
 
-    @ExcelCell(index = 15)
+    @ExcelCell(index = 10)
     private String professionalPosition;
 
-    @ExcelCell(index = 16)
+    @ExcelCell(index = 17)
     private String subjectDirection;
 
-    @ExcelCell(index = 17)
+    @ExcelCell(index = 25)
     private String teacherCertificateNo;
 
-    @ExcelCell(index = 18)
-    private String mainTeacherCertificateNo;
-
-    @ExcelCell(index = 19)
+    @ExcelCell(index = 1)
     private String staffNo;
 
-    @ExcelCell(index = 20)
+    @ExcelCell(index = 30)
     private String isLabStaff;
 
-    @ExcelCell(index = 21)
-    private String teachQualityComment;
+    /**
+     * 简介
+     */
+    @ExcelCell(index = 13)
+    private String shortIntroduce;
+
+    /**
+     * 是否教师资格证(1是，0无）
+     */
+    @ExcelCell(index = 24)
+    private String hasTeacherCertificate;
+
+    /**
+     * 教师类型
+     */
+    @ExcelCell(index = 26)
+    private String teacherType;
+
+    /**
+     * 教师级别
+     */
+    @ExcelCell(index = 27)
+    private String teacherLever;
+
+    /**
+     * 是否外聘
+     */
+    @ExcelCell(index = 31)
+    private String isOutside;
+
+    /**
+     * 姓名简拼
+     */
+    @ExcelCell(index = 56)
+    private String shortName;
+
+    /**
+     * 所属专业（教那个系）
+     */
+    @ExcelCell(index = 20)
+    private String teachMajor;
+
+    public String getShortIntroduce() {
+        return shortIntroduce;
+    }
+
+    public void setShortIntroduce(String shortIntroduce) {
+        this.shortIntroduce = shortIntroduce;
+    }
+
+    public String getHasTeacherCertificate() {
+        return hasTeacherCertificate;
+    }
+
+    public void setHasTeacherCertificate(String hasTeacherCertificate) {
+        this.hasTeacherCertificate = hasTeacherCertificate;
+    }
+
+    public String getTeacherType() {
+        return teacherType;
+    }
+
+    public void setTeacherType(String teacherType) {
+        this.teacherType = teacherType;
+    }
+
+    public String getTeacherLever() {
+        return teacherLever;
+    }
+
+    public void setTeacherLever(String teacherLever) {
+        this.teacherLever = teacherLever;
+    }
+
+    public String getIsOutside() {
+        return isOutside;
+    }
+
+    public void setIsOutside(String isOutside) {
+        this.isOutside = isOutside;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getTeachMajor() {
+        return teachMajor;
+    }
+
+    public void setTeachMajor(String teachMajor) {
+        this.teachMajor = teachMajor;
+    }
 
     public String getEmployeeNo() {
         return employeeNo;
@@ -96,7 +188,7 @@ public class TeacherExcelDto implements Serializable {
         this.name = name;
     }
 
-    public String getGender() {   
+    public String getGender() {
         return gender;
     }
 
@@ -224,14 +316,6 @@ public class TeacherExcelDto implements Serializable {
         this.teacherCertificateNo = teacherCertificateNo;
     }
 
-    public String getMainTeacherCertificateNo() {
-        return mainTeacherCertificateNo;
-    }
-
-    public void setMainTeacherCertificateNo(String mainTeacherCertificateNo) {
-        this.mainTeacherCertificateNo = mainTeacherCertificateNo;
-    }
-
     public String getStaffNo() {
         return staffNo;
     }
@@ -246,14 +330,6 @@ public class TeacherExcelDto implements Serializable {
 
     public void setIsLabStaff(String isLabStaff) {
         this.isLabStaff = isLabStaff;
-    }
-
-    public String getTeachQualityComment() {
-        return teachQualityComment;
-    }
-
-    public void setTeachQualityComment(String teachQualityComment) {
-        this.teachQualityComment = teachQualityComment;
     }
 
     public Teacher buildTeacher() {
@@ -272,13 +348,17 @@ public class TeacherExcelDto implements Serializable {
         teacher.setSubjectDirection(this.subjectDirection);
         teacher.setProfessionalTitle(this.professionalTitle);
         teacher.setGraduatedUniversity(this.graduatedUniversity);
-        teacher.setTeachQualityComment(this.teachQualityComment);
         teacher.setTeacherCertificateNo(this.teacherCertificateNo);
         teacher.setProfessionalPosition(this.professionalPosition);
         teacher.setIsLabStaff("是".equals(this.isLabStaff) ? true : false);
-        teacher.setMainTeacherCertificateNo(this.mainTeacherCertificateNo);
         teacher.setEthnicGroup(EthnicGroup.getCode(this.getEthnicGroup()));
         teacher.setEducationBackground(EducationBackground.getCode(this.educationBackground));
+        teacher.setShortIntroduce(this.shortIntroduce);
+        teacher.setHasTeacherCertificate("有".equals(this.hasTeacherCertificate) ? true : false);
+        teacher.setTeacherType(this.teacherType);
+        teacher.setTeacherLever(this.teacherLever);
+        teacher.setTeachMajor(this.teachMajor);
+        teacher.setIsOutside("是".equals(this.isOutside) ? 1 : 0);
         return teacher;
     }
 }
