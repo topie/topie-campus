@@ -5,9 +5,17 @@ INSERT INTO `sys_function` VALUES ('13', '0', '收到的留言', '1', '2', NULL,
 INSERT INTO `sys_function` VALUES ('14', '0', '发出的留言', '1', '2', NULL, '/api/front/message/send', '6', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('15', '0', '学生列表', '1', '2', NULL, '/api/front/student/page', '7', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('16', '0', '教师列表', '1', '2', NULL, '/api/front/teacher/page', '8', NULL, NULL);
-INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`) VALUES ('19', '0', '成绩查询', '1', '2', '', '/api/front/student/score', '0', '2016-10-07 14:08:26', '2016-10-07 14:09:04');
-INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`) VALUES ('20', '0', '等考成绩查询', '1', '2', '', '/api/front/student/cetscore', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
-INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`) VALUES ('21', '0', '课程表', '1', '2', '', '/api/front/student/selectCourse', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
+VALUES ('19', '0', '成绩查询', '1', '2', '', '/api/front/student/score', '0', '2016-10-07 14:08:26', '2016-10-07 14:09:04');
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
+VALUES
+  ('20', '0', '等考成绩查询', '1', '2', '', '/api/front/student/cetscore', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
+VALUES
+  ('21', '0', '选课', '1', '2', '', '/api/front/student/selectCourse', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
+INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
+VALUES
+  ('22', '0', '课程表', '1', '2', '', '/api/front/student/timeTable', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
 
 
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('4', '12');
@@ -21,6 +29,7 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '16');
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('19', '5');
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('20', '5');
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('21', '5');
+INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('22', '5');
 
 
 INSERT INTO `sys_user` VALUES
