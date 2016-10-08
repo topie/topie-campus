@@ -4,56 +4,61 @@ import javax.persistence.*;
 
 @Table(name = "t_stu_timetable")
 public class StuTimeTable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Ñ§Äê
+     * å­¦å¹´
      */
     @Column(name = "study_year")
     private String studyYear;
 
     /**
-     * Ñ§ÆÚ
+     * å­¦æœŸ
      */
     @Column(name = "study_year_num")
     private String studyYearNum;
 
     /**
-     * Ñ§ºÅ
+     * å­¦å·
      */
     @Column(name = "stu_id")
     private String stuId;
 
     /**
-     * Ñ¡¿Î¿ÎºÅ
+     * é€‰è¯¾è¯¾å·
      */
     @Column(name = "select_course_num")
     private String selectCourseNum;
 
     /**
-     * ĞÇÆÚ¼¸
+     * æ˜ŸæœŸå‡ 
      */
-    private String week;
+    private Integer week;
 
     /**
-     * µÚ¼¸½Ú
+     * ç¬¬å‡ èŠ‚
      */
-    private String section;
+    private Integer section;
 
+    /**
+     * é•¿åº¦
+     */
     @Column(name = "section_length")
-    private String sectionLength;
+    private Integer sectionLength;
 
     @Column(name = "start_week")
-    private String startWeek;
+    private Integer startWeek;
 
     /**
-     * ½áÊøÖÜ
+     * ç»“æŸå‘¨
      */
     @Column(name = "end_week")
-    private String endWeek;
+    private Integer endWeek;
 
     /**
-     * ¿Î±íÄÚÈİ
+     * è¯¾è¡¨å†…å®¹
      */
     private String content;
 
@@ -75,172 +80,176 @@ public class StuTimeTable {
     }
 
     /**
-     * »ñÈ¡Ñ§Äê
+     * è·å–å­¦å¹´
      *
-     * @return study_year - Ñ§Äê
+     * @return study_year - å­¦å¹´
      */
     public String getStudyYear() {
         return studyYear;
     }
 
     /**
-     * ÉèÖÃÑ§Äê
+     * è®¾ç½®å­¦å¹´
      *
-     * @param studyYear Ñ§Äê
+     * @param studyYear å­¦å¹´
      */
     public void setStudyYear(String studyYear) {
         this.studyYear = studyYear;
     }
 
     /**
-     * »ñÈ¡Ñ§ÆÚ
+     * è·å–å­¦æœŸ
      *
-     * @return study_year_num - Ñ§ÆÚ
+     * @return study_year_num - å­¦æœŸ
      */
     public String getStudyYearNum() {
         return studyYearNum;
     }
 
     /**
-     * ÉèÖÃÑ§ÆÚ
+     * è®¾ç½®å­¦æœŸ
      *
-     * @param studyYearNum Ñ§ÆÚ
+     * @param studyYearNum å­¦æœŸ
      */
     public void setStudyYearNum(String studyYearNum) {
         this.studyYearNum = studyYearNum;
     }
 
     /**
-     * »ñÈ¡Ñ§ºÅ
+     * è·å–å­¦å·
      *
-     * @return stu_id - Ñ§ºÅ
+     * @return stu_id - å­¦å·
      */
     public String getStuId() {
         return stuId;
     }
 
     /**
-     * ÉèÖÃÑ§ºÅ
+     * è®¾ç½®å­¦å·
      *
-     * @param stuId Ñ§ºÅ
+     * @param stuId å­¦å·
      */
     public void setStuId(String stuId) {
         this.stuId = stuId;
     }
 
     /**
-     * »ñÈ¡Ñ¡¿Î¿ÎºÅ
+     * è·å–é€‰è¯¾è¯¾å·
      *
-     * @return select_course_num - Ñ¡¿Î¿ÎºÅ
+     * @return select_course_num - é€‰è¯¾è¯¾å·
      */
     public String getSelectCourseNum() {
         return selectCourseNum;
     }
 
     /**
-     * ÉèÖÃÑ¡¿Î¿ÎºÅ
+     * è®¾ç½®é€‰è¯¾è¯¾å·
      *
-     * @param selectCourseNum Ñ¡¿Î¿ÎºÅ
+     * @param selectCourseNum é€‰è¯¾è¯¾å·
      */
     public void setSelectCourseNum(String selectCourseNum) {
         this.selectCourseNum = selectCourseNum;
     }
 
     /**
-     * »ñÈ¡ĞÇÆÚ¼¸
+     * è·å–æ˜ŸæœŸå‡ 
      *
-     * @return week - ĞÇÆÚ¼¸
+     * @return week - æ˜ŸæœŸå‡ 
      */
-    public String getWeek() {
+    public Integer getWeek() {
         return week;
     }
 
     /**
-     * ÉèÖÃĞÇÆÚ¼¸
+     * è®¾ç½®æ˜ŸæœŸå‡ 
      *
-     * @param week ĞÇÆÚ¼¸
+     * @param week æ˜ŸæœŸå‡ 
      */
-    public void setWeek(String week) {
+    public void setWeek(Integer week) {
         this.week = week;
     }
 
     /**
-     * »ñÈ¡µÚ¼¸½Ú
+     * è·å–ç¬¬å‡ èŠ‚
      *
-     * @return section - µÚ¼¸½Ú
+     * @return section - ç¬¬å‡ èŠ‚
      */
-    public String getSection() {
+    public Integer getSection() {
         return section;
     }
 
     /**
-     * ÉèÖÃµÚ¼¸½Ú
+     * è®¾ç½®ç¬¬å‡ èŠ‚
      *
-     * @param section µÚ¼¸½Ú
+     * @param section ç¬¬å‡ èŠ‚
      */
-    public void setSection(String section) {
+    public void setSection(Integer section) {
         this.section = section;
     }
 
     /**
-     * @return section_length
+     * è·å–é•¿åº¦
+     *
+     * @return section_length - é•¿åº¦
      */
-    public String getSectionLength() {
+    public Integer getSectionLength() {
         return sectionLength;
     }
 
     /**
-     * @param sectionLength
+     * è®¾ç½®é•¿åº¦
+     *
+     * @param sectionLength é•¿åº¦
      */
-    public void setSectionLength(String sectionLength) {
+    public void setSectionLength(Integer sectionLength) {
         this.sectionLength = sectionLength;
     }
 
     /**
      * @return start_week
      */
-    public String getStartWeek() {
+    public Integer getStartWeek() {
         return startWeek;
     }
 
     /**
      * @param startWeek
      */
-    public void setStartWeek(String startWeek) {
+    public void setStartWeek(Integer startWeek) {
         this.startWeek = startWeek;
     }
 
     /**
-     * »ñÈ¡½áÊøÖÜ
+     * è·å–ç»“æŸå‘¨
      *
-     * @return end_week - ½áÊøÖÜ
+     * @return end_week - ç»“æŸå‘¨
      */
-    public String getEndWeek() {
+    public Integer getEndWeek() {
         return endWeek;
     }
 
     /**
-     * ÉèÖÃ½áÊøÖÜ
+     * è®¾ç½®ç»“æŸå‘¨
      *
-     * @param endWeek ½áÊøÖÜ
+     * @param endWeek ç»“æŸå‘¨
      */
-    public void setEndWeek(String endWeek) {
+    public void setEndWeek(Integer endWeek) {
         this.endWeek = endWeek;
     }
 
     /**
-     * »ñÈ¡¿Î±íÄÚÈİ
+     * è·å–è¯¾è¡¨å†…å®¹
      *
-     * @return content - ¿Î±íÄÚÈİ
+     * @return content - è¯¾è¡¨å†…å®¹
      */
     public String getContent() {
         return content;
     }
 
     /**
-     * ÉèÖÃ¿Î±íÄÚÈİ
+     * è®¾ç½®è¯¾è¡¨å†…å®¹
      *
-     * @param content ¿Î±íÄÚÈİ
+     * @param content è¯¾è¡¨å†…å®¹
      */
     public void setContent(String content) {
         this.content = content;

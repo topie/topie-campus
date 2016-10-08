@@ -30,14 +30,14 @@
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
             columns: [
-				{
-				    title: "学年",
-				    field: "studyYear"
-				},
-				{
-				    title: "学期",
-				    field: "studyYearNum"
-				},
+                {
+                    title: "学年",
+                    field: "studyYear"
+                },
+                {
+                    title: "学期",
+                    field: "studyYearNum"
+                },
                 {
                     title: "选课课号",
                     field: "selectCourseNum"
@@ -57,46 +57,46 @@
                     title: "教室名称",
                     field: "classroomName"
                 }
-                ],
+            ],
             actionColumnText: "操作",//操作列文本
             actionColumnWidth: "20%",
             search: {
                 rowEleNum: 2,
                 //搜索栏元素
                 items: [
-                        {
-                    type: "select",
-                    label: "学年",
-                    name: "studyYear",
-                    items:[
-                    	{
-                        	text:"请选择",
-                            value:""
-                        }
-                    ],
-	                itemsUrl:App.href+"/api/dict/1?topie_token=" + App.token
-	                },
-		                {
-		                    type: "select",
-		                    label: "学期",
-		                    name: "studyYearNum",
-		                    items: [
-									{
-										text:"请选择",
-									    value:""
-									},
-		                            {
-		                             text:"1",
-		                             value:"1"
-		                            },
-		                            {
-		                                text:"2",
-		                                value:"2"
-		                               }
-		                    ]
-		                   }
-	                	]
-            			}
+                    {
+                        type: "select",
+                        label: "学年",
+                        name: "studyYear",
+                        items:[
+                            {
+                                text:"请选择",
+                                value:""
+                            }
+                        ],
+                        itemsUrl:App.href+"/api/dict/1?topie_token=" + App.token
+                    },
+                    {
+                        type: "select",
+                        label: "学期",
+                        name: "studyYearNum",
+                        items: [
+                            {
+                                text:"请选择",
+                                value:""
+                            },
+                            {
+                                text:"1",
+                                value:"1"
+                            },
+                            {
+                                text:"2",
+                                value:"2"
+                            }
+                        ]
+                    }
+                ]
+            }
         };
         grid = window.App.content.find("#score_grid").topieGrid(scoreOpts);
     }

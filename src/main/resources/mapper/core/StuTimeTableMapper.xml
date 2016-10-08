@@ -1,45 +1,84 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.topie.campus.core.dao.StuTimeTableMapper" >
-  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StuTimeTable" >
-    <!--
-      WARNING - @mbggenerated
-    -->
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
-    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
-    <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
-    <result column="select_course_num" property="selectCourseNum" jdbcType="VARCHAR" />
-    <result column="week" property="week" jdbcType="VARCHAR" />
-    <result column="section" property="section" jdbcType="VARCHAR" />
-    <result column="section_length" property="sectionLength" jdbcType="VARCHAR" />
-    <result column="start_week" property="startWeek" jdbcType="VARCHAR" />
-    <result column="end_week" property="endWeek" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="is_selected" property="isSelected" jdbcType="VARCHAR" />
-  </resultMap>
-  
-  <sql id="Base_Column_List">
-  id,study_year,study_year_num,stu_id,select_course_num,week,section,section_length,start_week,end_week,content,is_selected
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.StuTimeTableMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StuTimeTable">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="study_year" jdbcType="VARCHAR" property="studyYear"/>
+        <result column="study_year_num" jdbcType="VARCHAR" property="studyYearNum"/>
+        <result column="stu_id" jdbcType="VARCHAR" property="stuId"/>
+        <result column="select_course_num" jdbcType="VARCHAR" property="selectCourseNum"/>
+        <result column="week" jdbcType="SMALLINT" property="week"/>
+        <result column="section" jdbcType="SMALLINT" property="section"/>
+        <result column="section_length" jdbcType="SMALLINT" property="sectionLength"/>
+        <result column="start_week" jdbcType="INTEGER" property="startWeek"/>
+        <result column="end_week" jdbcType="INTEGER" property="endWeek"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="is_selected" jdbcType="VARCHAR" property="isSelected"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id,study_year,study_year_num,stu_id,select_course_num,week,section,section_length,start_week,end_week,content,is_selected
   </sql>
-  
-  <select id="findByPage" resultMap="BaseResultMap">
+
+    <select id="findByPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_stu_timetable
         <where>
-         <if test = "stuTimeTable !=null">
-            <if test="stuTimeTable.stuId!=null and stuTimeTable.stuId!=''">
-                stu_id = #{stuTimeTable.stuId}
+            <if test="stuTimeTable !=null">
+                <if test="stuTimeTable.stuId!=null and stuTimeTable.stuId!=''">
+                    stu_id = #{stuTimeTable.stuId}
+                </if>
+                <if test="stuTimeTable.studyYear!=null and stuTimeTable.studyYear!=''">
+                    and study_year = #{stuTimeTable.studyYear}
+                </if>
+                <if test="stuTimeTable.studyYearNum!=null and stuTimeTable.studyYearNum!=''">
+                    and study_year_num = #{stuTimeTable.studyYearNum}
+                </if>
             </if>
-             <if test="stuTimeTable.studyYear!=null and stuTimeTable.studyYear!=''">
-               and study_year = #{stuTimeTable.studyYear}
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_stu_timetable
+        <where>
+            <if test="stuTimeTable !=null">
+                <if test="stuTimeTable.stuId!=null and stuTimeTable.stuId!=''">
+                    stu_id = #{stuTimeTable.stuId}
+                </if>
+                <if test="stuTimeTable.studyYear!=null and stuTimeTable.studyYear!=''">
+                    and study_year = #{stuTimeTable.studyYear}
+                </if>
+                <if test="stuTimeTable.studyYearNum!=null and stuTimeTable.studyYearNum!=''">
+                    and study_year_num = #{stuTimeTable.studyYearNum}
+                </if>
             </if>
-             <if test="stuTimeTable.studyYearNum!=null and stuTimeTable.studyYearNum!=''">
-               and study_year_num = #{stuTimeTable.studyYearNum}
-            </if>
-         </if>
         </where>
     </select>
-  
+    <select id="find" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_timetable
+        <where>
+            <if test="stuTimeTable !=null">
+                <if test="stuTimeTable.stuId!=null and stuTimeTable.stuId!=''">
+                    stu_id = #{stuTimeTable.stuId}
+                </if>
+                <if test="stuTimeTable.studyYear!=null and stuTimeTable.studyYear!=''">
+                    and study_year = #{stuTimeTable.studyYear}
+                </if>
+                <if test="stuTimeTable.studyYearNum!=null and stuTimeTable.studyYearNum!=''">
+                    and study_year_num = #{stuTimeTable.studyYearNum}
+                </if>
+            </if>
+        </where>
+    </select>
+
 </mapper>

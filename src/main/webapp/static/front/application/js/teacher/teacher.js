@@ -34,8 +34,8 @@
                     title: "教师名称",
                     field: "name"
                 }, {
-                    title: "学号",
-                    field: "teacherNo"
+                    title: "职工号",
+                    field: "employeeNo"
                 }, {
                     title: "联系电话",
                     field: "contactPhone"
