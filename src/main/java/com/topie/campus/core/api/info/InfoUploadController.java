@@ -91,7 +91,7 @@ public class InfoUploadController {
     		  return ResponseUtil.error("未选择附件类型");
     	  }else if(excelType==1)
     	  {
-              iInfoBasicService.userUpload(file, logs);
+              iInfoBasicService.uploadStudentTable(file, logs);
     	  }
     	  else if(excelType==2)
     	  {

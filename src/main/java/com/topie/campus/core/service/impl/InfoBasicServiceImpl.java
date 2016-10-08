@@ -110,6 +110,41 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
+	public void uploadStudentTable(MultipartFile file, ExcelLogs logs) throws IOException {
+		// TODO Auto-generated method stub
+		
+    	 Collection<StudentExcelDto> studentList;
+         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+             studentList = ExcelUtil.importExcelX(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+         } else {
+             studentList = ExcelUtil.importExcel(StudentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+         }
+         for (StudentExcelDto studentDto : studentList) {
+             //TODO 检测学号是否唯一
+             User user = UserVO
+                     .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
+                             studentDto.getEmail());
+             if (userService.findExistUser(user) > 0) {
+                // throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+                 user.setPassword(studentDto.getPassword());
+                 userService.updateUser(user);
+             }
+             else
+             {
+             user.setPassword(studentDto.getPassword());
+             userService.insertUser(user);
+             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
+             Student student = studentDto.buildStudent();
+             System.out.println(student);
+             student.setUserId(user.getId());
+             iStudentService.insert(student);
+             }
+         }
+         
+		
+	}
+    
+    @Override
     public SimplePageInfo<Teacher> findTeacherList(Teacher teacher, int pageNum, int pageSize) {
         return iTeacherService.findTeacherList(teacher, pageNum, pageSize);
     }

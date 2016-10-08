@@ -136,3 +136,39 @@ INSERT INTO `t_stu_timetable` VALUES ('18', '2014-2015', '2', '2014040351020', '
 INSERT INTO `t_stu_timetable` VALUES ('19', '2014-2015', '2', '2014040351021', '(2014-2015-2)-MXI110005E-19917005-1', '4', '6', '2', '6', '6', '形势与政策<br>周四第6,7节{第6-6周}<br>郭亚莉<br>生教-阶三', '1');
 INSERT INTO `t_stu_timetable` VALUES ('20', '2014-2015', '2', '2014040346038', '(2014-2015-2)-MXI110005E-19917005-1', '4', '6', '2', '6', '6', '形势与政策<br>周四第6,7节{第6-6周}<br>郭亚莉<br>生教-阶三', '1');
 INSERT INTO `t_stu_timetable` VALUES ('21', '学年', '学期', '学号', '选课课号', '星期几', '第几节\n(13节)', '上课长度', '起始周', '结束周', '课程表', '选上否\n1自己选的6教务手工选择');
+
+DROP TABLE IF EXISTS `t_student`;
+CREATE TABLE `t_student` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `user_id` int(11) NOT NULL COMMENT '平台用户id',
+  `student_no` varchar(32) NOT NULL COMMENT '学号',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '姓名',
+  `gender` varchar(1) NOT NULL DEFAULT '1' COMMENT '性别:0 女 1 男',
+  `birth` date DEFAULT NULL COMMENT '出生日期',
+  `political_status` varchar(1) DEFAULT '0' COMMENT '政治面貌',
+  `ethnic_group` varchar(255) DEFAULT '0' COMMENT '民族',
+  `src_region` varchar(255) DEFAULT NULL COMMENT '入取地区',
+  `academe` varchar(32) DEFAULT '' COMMENT '学院',
+  `subject` varchar(32) DEFAULT '' COMMENT '专业',
+  `grade` varchar(255) DEFAULT NULL,
+  `shool_len` varchar(255) DEFAULT NULL COMMENT '学制',
+  `school_roll` varchar(255) DEFAULT '' COMMENT '学籍',
+  `grade_year` varchar(255) DEFAULT '' COMMENT '年级',
+  `major_direction` varchar(255) DEFAULT '' COMMENT '专业方向',
+  `enter_date` varchar(255) DEFAULT '' COMMENT '入学日期',
+  `email` varchar(64) DEFAULT '' COMMENT '邮箱',
+  `comment` varchar(255) DEFAULT '' COMMENT '备注',
+  `english_type` varchar(255) DEFAULT '' COMMENT '学生类别（英语A,英语B）',
+  `full_name` varchar(255) DEFAULT '' COMMENT '全拼',
+  `major_code` varchar(255) DEFAULT '' COMMENT '专业代码',
+  `gradation` varchar(255) DEFAULT '' COMMENT '层次（本科，高职等）',
+  `inschool` varchar(10) DEFAULT '' COMMENT '是否在校',
+  `is_register` varchar(255) DEFAULT '' COMMENT '是否注册',
+  `graduate_date` varchar(255) DEFAULT NULL COMMENT '毕业日期',
+  `contact_phone` varchar(32) DEFAULT '' COMMENT '联系电话',
+  `is_graduate` varchar(10) DEFAULT NULL COMMENT '是否毕业',
+  `college` varchar(255) DEFAULT NULL COMMENT '学院',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='学生信息表';

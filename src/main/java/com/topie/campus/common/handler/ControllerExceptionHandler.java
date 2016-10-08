@@ -23,6 +23,7 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public Result handleAllException(Exception e) {
         if (e instanceof BusinessException) {
+        	e.printStackTrace();
             logger.error(e.getMessage());
         } else {
             e.printStackTrace();

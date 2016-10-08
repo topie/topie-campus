@@ -5,24 +5,39 @@
         <!--
           WARNING - @mbggenerated
         -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
-        <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="gender" jdbcType="INTEGER" property="gender"/>
-        <result column="ethnic_group" jdbcType="INTEGER" property="ethnicGroup"/>
-        <result column="birth" jdbcType="DATE" property="birth"/>
-        <result column="political_status" jdbcType="INTEGER" property="politicalStatus"/>
-        <result column="academe" jdbcType="VARCHAR" property="academe"/>
-        <result column="subject" jdbcType="VARCHAR" property="subject"/>
-        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
-        <result column="email" jdbcType="VARCHAR" property="email"/>
-    </resultMap>
+        <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="student_no" property="studentNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="DATE" />
+    <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="ethnic_group" property="ethnicGroup" jdbcType="VARCHAR" />
+    <result column="src_region" property="srcRegion" jdbcType="VARCHAR" />
+    <result column="academe" property="academe" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="shool_len" property="shoolLen" jdbcType="VARCHAR" />
+    <result column="school_roll" property="schoolRoll" jdbcType="VARCHAR" />
+    <result column="grade_year" property="gradeYear" jdbcType="VARCHAR" />
+    <result column="major_direction" property="majorDirection" jdbcType="VARCHAR" />
+    <result column="enter_date" property="enterDate" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="english_type" property="englishType" jdbcType="VARCHAR" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="major_code" property="majorCode" jdbcType="VARCHAR" />
+    <result column="gradation" property="gradation" jdbcType="VARCHAR" />
+    <result column="inschool" property="inschool" jdbcType="VARCHAR" />
+    <result column="is_register" property="isRegister" jdbcType="VARCHAR" />
+    <result column="graduate_date" property="graduateDate" jdbcType="VARCHAR" />
+    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="is_graduate" property="isGraduate" jdbcType="VARCHAR" />
+    <result column="college" property="college" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+  </resultMap>
+  
     <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.StudentSimpleDto">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
@@ -32,7 +47,9 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,avatar,user_id,student_no,name,gender,ethnic_group,birth,political_status,academe,subject,contact_phone,email
+        id,avatar,user_id,student_no,name,gender,ethnic_group,birth,political_status,academe,subject,contact_phone,email,
+        src_region,grade,shool_len,grade_year,major_direction,enter_date,comment,english_type,full_name,major_code,gradation
+        ,inschool,is_register,graduate_date,is_graduate,college,password
     </sql>
     <select id="findStudentByPageNumAndPageSize" resultMap="BaseResultMap">
         select
