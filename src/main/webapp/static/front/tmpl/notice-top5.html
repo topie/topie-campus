@@ -5,7 +5,7 @@
 <ul class="notice" style="overflow-y: hidden; height: 210px;">
     {{each list}}
     <li style="" class="news-item">
-        <a href="#">{{$value.noticeTitle}}</a>
+        <a target="_blank" href="notice.html?u={{$value.noticeId}}">{{$value.noticeTitle}}</a>
     </li>
     {{/each}}
 </ul>

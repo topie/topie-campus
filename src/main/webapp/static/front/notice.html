@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>通知公告</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="application/css/sb-admin-2.css" rel="stylesheet">
+    <link href="application/css/index.css" rel="stylesheet">
+    <link href="application/css/notice.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../vendors/html5shiv/dist/html5shiv.js"></script>
+    <script src="../vendors/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="container col-lg-12 main">
+    <nav class="ldhd navbar navbar-default" role="navigation">
+        <div class="ldhd-bg container-fluid">
+            <a href="index.html">
+                <div class="head-link"></div>
+            </a>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="col-lg-12 post">
+        <div class="container" id="notice">
+            <h2 style="text-align: center"><a href="javascript:void(0);" class="ubuntu" id="title"></a></h2>
+            <div class="body-text">
+                <p class='text-muted ubuntu' style="text-align: right" id="time"></p>
+                <hr style="margin:8px auto;border-bottom: 1px solid #ccc;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default" style="border-radius:0">
+                            <!-- /.panel-heading -->
+                            <div id="content" class="panel-body">
+
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="../vendors/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="../vendors/jquery.cookie/jquery.cookie.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="application/js/sb-admin-2.js"></script>
+
+<script src="../vendors/datatables/js/jquery.dataTables.min.js"></script>
+
+<script src="../vendors/jquery.tmpl.min.js"></script>
+<script src="../vendors/artTemplate/template.js"></script>
+<script src="application/js/app.js"></script>
+
+<script type="text/javascript">
+
+    if (window.location.href.lastIndexOf("?u=") > 0) {
+        var token = $.cookie('tc_t');
+        if (token == undefined) {
+            window.location.href = './login.html';
+        }
+        var url = window.location;
+        url = url.toString();
+        var noticeId = url.substring(url.lastIndexOf("?u=") + 3);
+        $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/common/notice/" + noticeId,
+                    dataType: "json",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", token);
+                    },
+                    success: function (result) {
+                        if (result.code === 200) {
+                            var data = result.data;
+                            $("#title").append(data.noticeTitle);
+                            $("#time").append(data.noticePublishTime);
+                            $("#content").append(data.noticeContent);
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                }
+        );
+    }
+</script>
+
+</body>
+</html>

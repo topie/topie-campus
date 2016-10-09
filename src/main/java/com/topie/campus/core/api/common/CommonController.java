@@ -7,13 +7,12 @@ import com.topie.campus.core.enums.EducationBackground;
 import com.topie.campus.core.enums.EthnicGroup;
 import com.topie.campus.core.enums.PoliticalStatus;
 import com.topie.campus.core.model.Attachment;
+import com.topie.campus.core.model.Notice;
 import com.topie.campus.core.service.IAttachmentService;
+import com.topie.campus.core.service.INoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +34,9 @@ public class CommonController {
 
     @Autowired
     private IAttachmentService iAttachmentService;
+
+    @Autowired
+    private INoticeService iNoticeService;
 
     @RequestMapping(value = "/uploadFile", method = { RequestMethod.POST })
     @ResponseBody
@@ -147,6 +149,13 @@ public class CommonController {
     @ResponseBody
     public List degreeOption() {
         return Degree.getOptions();
+    }
+
+    @RequestMapping(value = "/notice/{noticeId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result loadNotice(@PathVariable(value = "noticeId") int noticeId) {
+        Notice notice = iNoticeService.selectByKey(noticeId);
+        return ResponseUtil.success(notice);
     }
 
 }

@@ -155,6 +155,12 @@
                         }
                     });
                 }
+            }, {
+                text: "查看",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                    window.open(App.href + "/static/front/notice.html?u=" + data.noticeId);
+                }
             }],
             tools: [
                 {
