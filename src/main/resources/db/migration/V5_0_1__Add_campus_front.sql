@@ -51,6 +51,7 @@ VALUES
    '18600200791@163.com');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
-INSERT INTO `t_relate_student_teacher` (teacher_id, student_id) VALUES (1, 1);
+INSERT INTO `t_relate_student_teacher` (teacher_id, student_id, employee_no, student_no)
+VALUES (1, 1, '32319', '32322');
 
 

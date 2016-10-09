@@ -64,4 +64,9 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         return pageInfo;
     }
 
+    @Override
+    public Integer findIdByEmployeeNo(String employeeNo) {
+        return teacherMapper.selectIdByEmployeeNo(employeeNo);
+    }
+
 }

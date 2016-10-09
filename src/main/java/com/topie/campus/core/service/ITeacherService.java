@@ -24,4 +24,6 @@ public interface ITeacherService extends IService<Teacher> {
 
     SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto, Integer studentId, Integer pageNum,
             Integer pageSize);
+
+    Integer findIdByEmployeeNo(String employeeNo);
 }

@@ -114,13 +114,18 @@ CREATE TABLE `t_relate_message_attachment` (
   COMMENT '留言附件关联表';
 DROP TABLE IF EXISTS `t_relate_student_teacher`;
 CREATE TABLE `t_relate_student_teacher` (
-  `student_id` INT(11) NOT NULL DEFAULT 0
+  `student_id` INT(11)     NOT NULL DEFAULT 0
   COMMENT '学生id',
-  `teacher_id` INT(11) NOT NULL DEFAULT 0
+  `teacher_id` INT(11)     NOT NULL DEFAULT 0
   COMMENT '老师id',
+  `student_no` VARCHAR(64) NOT NULL DEFAULT ''
+  COMMENT '学号',
+  `employee_no` VARCHAR(64) NOT NULL DEFAULT ''
+  COMMENT '职工号',
   PRIMARY KEY (`student_id`, `teacher_id`),
-  KEY (`teacher_id`)
-
+  KEY (`teacher_id`),
+  KEY (`student_no`),
+  KEY (`employee_no`)
 )
   DEFAULT CHARSET = utf8
   COMMENT '学生老师关联表';

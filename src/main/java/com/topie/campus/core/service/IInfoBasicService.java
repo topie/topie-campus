@@ -58,4 +58,6 @@ public interface IInfoBasicService {
     void uploadStudentTable(MultipartFile file, ExcelLogs logs) throws IOException;
 
     void uploadTeacherTable(MultipartFile file, ExcelLogs logs) throws IOException;
+
+    void uploadTeacherStudentRelate(MultipartFile file, ExcelLogs logs) throws IOException;
 }

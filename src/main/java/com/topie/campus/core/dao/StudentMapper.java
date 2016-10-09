@@ -26,4 +26,6 @@ public interface StudentMapper extends Mapper<Student> {
     String findStudentNameByUserId(@Param("userId") Integer userId);
 
     Student findStudentByUserId(@Param("userId") Integer userId);
+
+    Integer findIdByStudentNo(@Param("studentNo") String studentNo);
 }

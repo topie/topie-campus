@@ -54,4 +54,9 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
         return studentMapper.findStudentNameByUserId(userId);
     }
 
+    @Override
+    public Integer findIdByStudentNo(String studentNo) {
+        return studentMapper.findIdByStudentNo(studentNo);
+    }
+
 }

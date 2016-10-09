@@ -70,6 +70,7 @@ public class InfoUploadController {
      *                  <option value=5>学生等考信息表</option>
      *                  <option value=6>学生选课信息表</option>
      *                  <option value=7>学生就业信息表</option>
+     *                  <option value=7>学生教师关联信息表</option>
      * @param file
      * @return
      * @throws Exception
@@ -97,6 +98,8 @@ public class InfoUploadController {
             iInfoBasicService.uploadStuSeleCourse(file, logs);
         } else if (excelType == 7) {
             employmentService.employUpload(file, logs);
+        } else if (excelType == 8) {
+            iInfoBasicService.uploadTeacherStudentRelate(file, logs);
         }
         return ResponseUtil.success(logs.getErrorLogList());
     }

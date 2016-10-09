@@ -145,5 +145,8 @@
             </if>
         </where>
     </select>
+    <select id="selectIdByEmployeeNo" resultType="java.lang.Integer">
+        select id from topie_campus.t_teacher where employee_no=#{employeeNo}
+    </select>
 
 </mapper>

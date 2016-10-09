@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.TeacherStudentMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.TeacherStudent">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="student_id" jdbcType="INTEGER" property="studentId"/>
+        <id column="teacher_id" jdbcType="INTEGER" property="teacherId"/>
+        <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
+        <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
+    </resultMap>
+    <insert id="insertIngore">
+      insert ignore into
+      topie_campus.t_relate_student_teacher(`teacher_id`,`student_id`,`student_no`,`employee_no`)
+      values(#{ts.teacherId},#{ts.studentId},#{ts.studentNo},#{ts.employeeNo})
+    </insert>
+</mapper>

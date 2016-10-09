@@ -5,39 +5,39 @@
         <!--
           WARNING - @mbggenerated
         -->
-        <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="student_no" property="studentNo" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="VARCHAR" />
-    <result column="birth" property="birth" jdbcType="DATE" />
-    <result column="political_status" property="politicalStatus" jdbcType="VARCHAR" />
-    <result column="ethnic_group" property="ethnicGroup" jdbcType="VARCHAR" />
-    <result column="src_region" property="srcRegion" jdbcType="VARCHAR" />
-    <result column="academe" property="academe" jdbcType="VARCHAR" />
-    <result column="subject" property="subject" jdbcType="VARCHAR" />
-    <result column="grade" property="grade" jdbcType="VARCHAR" />
-    <result column="shool_len" property="shoolLen" jdbcType="VARCHAR" />
-    <result column="school_roll" property="schoolRoll" jdbcType="VARCHAR" />
-    <result column="grade_year" property="gradeYear" jdbcType="VARCHAR" />
-    <result column="major_direction" property="majorDirection" jdbcType="VARCHAR" />
-    <result column="enter_date" property="enterDate" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="comment" property="comment" jdbcType="VARCHAR" />
-    <result column="english_type" property="englishType" jdbcType="VARCHAR" />
-    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
-    <result column="major_code" property="majorCode" jdbcType="VARCHAR" />
-    <result column="gradation" property="gradation" jdbcType="VARCHAR" />
-    <result column="inschool" property="inschool" jdbcType="VARCHAR" />
-    <result column="is_register" property="isRegister" jdbcType="VARCHAR" />
-    <result column="graduate_date" property="graduateDate" jdbcType="VARCHAR" />
-    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
-    <result column="is_graduate" property="isGraduate" jdbcType="VARCHAR" />
-    <result column="college" property="college" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-  </resultMap>
-  
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="student_no" property="studentNo" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="DATE"/>
+        <result column="political_status" property="politicalStatus" jdbcType="VARCHAR"/>
+        <result column="ethnic_group" property="ethnicGroup" jdbcType="VARCHAR"/>
+        <result column="src_region" property="srcRegion" jdbcType="VARCHAR"/>
+        <result column="academe" property="academe" jdbcType="VARCHAR"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="grade" property="grade" jdbcType="VARCHAR"/>
+        <result column="shool_len" property="shoolLen" jdbcType="VARCHAR"/>
+        <result column="school_roll" property="schoolRoll" jdbcType="VARCHAR"/>
+        <result column="grade_year" property="gradeYear" jdbcType="VARCHAR"/>
+        <result column="major_direction" property="majorDirection" jdbcType="VARCHAR"/>
+        <result column="enter_date" property="enterDate" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="english_type" property="englishType" jdbcType="VARCHAR"/>
+        <result column="full_name" property="fullName" jdbcType="VARCHAR"/>
+        <result column="major_code" property="majorCode" jdbcType="VARCHAR"/>
+        <result column="gradation" property="gradation" jdbcType="VARCHAR"/>
+        <result column="inschool" property="inschool" jdbcType="VARCHAR"/>
+        <result column="is_register" property="isRegister" jdbcType="VARCHAR"/>
+        <result column="graduate_date" property="graduateDate" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="is_graduate" property="isGraduate" jdbcType="VARCHAR"/>
+        <result column="college" property="college" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
     <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.StudentSimpleDto">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
@@ -144,5 +144,8 @@
         *
         from topie_campus.t_student
         where user_id = #{userId}
+    </select>
+    <select id="findIdByStudentNo" resultType="java.lang.Integer">
+        select id from topie_campus.t_student where student_no=#{studentNo}
     </select>
 </mapper>

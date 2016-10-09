@@ -29,4 +29,6 @@ public interface TeacherMapper extends Mapper<Teacher> {
             @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
 
     Long countStudentSimpleDtoListByTeacherId(@Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("studentId") Integer studentId);
+
+    Integer selectIdByEmployeeNo(@Param("employeeNo")String employeeNo);
 }

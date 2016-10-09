@@ -1,6 +1,7 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dao.TeacherStudentMapper;
 import com.topie.campus.core.dto.*;
 import com.topie.campus.core.model.*;
 import com.topie.campus.core.service.*;
@@ -45,6 +46,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private IStudentScoreService stuScoreService;
+
+    @Autowired
+    private TeacherStudentMapper teacherStudentMapper;
 
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
@@ -310,6 +314,30 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             stuTimeTableService.insert(stuTimeTable);
         }
 
+    }
+
+    @Override
+    public void uploadTeacherStudentRelate(MultipartFile file, ExcelLogs logs) throws IOException {
+        Collection<TeacherStudentRelateExcelDto> teacherStudentRelateExcelDtos;
+        if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
+            teacherStudentRelateExcelDtos = ExcelUtil
+                    .importExcelX(TeacherStudentRelateExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        } else {
+            teacherStudentRelateExcelDtos = ExcelUtil
+                    .importExcel(TeacherStudentRelateExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+        }
+        for (TeacherStudentRelateExcelDto teacherStudentRelateExcelDto : teacherStudentRelateExcelDtos) {
+            Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
+            Integer studentId = iStudentService.findIdByStudentNo(teacherStudentRelateExcelDto.getStudentNo());
+            if (teacherId != null && studentId != null) {
+                TeacherStudent teacherStudent = new TeacherStudent();
+                teacherStudent.setStudentId(studentId);
+                teacherStudent.setTeacherId(teacherId);
+                teacherStudent.setEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
+                teacherStudent.setStudentNo(teacherStudentRelateExcelDto.getStudentNo());
+                teacherStudentMapper.insertIngore(teacherStudent);
+            }
+        }
     }
 
 }
