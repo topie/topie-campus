@@ -55,7 +55,7 @@ INSERT INTO `sys_user` VALUES
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `sys_role` VALUES ('6', '就业管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
-VALUES ('17', '6', '就业统计', '1', '1', '', '/api/job/static', '0', '2016-10-03 09:22:37', '2016-10-03 09:22:37');
+VALUES ('17', '6', '就业统计', '1', '1', '', '/api/job/staticEmploy', '0', '2016-10-03 09:22:37', '2016-10-03 09:22:37');
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
 VALUES ('18', '6', '就业管理', '1', '1', '', '/api/job/page', '0', '2016-10-03 09:39:35', '2016-10-03 09:40:20');
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('17', '6');

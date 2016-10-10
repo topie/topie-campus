@@ -19,9 +19,9 @@
         page: function (title) {
             App.content.empty();
             App.title(title);
-            var content = $('<div class="panel-body" id="index_grid"></div>');
+            var content = $('<div class="panel-body" id="index_grid">欢迎使用导学系统</div>');
             App.content.append(content);
-            App.index.initEvents();
+            //App.index.initEvents();
         }
     };
     /**

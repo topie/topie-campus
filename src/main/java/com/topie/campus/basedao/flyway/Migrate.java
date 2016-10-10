@@ -18,8 +18,8 @@ public class Migrate {
 
     @PostConstruct
     public void init() {
-        Flyway flyway = new Flyway();
+       /* Flyway flyway = new Flyway();
         flyway.setDataSource(jdbcUrl, userName, password);
-        flyway.migrate();
+        flyway.migrate();*/
     }
 }
