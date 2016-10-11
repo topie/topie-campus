@@ -272,30 +272,34 @@
                                 }
                             },
                             handle: function (index, stData) {
-                                var requestUrl = App.href + "/api/info/basic/bind";
-                                if (stData.isBind == 1) {
-                                    requestUrl = App.href + "/api/info/basic/unbind";
-                                }
-                                $.ajax({
-                                    type: "GET",
-                                    beforeSend: function (request) {
-                                        request.setRequestHeader("X-Auth-Token", App.token);
-                                    },
-                                    dataType: "json",
-                                    data: {
-                                        studentId: data.id,
-                                        teacherId: stData.id
-                                    },
-                                    url: requestUrl,
-                                    success: function (result) {
-                                        if (result.code === 200) {
-                                            studentGrid.reload();
-                                        } else {
-                                            alert(result.message);
+                                bootbox.confirm("确定该操作吗?", function (result) {
+                                    if (result) {
+                                        var requestUrl = App.href + "/api/info/basic/bind";
+                                        if (stData.isBind == 1) {
+                                            requestUrl = App.href + "/api/info/basic/unbind";
                                         }
-                                    },
-                                    error: function (e) {
-                                        alert("请求异常。");
+                                        $.ajax({
+                                            type: "GET",
+                                            beforeSend: function (request) {
+                                                request.setRequestHeader("X-Auth-Token", App.token);
+                                            },
+                                            dataType: "json",
+                                            data: {
+                                                studentId: data.id,
+                                                teacherId: stData.id
+                                            },
+                                            url: requestUrl,
+                                            success: function (result) {
+                                                if (result.code === 200) {
+                                                    studentGrid.reload();
+                                                } else {
+                                                    alert(result.message);
+                                                }
+                                            },
+                                            error: function (e) {
+                                                alert("请求异常。");
+                                            }
+                                        });
                                     }
                                 });
                             }

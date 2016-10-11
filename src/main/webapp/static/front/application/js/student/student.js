@@ -70,29 +70,33 @@
                         }
                     },
                     handle: function (index, stData) {
-                        var requestUrl = App.href + "/api/front/student/bindStudent";
-                        if (stData.isBind == 1) {
-                            requestUrl = App.href + "/api/front/student/unbindStudent";
-                        }
-                        $.ajax({
-                            type: "GET",
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            dataType: "json",
-                            data: {
-                                studentId: stData.id
-                            },
-                            url: requestUrl,
-                            success: function (result) {
-                                if (result.code === 200) {
-                                    grid.reload();
-                                } else {
-                                    alert(result.message);
+                        bootbox.confirm("确定该操作吗?", function (result) {
+                            if (result) {
+                                var requestUrl = App.href + "/api/front/student/bindStudent";
+                                if (stData.isBind == 1) {
+                                    requestUrl = App.href + "/api/front/student/unbindStudent";
                                 }
-                            },
-                            error: function (e) {
-                                alert("请求异常。");
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    dataType: "json",
+                                    data: {
+                                        studentId: stData.id
+                                    },
+                                    url: requestUrl,
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            grid.reload();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
                             }
                         });
                     }
