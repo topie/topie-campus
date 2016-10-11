@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/31/16.
@@ -153,9 +154,12 @@ public class CommonController {
 
     @RequestMapping(value = "/notice/{noticeId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadNotice(@PathVariable(value = "noticeId") int noticeId) {
+    public Result loadNotice(@PathVariable(value = "noticeId") Integer noticeId) {
         Notice notice = iNoticeService.selectByKey(noticeId);
-        return ResponseUtil.success(notice);
+        List<Attachment> attachments = iNoticeService.findAttachments(noticeId);
+        Map result = new HashMap();
+        result.put("notice",notice);
+        result.put("attachments",attachments);
+        return ResponseUtil.success(result);
     }
-
 }

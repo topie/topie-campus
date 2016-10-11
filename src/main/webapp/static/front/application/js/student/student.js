@@ -36,7 +36,7 @@
                 }, {
                     title: "学号",
                     field: "studentNo",
-                    sort : true
+                    sort: true
                 }, {
                     title: "联系电话",
                     field: "contactPhone"
@@ -57,7 +57,7 @@
                 {
                     textHandle: function (index, stData) {
                         if (stData.isBind == 1) {
-                            return "取消";
+                            return "取消选择";
                         } else {
                             return "选择";
                         }
@@ -70,9 +70,9 @@
                         }
                     },
                     handle: function (index, stData) {
-                        var requestUrl = App.href + "/api/info/teacher/selectStudent";
+                        var requestUrl = App.href + "/api/front/student/bindStudent";
                         if (stData.isBind == 1) {
-                            requestUrl = App.href + "/api/info/teacher/cancelStudent";
+                            requestUrl = App.href + "/api/front/student/unbindStudent";
                         }
                         $.ajax({
                             type: "GET",
@@ -81,8 +81,7 @@
                             },
                             dataType: "json",
                             data: {
-                                studentId: stData.id,
-                                teacherId: data.id
+                                studentId: stData.id
                             },
                             url: requestUrl,
                             success: function (result) {

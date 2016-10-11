@@ -56,7 +56,7 @@
                 {
                     textHandle: function (index, stData) {
                         if (stData.isBind == 1) {
-                            return "取消";
+                            return "取消选择";
                         } else {
                             return "选择";
                         }
@@ -69,14 +69,17 @@
                         }
                     },
                     handle: function (index, stData) {
-                        var requestUrl = App.href + "/api/info/teacher/selectTeacher";
+                        var requestUrl = App.href + "/api/front/teacher/bindTeacher";
                         if (stData.isBind == 1) {
-                            requestUrl = App.href + "/api/info/teacher/cancelTeacher";
+                            requestUrl = App.href + "/api/front/teacher/unbindTeacher";
                         }
                         $.ajax({
                             type: "GET",
                             beforeSend: function (request) {
                                 request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            data: {
+                                teacherId: stData.id
                             },
                             dataType: "json",
                             url: requestUrl,

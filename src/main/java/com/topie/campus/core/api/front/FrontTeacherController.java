@@ -88,4 +88,27 @@ public class FrontTeacherController {
         return ResponseUtil.success();
     }
 
+    @RequestMapping(value = "/bindTeacher", method = RequestMethod.GET)
+    @ResponseBody
+    public Result bind(@RequestParam(value = "teacherId") Integer teacherId) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        Integer studentId = iStudentService.findStudentIdByUserId(userId);
+        iInfoBasicService.insertToBindStudentTeacher(studentId, teacherId);
+        return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/unbindTeacher", method = RequestMethod.GET)
+    @ResponseBody
+    public Result unbind(@RequestParam(value = "teacherId") Integer teacherId) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        Integer studentId = iStudentService.findStudentIdByUserId(userId);
+        iInfoBasicService.deleteToUnbindStudentTeacher(studentId, teacherId);
+        return ResponseUtil.success();
+    }
 }

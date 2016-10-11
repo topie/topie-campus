@@ -94,6 +94,7 @@
                         success: function (result) {
                             if (result.code === 200) {
                                 var data = result.data;
+                                that.find("#score_grid_wrapper").empty();
                                 var table = $('<table class="table table-bordered no-footer"></table>');
                                 that.find("#score_grid_wrapper").append(table);
                                 for (var j = 0; j <= 13; j++) {

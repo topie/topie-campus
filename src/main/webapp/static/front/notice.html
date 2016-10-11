@@ -41,25 +41,43 @@
     </nav>
     <div class="col-lg-12 post">
         <div class="container" id="notice">
-            <h2 style="text-align: center"><a href="javascript:void(0);" class="ubuntu" id="title"></a></h2>
-            <div class="body-text">
-                <p class='text-muted ubuntu' style="text-align: right" id="time"></p>
-                <hr style="margin:8px auto;border-bottom: 1px solid #ccc;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default" style="border-radius:0">
-                            <!-- /.panel-heading -->
-                            <div id="content" class="panel-body">
 
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+<script id="noticeTmpl" type="text/html">
+    <h2 style="text-align: center"><a href="javascript:void(0);" class="ubuntu">{{notice.noticeTitle}}</a></h2>
+    <div class="body-text">
+        <p class='text-muted ubuntu' style="text-align: right"><span>发布者:{{notice.noticePublishUser}}</span> <span>发布时间:{{notice.noticePublishTime}}</span>
+        </p>
+        <hr style="margin:8px auto;border-bottom: 1px solid #4dd1fc;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default" style="border:0px;border-radius:0">
+                    <!-- /.panel-heading -->
+                    <div id="content" class="panel-body">
+
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+        </div>
+        <hr style="margin:8px auto;border-bottom: 1px solid #4dd1fc;">
+        <div class="row">
+            <div class="col-lg-12">
+                {{each attachments}}
+                <div style="margin-bottom: 25px;">
+                    <div>
+                        <strong>{{$value.attachmentName}}</strong>
+                        <span>{{$value.attachmentSize}}K</span>
+                        <a href="{{$value.attachmentUrl}}">下载</a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -95,9 +113,9 @@
                     success: function (result) {
                         if (result.code === 200) {
                             var data = result.data;
-                            $("#title").append(data.noticeTitle);
-                            $("#time").append(data.noticePublishTime);
-                            $("#content").append(data.noticeContent);
+                            var html = template('noticeTmpl', data);
+                            $("#notice").append(html);
+                            $("#notice").find("#content").append(data.notice.noticeContent);
                         } else {
                             alert(result.message);
                         }
