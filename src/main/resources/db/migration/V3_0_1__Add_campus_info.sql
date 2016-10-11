@@ -5,7 +5,7 @@ INSERT INTO `sys_user` VALUES
 INSERT INTO `sys_role` VALUES ('3', '信息管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('6', '0', '信息管理', '1', '1', NULL, '#', '3', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('7', '6', '信息上传', '1', '1', NULL, '/api/info/upload/page', '1', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('8', '6', '教师管理', '1', '1', NULL, '/api/info/teacher/page', '2', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('8', '6', '导师管理', '1', '1', NULL, '/api/info/teacher/page', '2', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('9', '6', '学生管理', '1', '1', NULL, '/api/info/student/page', '3', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('10', '6', '公告管理', '1', '1', NULL, '/api/info/notice/page', '4', NULL, NULL);
 

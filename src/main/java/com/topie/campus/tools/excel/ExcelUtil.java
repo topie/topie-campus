@@ -1098,7 +1098,10 @@ public class ExcelUtil {
                                 if (field.getType().equals(Date.class) && cell.getCellType() == Cell.CELL_TYPE_STRING) {
                                     Object strDate = getCellValue(cell);
                                     try {
+                                    	if(strDate!=null)
                                         value = new SimpleDateFormat(pattern).parse(strDate.toString());
+                                    	else
+                                    		value = null;
                                     } catch (ParseException e) {
 
                                         errMsg = MessageFormat.format("the cell [{0}] can not be converted to a date ",

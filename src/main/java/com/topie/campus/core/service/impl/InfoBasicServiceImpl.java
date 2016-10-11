@@ -13,6 +13,8 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -114,7 +116,14 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 user.setPassword(studentDto.getPassword());
                 userService.updateUser(user);
             } else {
-                user.setPassword(studentDto.getPassword());
+            	if(StringUtils.isNotEmpty(studentDto.getPassword()))
+                {
+            		user.setPassword(studentDto.getPassword());
+                }
+            	else
+            		{
+            		user.setPassword(studentDto.getStudentNo());
+            		}
                 userService.insertUser(user);
                 userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();

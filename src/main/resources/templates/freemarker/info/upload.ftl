@@ -11,7 +11,7 @@
                         <option value=2>教师基本信息表</option>
                         <option value=3>学生成绩信息表</option>
                         <option value=4>学生课程信息表</option>
-                        <option value=5>学生等考信息表</option>
+                        <option value=5>等级考试信息表</option>
                         <option value=6>学生选课信息表</option>
                         <option value=7>学生就业信息表</option>
                         <option value=8>教师学生关联信息表</option>
