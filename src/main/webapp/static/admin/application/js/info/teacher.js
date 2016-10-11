@@ -391,6 +391,7 @@
                         actionColumns: [{
                             textHandle: function (index, stData) {
                                 if (stData.isBind == 1) {
+                                	
                                     return "取消";
                                 } else {
                                     return "选择";
