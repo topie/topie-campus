@@ -7,9 +7,13 @@ import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.model.Notice;
 import com.topie.campus.core.service.INoticeService;
+import com.topie.campus.security.utils.SecurityUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by chenguojun on 9/21/16.
@@ -32,24 +36,44 @@ public class InfoNoticeController {
 
     @RequestMapping(value = "/load/{noticeId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadNotice(@PathVariable(value = "noticeId") int noticeId) {
+    public Result loadNotice(@PathVariable(value = "noticeId") Integer noticeId) {
         Notice notice = iNoticeService.selectByKey(noticeId);
+        List<Integer> attachmentList = iNoticeService.findAttachmentIds(noticeId);
+        String attachments = StringUtils.join(attachmentList, ",");
+        notice.setAttachments(attachments);
         return ResponseUtil.success(notice);
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Result noticeInsert(Notice notice) {
+    public Result noticeInsert(Notice notice, Integer[] attachments) {
+        notice.setNoticePublishUser(SecurityUtil.getCurrentUserName());
         int result = iNoticeService.insertSelective(notice);
-        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+
+        if (result > 0) {
+            if (attachments != null && attachments.length > 0) {
+                for (Integer attr : attachments) {
+                    iNoticeService.insertAttachment(notice.getNoticeId(), attr);
+                }
+            }
+            return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        }
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public Result noticeUpdate(Notice notice) {
+    public Result noticeUpdate(Notice notice, Integer[] attachments) {
         int result = iNoticeService.updateSelective(notice);
-        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        if (result > 0) {
+            if (attachments != null && attachments.length > 0) {
+                iNoticeService.deleteAttachment(notice.getNoticeId());
+                for (Integer attr : attachments) {
+                    iNoticeService.insertAttachment(notice.getNoticeId(), attr);
+                }
+            }
+            return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        }
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 

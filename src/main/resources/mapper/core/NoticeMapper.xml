@@ -7,12 +7,35 @@
         -->
         <id column="notice_id" property="noticeId" jdbcType="INTEGER"/>
         <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR"/>
+        <result column="notice_publish_user" property="noticePublishUser" jdbcType="VARCHAR"/>
         <result column="notice_publish_time" property="noticePublishTime" jdbcType="TIMESTAMP"/>
         <result column="notice_content" property="noticeContent" jdbcType="LONGVARCHAR"/>
     </resultMap>
+    <resultMap id="attachmentMap" type="com.topie.campus.core.model.Attachment">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="attachment_id" jdbcType="INTEGER" property="attachmentId"/>
+        <result column="attachment_name" jdbcType="VARCHAR" property="attachmentName"/>
+        <result column="attachment_type" jdbcType="INTEGER" property="attachmentType"/>
+        <result column="attachment_suffix" jdbcType="VARCHAR" property="attachmentSuffix"/>
+        <result column="attachment_path" jdbcType="VARCHAR" property="attachmentPath"/>
+        <result column="attachment_url" jdbcType="VARCHAR" property="attachmentUrl"/>
+        <result column="attachment_size" jdbcType="BIGINT" property="attachmentSize"/>
+        <result column="upload_login_name" jdbcType="VARCHAR" property="uploadLoginName"/>
+    </resultMap>
+    <insert id="insertAttachment">
+        insert
+        into
+        topie_campus.t_relate_notice_attachment(notice_id, attachment_id)
+        VALUES (#{noticeId},#{attachmentId})
+    </insert>
+    <delete id="deleteAttachment">
+        delete from topie_campus.t_relate_notice_attachment where notice_id=#{noticeId}
+    </delete>
     <select id="findNoticeByPageNumAndPageSize" resultMap="BaseResultMap">
         select
-        notice_id,notice_title,notice_publish_time
+        notice_id,notice_title,notice_publish_time,notice_publish_user
         from topie_campus.t_common_notice
         <where>
             <if test="notice.noticeTitle!=null and notice.noticeTitle!=''">
@@ -32,5 +55,17 @@
                 and `notice_title` like concat('%',concat(#{notice.noticeTitle},'%'))
             </if>
         </where>
+    </select>
+    <select id="selectAttachmentIds" resultType="java.lang.Integer">
+        select attachment_id from topie_campus.t_relate_notice_attachment where notice_id=#{noticeId}
+    </select>
+    <select id="selectAttachments" resultMap="attachmentMap">
+        select
+        a.*
+        from
+        topie_campus.t_common_attachment a
+        left join topie_campus.t_relate_notice_attachment na
+        on a.attachment_id = na.attachment_id
+        where na.notice_id=#{noticeId}
     </select>
 </mapper>

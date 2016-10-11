@@ -9,10 +9,13 @@ import javax.annotation.PostConstruct;
  * Created by cgj on 2016/5/12.
  */
 public class Migrate {
+
     @Value("${jdbc_url}")
     private String jdbcUrl;
+
     @Value("${jdbc_username}")
     private String userName;
+
     @Value("${jdbc_password}")
     private String password;
 

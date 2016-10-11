@@ -87,4 +87,28 @@ public class FrontStudentController {
         iMessageService.insertSelective(message);
         return ResponseUtil.success();
     }
+
+    @RequestMapping(value = "/bindStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public Result bind(@RequestParam(value = "studentId") Integer studentId) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        Integer teacherId = iTeacherService.findTeacherIdByUserId(userId);
+        iInfoBasicService.insertToBindStudentTeacher(studentId, teacherId);
+        return ResponseUtil.success();
+    }
+
+    @RequestMapping(value = "/unbindStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public Result unbind(@RequestParam(value = "studentId") Integer studentId) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        Integer teacherId = iTeacherService.findTeacherIdByUserId(userId);
+        iInfoBasicService.deleteToUnbindStudentTeacher(studentId, teacherId);
+        return ResponseUtil.success();
+    }
 }

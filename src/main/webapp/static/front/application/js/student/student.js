@@ -36,7 +36,7 @@
                 }, {
                     title: "学号",
                     field: "studentNo",
-                    sort : true
+                    sort: true
                 }, {
                     title: "联系电话",
                     field: "contactPhone"
@@ -57,7 +57,7 @@
                 {
                     textHandle: function (index, stData) {
                         if (stData.isBind == 1) {
-                            return "取消";
+                            return "取消选择";
                         } else {
                             return "选择";
                         }
@@ -70,30 +70,33 @@
                         }
                     },
                     handle: function (index, stData) {
-                        var requestUrl = App.href + "/api/info/teacher/selectStudent";
-                        if (stData.isBind == 1) {
-                            requestUrl = App.href + "/api/info/teacher/cancelStudent";
-                        }
-                        $.ajax({
-                            type: "GET",
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            dataType: "json",
-                            data: {
-                                studentId: stData.id,
-                                teacherId: data.id
-                            },
-                            url: requestUrl,
-                            success: function (result) {
-                                if (result.code === 200) {
-                                    grid.reload();
-                                } else {
-                                    alert(result.message);
+                        bootbox.confirm("确定该操作吗?", function (result) {
+                            if (result) {
+                                var requestUrl = App.href + "/api/front/student/bindStudent";
+                                if (stData.isBind == 1) {
+                                    requestUrl = App.href + "/api/front/student/unbindStudent";
                                 }
-                            },
-                            error: function (e) {
-                                alert("请求异常。");
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    dataType: "json",
+                                    data: {
+                                        studentId: stData.id
+                                    },
+                                    url: requestUrl,
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            grid.reload();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
                             }
                         });
                     }

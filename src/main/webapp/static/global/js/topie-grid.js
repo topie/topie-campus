@@ -21,7 +21,7 @@
     Grid.defaults = {
         pageNum: 1,
         pageSize: 5,
-        showCheck: true,
+        showCheck: false,
         checkboxWidth: "2%",
         showIndexNum: true,
         indexNumWidth: "2%",

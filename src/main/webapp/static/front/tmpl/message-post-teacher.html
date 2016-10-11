@@ -1,9 +1,26 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form accept-charset="UTF-8" id="message-form" method="POST">
+                    <input type="hidden" name="toUserId" value="{{userId}}">
+                    <textarea class="form-control counted" id="post-message" name="messageContent"
+                              placeholder="输入你的留言" rows="5" style="margin-bottom:10px;"></textarea>
+                    <h6 class="pull-right" id="counter">140</h6>
+                    <button class="btn btn-default" type="button" id="post-message-btn">
+                        <i class="fa fa-message-o icon"></i> 留 言
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <article class="row">
     <div class="col-md-2 col-sm-2 hidden-xs">
         <figure class="thumbnail">
             <img class="img-responsive"
                  src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
-            <figcaption class="text-center">username</figcaption>
+            <figcaption class="text-center">{{name}}</figcaption>
         </figure>
     </div>
     <div class="col-md-10 col-sm-10">
@@ -109,20 +126,3 @@
         </table>
     </div>
 </article>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <form accept-charset="UTF-8" id="message-form" method="POST">
-                    <input type="hidden" name="toUserId" value="{{userId}}">
-                    <textarea class="form-control counted" id="post-message" name="messageContent"
-                              placeholder="Type in your message" rows="5" style="margin-bottom:10px;"></textarea>
-                    <h6 class="pull-right" id="counter">140</h6>
-                    <button class="btn btn-default" type="button" id="post-message-btn">
-                        <i class="fa fa-message-o icon"></i> 留 言
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>

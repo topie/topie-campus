@@ -27,14 +27,36 @@ public class Notice {
      * 通知公告发布时间
      */
     @Column(name = "notice_publish_time")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date noticePublishTime;
+
+    @Column(name = "notice_publish_user")
+    private String noticePublishUser;
 
     /**
      * 通知公告内容
      */
     @Column(name = "notice_content")
     private String noticeContent;
+
+    @Transient
+    private String attachments;
+
+    public String getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(String attachments) {
+        this.attachments = attachments;
+    }
+
+    public String getNoticePublishUser() {
+        return noticePublishUser;
+    }
+
+    public void setNoticePublishUser(String noticePublishUser) {
+        this.noticePublishUser = noticePublishUser;
+    }
 
     /**
      * 获取通知公告id
@@ -77,7 +99,7 @@ public class Notice {
      *
      * @return notice_publish_time - 通知公告发布时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     public Date getNoticePublishTime() {
         return noticePublishTime;
     }

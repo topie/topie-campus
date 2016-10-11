@@ -337,6 +337,7 @@
                 a.parent("li").addClass("current");
                 a.parent("li").parent("ul").show().parent("li").parent("ul").show();
             }
+            App.afterPage();
         } else {
             window.location.href = window.location.href + "?u=/api/index";
         }

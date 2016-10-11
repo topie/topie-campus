@@ -60,6 +60,13 @@
             message: {
                 required: "请输入公告内容"
             }
+        }, {
+            type: 'files',
+            name: 'attachments',
+            id: 'attachments',
+            label: '附件',
+            limit: 5,
+            allowType: ".jpg,.bmp,.png,.gif,.xls,.xlsx,.doc,.docx,.ppt,.pptx"
         }
     ];
     App.infoNotice.columns = [{

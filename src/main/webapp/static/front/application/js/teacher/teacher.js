@@ -56,7 +56,7 @@
                 {
                     textHandle: function (index, stData) {
                         if (stData.isBind == 1) {
-                            return "取消";
+                            return "取消选择";
                         } else {
                             return "选择";
                         }
@@ -69,26 +69,33 @@
                         }
                     },
                     handle: function (index, stData) {
-                        var requestUrl = App.href + "/api/info/teacher/selectTeacher";
-                        if (stData.isBind == 1) {
-                            requestUrl = App.href + "/api/info/teacher/cancelTeacher";
-                        }
-                        $.ajax({
-                            type: "GET",
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            dataType: "json",
-                            url: requestUrl,
-                            success: function (result) {
-                                if (result.code === 200) {
-                                    grid.reload();
-                                } else {
-                                    alert(result.message);
+                        bootbox.confirm("确定该操作吗?", function (result) {
+                            if (result) {
+                                var requestUrl = App.href + "/api/front/teacher/bindTeacher";
+                                if (stData.isBind == 1) {
+                                    requestUrl = App.href + "/api/front/teacher/unbindTeacher";
                                 }
-                            },
-                            error: function (e) {
-                                alert("请求异常。");
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    data: {
+                                        teacherId: stData.id
+                                    },
+                                    dataType: "json",
+                                    url: requestUrl,
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            grid.reload();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
                             }
                         });
                     }
@@ -127,7 +134,6 @@
                                         if (data == null) {
                                             return;
                                         }
-
                                         modal.$body.load("./tmpl/message-post-teacher.html?t=" + new Date().getTime(),
                                             function () {
                                                 var that = $(this);

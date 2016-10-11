@@ -1246,7 +1246,7 @@
                 + '</td>'
                 + '<td style="width: 50%;vertical-align: middle;border-bottom: 1px solid #ddd;">'
                 + '<p class="name">${fileName_}</p>'
-                + '<p class="size">${fileSize_} KB <span class="progress">0%</span></p>'
+                + '<p class="size">${fileSize_} KB</p>'
                 + '</td>'
                 + '<td style="width: 30%;vertical-align: middle;">'
                 + '    <button type="button" class="btn btn-warning btn-sm cancel">删除</button>        '
