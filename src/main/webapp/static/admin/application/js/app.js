@@ -8,17 +8,6 @@
         href: "../..",
         requestMapping: {}
     };
-    $.blockUI({
-        css: {
-            border: 'none',
-            padding: '15px',
-            backgroundColor: '#000',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-            opacity: .5,
-            color: '#fff'
-        }
-    });
     /**
      * 下载文件
      * @param href
@@ -123,7 +112,7 @@
     }
 
     App.afterPage = function () {
-        setTimeout($.unblockUI, 300);
+
     }
 
 })(jQuery, window, document);

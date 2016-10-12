@@ -96,7 +96,7 @@
                     data: {
                         "messageId": messageId,
                         "pageNum": pageNum,
-                        "pageSize": 2
+                        "pageSize": 5
                     },
                     success: function (result) {
                         if (result.code === 200) {
@@ -127,10 +127,17 @@
         };
         ele.find("a[role=message-btn]").click(function () {
             var target = $(this).attr("reply-target");
-            loadReply(target);
+            if(!$("#div_message_" + target).is(':visible')){
+                loadReply(target);
+            }
+            $("#div_message_" + target).toggle();
         });
         ele.find("a[role=reply-submit]").click(function () {
             var that = $(this);
+            var rep = that.parent().parent().find("#replyContent").val();
+            if ($.trim(rep) == "") {
+                return;
+            }
             $.ajax(
                 {
                     type: 'POST',
@@ -138,7 +145,7 @@
                     dataType: "json",
                     data: {
                         messageId: that.parent().parent().find("#messageId").val(),
-                        replyContent: that.parent().parent().find("#replyContent").val(),
+                        replyContent: rep,
                     },
                     beforeSend: function (request) {
                         request.setRequestHeader("X-Auth-Token", App.token);
