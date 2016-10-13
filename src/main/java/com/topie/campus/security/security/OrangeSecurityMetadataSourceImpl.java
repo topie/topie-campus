@@ -35,7 +35,6 @@ public class OrangeSecurityMetadataSourceImpl implements FilterInvocationSecurit
         Iterator<String> it = resourceMap.keySet().iterator();
         while (it.hasNext()) {
             String resURL = it.next();
-            Iterator<String> ite = resourceMap.keySet().iterator();
             matcher = new AntPathRequestMatcher(resURL);
             if (matcher.matches(request)) {
                 Collection<ConfigAttribute> returnCollection = resourceMap.get(resURL);

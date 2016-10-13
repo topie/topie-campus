@@ -121,9 +121,9 @@
         </where>
     </select>
     
-    <select id="findUserByLoginName" resultType="java.lang.Integer">
+    <select id="findUserIdByLoginName" resultType="java.lang.Integer">
         select 
-         id
+        id
         from sys_user
         <where>
             <if test="loginName != null and loginName != ''">
