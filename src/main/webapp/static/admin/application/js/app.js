@@ -5,7 +5,7 @@
 (function ($, window, document, undefined) {
     window.App = {
         projectName: "/topie-campus",
-        href: "../..",
+        href: "http://localhost:8080",
         requestMapping: {}
     };
     /**
@@ -63,7 +63,7 @@
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-Auth-Token', App.token);
         xhr.send();
-    }
+    };
 
     App.scrollTo = function (el, offeset) {
         var pos = (el && el.size() > 0) ? el.offset().top : 0;
@@ -82,7 +82,7 @@
         $('html,body').animate({
             scrollTop: pos
         }, 'slow');
-    }
+    };
 
     /**
      * 更改右侧内容标题
@@ -105,14 +105,14 @@
         find: function (ele) {
             return $("#main-body").find(ele);
         }
-    }
+    };
 
     App.$content = function () {
         return $("#main-body");
-    }
+    };
 
     App.afterPage = function () {
 
-    }
+    };
 
 })(jQuery, window, document);

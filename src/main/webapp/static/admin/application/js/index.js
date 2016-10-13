@@ -305,7 +305,7 @@
                                     var f = App.requestMapping[url];
                                     if (f != undefined) {
                                         $(this).on("click", function () {
-                                            window.location.href = 'http://' + window.location.host + App.projectName + '/static/admin/index.html?u=' + url;
+                                            window.location.href = App.href + App.projectName + '/static/admin/index.html?u=' + url;
                                         });
                                     }
                                 }
