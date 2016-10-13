@@ -120,6 +120,18 @@
             </if>
         </where>
     </select>
+    
+    <select id="findUserByLoginName" resultType="java.lang.Integer">
+        select 
+         id
+        from sys_user
+        <where>
+            <if test="loginName != null and loginName != ''">
+                and login_name = #{loginName}
+            </if>
+        </where>
+    </select>
+    
     <select id="findUserFunctionByLoginName" resultMap="TreeNodeMap">
         select distinct f.id,f.parent_id,f.function_name,f.icon,f.`action`
         from topie_campus.sys_user u left join topie_campus.sys_user_role ur

@@ -43,6 +43,17 @@
                 alert("请选择上传的文件");
                 return;
             }
+            $.blockUI({
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .5,
+                    color: '#fff'
+                }
+            });
             $.ajaxFileUpload(
                 {
                     url: that.uploadUrl + "?topie_token=" + App.token+"&excelType="+$("select[name=excelType]").val(),
@@ -52,6 +63,7 @@
                     dataType: "json",
                     success: function (json, status) {
                         console.info(json);
+                        $.unblockUI();
                     },
                     error: function (data, status, e) {
                         alert(e);

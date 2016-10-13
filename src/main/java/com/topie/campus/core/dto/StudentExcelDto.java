@@ -29,164 +29,164 @@ public class StudentExcelDto implements Serializable {
     /**
      * ѧ��
      */
-    @ExcelCell(index=1)
+    @ExcelCell(index=0)
     private String studentNo;
 
     /**
      * ����
      */
-    @ExcelCell(index=2)
+    @ExcelCell(index=1)
     private String name;
 
     /**
      * �Ա�:0 Ů 1 ��
      */
-    @ExcelCell(index=3)
+    @ExcelCell(index=2)
     private String gender;
 
     /**
      * ��������
      */
-    @ExcelCell(index=4)
+    @ExcelCell(index=3)
     private Date birth;
 
     /**
      * ������ò
      */
-    @ExcelCell(index=5)
+    @ExcelCell(index=4)
     private String politicalStatus;
 
     /**
      * ����
      */
-    @ExcelCell(index=6)
+    @ExcelCell(index=5)
     private String ethnicGroup;
 
     /**
      * ��ȡ����
      */
-    @ExcelCell(index=8)
+    @ExcelCell(index=7)
     private String srcRegion;
 
     /**
      * ѧԺ
      */
-    @ExcelCell(index=9)
+    @ExcelCell(index=8)
     private String academe;
 
     /**
      * רҵ
      */
-    @ExcelCell(index=11)
+    @ExcelCell(index=10)
     private String subject;
 
-    @ExcelCell(index=12)
+    @ExcelCell(index=11)
     private String grade;
 
     /**
      * ѧ��
      */
-    @ExcelCell(index=13)
+    @ExcelCell(index=12)
     private String shoolLen;
 
     /**
      * ѧ��
      */
-    @ExcelCell(index=15)
+    @ExcelCell(index=14)
     private String schoolRoll;
 
     /**
      * �꼶
      */
-    @ExcelCell(index=16)
+    @ExcelCell(index=15)
     private String gradeYear;
 
     /**
      * רҵ����
      */
-    @ExcelCell(index=18)
+    @ExcelCell(index=17)
     private String majorDirection;
 
     /**
      * ��ѧ����
      */
-    @ExcelCell(index=20)
+    @ExcelCell(index=19)
     private String enterDate;
 
     /**
      * ����
      */
-    @ExcelCell(index=23)
+    @ExcelCell(index=22)
     private String email;
 
     /**
      * ��ע
      */
-    @ExcelCell(index=30)
+    @ExcelCell(index=29)
     private String comment;
 
     /**
      * ѧ�����Ӣ��A,Ӣ��B��
      */
-    @ExcelCell(index=38)
+    @ExcelCell(index=37)
     private String englishType;
 
     /**
      * ȫƴ
      */
-    @ExcelCell(index=42)
+    @ExcelCell(index=41)
     private String fullName;
 
     /**
      * רҵ����
      */
-    @ExcelCell(index=46)
+    @ExcelCell(index=45)
     private String majorCode;
 
     /**
      * ��Σ����ƣ���ְ�ȣ�
      */
-    @ExcelCell(index=50)
+    @ExcelCell(index=49)
     private String gradation;
 
     /**
      * �Ƿ���У
      */
-    @ExcelCell(index=54)
+    @ExcelCell(index=53)
     private String inschool;
 
     /**
      * �Ƿ�ע��
      */
-    @ExcelCell(index=58)
+    @ExcelCell(index=57)
     private String isRegister;
 
     /**
      * ��ҵ����
      */
-    @ExcelCell(index=61)
+    @ExcelCell(index=60)
     private String graduateDate;
 
     /**
      * ��ϵ�绰
      */
-    @ExcelCell(index=89)
+    @ExcelCell(index=88)
     @Column(name = "contact_phone")
     private String contactPhone;
 
     /**
      * �Ƿ��ҵ
      */
-    @ExcelCell(index=91)
+    @ExcelCell(index=90)
     private String password;
     
-    @ExcelCell(index=93)
+    @ExcelCell(index=92)
     private String isGraduate;
 
     /**
      * ѧԺ
      */
-    @ExcelCell(index=125)
+    @ExcelCell(index=124)
     private String college;
     
     
