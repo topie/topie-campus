@@ -1276,6 +1276,7 @@
                     success: function (data) {
                         if (data.code == 200) {
                             var file = $.tmpl(template, {
+                                "alt_": data.data.attachmentSuffix,
                                 "fileName_": data.data.attachmentName,
                                 "fileSize_": (data.data.attachmentSize / 1000)
                                     .toFixed(2),

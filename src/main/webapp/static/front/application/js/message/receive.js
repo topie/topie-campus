@@ -65,7 +65,7 @@
                                 doInit(ele, source);
                             });
                             ele.find("#message-sort > li[sort-type=\"" + sortType + "\"]").addClass("active");
-                            App.messageSend.replyInitEvents(ele);
+                            App.messageReceive.replyInitEvents(ele);
                         } else {
                             alert(result.message);
                         }
@@ -125,7 +125,10 @@
         };
         ele.find("a[role=message-btn]").click(function () {
             var target = $(this).attr("reply-target");
-            loadReply(target);
+            if(!$("#div_message_" + target).is(':visible')){
+                loadReply(target);
+            }
+            $("#div_message_" + target).toggle();
         });
         ele.find("a[role=reply-submit]").click(function () {
             $.ajax(

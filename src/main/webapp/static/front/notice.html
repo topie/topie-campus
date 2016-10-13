@@ -14,10 +14,13 @@
     <!-- Bootstrap Core CSS -->
     <link href="../vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- MetisMenu CSS -->
+    <link href="../vendors/metisMenu/metisMenu.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="application/css/sb-admin-2.css" rel="stylesheet">
     <link href="application/css/index.css" rel="stylesheet">
-    <link href="application/css/notice.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -31,7 +34,8 @@
 </head>
 
 <body>
-<div class="container col-lg-12 main">
+
+<div id="wrapper">
     <nav class="ldhd navbar navbar-default" role="navigation">
         <div class="ldhd-bg container-fluid">
             <a href="index.html">
@@ -39,58 +43,78 @@
             </a>
         </div><!-- /.container-fluid -->
     </nav>
-    <div class="col-lg-12 post">
-        <div class="container" id="notice">
+    <!-- Second Nav -->
 
-        </div>
+    <div id="page-wrapper" style="margin-left: 0">
+
     </div>
+    <!-- /#page-wrapper -->
+
 </div>
-<script id="noticeTmpl" type="text/html">
-    <h2 style="text-align: center"><a href="javascript:void(0);" class="ubuntu">{{notice.noticeTitle}}</a></h2>
-    <div class="body-text">
-        <p class='text-muted ubuntu' style="text-align: right"><span>发布者:{{notice.noticePublishUser}}</span> <span>发布时间:{{notice.noticePublishTime}}</span>
-        </p>
-        <hr style="margin:8px auto;border-bottom: 1px solid #4dd1fc;">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default" style="border:0px;border-radius:0">
-                    <!-- /.panel-heading -->
-                    <div id="content" class="panel-body">
+<!-- /#wrapper -->
 
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-            </div>
+<footer>
+    <div class="container">
+
+        <div class="copy text-center">
+            版权所有 <a href='#'>北京联合大学生物化工学院</a>
         </div>
-        <hr style="margin:8px auto;border-bottom: 1px solid #4dd1fc;">
-        <div class="row">
-            <div class="col-lg-12">
-                {{each attachments}}
-                <div style="margin-bottom: 25px;">
-                    <div>
-                        <strong>{{$value.attachmentName}}</strong>
-                        <span>{{$value.attachmentSize}}K</span>
-                        <a href="{{$value.attachmentUrl}}">下载</a>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-        </div>
+
     </div>
-</script>
+</footer>
+
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
 <script src="../vendors/jquery.cookie/jquery.cookie.js"></script>
+
 <!-- Custom Theme JavaScript -->
 <script src="application/js/sb-admin-2.js"></script>
-
-<script src="../vendors/datatables/js/jquery.dataTables.min.js"></script>
 
 <script src="../vendors/jquery.tmpl.min.js"></script>
 <script src="../vendors/artTemplate/template.js"></script>
 <script src="application/js/app.js"></script>
+
+<script id="noticeTmpl" type="text/html">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="text-center">{{notice.noticeTitle}}</h3>
+            <h5 class="page-header text-right">发布者:{{notice.noticePublishUser}} 发布时间:{{notice.noticePublishTime}}</h5>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    <!-- .row -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- /.panel -->
+            <div class="panel panel-default" style="border-radius:0;border: none">
+                <!-- /.panel-heading -->
+                <div id="content" class="panel-body">
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <hr style="margin:8px auto;border-bottom: 1px solid #4dd1fc;">
+    <div class="row">
+        <div class="col-lg-12">
+            {{each attachments}}
+            <div style="margin-bottom: 25px;">
+                <div>
+                    <strong>{{$value.attachmentName}}</strong>
+                    <span>{{$value.attachmentSize}}K</span>
+                    <a href="{{$value.attachmentUrl}}">下载</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
 
 <script type="text/javascript">
 
@@ -114,8 +138,8 @@
                         if (result.code === 200) {
                             var data = result.data;
                             var html = template('noticeTmpl', data);
-                            $("#notice").append(html);
-                            $("#notice").find("#content").append(data.notice.noticeContent);
+                            $("#page-wrapper").append(html);
+                            $("#page-wrapper").find("#content").append(data.notice.noticeContent);
                         } else {
                             alert(result.message);
                         }
@@ -124,6 +148,6 @@
         );
     }
 </script>
-
 </body>
+
 </html>
