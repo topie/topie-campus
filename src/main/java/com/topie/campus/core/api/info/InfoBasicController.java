@@ -22,17 +22,19 @@ public class InfoBasicController {
 
     @RequestMapping(value = "/bind", method = RequestMethod.GET)
     @ResponseBody
-    public Result bind(@RequestParam(value = "studentId") Integer studentId,
+    public Result bind(@RequestParam(value = "typeId") Integer typeId,
+            @RequestParam(value = "studentId") Integer studentId,
             @RequestParam(value = "teacherId") Integer teacherId) {
-        iInfoBasicService.insertToBindStudentTeacher(studentId, teacherId);
+        iInfoBasicService.insertToBindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
     }
 
     @RequestMapping(value = "/unbind", method = RequestMethod.GET)
     @ResponseBody
-    public Result unbind(@RequestParam(value = "studentId") Integer studentId,
+    public Result unbind(@RequestParam(value = "typeId") Integer typeId,
+            @RequestParam(value = "studentId") Integer studentId,
             @RequestParam(value = "teacherId") Integer teacherId) {
-        iInfoBasicService.deleteToUnbindStudentTeacher(studentId, teacherId);
+        iInfoBasicService.deleteToUnbindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
     }
 }

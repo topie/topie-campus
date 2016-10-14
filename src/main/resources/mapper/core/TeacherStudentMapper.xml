@@ -5,14 +5,15 @@
         <!--
           WARNING - @mbggenerated
         -->
+        <id column="type_id" jdbcType="INTEGER" property="typeId"/>
         <id column="student_id" jdbcType="INTEGER" property="studentId"/>
         <id column="teacher_id" jdbcType="INTEGER" property="teacherId"/>
         <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
         <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
     </resultMap>
-    <insert id="insertIngore">
+    <insert id="insertIgnore">
       insert ignore into
-      topie_campus.t_relate_student_teacher(`teacher_id`,`student_id`,`student_no`,`employee_no`)
-      values(#{ts.teacherId},#{ts.studentId},#{ts.studentNo},#{ts.employeeNo})
+      topie_campus.t_relate_student_teacher(`type_id`,`teacher_id`,`student_id`,`student_no`,`employee_no`)
+      values(#{ts.typeId},#{ts.teacherId},#{ts.studentId},#{ts.studentNo},#{ts.employeeNo})
     </insert>
 </mapper>

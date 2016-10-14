@@ -53,11 +53,11 @@
     </sql>
     <insert id="insertRelate">
         insert ignore into
-        topie_campus.t_relate_student_teacher(student_id,teacher_id)
-        values(#{studentId},#{teacherId})
+        topie_campus.t_relate_student_teacher(type_id,student_id,teacher_id)
+        values(#{typeId},#{studentId},#{teacherId})
     </insert>
     <delete id="deleteRelate">
-        delete from topie_campus.t_relate_student_teacher where student_id=#{studentId} and teacher_id=#{teacherId}
+        delete from topie_campus.t_relate_student_teacher where type_id=#{typeId} and student_id=#{studentId} and teacher_id=#{teacherId}
     </delete>
     <select id="findTeacherByPageNumAndPageSize" resultMap="BaseResultMap">
         select
@@ -100,7 +100,7 @@
     <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize" resultMap="SimpleDtoResultMap">
         select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind
         from topie_campus.t_teacher t
-        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId}
         <where>
             <if test="teacher.name != null and teacher.name != ''">
                 and t.name like concat('%',concat(#{teacher.name}, '%'))
@@ -126,7 +126,7 @@
     <select id="countStudentSimpleDtoListByTeacherId" resultType="java.lang.Long">
         select count(1)
         from topie_campus.t_teacher t
-        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId}
         <where>
             <if test="teacher.name != null and teacher.name != ''">
                 and t.name like concat('%',concat(#{teacher.name}, '%'))

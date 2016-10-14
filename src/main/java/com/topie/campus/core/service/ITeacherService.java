@@ -12,9 +12,9 @@ public interface ITeacherService extends IService<Teacher> {
 
     SimplePageInfo<Teacher> findTeacherList(Teacher teacher, Integer pageNum, Integer pageSize);
 
-    void insertToBindStudent(Integer studentId, Integer teacherId);
+    void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId);
 
-    void deleteToUnBindStudent(Integer studentId, Integer teacherId);
+    void deleteToUnBindStudent(Integer typeId, Integer studentId, Integer teacherId);
 
     Teacher findTeacherByUserId(Integer UserId);
 
@@ -22,8 +22,8 @@ public interface ITeacherService extends IService<Teacher> {
 
     String findTeacherNameByUserId(Integer userId);
 
-    SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto, Integer studentId, Integer pageNum,
-            Integer pageSize);
+    SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
+            Integer typeId, Integer studentId, Integer pageNum, Integer pageSize);
 
     Integer findIdByEmployeeNo(String employeeNo);
 }

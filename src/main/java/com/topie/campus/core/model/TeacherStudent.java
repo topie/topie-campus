@@ -1,9 +1,19 @@
 package com.topie.campus.core.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "t_relate_student_teacher")
 public class TeacherStudent {
+
+    /**
+     * 学生id
+     */
+    @Id
+    @Column(name = "type_id")
+    private Integer typeId;
+
     /**
      * 学生id
      */
@@ -100,5 +110,13 @@ public class TeacherStudent {
      */
     public void setEmployeeNo(String employeeNo) {
         this.employeeNo = employeeNo;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 }

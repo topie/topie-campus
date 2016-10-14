@@ -14,9 +14,11 @@ public interface TeacherMapper extends Mapper<Teacher> {
 
     long countTeacher(@Param("teacher") Teacher param);
 
-    void insertRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
+    void insertRelate(@Param("typeId") Integer typeId, @Param("studentId") Integer studentId,
+            @Param("teacherId") Integer teacherId);
 
-    void deleteRelate(@Param("studentId") Integer studentId, @Param("teacherId") Integer teacherId);
+    void deleteRelate(@Param("typeId") Integer typeId, @Param("studentId") Integer studentId,
+            @Param("teacherId") Integer teacherId);
 
     Teacher selectOneByUserId(@Param("userId") Integer userId);
 
@@ -25,10 +27,12 @@ public interface TeacherMapper extends Mapper<Teacher> {
     String selectTeacherNameByUserId(@Param("userId") Integer userId);
 
     List<TeacherSimpleDto> findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(
-            @Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("studentId") Integer studentId,
-            @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
+            @Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("typeId") Integer typeId,
+            @Param("studentId") Integer studentId, @Param("pageOffset") Integer pageOffset,
+            @Param("pageSize") Integer pageSize);
 
-    Long countStudentSimpleDtoListByTeacherId(@Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("studentId") Integer studentId);
+    Long countStudentSimpleDtoListByTeacherId(@Param("teacher") TeacherSimpleDto teacherSimpleDto,
+            @Param("typeId") Integer typeId, @Param("studentId") Integer studentId);
 
-    Integer selectIdByEmployeeNo(@Param("employeeNo")String employeeNo);
+    Integer selectIdByEmployeeNo(@Param("employeeNo") String employeeNo);
 }

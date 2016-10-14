@@ -81,7 +81,7 @@
             resultMap="SimpleDtoResultMap">
         select s.id,s.student_no,s.name,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind
         from topie_campus.t_student s
-        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id
+        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id and st.type_id = #{typeId}
         <where>
             <if test="student.name != null and student.name != ''">
                 and s.name like concat('%',concat(#{student.name}, '%'))
@@ -108,7 +108,7 @@
         select
         count(1)
         from topie_campus.t_student s
-        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id
+        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id  and st.type_id = #{typeId}
         <where>
             <if test="student.name != null and student.name != ''">
                 and s.name like concat('%',concat(#{student.name}, '%'))

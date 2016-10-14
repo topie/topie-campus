@@ -15,11 +15,12 @@ public interface StudentMapper extends Mapper<Student> {
     Long countStudent(@Param("student") Student student);
 
     List<StudentSimpleDto> findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(
-            @Param("student") StudentSimpleDto studentSimpleDto, @Param("teacherId") Integer teacherId,
-            @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
+            @Param("student") StudentSimpleDto studentSimpleDto, @Param("typeId") Integer typeId,
+            @Param("teacherId") Integer teacherId, @Param("pageOffset") Integer pageOffset,
+            @Param("pageSize") Integer pageSize);
 
     Long countStudentSimpleDtoListByTeacherId(@Param("student") StudentSimpleDto studentSimpleDto,
-            @Param("teacherId") Integer teacherId);
+            @Param("typeId") Integer typeId, @Param("teacherId") Integer teacherId);
 
     Integer findStudentIdByUserId(@Param("userId") Integer userId);
 

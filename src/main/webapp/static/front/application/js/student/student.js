@@ -54,7 +54,7 @@
             actionColumnText: "操作",//操作列文本
             actionColumnWidth: "20%",
             actionColumns: [
-                {
+                /*{
                     textHandle: function (index, stData) {
                         if (stData.isBind == 1) {
                             return "取消选择";
@@ -100,7 +100,7 @@
                             }
                         });
                     }
-                },
+                },*/
                 {
                     visible: function (index, stData) {
                         if (stData.isBind == 1) {
@@ -180,38 +180,44 @@
             search: {
                 rowEleNum: 2,
                 //搜索栏元素
-                items: [{
-                    type: "text",
-                    label: "学生名称",
-                    name: "name",
-                    placeholder: "输入要搜索的学生名称"
-                }, {
-                    type: "text",
-                    label: "学号",
-                    name: "studentNo",
-                    placeholder: "输入要搜索的学号"
-                }, {
-                    type: "text",
-                    label: "手机号",
-                    name: "contactPhone",
-                    placeholder: "输入要搜索的手机号"
-                }, {
-                    type: "select",
-                    label: "是否绑定",
-                    name: "isBind",
-                    items: [
-                        {
-                            value: "",
-                            text: "全部"
-                        }, {
-                            value: 1,
-                            text: "是"
-                        }, {
-                            value: 0,
-                            text: "否"
-                        }
-                    ]
-                }]
+                items: [
+                    {
+                        type: "select",
+                        label: "教师类型",
+                        name: "typeId",
+                        itemsUrl: App.href + "/api/info/teacherType/options?topie_token=" + App.token
+                    }, {
+                        type: "text",
+                        label: "学生名称",
+                        name: "name",
+                        placeholder: "输入要搜索的学生名称"
+                    }, {
+                        type: "text",
+                        label: "学号",
+                        name: "studentNo",
+                        placeholder: "输入要搜索的学号"
+                    }, {
+                        type: "text",
+                        label: "手机号",
+                        name: "contactPhone",
+                        placeholder: "输入要搜索的手机号"
+                    }, {
+                        type: "select",
+                        label: "是否绑定",
+                        name: "isBind",
+                        items: [
+                            {
+                                value: "",
+                                text: "全部"
+                            }, {
+                                value: 1,
+                                text: "是"
+                            }, {
+                                value: 0,
+                                text: "否"
+                            }
+                        ]
+                    }]
             }
         };
         grid = window.App.content.find("#student_grid").topieGrid(studentOpt);

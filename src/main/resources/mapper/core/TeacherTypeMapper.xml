@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.TeacherTypeMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.TeacherType">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="type_id" jdbcType="INTEGER" property="typeId"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="c_time" jdbcType="TIMESTAMP" property="cTime"/>
+        <result column="u_time" jdbcType="TIMESTAMP" property="uTime"/>
+    </resultMap>
+
+    <resultMap id="Option" type="com.topie.campus.common.Option">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="type_id" jdbcType="INTEGER" property="value"/>
+        <result column="type_name" jdbcType="VARCHAR" property="text"/>
+    </resultMap>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_teacher_type
+        <where>
+            <if test="teacherType.typeName!=null and teacherType.typeName!=''">
+                and type_name like concat('%',concat(#{teacherType.typeName},'%'))
+            </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_teacher_type
+        <where>
+            <if test="teacherType.typeName!=null and teacherType.typeName!=''">
+                and type_name like concat('%',concat(#{teacherType.typeName},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="selectOptions" resultMap="Option">
+        select
+        type_id,type_name
+        from topie_campus.t_teacher_type
+        <where>
+            <if test="teacherType.typeName!=null and teacherType.typeName!=''">
+                and type_name like concat('%',concat(#{teacherType.typeName},'%'))
+            </if>
+        </where>
+    </select>
+</mapper>

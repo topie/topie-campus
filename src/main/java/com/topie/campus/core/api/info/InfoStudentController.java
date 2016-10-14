@@ -64,11 +64,13 @@ public class InfoStudentController {
 
     @RequestMapping(value = "/teacher", method = RequestMethod.GET)
     @ResponseBody
-    public Result teacher(TeacherSimpleDto teacherSimpleDto, @RequestParam("studentId") Integer studentId,
+    public Result teacher(TeacherSimpleDto teacherSimpleDto,
+            @RequestParam("typeId") Integer typeId,
+            @RequestParam("studentId") Integer studentId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         SimplePageInfo<TeacherSimpleDto> pageInfo = iInfoBasicService
-                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, studentId, pageNum, pageSize);
+                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, typeId,studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 

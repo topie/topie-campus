@@ -29,13 +29,13 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     }
 
     @Override
-    public void insertToBindStudent(Integer studentId, Integer teacherId) {
-        teacherMapper.insertRelate(studentId, teacherId);
+    public void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId) {
+        teacherMapper.insertRelate(typeId, studentId, teacherId);
     }
 
     @Override
-    public void deleteToUnBindStudent(Integer studentId, Integer teacherId) {
-        teacherMapper.deleteRelate(studentId, teacherId);
+    public void deleteToUnBindStudent(Integer typeId, Integer studentId, Integer teacherId) {
+        teacherMapper.deleteRelate(typeId, studentId, teacherId);
     }
 
     @Override
@@ -55,11 +55,11 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
 
     @Override
     public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
-            Integer studentId, Integer pageNum, Integer pageSize) {
+            Integer typeId, Integer studentId, Integer pageNum, Integer pageSize) {
         List<TeacherSimpleDto> list = teacherMapper
-                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, studentId,
+                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, typeId, studentId,
                         (pageNum - 1) * pageSize, pageSize);
-        Long total = teacherMapper.countStudentSimpleDtoListByTeacherId(teacherSimpleDto, studentId);
+        Long total = teacherMapper.countStudentSimpleDtoListByTeacherId(teacherSimpleDto, typeId, studentId);
         SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
     }

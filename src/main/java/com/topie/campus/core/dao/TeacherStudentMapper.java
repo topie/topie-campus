@@ -6,5 +6,5 @@ import tk.mybatis.mapper.common.Mapper;
 
 public interface TeacherStudentMapper extends Mapper<TeacherStudent> {
 
-    int insertIngore(@Param("ts") TeacherStudent teacherStudent);
+    int insertIgnore(@Param("ts") TeacherStudent teacherStudent);
 }

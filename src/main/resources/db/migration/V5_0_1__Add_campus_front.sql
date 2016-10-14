@@ -9,10 +9,12 @@ INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `disp
 VALUES ('19', '0', '成绩查询', '1', '2', '', '/api/front/student/score', '0', '2016-10-07 14:08:26', '2016-10-07 14:09:04');
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
 VALUES
-  ('20', '0', '等级考试成绩查询', '1', '2', '', '/api/front/student/cetscore', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
+  ('20', '0', '等级考试成绩查询', '1', '2', '', '/api/front/student/cetscore', '0', '2016-10-07 14:08:50',
+   '2016-10-07 14:09:06');
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
 VALUES
-  ('21', '0', '选课情况', '1', '2', '', '/api/front/student/selectCourse', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
+  ('21', '0', '选课情况', '1', '2', '', '/api/front/student/selectCourse', '0', '2016-10-07 14:08:50',
+   '2016-10-07 14:09:06');
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
 VALUES
   ('22', '0', '课程表', '1', '2', '', '/api/front/student/timeTable', '0', '2016-10-07 14:08:50', '2016-10-07 14:09:06');
@@ -49,9 +51,20 @@ INSERT INTO `t_student` (`id`, `user_id`, `student_no`, `name`, `birth`, `academ
 VALUES
   (1, 5, '32322', '学生', '1990-10-12', '软件学院', '软件工程', '18600200791',
    '18600200791@163.com');
+INSERT INTO `sys_user` VALUES
+  ('9', 'student2', '$2a$10$g9iJtxSdTyXj7I2jSDFpPOWN7xHlyasFOVb8Q5m/rX3EP5nTS4Pxi', '学生2', '1', '1',
+        '1', '1', NULL, NULL, 'teacher@163.com', '15802983637', '2015-10-12 00:00:00',
+   '2015-10-12 00:00:00', '2015-10-12 00:00:00');
+INSERT INTO `t_student` (`id`, `user_id`, `student_no`, `name`, `birth`, `academe`, `subject`, `contact_phone`, `email`)
+VALUES
+  (2, 9, '32323', '学生2', '1990-10-12', '软件学院', '软件工程', '18600200791',
+   '18600200791@163.com');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
-INSERT INTO `t_relate_student_teacher` (teacher_id, student_id, employee_no, student_no)
-VALUES (1, 1, '32319', '32322');
+INSERT INTO `t_teacher_type` (type_id, type_name) VALUES (1, '普通教师');
+INSERT INTO `t_relate_teacher_teacher_type` VALUES (1, 0);
+
+INSERT INTO `t_relate_student_teacher` (type_id, teacher_id, student_id, employee_no, student_no)
+VALUES (1, 1, 1, '32319', '32322');
 
 

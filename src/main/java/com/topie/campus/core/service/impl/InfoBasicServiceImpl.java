@@ -13,7 +13,6 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,14 +115,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 user.setPassword(studentDto.getPassword());
                 userService.updateUser(user);
             } else {
-            	if(StringUtils.isNotEmpty(studentDto.getPassword()))
-                {
-            		user.setPassword(studentDto.getPassword());
+                if (StringUtils.isNotEmpty(studentDto.getPassword())) {
+                    user.setPassword(studentDto.getPassword());
+                } else {
+                    user.setPassword(studentDto.getStudentNo());
                 }
-            	else
-            		{
-            		user.setPassword(studentDto.getStudentNo());
-            		}
                 userService.insertUser(user);
                 userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();
@@ -205,14 +201,16 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Override
     public SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
-            Integer teacherId, Integer pageNum, Integer pageSize) {
-        return iStudentService.findStudentSimpleDtoListWithBindInfo(studentSimpleDto, teacherId, pageNum, pageSize);
+            Integer typeId, Integer teacherId, Integer pageNum, Integer pageSize) {
+        return iStudentService
+                .findStudentSimpleDtoListWithBindInfo(studentSimpleDto, typeId, teacherId, pageNum, pageSize);
     }
 
     @Override
     public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
-            Integer studentId, Integer pageNum, Integer pageSize) {
-        return iTeacherService.findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, studentId, pageNum, pageSize);
+            Integer typeId, Integer studentId, Integer pageNum, Integer pageSize) {
+        return iTeacherService
+                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, typeId, studentId, pageNum, pageSize);
     }
 
     @Override
@@ -249,13 +247,13 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     }
 
     @Override
-    public void insertToBindStudentTeacher(Integer studentId, Integer teacherId) {
-        iTeacherService.insertToBindStudent(studentId, teacherId);
+    public void insertToBindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId) {
+        iTeacherService.insertToBindStudent(typeId, studentId, teacherId);
     }
 
     @Override
-    public void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId) {
-        iTeacherService.deleteToUnBindStudent(studentId, teacherId);
+    public void deleteToUnbindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId) {
+        iTeacherService.deleteToUnBindStudent(typeId, studentId, teacherId);
     }
 
     @Override
@@ -327,6 +325,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Override
     public void uploadTeacherStudentRelate(MultipartFile file, ExcelLogs logs) throws IOException {
+        uploadTeacherStudentRelate(0, file, logs);
+    }
+
+    @Override
+    public void uploadTeacherStudentRelate(Integer typeId, MultipartFile file, ExcelLogs logs) throws IOException {
         Collection<TeacherStudentRelateExcelDto> teacherStudentRelateExcelDtos;
         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
             teacherStudentRelateExcelDtos = ExcelUtil
@@ -344,7 +347,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
                 teacherStudent.setTeacherId(teacherId);
                 teacherStudent.setEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
                 teacherStudent.setStudentNo(teacherStudentRelateExcelDto.getStudentNo());
-                teacherStudentMapper.insertIngore(teacherStudent);
+                teacherStudent.setTypeId(typeId);
+                teacherStudentMapper.insertIgnore(teacherStudent);
             }
         }
     }

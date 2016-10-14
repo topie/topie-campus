@@ -98,10 +98,10 @@
      */
     App.content = {
         append: function (ele) {
-            $("#main-body").append(ele);
+            return $("#main-body").append(ele);
         },
         empty: function () {
-            $("#main-body").empty();
+            return $("#main-body").empty();
         },
         find: function (ele) {
             return $("#main-body").find(ele);

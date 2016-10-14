@@ -13,7 +13,7 @@ public interface IStudentService extends IService<Student> {
     SimplePageInfo<Student> findStudentList(Student teacher, Integer pageNum, Integer pageSize);
 
     SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
-            Integer teacherId, Integer pageNum, Integer pageSize);
+            Integer typeId, Integer teacherId, Integer pageNum, Integer pageSize);
 
     Student findStudentByUserId(Integer userId);
 

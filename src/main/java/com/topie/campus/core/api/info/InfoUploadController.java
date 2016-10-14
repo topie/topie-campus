@@ -78,6 +78,7 @@ public class InfoUploadController {
     @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
     @ResponseBody
     public Result userUpload(HttpServletResponse response, Integer excelType,
+            @RequestParam(value = "typeId", required = false) Integer typeId,
             @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         ExcelLogs logs = new ExcelLogs();
         if (file == null || file.isEmpty()) {
@@ -99,7 +100,11 @@ public class InfoUploadController {
         } else if (excelType == 7) {
             employmentService.employUpload(file, logs);
         } else if (excelType == 8) {
-            iInfoBasicService.uploadTeacherStudentRelate(file, logs);
+            if (typeId != null) {
+                iInfoBasicService.uploadTeacherStudentRelate(typeId, file, logs);
+            } else {
+                return ResponseUtil.error("请先选择教师类型");
+            }
         }
         return ResponseUtil.success(logs.getErrorLogList());
     }

@@ -5,7 +5,7 @@
 (function ($, window, document, undefined) {
     window.App = {
         projectName: "/topie-campus",
-        href: "http://localhost:8080",
+        href: "../..",
         requestMapping: {}
     };
     /**
@@ -97,10 +97,10 @@
      */
     App.content = {
         append: function (ele) {
-            $("#main-body").append(ele);
+            return $("#main-body").append(ele);
         },
         empty: function () {
-            $("#main-body").empty();
+            return $("#main-body").empty();
         },
         find: function (ele) {
             return $("#main-body").find(ele);

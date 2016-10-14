@@ -30,11 +30,11 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 
     @Override
     public SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
-            Integer teacherId, Integer pageNum, Integer pageSize) {
+            Integer typeId, Integer teacherId, Integer pageNum, Integer pageSize) {
         List<StudentSimpleDto> list = studentMapper
-                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(studentSimpleDto, teacherId,
+                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(studentSimpleDto, typeId, teacherId,
                         (pageNum - 1) * pageSize, pageSize);
-        Long total = studentMapper.countStudentSimpleDtoListByTeacherId(studentSimpleDto, teacherId);
+        Long total = studentMapper.countStudentSimpleDtoListByTeacherId(studentSimpleDto, typeId, teacherId);
         SimplePageInfo<StudentSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
     }

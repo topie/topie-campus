@@ -7,6 +7,8 @@
         this._setVariable(element, options);
         this._setOptions(this._options);
         this._initEmpty();
+        if (!this._autoLoad)
+            return;
         if (this._url != undefined) {
             this._load();
             return;
@@ -19,6 +21,7 @@
         return;
     };
     Grid.defaults = {
+        autoLoad: true,
         pageNum: 1,
         pageSize: 5,
         showCheck: false,
@@ -133,6 +136,7 @@
         },
         // 设置属性
         _setOptions: function (options) {
+            this._autoLoad = options.autoLoad;
             this._url = options.url;
             this._type = options.type == undefined ? "GET" : options.type;
             this._beforeSend = options.beforeSend;
@@ -383,28 +387,30 @@
                                             "id_": (item.id == undefined ? ""
                                                 : item.id)
                                         });
-                                $
-                                    .each(
-                                        item.items,
-                                        function (index, option) {
-                                            $
-                                                .tmpl(
-                                                    Grid.statics.optionTmpl,
-                                                    {
-                                                        "value_": (option.value == undefined ? ""
-                                                            : option.value),
-                                                        "text_": (option.text == undefined ? ""
-                                                            : option.text)
-                                                    })
-                                                .appendTo(
-                                                    ele);
-                                        });
+                                if (item.items != undefined && item.items.length > 0) {
+                                    $
+                                        .each(
+                                            item.items,
+                                            function (index, option) {
+                                                $
+                                                    .tmpl(
+                                                        Grid.statics.optionTmpl,
+                                                        {
+                                                            "value_": (option.value == undefined ? ""
+                                                                : option.value),
+                                                            "text_": (option.text == undefined ? ""
+                                                                : option.text)
+                                                        })
+                                                    .appendTo(
+                                                        ele);
+                                            });
+                                }
                                 itemDiv.find(".form-group").append(ele);
                                 if (item.itemsUrl != undefined) {
-                                    $
-                                        .ajax({
-                                            type: (item.method == undefined ? "GET" : item.type),
+                                    $.ajax({
+                                            type: (item.method == undefined ? "GET" : item.method),
                                             dataType: "json",
+                                            async: false,
                                             url: item.itemsUrl,
                                             success: function (data) {
                                                 data = data.data;
@@ -431,7 +437,8 @@
                                                 console
                                                     .error("请求错误");
                                             }
-                                        });
+                                        }
+                                    );
                                 }
                             } else if (item.type == "radioGroup") {
                                 var ele = $
@@ -469,6 +476,7 @@
                                         .ajax({
                                             type: "POST",
                                             dataType: "json",
+                                            async: false,
                                             url: item.itemsUrl,
                                             success: function (data) {
                                                 $
@@ -532,6 +540,7 @@
                                         .ajax({
                                             type: "POST",
                                             dataType: "json",
+                                            async: false,
                                             url: item.itemsUrl,
                                             success: function (data) {
                                                 $

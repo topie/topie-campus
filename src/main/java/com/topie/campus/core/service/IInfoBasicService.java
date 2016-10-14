@@ -30,10 +30,10 @@ public interface IInfoBasicService {
     SimplePageInfo<Student> findStudentList(Student student, int pageNum, int pageSize);
 
     SimplePageInfo<StudentSimpleDto> findStudentSimpleDtoListWithBindInfo(StudentSimpleDto studentSimpleDto,
-            Integer teacherId, Integer pageNum, Integer pageSize);
+            Integer typeId, Integer teacherId, Integer pageNum, Integer pageSize);
 
     SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
-            Integer studentId, Integer pageNum, Integer pageSize);
+            Integer typeId, Integer studentId, Integer pageNum, Integer pageSize);
 
     Student findOneByStudentId(Integer studentId);
 
@@ -43,9 +43,9 @@ public interface IInfoBasicService {
 
     int deleteStudent(Integer studentId);
 
-    void insertToBindStudentTeacher(Integer studentId, Integer teacherId);
+    void insertToBindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId);
 
-    void deleteToUnbindStudentTeacher(Integer studentId, Integer teacherId);
+    void deleteToUnbindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId);
 
     void uploadStuScore(MultipartFile file, ExcelLogs logs) throws IOException;
 
@@ -60,4 +60,6 @@ public interface IInfoBasicService {
     void uploadTeacherTable(MultipartFile file, ExcelLogs logs) throws IOException;
 
     void uploadTeacherStudentRelate(MultipartFile file, ExcelLogs logs) throws IOException;
+
+    void uploadTeacherStudentRelate(Integer typeId, MultipartFile file, ExcelLogs logs) throws IOException;
 }

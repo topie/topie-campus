@@ -42,7 +42,7 @@ public class FrontTeacherController {
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
-    public Result student(TeacherSimpleDto teacherSimpleDto,
+    public Result student(TeacherSimpleDto teacherSimpleDto, @RequestParam(value = "typeId") Integer typeId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Integer userId = SecurityUtil.getCurrentUserId();
@@ -54,7 +54,7 @@ public class FrontTeacherController {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
         SimplePageInfo<TeacherSimpleDto> pageInfo = iInfoBasicService
-                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, studentId, pageNum, pageSize);
+                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, typeId, studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
@@ -90,25 +90,27 @@ public class FrontTeacherController {
 
     @RequestMapping(value = "/bindTeacher", method = RequestMethod.GET)
     @ResponseBody
-    public Result bind(@RequestParam(value = "teacherId") Integer teacherId) {
+    public Result bind(@RequestParam(value = "typeId") Integer typeId,
+            @RequestParam(value = "teacherId") Integer teacherId) {
         Integer userId = SecurityUtil.getCurrentUserId();
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
         Integer studentId = iStudentService.findStudentIdByUserId(userId);
-        iInfoBasicService.insertToBindStudentTeacher(studentId, teacherId);
+        iInfoBasicService.insertToBindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
     }
 
     @RequestMapping(value = "/unbindTeacher", method = RequestMethod.GET)
     @ResponseBody
-    public Result unbind(@RequestParam(value = "teacherId") Integer teacherId) {
+    public Result unbind(@RequestParam(value = "typeId") Integer typeId,
+            @RequestParam(value = "teacherId") Integer teacherId) {
         Integer userId = SecurityUtil.getCurrentUserId();
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
         Integer studentId = iStudentService.findStudentIdByUserId(userId);
-        iInfoBasicService.deleteToUnbindStudentTeacher(studentId, teacherId);
+        iInfoBasicService.deleteToUnbindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
     }
 }
