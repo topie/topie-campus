@@ -532,14 +532,16 @@
                     "attribute_": (data.attribute == undefined ? ""
                         : data.attribute)
                 });
-                $.each(data.items, function (i, option) {
-                    var opt = $.tmpl(optionTmpl, {
-                        "value_": option.value,
-                        "text_": option.text,
-                        "selected": (option.selected ? "selected" : "")
+                if (data.items != undefined && data.items.length > 0) {
+                    $.each(data.items, function (i, option) {
+                        var opt = $.tmpl(optionTmpl, {
+                            "value_": option.value,
+                            "text_": option.text,
+                            "selected": (option.selected ? "selected" : "")
+                        });
+                        ele.append(opt);
                     });
-                    ele.append(opt);
-                });
+                }
                 if (data.itemsUrl != undefined) {
                     $.ajax({
                         type: "POST",
@@ -571,9 +573,8 @@
                     "attribute_": (data.attribute == undefined ? ""
                         : data.attribute)
                 });
-
-                $
-                    .each(
+                if (data.items != undefined && data.items.length > 0) {
+                    $.each(
                         data.items,
                         function (i, checkbox) {
                             var cb = $
@@ -593,7 +594,9 @@
                                             : checkbox.attribute)
                                     });
                             ele.append(cb);
-                        });
+                        }
+                    );
+                }
                 if (data.itemsUrl != undefined) {
                     $
                         .ajax({
@@ -602,30 +605,30 @@
                             async: data.async ? true : false,
                             url: data.itemsUrl,
                             success: function (cbs) {
-                                $
-                                    .each(
-                                        cbs,
-                                        function (i, checkbox) {
-                                            var cb = $
-                                                .tmpl(
-                                                    checkboxTmpl,
-                                                    {
-                                                        "inline_": data.inline ? inlineCls
-                                                            : "",
-                                                        "name_": data.name,
-                                                        "value_": checkbox.value,
-                                                        "text_": checkbox.text,
-                                                        "checked": (checkbox.checked ? "checked=checked"
-                                                            : ""),
-                                                        "disabled_": (checkbox.disabled ? "disabled"
-                                                            : ""),
-                                                        "attribute_": (checkbox.attribute == undefined ? ""
-                                                            : checkbox.attribute)
-                                                    });
-                                            ele.append(cb);
-                                            Form.prototype
-                                                ._uniform();
-                                        });
+                                $.each(
+                                    cbs,
+                                    function (i, checkbox) {
+                                        var cb = $
+                                            .tmpl(
+                                                checkboxTmpl,
+                                                {
+                                                    "inline_": data.inline ? inlineCls
+                                                        : "",
+                                                    "name_": data.name,
+                                                    "value_": checkbox.value,
+                                                    "text_": checkbox.text,
+                                                    "checked": (checkbox.checked ? "checked=checked"
+                                                        : ""),
+                                                    "disabled_": (checkbox.disabled ? "disabled"
+                                                        : ""),
+                                                    "attribute_": (checkbox.attribute == undefined ? ""
+                                                        : checkbox.attribute)
+                                                });
+                                        ele.append(cb);
+                                        Form.prototype
+                                            ._uniform();
+                                    }
+                                );
                             }
                         });
                 }
@@ -642,18 +645,20 @@
                     "attribute_": (data.attribute == undefined ? ""
                         : data.attribute)
                 });
-                $.each(data.items, function (i, radio) {
-                    var rd = $.tmpl(radioTmpl, {
-                        "inline_": data.inline ? inlineCls : "",
-                        "name_": data.name,
-                        "value_": radio.value,
-                        "text_": radio.text,
-                        "checked_": (radio.checked ? "checked=checked" : ""),
-                        "attribute_": (radio.attribute == undefined ? ""
-                            : radio.attribute)
+                if (data.items != undefined && data.items.length > 0) {
+                    $.each(data.items, function (i, radio) {
+                        var rd = $.tmpl(radioTmpl, {
+                            "inline_": data.inline ? inlineCls : "",
+                            "name_": data.name,
+                            "value_": radio.value,
+                            "text_": radio.text,
+                            "checked_": (radio.checked ? "checked=checked" : ""),
+                            "attribute_": (radio.attribute == undefined ? ""
+                                : radio.attribute)
+                        });
+                        ele.append(rd);
                     });
-                    ele.append(rd);
-                });
+                }
                 if (data.itemsUrl != undefined) {
                     $
                         .ajax({

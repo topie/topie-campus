@@ -388,22 +388,22 @@
                                                 : item.id)
                                         });
                                 if (item.items != undefined && item.items.length > 0) {
-                                    $
-                                        .each(
-                                            item.items,
-                                            function (index, option) {
-                                                $
-                                                    .tmpl(
-                                                        Grid.statics.optionTmpl,
-                                                        {
-                                                            "value_": (option.value == undefined ? ""
-                                                                : option.value),
-                                                            "text_": (option.text == undefined ? ""
-                                                                : option.text)
-                                                        })
-                                                    .appendTo(
-                                                        ele);
-                                            });
+                                    $.each(
+                                        item.items,
+                                        function (index, option) {
+                                            $
+                                                .tmpl(
+                                                    Grid.statics.optionTmpl,
+                                                    {
+                                                        "value_": (option.value == undefined ? ""
+                                                            : option.value),
+                                                        "text_": (option.text == undefined ? ""
+                                                            : option.text)
+                                                    })
+                                                .appendTo(
+                                                    ele);
+                                        }
+                                    );
                                 }
                                 itemDiv.find(".form-group").append(ele);
                                 if (item.itemsUrl != undefined) {
@@ -413,24 +413,23 @@
                                             async: false,
                                             url: item.itemsUrl,
                                             success: function (data) {
-                                                data = data.data;
-                                                $
-                                                    .each(
-                                                        data,
-                                                        function (index,
-                                                                  option) {
-                                                            $
-                                                                .tmpl(
-                                                                    Grid.statics.optionTmpl,
-                                                                    {
-                                                                        "value_": (option.value == undefined ? ""
-                                                                            : option.value),
-                                                                        "text_": (option.text == undefined ? ""
-                                                                            : option.text)
-                                                                    })
-                                                                .appendTo(
-                                                                    ele);
-                                                        });
+                                                $.each(
+                                                    data,
+                                                    function (index,
+                                                              option) {
+                                                        $
+                                                            .tmpl(
+                                                                Grid.statics.optionTmpl,
+                                                                {
+                                                                    "value_": (option.value == undefined ? ""
+                                                                        : option.value),
+                                                                    "text_": (option.text == undefined ? ""
+                                                                        : option.text)
+                                                                })
+                                                            .appendTo(
+                                                                ele);
+                                                    }
+                                                );
                                                 that._uniform();
                                             },
                                             error: function (err) {

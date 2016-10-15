@@ -68,6 +68,15 @@
                 required: "请输入职工号"
             }
         }, {
+            type: 'tree',//类型
+            name: 'typeIds',
+            id: 'typeIds',//id
+            label: '导师类型',//左边label
+            url: App.href + "/api/info/teacherType/treeNodes?topie_token=" + App.token,
+            expandAll: true,
+            autoParam: ["id", "name", "pId"],
+            chkStyle: "checkbox"
+        }, {
             type: 'radioGroup',
             name: 'gender',
             id: 'gender',
@@ -271,6 +280,10 @@
         {
             title: "教师名称",
             field: "name",
+            sort: true
+        }, {
+            title: "职工号",
+            field: "employeeNo",
             sort: true
         }, {
             title: "联系电话",
@@ -563,6 +576,10 @@
                     label: "教师名",
                     name: "name",
                     placeholder: "输入要搜索的教师名"
+                }, {
+                    title: "职工号",
+                    field: "employeeNo",
+                    sort: true
                 }, {
                     title: "联系电话",
                     field: "contactPhone",

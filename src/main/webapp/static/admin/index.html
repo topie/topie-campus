@@ -43,7 +43,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 我的账号 <b class="caret"></b></a>
                             <ul class="dropdown-menu animated fadeInUp">
-                                <li><a href="login.html">退出登录</a></li>
+                                <li><a id="logout" href="javascript:void(0);">退出登录</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -127,9 +127,6 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
 <script src="../vendors/bootbox.min.js"></script>
-<script type="text/javascript">
-    bootbox.setLocale("zh_CN");
-</script>
 <script src="../vendors/block-ui/jquery.blockUI.js"></script>
 <script src="../vendors/datatables/js/jquery.dataTables.min.js"></script>
 <script src="../vendors/bootstrap-modal/js/bootstrap-modal.js"></script>
@@ -151,6 +148,7 @@
 <script src="application/js/index.js"></script>
 <script src="application/js/info/upload.js"></script>
 <script src="application/js/info/teacher.js"></script>
+<script src="application/js/info/teacher-type.js"></script>
 <script src="application/js/info/student.js"></script>
 <script src="application/js/info/notice.js"></script>
 <script src="application/js/sys/user.js"></script>
@@ -158,5 +156,29 @@
 <script src="application/js/sys/function.js"></script>
 <script src="application/js/job/employment.js"></script>
 <script src="application/js/job/static_employment.js"></script>
+<script type="text/javascript">
+    bootbox.setLocale("zh_CN");
+    $("#logout").on("click", function () {
+        $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/logout",
+                    contentType: "application/json",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", App.token);
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.code == 200) {
+                            $.cookie('tc_t', null);
+                            window.location.href = App.href + "/admin/login.html";
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                }
+        );
+    });
+</script>
 </body>
 </html>

@@ -164,7 +164,7 @@
             pageSelect: [2, 15, 30, 50],
             columns: App.infoStudent.columns,
             actionColumnText: "操作",
-            actionColumnWidth: "20%",
+            actionColumnWidth: "25%",
             actionColumns: [{
                 text: "编辑",
                 cls: "btn-primary btn-sm",

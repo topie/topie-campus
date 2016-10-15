@@ -69,7 +69,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 账户 <span class="caret"></span></a>
                         <ul class="dropdown-menu animated flipInX" role="menu">
-                            <li><a href="./login.html">退出登录</a></li>
+                            <li><a id="logout" href="javascript:void(0);">退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -110,7 +110,7 @@
     <div class="container">
 
         <div class="copy text-center">
-            版权所有 <a href='#'>北京联合大学生物化工学院</a>
+            版权所有 <a href='#'>北京联合大学</a>
         </div>
 
     </div>
@@ -124,9 +124,6 @@
 <script src="../vendors/jquery.cookie/jquery.cookie.js"></script>
 
 <script src="../vendors/bootbox.js"></script>
-<script type="text/javascript">
-    bootbox.setLocale("zh_CN");
-</script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="../vendors/metisMenu/metisMenu.js"></script>
@@ -155,6 +152,30 @@
 <script src="application/js/student/stucet.js"></script>
 <script src="application/js/student/stuSeleCourse.js"></script>
 <script src="application/js/student/stuTimeTable.js"></script>
+<script type="text/javascript">
+    bootbox.setLocale("zh_CN");
+    $("#logout").on("click", function () {
+        $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/logout",
+                    contentType: "application/json",
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", App.token);
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.code == 200) {
+                            $.cookie('tc_t', null);
+                            window.location.href = App.href + "/front/login.html";
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                }
+        );
+    });
+</script>
 </body>
 
 </html>
