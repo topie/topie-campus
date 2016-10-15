@@ -21,3 +21,7 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '7');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '8');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '9');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '10');
+
+INSERT INTO `sys_function` VALUES ('23', '6', '导师类型管理', '1', '1', NULL, '/api/info/teacherType/page', '2', NULL, NULL);
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '23');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '23');

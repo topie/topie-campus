@@ -8,9 +8,12 @@ import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.ITeacherTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by chenguojun on 9/21/16.
@@ -21,6 +24,9 @@ public class InfoTeacherController {
 
     @Autowired
     private IInfoBasicService iInfoBasicService;
+
+    @Autowired
+    private ITeacherTypeService iTeacherTypeService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -33,8 +39,10 @@ public class InfoTeacherController {
 
     @RequestMapping(value = "/load/{teacherId}", method = RequestMethod.GET)
     @ResponseBody
-    public Result loadTeacher(@PathVariable(value = "teacherId") int teacherId) {
+    public Result loadTeacher(@PathVariable(value = "teacherId") Integer teacherId) {
         Teacher teacher = iInfoBasicService.findOneByTeacherId(teacherId);
+        List<Integer> typeIds = iTeacherTypeService.selectTypeIdsByTeacherId(teacherId);
+        teacher.setTypeIds(typeIds);
         return ResponseUtil.success(teacher);
     }
 
@@ -42,7 +50,12 @@ public class InfoTeacherController {
     @ResponseBody
     public Result teacherInsert(Teacher teacher) {
         int result = iInfoBasicService.insertTeacher(teacher);
-        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        if (result > 0) {
+            for (Integer typeId : teacher.getTypeIds()) {
+                iTeacherTypeService.insertTeacherAndTeacherTypeRelate(teacher.getId(), typeId);
+            }
+            return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        }
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
@@ -50,7 +63,13 @@ public class InfoTeacherController {
     @ResponseBody
     public Result teacherUpdate(Teacher teacher) {
         int result = iInfoBasicService.updateTeacher(teacher);
-        if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        if (result > 0) {
+            iTeacherTypeService.deleteTeacherAndTeacherTypeRelate(teacher.getId());
+            for (Integer typeId : teacher.getTypeIds()) {
+                iTeacherTypeService.insertTeacherAndTeacherTypeRelate(teacher.getId(), typeId);
+            }
+            return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        }
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 

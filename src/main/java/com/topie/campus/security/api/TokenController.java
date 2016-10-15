@@ -2,10 +2,12 @@ package com.topie.campus.security.api;
 
 import com.topie.campus.common.utils.HttpResponseUtil;
 import com.topie.campus.common.utils.RequestUtil;
+import com.topie.campus.common.utils.ResponseUtil;
+import com.topie.campus.common.utils.Result;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.security.OrangeAuthenticationRequest;
 import com.topie.campus.security.security.OrangeHttpAuthenticationDetails;
-import com.topie.campus.security.security.OrangeSecurityUser;
+import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.utils.TokenUtils;
 import com.topie.campus.tools.redis.RedisCache;
@@ -22,10 +24,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,19 +80,6 @@ public class TokenController {
         logger.info("登录成功;日志类型:{};用户:{};登录IP:{};", "登录", SecurityUtil.getCurrentUserName(),
                 RequestUtil.getIpAddress(request));
         return ResponseEntity.ok(HttpResponseUtil.success(token));
-    }
-
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> authenticationRequest(HttpServletRequest request) {
-        String token = request.getHeader(this.tokenHeader);
-        String username = this.tokenUtils.getUsernameFromToken(token);
-        OrangeSecurityUser user = (OrangeSecurityUser) this.userDetailsService.loadUserByUsername(username);
-        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())) {
-            String refreshedToken = this.tokenUtils.refreshToken(token);
-            return ResponseEntity.ok(HttpResponseUtil.success(refreshedToken));
-        } else {
-            return ResponseEntity.badRequest().body(HttpResponseUtil.error());
-        }
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

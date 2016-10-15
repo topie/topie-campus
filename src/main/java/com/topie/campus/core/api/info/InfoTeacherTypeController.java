@@ -2,6 +2,7 @@ package com.topie.campus.core.api.info;
 
 import com.topie.campus.common.Option;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
@@ -66,9 +67,15 @@ public class InfoTeacherTypeController {
 
     @RequestMapping(value = "/options", method = RequestMethod.GET)
     @ResponseBody
-    public Result options(TeacherType teacherType) {
+    public List<Option> options(TeacherType teacherType) {
         List<Option> optionList = iTeacherTypeService.selectOptions(teacherType);
-        return ResponseUtil.success(optionList);
+        return optionList;
     }
 
+    @RequestMapping(value = "/treeNodes", method = RequestMethod.POST)
+    @ResponseBody
+    public Object treeNodes(TeacherType teacherType) {
+        List<TreeNode> treeNodes = iTeacherTypeService.selectTreeNodes(teacherType);
+        return treeNodes;
+    }
 }

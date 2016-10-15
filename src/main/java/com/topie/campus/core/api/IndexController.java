@@ -1,6 +1,8 @@
 package com.topie.campus.core.api;
 
 import com.topie.campus.common.utils.ResponseUtil;
+import com.topie.campus.common.utils.Result;
+import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import java.util.Map;
 public class IndexController {
 
     @Autowired
+    OrangeSideUserCache orangeSideUserCache;
+
+    @Autowired
     private FreeMarkerUtil freeMarkerUtil;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -31,4 +36,11 @@ public class IndexController {
         return ResponseUtil.success(html);
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public Result authenticationRequest() {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        orangeSideUserCache.removeUserFromCacheByUserId(userId);
+        return ResponseUtil.success();
+    }
 }

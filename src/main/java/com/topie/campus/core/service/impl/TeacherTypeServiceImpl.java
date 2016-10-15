@@ -3,6 +3,7 @@ package com.topie.campus.core.service.impl;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.Option;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.core.dao.TeacherTypeMapper;
 import com.topie.campus.core.model.TeacherType;
 import com.topie.campus.core.service.ITeacherTypeService;
@@ -31,5 +32,25 @@ public class TeacherTypeServiceImpl extends BaseService<TeacherType> implements 
     @Override
     public List<Option> selectOptions(TeacherType teacherType) {
         return teacherTypeMapper.selectOptions(teacherType);
+    }
+
+    @Override
+    public List<TreeNode> selectTreeNodes(TeacherType teacherType) {
+        return teacherTypeMapper.selectTreeNodes(teacherType);
+    }
+
+    @Override
+    public List<Integer> selectTypeIdsByTeacherId(Integer teacherId) {
+        return teacherTypeMapper.selectTypeIdsByTeacherId(teacherId);
+    }
+
+    @Override
+    public int insertTeacherAndTeacherTypeRelate(Integer teacherId, Integer typeId) {
+        return teacherTypeMapper.insertTeacherAndTeacherTypeRelate(teacherId,typeId);
+    }
+
+    @Override
+    public int deleteTeacherAndTeacherTypeRelate(Integer teacherId) {
+        return teacherTypeMapper.deleteTeacherAndTeacherTypeRelate(teacherId);
     }
 }

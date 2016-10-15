@@ -11,6 +11,11 @@
         <result column="u_time" jdbcType="TIMESTAMP" property="uTime"/>
     </resultMap>
 
+    <resultMap id="TreeNodeMap" type="com.topie.campus.common.TreeNode">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="pId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
     <resultMap id="Option" type="com.topie.campus.common.Option">
         <!--
           WARNING - @mbggenerated
@@ -52,4 +57,27 @@
             </if>
         </where>
     </select>
+    <select id="selectTreeNodes" resultMap="TreeNodeMap">
+        select
+        type_id id,
+        0 parent_id,
+        type_name name
+        from topie_campus.t_teacher_type
+        <where>
+            <if test="teacherType.typeName!=null and teacherType.typeName!=''">
+                and type_name like concat('%',concat(#{teacherType.typeName},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="selectTypeIdsByTeacherId" resultType="java.lang.Integer">
+        select type_id from topie_campus.t_relate_teacher_teacher_type where teacher_id=#{teacherId}
+    </select>
+
+    <insert id="insertTeacherAndTeacherTypeRelate">
+        insert into topie_campus.t_relate_teacher_teacher_type(teacher_id, type_id) VALUES (#{teacherId},#{typeId})
+    </insert>
+
+    <delete id="deleteTeacherAndTeacherTypeRelate">
+        delete from topie_campus.t_relate_teacher_teacher_type where teacher_id=#{teacherId}
+    </delete>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "t_teacher")
 public class Teacher extends Sortable {
@@ -197,6 +198,17 @@ public class Teacher extends Sortable {
      */
     @Column(name = "teach_major")
     private String teachMajor;
+
+    @Transient
+    private List<Integer> typeIds;
+
+    public List<Integer> getTypeIds() {
+        return typeIds;
+    }
+
+    public void setTypeIds(List<Integer> typeIds) {
+        this.typeIds = typeIds;
+    }
 
     public Boolean getLabStaff() {
         return isLabStaff;
