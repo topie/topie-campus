@@ -29,7 +29,7 @@
             data: fields,
             success: function (result) {
                 if (result.code == 200) {
-                    $.cookie('tc_t', result.token, {expires: 7, path: '/'});
+                    $.cookie('tc_t', result.token, {expires: 7});
                     window.location.href = "./index.html";
                 } else {
                     alert(result.message);
