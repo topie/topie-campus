@@ -5,9 +5,7 @@
                 <div class="col-md-6">
                     <div class="form-group"><label>学年</label><select id="studyYear" name="studyYear" id=""
                                                                      class="form-control ">
-                        <option value="">请选择</option>
-                        <option value="2014-2015">2014-2015</option>
-                        <option value="2015-2016">2015-2016</option>
+                       
                     </select></div>
                 </div>
                 <div class="col-md-6">
@@ -30,3 +28,26 @@
     <div id="score_grid_wrapper" class="dataTables_wrapper no-footer">
     </div>
 </div>
+<script>
+function getStudyYear()
+{
+	var studyYear
+	var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth()+1;
+	if(month<8)
+	{
+		studyYear = (year-1)+"-"+year;
+		studyYearNum = 2; 
+	    $("#studyYear").val(studyYear);
+	    $("#studyYearNum").val(studyYearNum);
+	}
+	else
+		{
+		studyYear = year+"-"+(year+1);
+		studyYearNum = 1; 
+	    $("#studyYear").val(studyYear);
+	    $("#studyYearNum").val(studyYearNum);
+		}
+}
+</script>

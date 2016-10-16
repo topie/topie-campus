@@ -37,9 +37,11 @@ CREATE TABLE `t_dict_item` (
 -- ----------------------------
 -- Records of t_dict_item
 -- ----------------------------
-INSERT INTO `t_dict_item` VALUES ('1', '2014-2015', '2014-2015', null, '1', null);
-INSERT INTO `t_dict_item` VALUES ('2', '2015-2016', '2015-2016', null, '1', null);
-INSERT INTO `t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('3', '北京联合大学生物化学工程学院', '北京联合大学生物化学工程学院', NULL, '3', NULL);
+INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('1', '2014-2015', '2014-2015', NULL, '1', NULL);
+INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('2', '2015-2016', '2015-2016', NULL, '1', NULL);
+INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('3', '北京联合大学生物化学工程学院', '北京联合大学生物化学工程学院', NULL, '3', NULL);
+INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('4', '2016-2017', '2016-2017', NULL, '1', NULL);
+INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('5', '2017-2018', '2017-2018', NULL, '1', NULL);
 
 
 -- ----------------------------
