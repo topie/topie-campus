@@ -15,9 +15,19 @@ public class TeacherSimpleDto implements Serializable {
 
     private String name;
 
+    private String avatar;
+
     private String contactPhone;
 
     private Integer isBind;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public Integer getId() {
         return id;

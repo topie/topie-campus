@@ -90,12 +90,17 @@
                 <th>
                     <div class="user-head">
                         <a class="inbox-avatar" href="javascript:;">
-                            <img width="64" hieght="60"
-                                 src="">
+                            {{if t.avatar==null || t.avatar==""}}
+                            <img width="64" height="64"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+                            {{/if}}
+                            {{if t.avatar!=""}}
+                            <img width="64" height="64"
+                                 src="{{t.avatar}}"/>
+                            {{/if}}
                         </a>
                         <div class="user-name">
                             <h3><a style="color:black" href="javascript:void(0);">{{t.name}}</a></h3>
-                            <span><a href="javascript:void(0);">{{t.employeeNo}}</a></span>
                         </div>
                     </div>
                 </th>
