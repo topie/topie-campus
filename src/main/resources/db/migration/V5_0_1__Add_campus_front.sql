@@ -61,7 +61,10 @@ VALUES
    '18600200791@163.com');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
-INSERT INTO `t_teacher_type` (type_id, type_name) VALUES (1, '普通教师');
+INSERT INTO `t_teacher_type` (`type_id`, `type_name`, `c_time`, `u_time`) VALUES ('1', '课程导师', '2016-10-16 21:13:39', '2016-10-16 21:24:29');
+INSERT INTO `t_teacher_type` (`type_id`, `type_name`, `c_time`, `u_time`) VALUES ('2', '本科生导师', '2016-10-16 21:24:16', '2016-10-16 21:24:16');
+INSERT INTO `t_teacher_type` (`type_id`, `type_name`, `c_time`, `u_time`) VALUES ('3', '辅导员', '2016-10-16 21:25:11', '2016-10-16 21:25:11');
+
 INSERT INTO `t_relate_teacher_teacher_type` VALUES (1, 1);
 
 INSERT INTO `t_relate_student_teacher` (type_id, teacher_id, student_id, employee_no, student_no)

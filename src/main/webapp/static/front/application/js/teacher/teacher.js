@@ -44,6 +44,10 @@
                 {
                     title: "email",
                     field: "email"
+                },
+                {
+                    title: "导师类型",
+                    field: "typeName"
                 }
                 /* ,{
                     title: "是否我的教师",

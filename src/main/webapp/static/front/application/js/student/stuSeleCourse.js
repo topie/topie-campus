@@ -42,20 +42,24 @@
                     title: "选课课号",
                     field: "selectCourseNum"
                 }, {
-                    title: "是否选中",
-                    field: "isSelect"
+                    title: "课程名称",
+                    field: "courseName"
                 },
                 {
-                    title: "上课时间",
-                    field: "couseStudyTime"
+                    title: "课程性质",
+                    field: "courseNature"
                 },
                 {
-                    title: "教室编号",
-                    field: "classroomNum"
+                    title: "课程归属",
+                    field: "courseAffiliation"
                 },
                 {
-                    title: "教室名称",
-                    field: "classroomName"
+                    title: "学分",
+                    field: "courseCredit"
+                },
+                {
+                    title: "任课老师",
+                    field: "teacherName"
                 }
             ],
             actionColumnText: "操作",//操作列文本

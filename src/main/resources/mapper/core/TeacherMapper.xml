@@ -44,6 +44,7 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
         <result column="is_bind" jdbcType="INTEGER" property="isBind"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
     </resultMap>
     <sql id="Base_Column_List">
     id,avatar,user_id,employee_no,name,gender,ethnic_group,birth,political_status,academe,department,contact_phone,email,graduated_university,graduated_major,education_background,degree,professional_title,professional_position,subject_direction,teacher_certificate_no,main_teacher_certificate_no,staff_no,is_lab_staff,short_introduce,has_teacher_certificate,teacher_type,teacher_lever,is_outside,short_name,password,teach_major
@@ -98,10 +99,11 @@
         where user_id=#{userId}
     </select>
     <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize" resultMap="SimpleDtoResultMap">
-        select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind
+        select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind,tp.type_name
         from topie_campus.t_teacher t
         left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId}
         left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id
+        left join topie_campus.t_teacher_type tp on tp.type_id = ttp.type_id
         <where>
             ttp.type_id = #{typeId}
             <if test="teacher.name != null and teacher.name != ''">
