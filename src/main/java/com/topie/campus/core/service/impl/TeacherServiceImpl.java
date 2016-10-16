@@ -69,4 +69,9 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         return teacherMapper.selectIdByEmployeeNo(employeeNo);
     }
 
+    @Override
+    public List<TeacherSimpleDto> findTeacherByStudentIdAndTypeId(Integer studentId, Integer typeId) {
+        return teacherMapper.findTeacherByStudentIdAndTypeId(studentId,typeId);
+    }
+
 }

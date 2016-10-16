@@ -62,7 +62,7 @@ VALUES
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
 INSERT INTO `t_teacher_type` (type_id, type_name) VALUES (1, '普通教师');
-INSERT INTO `t_relate_teacher_teacher_type` VALUES (1, 0);
+INSERT INTO `t_relate_teacher_teacher_type` VALUES (1, 1);
 
 INSERT INTO `t_relate_student_teacher` (type_id, teacher_id, student_id, employee_no, student_no)
 VALUES (1, 1, 1, '32319', '32322');

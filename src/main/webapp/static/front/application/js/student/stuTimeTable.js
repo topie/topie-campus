@@ -102,15 +102,15 @@
                                     for (var i = 0; i <= 7; i++) {
                                         if (j == 0) {
                                             if (i == 0) {
-                                                var td = $('<td></td>');
+                                                var td = $('<th style="background-color: #eff0f3;"></th>');
                                             } else {
                                                 var week = getWeek(i);
-                                                var td = $('<td>' + week + '</td>');
+                                                var td = $('<th style="background-color: #eff0f3;">' + week + '</th>');
                                             }
                                             tr.append(td);
                                         } else {
                                             if (i == 0) {
-                                                var td = $('<td>第' + j + '节</td>');
+                                                var td = $('<td style="background-color: #eff0f3;">第' + j + '节</td>');
                                                 tr.append(td);
                                             } else {
                                                 var arr = getColSpan(data, i, j);
@@ -118,7 +118,11 @@
                                                 span = (span == undefined ? 0 : span);
                                                 var content = arr['content'];
                                                 if (span > 0) {
-                                                    var td = $('<td rowspan="' + span + '">' + content + '</td>');
+                                                    var style = "";
+                                                    if ($.trim(content) != "") {
+                                                        style = 'style="background-color: #d9edf7;"';
+                                                    }
+                                                    var td = $('<td ' + style + ' rowspan="' + span + '">' + content + '</td>');
                                                     tr.append(td);
                                                 }
                                             }

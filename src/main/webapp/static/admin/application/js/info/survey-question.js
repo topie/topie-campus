@@ -1,61 +1,61 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/info/teacherType/page": "teacherType"
+        "/api/info/surveyQuestion/page": "surveyQuestion"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.teacherType = {
+    App.surveyQuestion = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body" id="teacherType_grid"></div>');
+            var content = $('<div class="panel-body" id="surveyQuestion_grid"></div>');
             window.App.content.append(content);
-            App.teacherType.initEvents();
+            App.surveyQuestion.initEvents();
         }
     };
-    App.teacherType.formItems = [
+    App.surveyQuestion.formItems = [
         {
             type: 'hidden',
-            name: 'typeId',
-            id: 'typeId'
+            name: 'questionId',
+            id: 'questionId'
         }, {
-            type: 'text',
-            name: 'typeName',
-            id: 'typeName',
-            label: '教师类型名称',
+            type: 'textarea',
+            name: 'questionContent',
+            id: 'questionContent',
+            label: '问卷题内容',
             cls: 'input-large',
             rule: {
                 required: true
             },
             message: {
-                required: "请输入教师类型名称"
+                required: "请输入问卷题内容"
             }
         }
     ];
-    App.teacherType.columns = [{
-        title: "typeId",
-        field: "typeId",
+    App.surveyQuestion.columns = [{
+        title: "questionId",
+        field: "questionId",
         width: "5%"
     }, {
-        title: "教师类型名称",
-        field: "typeName"
+        title: "问卷题内容",
+        field: "questionContent"
     }];
-    App.teacherType.initEvents = function () {
+    App.surveyQuestion.initEvents = function () {
         var grid;
         var options = {
-            url: App.href + "/api/info/teacherType/page",
+            url: App.href + "/api/info/surveyQuestion/page",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
             pageNum: 1,
             pageSize: 15,
-            idFiled: "typeId",
+            idFiled: "questionId",
             showCheckbox: true,
             checkboxWidth: "3%",
             showIndexNum: true,
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
-            columns: App.teacherType.columns,
+            columns: App.surveyQuestion.columns,
             actionColumnText: "操作",
             actionColumnWidth: "20%",
             actionColumns: [{
@@ -63,16 +63,16 @@
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
                     var modal = $.topieModal({
-                        id: "teacherTypeForm",
-                        title: "编辑导师类型",
+                        id: "surveyQuestionForm",
+                        title: "编辑问卷题",
                         destroy: true
                     });
                     modal.show();
                     var formOpts = {
-                        id: "teacherType_form",
-                        name: "teacherType_form",
+                        id: "surveyQuestion_form",
+                        name: "surveyQuestion_form",
                         method: "POST",
-                        action: App.href + "/api/info/teacherType/update",
+                        action: App.href + "/api/info/surveyQuestion/update",
                         ajaxSubmit: true,
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
@@ -93,16 +93,16 @@
                             }
                         }],
                         buttonsAlign: "center",
-                        items: App.teacherType.formItems
+                        items: App.surveyQuestion.formItems
                     };
                     var form = modal.$body.topieForm(formOpts);
-                    form.loadRemote(App.href + "/api/info/teacherType/load/" + data.typeId);
+                    form.loadRemote(App.href + "/api/info/surveyQuestion/load/" + data.questionId);
                 }
             }, {
                 text: "删除",
                 cls: "btn-danger btn-sm",
                 handle: function (index, data) {
-                    var requestUrl = App.href + "/api/info/teacherType/delete";
+                    var requestUrl = App.href + "/api/info/surveyQuestion/delete";
                     $.ajax({
                         type: "POST",
                         beforeSend: function (request) {
@@ -110,7 +110,7 @@
                         },
                         dataType: "json",
                         data: {
-                            teacherTypeId: data.id
+                            "id": data.questionId
                         },
                         url: requestUrl,
                         success: function (data) {
@@ -133,15 +133,15 @@
                     icon: "fa fa-cubes",
                     handle: function (grid) {
                         var modal = $.topieModal({
-                            id: "teacherType_modal",
-                            title: "添加导师类型",
+                            id: "surveyQuestion_modal",
+                            title: "添加问卷题",
                             destroy: true
                         }).show();
                         var formOpts = {
-                            id: "add_teacherType_form",
-                            name: "add_teacherType_form",
+                            id: "add_surveyQuestion_form",
+                            name: "add_surveyQuestion_form",
                             method: "POST",
-                            action: App.href + "/api/info/teacherType/insert",
+                            action: App.href + "/api/info/surveyQuestion/insert",
                             ajaxSubmit: true,
                             rowEleNum: 1,
                             beforeSend: function (request) {
@@ -163,7 +163,7 @@
                                 }
                             }],
                             buttonsAlign: "center",
-                            items: App.teacherType.formItems
+                            items: App.surveyQuestion.formItems
                         };
                         var form = modal.$body.topieForm(formOpts);
                     }
@@ -173,12 +173,12 @@
                 rowEleNum: 1,
                 items: [{
                     type: "text",
-                    label: "教师类型名称",
-                    name: "typeName",
-                    placeholder: "教师类型名称"
+                    label: "问卷题内容",
+                    name: "questionContent",
+                    placeholder: "问卷题内容"
                 }]
             }
         };
-        grid = window.App.content.find("#teacherType_grid").topieGrid(options);
+        grid = window.App.content.find("#surveyQuestion_grid").topieGrid(options);
     }
 })(jQuery, window, document);
