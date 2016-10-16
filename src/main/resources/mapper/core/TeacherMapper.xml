@@ -119,6 +119,9 @@
             <if test="teacher.isBind != null and teacher.isBind == 1">
                 and st.student_id is not null
             </if>
+            <if test="studentId != null and studentId !=''">
+                and st.student_id = #{studentId}
+            </if>
         </where>
         order by is_bind desc,t.id asc
         <if test="pageOffset!=null and pageSize!=null">
@@ -146,6 +149,9 @@
             </if>
             <if test="teacher.isBind != null and teacher.isBind == 1">
                 and st.student_id is not null
+            </if>
+            <if test="studentId != null and studentId !=''">
+                and st.student_id = #{studentId}
             </if>
         </where>
     </select>

@@ -44,6 +44,7 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
         <result column="is_bind" jdbcType="INTEGER" property="isBind"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -79,7 +80,7 @@
     </select>
     <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize"
             resultMap="SimpleDtoResultMap">
-        select s.id,s.student_no,s.name,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind
+        select s.id,s.student_no,s.name,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind,subject
         from topie_campus.t_student s
         left join topie_campus.t_relate_student_teacher st on s.id=st.student_id and st.type_id = #{typeId}
         <where>
@@ -97,6 +98,9 @@
             </if>
             <if test="student.isBind != null and student.isBind == 1">
                 and st.teacher_id is not null
+            </if>
+            <if test="teacherId != null and teacherId == ''">
+                and st.teacher_id = #{teacherId}
             </if>
         </where>
         order by is_bind desc,s.id asc
@@ -124,6 +128,9 @@
             </if>
             <if test="student.isBind != null and student.isBind == 1">
                 and st.teacher_id is not null
+            </if>
+            <if test="teacherId != null and teacherId == ''">
+                and st.teacher_id = #{teacherId}
             </if>
         </where>
     </select>

@@ -17,6 +17,8 @@ public class StudentSimpleDto implements Serializable {
 
     private String contactPhone;
 
+    private String subject;
+    
     private Integer isBind;
 
     public Integer getId() {
@@ -58,4 +60,13 @@ public class StudentSimpleDto implements Serializable {
     public void setIsBind(Integer isBind) {
         this.isBind = isBind;
     }
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+    
 }

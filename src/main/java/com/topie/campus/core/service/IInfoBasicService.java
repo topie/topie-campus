@@ -6,9 +6,12 @@ import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.tools.excel.ExcelLogs;
+
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -62,4 +65,7 @@ public interface IInfoBasicService {
     void uploadTeacherStudentRelate(MultipartFile file, ExcelLogs logs) throws IOException;
 
     void uploadTeacherStudentRelate(Integer typeId, MultipartFile file, ExcelLogs logs) throws IOException;
+
+	boolean sendOneMsg(String sign, String message, String phone)
+			throws ClientProtocolException, IOException;
 }

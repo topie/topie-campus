@@ -15,6 +15,7 @@ CREATE TABLE `t_dict` (
 -- ----------------------------
 INSERT INTO `t_dict` VALUES ('1', '学年', '学年', '1', '0', '学年', 'studyYear');
 INSERT INTO `t_dict` VALUES ('2', '广告位置', '广告位', null, '1', 'static', 'ADLC');
+INSERT INTO `t_dict` (`dict_id`, `dict_desc`, `dict_name`, `dict_seq`, `dict_status`, `dict_type`, `dict_code`) VALUES ('3', '短信签名', '短信签名', NULL, NULL, NULL, 'msgSign');
 
 -- ----------------------------
 -- Table structure for t_dict_item
@@ -38,6 +39,8 @@ CREATE TABLE `t_dict_item` (
 -- ----------------------------
 INSERT INTO `t_dict_item` VALUES ('1', '2014-2015', '2014-2015', null, '1', null);
 INSERT INTO `t_dict_item` VALUES ('2', '2015-2016', '2015-2016', null, '1', null);
+INSERT INTO `t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('3', '北京联合大学生物化学工程学院', '北京联合大学生物化学工程学院', NULL, '3', NULL);
+
 
 -- ----------------------------
 -- Table structure for t_stu_score

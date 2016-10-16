@@ -13,13 +13,29 @@ import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -50,6 +66,15 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private TeacherStudentMapper teacherStudentMapper;
+    
+    @Value("${sendUrl}")
+    private String sendUrl;
+    
+    @Value("${msgusername}")
+    private String username;
+    
+    @Value("${password}")
+    private String password;
 
     @Override
     public void userUpload(MultipartFile file, ExcelLogs logs) throws IOException {
@@ -354,4 +379,30 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
     }
 
+	@Override
+	public boolean sendOneMsg(String sign, String message,String phone) throws ClientProtocolException, IOException {
+		// TODO Auto-generated method stub
+		if(StringUtils.isEmpty(phone))
+		{
+			return false;
+		}
+		else{
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost=new HttpPost(sendUrl);
+		//httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk"); 
+		List<NameValuePair> params=new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username",username));
+		params.add(new BasicNameValuePair("password",password));
+		params.add(new BasicNameValuePair("mobile",phone));
+		message = new String("【"+sign+"】"+message);
+		params.add(new BasicNameValuePair("message",message));
+		httppost.setEntity(new UrlEncodedFormEntity(params,"GBK"));
+		HttpResponse response=httpclient.execute(httppost);
+		System.out.println(EntityUtils.toString(response.getEntity()));
+		if(response.getStatusLine().getStatusCode()==200){//如果状态码为200,就是正常返回
+			return true;
+		}
+		return false;
+		}
+	}
 }

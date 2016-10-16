@@ -24,9 +24,15 @@
     <result column="select_time" property="selectTime" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="VARCHAR" />
     <result column="is_minor" property="isMinor" jdbcType="VARCHAR" />
+    <result column="course_code" property="courseCode" jdbcType="VARCHAR" />
+    <result column="course_nature" property="courseNature" jdbcType="VARCHAR" />
+    <result column="course_affiliation" property="courseAffiliation" jdbcType="VARCHAR" />
+    <result column="course_credit" property="courseCredit" jdbcType="FLOAT" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
   id,study_year,study_year_num,select_course_num,stu_id,name,course_name,major,is_select,select_times,exam_time,comment,restudy_flag,classroom_num,classroom_name,couse_study_time,select_time,grade,is_minor
+  ,course_code,course_nature,course_affiliation,course_credit,teacher_name
   </sql>
   
    <select id="findByPage" resultMap="BaseResultMap">

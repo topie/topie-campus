@@ -68,111 +68,32 @@ VALUES ('62', '2009-2010', '1', '2008110309117', '英语四级', '2009-12-19', '
 -- ----------------------------
 DROP TABLE IF EXISTS `t_stu_sele_course`;
 CREATE TABLE `t_stu_sele_course` (
-  `id`                INT(11) NOT NULL      AUTO_INCREMENT,
-  `study_year`        VARCHAR(255)          DEFAULT NULL,
-  `study_year_num`    VARCHAR(11)           DEFAULT NULL,
-  `select_course_num` VARCHAR(255)          DEFAULT NULL
-  COMMENT '选课课号',
-  `stu_id`            VARCHAR(255)          DEFAULT NULL
-  COMMENT '学号',
-  `name`              VARCHAR(255)          DEFAULT NULL
-  COMMENT '姓名',
-  `course_name`       VARCHAR(255)          DEFAULT NULL,
-  `major`             VARCHAR(255)          DEFAULT NULL
-  COMMENT '专业',
-  `is_select`         VARCHAR(255)          DEFAULT NULL
-  COMMENT '是否选上',
-  `select_times`      VARCHAR(255)          DEFAULT NULL
-  COMMENT '选课轮数',
-  `exam_time`         VARCHAR(255)          DEFAULT NULL
-  COMMENT '考试时间',
-  `comment`           VARCHAR(255)          DEFAULT NULL
-  COMMENT '备注',
-  `restudy_flag`      VARCHAR(255)          DEFAULT NULL
-  COMMENT '重修标记',
-  `classroom_num`     VARCHAR(100)          DEFAULT NULL
-  COMMENT '教室号',
-  `classroom_name`    VARCHAR(255)          DEFAULT NULL
-  COMMENT '教室名称',
-  `couse_study_time`  VARCHAR(50)           DEFAULT NULL
-  COMMENT '上课时间',
-  `select_time`       VARCHAR(255)          DEFAULT NULL
-  COMMENT '选课时间',
-  `grade`             VARCHAR(255)
-                      CHARACTER SET utf8mb4 DEFAULT NULL
-  COMMENT '年级',
-  `is_minor`          VARCHAR(255)          DEFAULT NULL
-  COMMENT '辅修标记',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `study_year` varchar(255) DEFAULT NULL,
+  `study_year_num` varchar(11) DEFAULT NULL,
+  `select_course_num` varchar(255) DEFAULT NULL COMMENT '选课课号',
+  `stu_id` varchar(255) DEFAULT NULL COMMENT '学号',
+  `name` varchar(255) DEFAULT NULL COMMENT '姓名',
+  `course_name` varchar(255) DEFAULT NULL,
+  `major` varchar(255) DEFAULT NULL COMMENT '专业',
+  `is_select` varchar(255) DEFAULT NULL COMMENT '是否选上',
+  `select_times` varchar(255) DEFAULT NULL COMMENT '选课轮数',
+  `exam_time` varchar(255) DEFAULT NULL COMMENT '考试时间',
+  `comment` varchar(255) DEFAULT NULL COMMENT '备注',
+  `restudy_flag` varchar(255) DEFAULT NULL COMMENT '重修标记',
+  `classroom_num` varchar(100) DEFAULT NULL COMMENT '教室号',
+  `classroom_name` varchar(255) DEFAULT NULL COMMENT '教室名称',
+  `couse_study_time` varchar(50) DEFAULT NULL COMMENT '上课时间',
+  `select_time` varchar(255) DEFAULT NULL COMMENT '选课时间',
+  `grade` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '年级',
+  `is_minor` varchar(255) DEFAULT NULL COMMENT '辅修标记',
+  `course_code` varchar(255) DEFAULT NULL COMMENT '课程代码',
+  `course_nature` varchar(255) DEFAULT NULL COMMENT '课程性质',
+  `course_affiliation` varchar(255) DEFAULT NULL COMMENT '课程归属',
+  `course_credit` float DEFAULT NULL COMMENT '学分',
+  `teacher_name` varchar(255) DEFAULT NULL COMMENT '教师姓名',
   PRIMARY KEY (`id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 22
-  DEFAULT CHARSET = utf8;
-
--- ----------------------------
--- Records of t_stu_sele_course
--- ----------------------------
-INSERT INTO `t_stu_sele_course` VALUES
-  ('1', '2014-2015', '1', '(2014-2015-1)-BPT030801L-20027012-1', 'student', '梁赫', NULL, '药物制剂技术', '1', NULL, NULL, NULL,
-   NULL, NULL, NULL, '2014-09-09 09:41:22', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('2', '2014-2015', '1', '(2014-2015-1)-BPT030801L-20027012-1', '2012041230032', '闫旭', NULL, '药物制剂技术', '1', NULL, NULL,
-   NULL, NULL, NULL, NULL, '2014-09-09 09:41:22', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('3', '2014-2015', '1', '(2014-2015-1)-BPT030801L-20027012-1', '2012041230065', '葛岚昀', NULL, '药物制剂技术', '1', NULL,
-        NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:22', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('4', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230002', '戴乔', NULL, '药物制剂技术', '1', NULL, NULL,
-   NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('5', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230003', '房亚洲', NULL, '药物制剂技术', '1', NULL,
-        NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('6', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230004', '张帆', NULL, '药物制剂技术', '1', NULL, NULL,
-   NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('7', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230005', '孙馨蕊', NULL, '药物制剂技术', '1', NULL,
-        NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('8', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230006', '李彤', NULL, '药物制剂技术', '1', NULL, NULL,
-   NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('9', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230007', '双宝莹', NULL, '药物制剂技术', '1', NULL,
-        NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('10', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230008', '毕秋悦', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('11', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230009', '王贯元', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('12', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230010', '李娜', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('13', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230011', '王蕊', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('14', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230012', '李慧', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('15', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230013', '赵启琛', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('16', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230014', '李霖雨', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('17', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230016', '穆雨', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('18', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230017', '于雅迪', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('19', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230018', '马祯', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-INSERT INTO `t_stu_sele_course` VALUES
-  ('20', '2014-2015', '1', '(2014-2015-1)-BPT032a01E-19887002-1', '2012041230019', '王浩全', NULL, '药物制剂技术', '1', NULL,
-         NULL, NULL, NULL, NULL, NULL, '2014-09-09 09:41:23', '1', '2012', NULL);
-#INSERT INTO `t_stu_sele_course` VALUES ('21', '学年', '学期', '选课课号', '学号', '姓名', null, '专业名称', '是否选上', '选课轮数', '考试时间备注', null, null, '教室名称', null, '选课时间', null, '年级', '辅修标记\n1辅修，0或null为不付修');
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_stu_timetable

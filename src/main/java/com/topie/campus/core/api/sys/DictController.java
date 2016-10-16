@@ -23,9 +23,9 @@ public class DictController {
 	
 	@RequestMapping("/{dictId}")
 	@ResponseBody
-	public Result findByDictId(@PathVariable("dictId") Integer dictId)
+	public List<Map> findByDictId(@PathVariable("dictId") Integer dictId)
 	{
 		 List<Map> ls = dictItemSerivce.findByDictId(dictId);
-		 return ResponseUtil.success(ls);
+		 return ls;
 	}
 }

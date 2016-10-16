@@ -1,10 +1,8 @@
 package com.topie.campus.core.dto;
 
 import org.springframework.beans.BeanUtils;
-
 import com.topie.campus.core.model.StuSeleCourse;
 import com.topie.campus.tools.excel.ExcelCell;
-
 
 public class StuSeleExcelDto {
 	
@@ -27,43 +25,50 @@ public class StuSeleExcelDto {
 	    @ExcelCell(index=4)
 	    private String name;
 	    
-	    private String courseName;
-
 	    @ExcelCell(index=5)
 	    private String major;
 
-	    @ExcelCell(index=7)
 	    private String isSelect;
 
-	    @ExcelCell(index=8)
+	    @ExcelCell(index=6)
 	    private String selectTimes;
 
-	    @ExcelCell(index=10)
 	    private String examTime;
 
-	    @ExcelCell(index=11)
 	    private String comment;
 
-	    @ExcelCell(index=13)
 	    private String restudyFlag;
 
-	    @ExcelCell(index=14)
 	    private String classroomNum;
 
-	    @ExcelCell(index=15)
 	    private String classroomName;
 
-	    @ExcelCell(index=18)
 	    private String couseStudyTime;
 
-	    @ExcelCell(index=19)
-	    private String selectTime;
-
-	    @ExcelCell(index=20)
+	    @ExcelCell(index=7)
 	    private String grade;
 
-	    @ExcelCell(index=22)
+	    @ExcelCell(index=8)
 	    private String isMinor;
+	    
+	    @ExcelCell(index=9)
+	    private String courseCode;
+	    
+	    @ExcelCell(index=10)
+	    private String courseName;
+	    
+	    @ExcelCell(index=11)
+	    private String courseNature;
+	    
+	    @ExcelCell(index=12)
+	    private String courseAffiliation;
+
+	    @ExcelCell(index=13)
+	    private String courseCredit;
+	    
+	    @ExcelCell(index=14)
+	    private String teacherName;
+	    
 
 
 	    /**
@@ -311,24 +316,6 @@ public class StuSeleExcelDto {
 	    }
 
 	    /**
-	     * ��ȡѡ��ʱ��
-	     *
-	     * @return select_time - ѡ��ʱ��
-	     */
-	    public String getSelectTime() {
-	        return selectTime;
-	    }
-
-	    /**
-	     * ����ѡ��ʱ��
-	     *
-	     * @param selectTime ѡ��ʱ��
-	     */
-	    public void setSelectTime(String selectTime) {
-	        this.selectTime = selectTime;
-	    }
-
-	    /**
 	     * ��ȡ�꼶
 	     *
 	     * @return grade - �꼶
@@ -371,11 +358,52 @@ public class StuSeleExcelDto {
 		public void setCourseName(String courseName) {
 			this.courseName = courseName;
 		}
+		
+		public String getCourseCode() {
+			return courseCode;
+		}
+
+		public void setCourseCode(String courseCode) {
+			this.courseCode = courseCode;
+		}
+
+		public String getCourseNature() {
+			return courseNature;
+		}
+
+		public void setCourseNature(String courseNature) {
+			this.courseNature = courseNature;
+		}
+
+		public String getCourseAffiliation() {
+			return courseAffiliation;
+		}
+
+		public void setCourseAffiliation(String courseAffiliation) {
+			this.courseAffiliation = courseAffiliation;
+		}
+
+		public String getCourseCredit() {
+			return courseCredit;
+		}
+
+		public void setCourseCredit(String courseCredit) {
+			this.courseCredit = courseCredit;
+		}
+
+		public String getTeacherName() {
+			return teacherName;
+		}
+
+		public void setTeacherName(String teacherName) {
+			this.teacherName = teacherName;
+		}
 
 		public StuSeleCourse buildstuSeleCourse(StuSeleExcelDto dto) {
 			// TODO Auto-generated method stub
 			StuSeleCourse stuSelectCourse = new StuSeleCourse();
 		     BeanUtils.copyProperties(dto, stuSelectCourse);
+		     stuSelectCourse.setCourseCredit(Float.valueOf(dto.getCourseCredit()));
 			return stuSelectCourse;      
 		}
 
