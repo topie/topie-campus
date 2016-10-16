@@ -389,13 +389,14 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 		else{
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost=new HttpPost(sendUrl);
+		//httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk"); 
 		List<NameValuePair> params=new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("username",username));
 		params.add(new BasicNameValuePair("password",password));
 		params.add(new BasicNameValuePair("mobile",phone));
 		message = new String("【"+sign+"】"+message);
 		params.add(new BasicNameValuePair("message",message));
-		httppost.setEntity(new UrlEncodedFormEntity(params));
+		httppost.setEntity(new UrlEncodedFormEntity(params,"GBK"));
 		HttpResponse response=httpclient.execute(httppost);
 		System.out.println(EntityUtils.toString(response.getEntity()));
 		if(response.getStatusLine().getStatusCode()==200){//如果状态码为200,就是正常返回
