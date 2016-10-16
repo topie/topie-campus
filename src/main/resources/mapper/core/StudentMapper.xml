@@ -129,6 +129,9 @@
             <if test="student.isBind != null and student.isBind == 1">
                 and st.teacher_id is not null
             </if>
+            <if test="teacherId != null and teacherId == ''">
+                and st.teacher_id = #{teacherId}
+            </if>
         </where>
     </select>
     <select id="findStudentIdByUserId" resultType="java.lang.Integer">
