@@ -11,6 +11,7 @@ import com.topie.campus.core.service.IInfoBasicService;
 import com.topie.campus.tools.excel.ExcelFileUtil;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.freemarker.FreeMarkerUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -78,7 +79,7 @@ public class InfoUploadController {
     @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
     @ResponseBody
     public Result userUpload(HttpServletResponse response, Integer excelType,
-            @RequestParam(value = "typeId", required = false) Integer typeId,
+            @RequestParam(value = "typeId", required = false) String typeId,
             @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
         ExcelLogs logs = new ExcelLogs();
         if (file == null || file.isEmpty()) {
@@ -100,8 +101,9 @@ public class InfoUploadController {
         } else if (excelType == 7) {
             employmentService.employUpload(file, logs);
         } else if (excelType == 8) {
-            if (typeId != null) {
-                iInfoBasicService.uploadTeacherStudentRelate(typeId, file, logs);
+            if (StringUtils.isNotEmpty(typeId)) {
+                Integer t = Integer.valueOf(typeId);
+                iInfoBasicService.uploadTeacherStudentRelate(t, file, logs);
             } else {
                 return ResponseUtil.error("请先选择教师类型");
             }

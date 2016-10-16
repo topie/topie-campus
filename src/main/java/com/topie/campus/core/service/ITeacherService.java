@@ -5,6 +5,8 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
 
+import java.util.List;
+
 /**
  * Created by chenguojun on 9/13/16.
  */
@@ -26,4 +28,6 @@ public interface ITeacherService extends IService<Teacher> {
             Integer typeId, Integer studentId, Integer pageNum, Integer pageSize);
 
     Integer findIdByEmployeeNo(String employeeNo);
+
+    List<TeacherSimpleDto> findTeacherByStudentIdAndTypeId(Integer studentId, Integer typeId);
 }

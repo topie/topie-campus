@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.SurveyAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.SurveyAnswer" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="group_id" property="groupId" jdbcType="INTEGER" />
+    <id column="question_id" property="questionId" jdbcType="INTEGER" />
+    <id column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <id column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="record" property="record" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

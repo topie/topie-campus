@@ -16,4 +16,7 @@
       topie_campus.t_relate_student_teacher(`type_id`,`teacher_id`,`student_id`,`student_no`,`employee_no`)
       values(#{ts.typeId},#{ts.teacherId},#{ts.studentId},#{ts.studentNo},#{ts.employeeNo})
     </insert>
+    <select id="selectStudentIdsAndTypeId" resultType="java.lang.Integer">
+        select distinct student_id from topie_campus.t_relate_student_teacher where type_id=#{typeId}
+    </select>
 </mapper>

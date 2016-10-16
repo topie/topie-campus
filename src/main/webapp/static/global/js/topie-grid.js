@@ -29,7 +29,9 @@
         showIndexNum: true,
         indexNumWidth: "2%",
         indexNumText: "序号",
+        showSearch: true,
         showPaging: true,
+        simplePaging: false,
         actionColumnText: "操作",
         actionColumnAlign: "left",
         actionColumnWidth: "20%",
@@ -51,7 +53,7 @@
         + '</div></div>',
         gridWrapperTmpl: '<div id="${id_}_wrapper" class="dataTables_wrapper no-footer"></div>',
         tableRowTmpl: '<div class="table-scrollable"></div>',
-        pagingRowTmpl: '<div class="row"><div role="select" class="col-md-2 col-sm-6"></div><div role="info" class="col-md-3 col-sm-6"></div><div role="page" class="col-md-5 col-sm-6"></div><div role="goPage" class="col-md-2 col-sm-6" style="text-align: right;"></div></div>',
+        pagingRowTmpl: '<div class="row"><div role="select" class="col-md-2 col-sm-6"></div><div role="info" class="col-md-3 col-sm-6"></div><div role="goPage" class="col-md-2 col-sm-6" style="text-align: right;"></div><div role="page" class="col-md-5 col-sm-6"></div></div>',
         labelTmpl: '<label>${label_}</label>',
         textTmpl: '<input type="text" name="${name_}" id="${id_}" class="form-control ${span_}" placeholder="${placeholder_}" value="${value_}">',
         passwordTmpl: '<input type="password" class="form-control ${class_}">',
@@ -164,7 +166,9 @@
             this._showIndexNum = options.showIndexNum;
             this._indexNumWidth = options.indexNumWidth;
             this._indexNumText = options.indexNumText;
+            this._showSearch = options.showSearch;
             this._showPaging = options.showPaging;
+            this._simplePaging = options.simplePaging;
             if (options.tools != undefined) {
                 // 左侧工具栏
                 this._tools = options.tools;
@@ -256,7 +260,7 @@
         },
         // 渲染元素
         _renderEles: function () {
-            if (!this._searchInited) {
+            if (this._showSearch && !this._searchInited) {
                 this._renderSearch();
                 this._searchInited = true;
             }
@@ -987,8 +991,9 @@
                 });
                 select.find("select").append(option);
             }
+            if (!this._simplePaging)
+                pagingRow.find("[role='select']").append(select);
 
-            pagingRow.find("[role='select']").append(select);
             // info
             var info = $('<div class="dataTables_info" id="' + this._elementId
                 + '_info" role="status" aria-live="polite"></div>');
@@ -1000,7 +1005,8 @@
                     : (this._pageNum * this._pageSize)) + " 共 "
                 + this._total + "</label>";
             info.html(text);
-            pagingRow.find("[role='info']").append(info);
+            if (!this._simplePaging)
+                pagingRow.find("[role='info']").append(info);
 
             // page
             var liTmpl = '<li class="${class_}" aria-controls="${pageto_}" id="${id_}" tabindex="0"><a style="${style_}" href="javascript:;">${num_}</a></li>';
@@ -1081,13 +1087,16 @@
             var totalP = this._getTotalPage();
             renderPageEle(ul, this._pageNum, totalP);
             pagingRow.find("[role='page']").append(page);
+
+
             var goPage = $('<div class="dataTables_paginate input-group">'
-                + '			<input type="text" id="goInput" class="form-control input-xs input-inline" style="width: 60px;" placeholder="输入跳转页...">'
+                + '			<input type="text" id="goInput" class="form-control input-xs input-inline" style="width: 112px;" placeholder="输入跳转页...">'
                 + '			<span class="input-group-btn">'
                 + '			<button class="btn btn-primary" id="goBtn" type="button">跳转</button>'
                 + '			</span>'
                 + '		</div>');
-            pagingRow.find("[role='goPage']").append(goPage);
+            if (!this._simplePaging)
+                pagingRow.find("[role='goPage']").append(goPage);
             this.$gridWrapper.append(pagingRow);
         },
         _getTotalPage: function () {
