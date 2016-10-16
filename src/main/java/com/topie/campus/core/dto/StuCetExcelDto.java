@@ -19,37 +19,37 @@ public class StuCetExcelDto implements Serializable{
 	private static final long serialVersionUID = -6132161387781568368L;
 
 
-	    @ExcelCell(index=1)
+	    @ExcelCell(index=0)
 	    private String studyYear;
 
-	    @ExcelCell(index=2)
+	    @ExcelCell(index=1)
 	    private String studyYearNum;
 
-	    @ExcelCell(index=3)
+	    @ExcelCell(index=2)
 	    private String stuId;
 
-	    @ExcelCell(index=5)
+	    @ExcelCell(index=4)
 	    private String cetName;
 
-	    @ExcelCell(index=6)
+	    @ExcelCell(index=5)
 	    private String cetTime;
 
-	    @ExcelCell(index=7)
+	    @ExcelCell(index=6)
 	    private String cetScore;
 
-	    @ExcelCell(index=8)
+	    @ExcelCell(index=7)
 	    private String comment;
 
-	    @ExcelCell(index=12)
+	    @ExcelCell(index=11)
 	    private String listenScore;
 
-	    @ExcelCell(index=13)
+	    @ExcelCell(index=12)
 	    private String readScore;
 
-	    @ExcelCell(index=14)
+	    @ExcelCell(index=13)
 	    private String writeScore;
 
-	    @ExcelCell(index=15)
+	    @ExcelCell(index=14)
 	    private String compreScore;
 
 	    /**

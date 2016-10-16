@@ -18,41 +18,41 @@ public class StuScoreExcelDto implements Serializable{
     /**
      * ѧ��
      */
-    @ExcelCell(index=1)
+    @ExcelCell(index=0)
     private String studyYear;
 
     /**
      * ѧ��
      */
-    @ExcelCell(index=2)
+    @ExcelCell(index=1)
     private String studyYearNum;
 
     /**
      * ѡ�οκ�
      */
-    @ExcelCell(index=3)
+    @ExcelCell(index=2)
     private String courseNum;
 
-    @ExcelCell(index=4)
+    @ExcelCell(index=3)
     private String stuId;
 
-    @ExcelCell(index=5)
+    @ExcelCell(index=4)
     private String name;
 
-    @ExcelCell(index=6)
+    @ExcelCell(index=5)
     private String courceName;
 
-    @ExcelCell(index=7)
+    @ExcelCell(index=6)
     private String credit;
 
-    @ExcelCell(index=8)
+    @ExcelCell(index=7)
     private String score;
 
-    @ExcelCell(index=10)
+    @ExcelCell(index=9)
     private String scorePoint;
 
     
-    @ExcelCell(index=11)
+    @ExcelCell(index=10)
     private String comment;
 
     /**
@@ -60,50 +60,50 @@ public class StuScoreExcelDto implements Serializable{
 ���ޱ�ǣ�0��գ�
 nullΪ�����ޣ�Ϊ�״��޶���1Ϊ��������3��ѧ����
      */
-    @ExcelCell(index=14)
+    @ExcelCell(index=13)
     private String reStudyFlag;
 
     /**
      * ƽʱ�ɼ�
      */
-    @ExcelCell(index=15)
+    @ExcelCell(index=14)
     private String commonScore;
 
     /**
      * ����ɼ�
      */
-    @ExcelCell(index=16)
+    @ExcelCell(index=15)
     private String pageScore;
 
-    @ExcelCell(index=18)
+    @ExcelCell(index=17)
     private String secondScore;
 
     /**
      * ���޳ɼ�
      */
-    @ExcelCell(index=19)
+    @ExcelCell(index=18)
     private String restudyScore;
 
-    @ExcelCell(index=21)
+    @ExcelCell(index=20)
     private String courceType;
 
-    @ExcelCell(index=25)
+    @ExcelCell(index=24)
     private String courceCode;
 
     /**
      * ���ޱ��
 0������1���� 
   */
-    @ExcelCell(index=28)
+    @ExcelCell(index=27)
     private String minorFlag;
 
     /**
      * �γ̹���
      */
-    @ExcelCell(index=30)
+    @ExcelCell(index=29)
     private String courceAttr;
 
-    @ExcelCell(index=52)
+    @ExcelCell(index=51)
     private String invalid;
 
     /**
