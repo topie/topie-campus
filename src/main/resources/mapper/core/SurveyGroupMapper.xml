@@ -27,7 +27,7 @@
         update topie_campus.t_survey_group_question set sort=#{sort} where group_id=#{groupId} and question_id=#{questionId}
     </update>
     <update id="updateIsOnline">
-        update topie_campus.t_survey_group_question set is_online=#{isOnline} where  group_id=#{groupId}
+        update topie_campus.t_survey_group set is_online=#{isOnline} where  group_id=#{groupId}
     </update>
     <update id="updateGroupStudentComplete">
         update topie_campus.t_survey_group_student set is_complete=1 where group_id=#{groupId} and student_id = #{studentId}
