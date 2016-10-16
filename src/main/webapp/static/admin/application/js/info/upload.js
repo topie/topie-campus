@@ -115,9 +115,14 @@
                     color: '#fff'
                 }
             });
+            var url = that.uploadUrl + "?topie_token=" + App.token + "&typeId=" + $("select[name=typeId]").val() + "&excelType=" + $("select[name=excelType]").val();
+           if($("select[name=typeId]").val()==null)
+        	   {
+        	   url=that.uploadUrl + "?topie_token=" + App.token + "&excelType=" + $("select[name=excelType]").val();
+        	   }
             $.ajaxFileUpload(
                 {
-                    url: that.uploadUrl + "?topie_token=" + App.token + "&typeId=" + $("select[name=typeId]").val() + "&excelType=" + $("select[name=excelType]").val(),
+                    url: url,
                     type: "POST",
                     secureuri: false,
                     fileElementId: fileId,

@@ -107,19 +107,17 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (StudentExcelDto studentDto : studentList) {
             //TODO 检测学号是否唯一
+        	 if (StringUtils.isEmpty(studentDto.getPassword())) {
+        		 studentDto.setPassword(studentDto.getStudentNo());
+             } 
             User user = UserVO
-                    .buildSimpleUser(studentDto.getStudentNo(), studentDto.getContactPhone(), studentDto.getName(),
+                    .buildSimpleUser(studentDto.getStudentNo(), studentDto.getPassword(), studentDto.getName(),
                             studentDto.getEmail());
             if (userService.findExistUser(user) > 0) {
-                // throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-                user.setPassword(studentDto.getPassword());
-                userService.updateUser(user);
+                throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+                //user.setPassword(studentDto.getPassword());
+                //userService.updateUser(user);
             } else {
-                if (StringUtils.isNotEmpty(studentDto.getPassword())) {
-                    user.setPassword(studentDto.getPassword());
-                } else {
-                    user.setPassword(studentDto.getStudentNo());
-                }
                 userService.insertUser(user);
                 userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();
@@ -141,8 +139,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (TeacherExcelDto teacherDto : teacherList) {
             //TODO 检测教师职工号是否唯一
+        	 if (StringUtils.isEmpty(teacherDto.getJsmm())) {
+        		 teacherDto.setJsmm(teacherDto.getEmployeeNo());
+             }
             User user = UserVO
-                    .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getEmployeeNo(), teacherDto.getName(),
+                    .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getJsmm(), teacherDto.getName(),
                             teacherDto.getEmail());
             if (userService.findExistUser(user) > 0) {
                 throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);

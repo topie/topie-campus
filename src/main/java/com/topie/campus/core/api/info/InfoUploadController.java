@@ -58,7 +58,7 @@ public class InfoUploadController {
     @RequestMapping(value = "/downloadTemplate", method = RequestMethod.GET)
     public void download(HttpServletResponse response) throws Exception {
         String filePath = this.getClass().getResource(excelTemplate + "template.xlsx").getPath();
-        ExcelFileUtil.download(response, filePath, "模板.xlsx");
+        ExcelFileUtil.download(response, filePath, "导入模板.zip");
     }
 
     /**

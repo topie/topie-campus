@@ -19,63 +19,56 @@ public class StudentExcelDto implements Serializable {
 
     private static final long serialVersionUID = -3730836890003416948L;
 
-    private String avatar;
-
     /**
-     * ƽ̨�û�id
-     */
-    private Integer userId;
-
-    /**
-     * ѧ��
+     * 学锟斤拷
      */
     @ExcelCell(index=0)
     private String studentNo;
 
     /**
-     * ����
+     * 锟斤拷锟斤拷
      */
     @ExcelCell(index=1)
     private String name;
 
     /**
-     * �Ա�:0 Ů 1 ��
+     * 锟皆憋拷:0 女 1 锟斤拷
      */
     @ExcelCell(index=2)
     private String gender;
 
     /**
-     * ��������
+     * 锟斤拷锟斤拷锟斤拷锟斤拷
      */
     @ExcelCell(index=3)
     private Date birth;
 
     /**
-     * ������ò
+     * 锟斤拷锟斤拷锟斤拷貌
      */
     @ExcelCell(index=4)
     private String politicalStatus;
 
     /**
-     * ����
+     * 锟斤拷锟斤拷
      */
     @ExcelCell(index=5)
     private String ethnicGroup;
 
     /**
-     * ��ȡ����
+     * 锟斤拷取锟斤拷锟斤拷
      */
     @ExcelCell(index=7)
     private String srcRegion;
 
     /**
-     * ѧԺ
+     * 学院
      */
     @ExcelCell(index=8)
     private String academe;
 
     /**
-     * רҵ
+     * 专业
      */
     @ExcelCell(index=10)
     private String subject;
@@ -84,98 +77,98 @@ public class StudentExcelDto implements Serializable {
     private String grade;
 
     /**
-     * ѧ��
+     * 学锟斤拷
      */
     @ExcelCell(index=12)
     private String shoolLen;
 
     /**
-     * ѧ��
+     * 学锟斤拷
      */
     @ExcelCell(index=14)
     private String schoolRoll;
 
     /**
-     * �꼶
+     * 锟疥级
      */
     @ExcelCell(index=15)
     private String gradeYear;
 
     /**
-     * רҵ����
+     * 专业锟斤拷锟斤拷
      */
     @ExcelCell(index=17)
     private String majorDirection;
 
     /**
-     * ��ѧ����
+     * 锟斤拷学锟斤拷锟斤拷
      */
     @ExcelCell(index=19)
     private String enterDate;
 
     /**
-     * ����
+     * 锟斤拷锟斤拷
      */
     @ExcelCell(index=22)
     private String email;
 
     /**
-     * ��ע
+     * 锟斤拷注
      */
     @ExcelCell(index=29)
     private String comment;
 
     /**
-     * ѧ�����Ӣ��A,Ӣ��B��
+     * 学锟斤拷锟斤拷锟接拷锟紸,英锟斤拷B锟斤拷
      */
     @ExcelCell(index=37)
     private String englishType;
 
     /**
-     * ȫƴ
+     * 全拼
      */
     @ExcelCell(index=41)
     private String fullName;
 
     /**
-     * רҵ����
+     * 专业锟斤拷锟斤拷
      */
     @ExcelCell(index=45)
     private String majorCode;
 
     /**
-     * ��Σ����ƣ���ְ�ȣ�
+     * 锟斤拷危锟斤拷锟斤拷疲锟斤拷锟街帮拷龋锟�
      */
     @ExcelCell(index=49)
     private String gradation;
 
     /**
-     * �Ƿ���У
+     * 锟角凤拷锟斤拷校
      */
     @ExcelCell(index=53)
     private String inschool;
 
     /**
-     * �Ƿ�ע��
+     * 锟角凤拷注锟斤拷
      */
     @ExcelCell(index=57)
     private String isRegister;
 
     /**
-     * ��ҵ����
+     * 锟斤拷业锟斤拷锟斤拷
      */
     @ExcelCell(index=60)
     private String graduateDate;
 
     /**
-     * ��ϵ�绰
+     * 锟斤拷系锟界话
      */
     @ExcelCell(index=88)
     @Column(name = "contact_phone")
     private String contactPhone;
 
     /**
-     * �Ƿ��ҵ
+     * 锟角凤拷锟揭�
      */
     @ExcelCell(index=90)
     private String password;
@@ -184,207 +177,168 @@ public class StudentExcelDto implements Serializable {
     private String isGraduate;
 
     /**
-     * ѧԺ
+     * 学院
      */
     @ExcelCell(index=124)
     private String college;
-    
-    
-
 
     /**
-     * ��ȡͷ��
+     * 锟斤拷取学锟斤拷
      *
-     * @return avatar - ͷ��
-     */
-    public String getAvatar() {
-        return avatar;
-    }
-
-    /**
-     * ����ͷ��
-     *
-     * @param avatar ͷ��
-     */
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    /**
-     * ��ȡƽ̨�û�id
-     *
-     * @return user_id - ƽ̨�û�id
-     */
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * ����ƽ̨�û�id
-     *
-     * @param userId ƽ̨�û�id
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * ��ȡѧ��
-     *
-     * @return student_no - ѧ��
+     * @return student_no - 学锟斤拷
      */
     public String getStudentNo() {
         return studentNo;
     }
 
     /**
-     * ����ѧ��
+     * 锟斤拷锟斤拷学锟斤拷
      *
-     * @param studentNo ѧ��
+     * @param studentNo 学锟斤拷
      */
     public void setStudentNo(String studentNo) {
         this.studentNo = studentNo;
     }
 
     /**
-     * ��ȡ����
+     * 锟斤拷取锟斤拷锟斤拷
      *
-     * @return name - ����
+     * @return name - 锟斤拷锟斤拷
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ��������
+     * 锟斤拷锟斤拷锟斤拷锟斤拷
      *
-     * @param name ����
+     * @param name 锟斤拷锟斤拷
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * ��ȡ�Ա�:0 Ů 1 ��
+     * 锟斤拷取锟皆憋拷:0 女 1 锟斤拷
      *
-     * @return gender - �Ա�:0 Ů 1 ��
+     * @return gender - 锟皆憋拷:0 女 1 锟斤拷
      */
     public String getGender() {
         return gender;
     }
 
     /**
-     * �����Ա�:0 Ů 1 ��
+     * 锟斤拷锟斤拷锟皆憋拷:0 女 1 锟斤拷
      *
-     * @param gender �Ա�:0 Ů 1 ��
+     * @param gender 锟皆憋拷:0 女 1 锟斤拷
      */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
     /**
-     * ��ȡ��������
+     * 锟斤拷取锟斤拷锟斤拷锟斤拷锟斤拷
      *
-     * @return birth - ��������
+     * @return birth - 锟斤拷锟斤拷锟斤拷锟斤拷
      */
     public Date getBirth() {
         return birth;
     }
 
     /**
-     * ���ó�������
+     * 锟斤拷锟矫筹拷锟斤拷锟斤拷锟斤拷
      *
-     * @param birth ��������
+     * @param birth 锟斤拷锟斤拷锟斤拷锟斤拷
      */
     public void setBirth(Date birth) {
         this.birth = birth;
     }
 
     /**
-     * ��ȡ������ò
+     * 锟斤拷取锟斤拷锟斤拷锟斤拷貌
      *
-     * @return political_status - ������ò
+     * @return political_status - 锟斤拷锟斤拷锟斤拷貌
      */
     public String getPoliticalStatus() {
         return politicalStatus;
     }
 
     /**
-     * ����������ò
+     * 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷貌
      *
-     * @param politicalStatus ������ò
+     * @param politicalStatus 锟斤拷锟斤拷锟斤拷貌
      */
     public void setPoliticalStatus(String politicalStatus) {
         this.politicalStatus = politicalStatus;
     }
 
     /**
-     * ��ȡ����
+     * 锟斤拷取锟斤拷锟斤拷
      *
-     * @return ethnic_group - ����
+     * @return ethnic_group - 锟斤拷锟斤拷
      */
     public String getEthnicGroup() {
         return ethnicGroup;
     }
 
     /**
-     * ��������
+     * 锟斤拷锟斤拷锟斤拷锟斤拷
      *
-     * @param ethnicGroup ����
+     * @param ethnicGroup 锟斤拷锟斤拷
      */
     public void setEthnicGroup(String ethnicGroup) {
         this.ethnicGroup = ethnicGroup;
     }
 
     /**
-     * ��ȡ��ȡ����
+     * 锟斤拷取锟斤拷取锟斤拷锟斤拷
      *
-     * @return src_region - ��ȡ����
+     * @return src_region - 锟斤拷取锟斤拷锟斤拷
      */
     public String getSrcRegion() {
         return srcRegion;
     }
 
     /**
-     * ������ȡ����
+     * 锟斤拷锟斤拷锟斤拷取锟斤拷锟斤拷
      *
-     * @param srcRegion ��ȡ����
+     * @param srcRegion 锟斤拷取锟斤拷锟斤拷
      */
     public void setSrcRegion(String srcRegion) {
         this.srcRegion = srcRegion;
     }
 
     /**
-     * ��ȡѧԺ
+     * 锟斤拷取学院
      *
-     * @return academe - ѧԺ
+     * @return academe - 学院
      */
     public String getAcademe() {
         return academe;
     }
 
     /**
-     * ����ѧԺ
+     * 锟斤拷锟斤拷学院
      *
-     * @param academe ѧԺ
+     * @param academe 学院
      */
     public void setAcademe(String academe) {
         this.academe = academe;
     }
 
     /**
-     * ��ȡרҵ
+     * 锟斤拷取专业
      *
-     * @return subject - רҵ
+     * @return subject - 专业
      */
     public String getSubject() {
         return subject;
     }
 
     /**
-     * ����רҵ
+     * 锟斤拷锟斤拷专业
      *
-     * @param subject רҵ
+     * @param subject 专业
      */
     public void setSubject(String subject) {
         this.subject = subject;
@@ -405,306 +359,306 @@ public class StudentExcelDto implements Serializable {
     }
 
     /**
-     * ��ȡѧ��
+     * 锟斤拷取学锟斤拷
      *
-     * @return shool_len - ѧ��
+     * @return shool_len - 学锟斤拷
      */
     public String getShoolLen() {
         return shoolLen;
     }
 
     /**
-     * ����ѧ��
+     * 锟斤拷锟斤拷学锟斤拷
      *
-     * @param shoolLen ѧ��
+     * @param shoolLen 学锟斤拷
      */
     public void setShoolLen(String shoolLen) {
         this.shoolLen = shoolLen;
     }
 
     /**
-     * ��ȡѧ��
+     * 锟斤拷取学锟斤拷
      *
-     * @return school_roll - ѧ��
+     * @return school_roll - 学锟斤拷
      */
     public String getSchoolRoll() {
         return schoolRoll;
     }
 
     /**
-     * ����ѧ��
+     * 锟斤拷锟斤拷学锟斤拷
      *
-     * @param schoolRoll ѧ��
+     * @param schoolRoll 学锟斤拷
      */
     public void setSchoolRoll(String schoolRoll) {
         this.schoolRoll = schoolRoll;
     }
 
     /**
-     * ��ȡ�꼶
+     * 锟斤拷取锟疥级
      *
-     * @return grade_year - �꼶
+     * @return grade_year - 锟疥级
      */
     public String getGradeYear() {
         return gradeYear;
     }
 
     /**
-     * �����꼶
+     * 锟斤拷锟斤拷锟疥级
      *
-     * @param gradeYear �꼶
+     * @param gradeYear 锟疥级
      */
     public void setGradeYear(String gradeYear) {
         this.gradeYear = gradeYear;
     }
 
     /**
-     * ��ȡרҵ����
+     * 锟斤拷取专业锟斤拷锟斤拷
      *
-     * @return major_direction - רҵ����
+     * @return major_direction - 专业锟斤拷锟斤拷
      */
     public String getMajorDirection() {
         return majorDirection;
     }
 
     /**
-     * ����רҵ����
+     * 锟斤拷锟斤拷专业锟斤拷锟斤拷
      *
-     * @param majorDirection רҵ����
+     * @param majorDirection 专业锟斤拷锟斤拷
      */
     public void setMajorDirection(String majorDirection) {
         this.majorDirection = majorDirection;
     }
 
     /**
-     * ��ȡ��ѧ����
+     * 锟斤拷取锟斤拷学锟斤拷锟斤拷
      *
-     * @return enter_date - ��ѧ����
+     * @return enter_date - 锟斤拷学锟斤拷锟斤拷
      */
     public String getEnterDate() {
         return enterDate;
     }
 
     /**
-     * ������ѧ����
+     * 锟斤拷锟斤拷锟斤拷学锟斤拷锟斤拷
      *
-     * @param enterDate ��ѧ����
+     * @param enterDate 锟斤拷学锟斤拷锟斤拷
      */
     public void setEnterDate(String enterDate) {
         this.enterDate = enterDate;
     }
 
     /**
-     * ��ȡ����
+     * 锟斤拷取锟斤拷锟斤拷
      *
-     * @return email - ����
+     * @return email - 锟斤拷锟斤拷
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * ��������
+     * 锟斤拷锟斤拷锟斤拷锟斤拷
      *
-     * @param email ����
+     * @param email 锟斤拷锟斤拷
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * ��ȡ��ע
+     * 锟斤拷取锟斤拷注
      *
-     * @return comment - ��ע
+     * @return comment - 锟斤拷注
      */
     public String getComment() {
         return comment;
     }
 
     /**
-     * ���ñ�ע
+     * 锟斤拷锟矫憋拷注
      *
-     * @param comment ��ע
+     * @param comment 锟斤拷注
      */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
     /**
-     * ��ȡѧ�����Ӣ��A,Ӣ��B��
+     * 锟斤拷取学锟斤拷锟斤拷锟接拷锟紸,英锟斤拷B锟斤拷
      *
-     * @return english_type - ѧ�����Ӣ��A,Ӣ��B��
+     * @return english_type - 学锟斤拷锟斤拷锟接拷锟紸,英锟斤拷B锟斤拷
      */
     public String getEnglishType() {
         return englishType;
     }
 
     /**
-     * ����ѧ�����Ӣ��A,Ӣ��B��
+     * 锟斤拷锟斤拷学锟斤拷锟斤拷锟接拷锟紸,英锟斤拷B锟斤拷
      *
-     * @param englishType ѧ�����Ӣ��A,Ӣ��B��
+     * @param englishType 学锟斤拷锟斤拷锟接拷锟紸,英锟斤拷B锟斤拷
      */
     public void setEnglishType(String englishType) {
         this.englishType = englishType;
     }
 
     /**
-     * ��ȡȫƴ
+     * 锟斤拷取全拼
      *
-     * @return full_name - ȫƴ
+     * @return full_name - 全拼
      */
     public String getFullName() {
         return fullName;
     }
 
     /**
-     * ����ȫƴ
+     * 锟斤拷锟斤拷全拼
      *
-     * @param fullName ȫƴ
+     * @param fullName 全拼
      */
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
     /**
-     * ��ȡרҵ����
+     * 锟斤拷取专业锟斤拷锟斤拷
      *
-     * @return major_code - רҵ����
+     * @return major_code - 专业锟斤拷锟斤拷
      */
     public String getMajorCode() {
         return majorCode;
     }
 
     /**
-     * ����רҵ����
+     * 锟斤拷锟斤拷专业锟斤拷锟斤拷
      *
-     * @param majorCode רҵ����
+     * @param majorCode 专业锟斤拷锟斤拷
      */
     public void setMajorCode(String majorCode) {
         this.majorCode = majorCode;
     }
 
     /**
-     * ��ȡ��Σ����ƣ���ְ�ȣ�
+     * 锟斤拷取锟斤拷危锟斤拷锟斤拷疲锟斤拷锟街帮拷龋锟�
      *
-     * @return gradation - ��Σ����ƣ���ְ�ȣ�
+     * @return gradation - 锟斤拷危锟斤拷锟斤拷疲锟斤拷锟街帮拷龋锟�
      */
     public String getGradation() {
         return gradation;
     }
 
     /**
-     * ���ò�Σ����ƣ���ְ�ȣ�
+     * 锟斤拷锟矫诧拷危锟斤拷锟斤拷疲锟斤拷锟街帮拷龋锟�
      *
-     * @param gradation ��Σ����ƣ���ְ�ȣ�
+     * @param gradation 锟斤拷危锟斤拷锟斤拷疲锟斤拷锟街帮拷龋锟�
      */
     public void setGradation(String gradation) {
         this.gradation = gradation;
     }
 
     /**
-     * ��ȡ�Ƿ���У
+     * 锟斤拷取锟角凤拷锟斤拷校
      *
-     * @return inschool - �Ƿ���У
+     * @return inschool - 锟角凤拷锟斤拷校
      */
     public String getInschool() {
         return inschool;
     }
 
     /**
-     * �����Ƿ���У
+     * 锟斤拷锟斤拷锟角凤拷锟斤拷校
      *
-     * @param inschool �Ƿ���У
+     * @param inschool 锟角凤拷锟斤拷校
      */
     public void setInschool(String inschool) {
         this.inschool = inschool;
     }
 
     /**
-     * ��ȡ�Ƿ�ע��
+     * 锟斤拷取锟角凤拷注锟斤拷
      *
-     * @return is_register - �Ƿ�ע��
+     * @return is_register - 锟角凤拷注锟斤拷
      */
     public String getIsRegister() {
         return isRegister;
     }
 
     /**
-     * �����Ƿ�ע��
+     * 锟斤拷锟斤拷锟角凤拷注锟斤拷
      *
-     * @param isRegister �Ƿ�ע��
+     * @param isRegister 锟角凤拷注锟斤拷
      */
     public void setIsRegister(String isRegister) {
         this.isRegister = isRegister;
     }
 
     /**
-     * ��ȡ��ҵ����
+     * 锟斤拷取锟斤拷业锟斤拷锟斤拷
      *
-     * @return graduate_date - ��ҵ����
+     * @return graduate_date - 锟斤拷业锟斤拷锟斤拷
      */
     public String getGraduateDate() {
         return graduateDate;
     }
 
     /**
-     * ���ñ�ҵ����
+     * 锟斤拷锟矫憋拷业锟斤拷锟斤拷
      *
-     * @param graduateDate ��ҵ����
+     * @param graduateDate 锟斤拷业锟斤拷锟斤拷
      */
     public void setGraduateDate(String graduateDate) {
         this.graduateDate = graduateDate;
     }
 
     /**
-     * ��ȡ��ϵ�绰
+     * 锟斤拷取锟斤拷系锟界话
      *
-     * @return contact_phone - ��ϵ�绰
+     * @return contact_phone - 锟斤拷系锟界话
      */
     public String getContactPhone() {
         return contactPhone;
     }
 
     /**
-     * ������ϵ�绰
+     * 锟斤拷锟斤拷锟斤拷系锟界话
      *
-     * @param contactPhone ��ϵ�绰
+     * @param contactPhone 锟斤拷系锟界话
      */
     public void setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
     }
 
     /**
-     * ��ȡ�Ƿ��ҵ
+     * 锟斤拷取锟角凤拷锟揭�
      *
-     * @return is_graduate - �Ƿ��ҵ
+     * @return is_graduate - 锟角凤拷锟揭�
      */
     public String getIsGraduate() {
         return isGraduate;
     }
 
     /**
-     * �����Ƿ��ҵ
+     * 锟斤拷锟斤拷锟角凤拷锟揭�
      *
-     * @param isGraduate �Ƿ��ҵ
+     * @param isGraduate 锟角凤拷锟揭�
      */
     public void setIsGraduate(String isGraduate) {
         this.isGraduate = isGraduate;
     }
 
     /**
-     * ��ȡѧԺ
+     * 锟斤拷取学院
      *
-     * @return college - ѧԺ
+     * @return college - 学院
      */
     public String getCollege() {
         return college;
     }
 
     /**
-     * ����ѧԺ
+     * 锟斤拷锟斤拷学院
      *
-     * @param college ѧԺ
+     * @param college 学院
      */
     public void setCollege(String college) {
         this.college = college;

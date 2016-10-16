@@ -14,107 +14,113 @@ public class TeacherExcelDto implements Serializable {
 
     private static final long serialVersionUID = -3730836890003416948L;
 
-    @ExcelCell(index = 1)
+    @ExcelCell(index = 0)
     private String employeeNo;
 
-    @ExcelCell(index = 2)
+    @ExcelCell(index = 1)
     private String name;
 
-    @ExcelCell(index = 3)
+    @ExcelCell(index = 2)
     private String gender;
 
-    @ExcelCell(index = 46)
+    @ExcelCell(index = 45)
     private String ethnicGroup;
 
-    @ExcelCell(index = 4)
+    @ExcelCell(index = 3)
     private Date birth;
 
-    @ExcelCell(index = 45)
+    @ExcelCell(index = 44)
     private String politicalStatus;
 
-    @ExcelCell(index = 8)
+    @ExcelCell(index = 7)
     private String academe;
 
-    @ExcelCell(index = 9)
+    @ExcelCell(index = 8)
     private String department;
 
-    @ExcelCell(index = 5)
+    @ExcelCell(index = 4)
     private String contactPhone;
 
-    @ExcelCell(index = 6)
+    @ExcelCell(index = 5)
     private String email;
 
-    @ExcelCell(index = 21)
+    @ExcelCell(index = 20)
     private String graduatedUniversity;
 
-    @ExcelCell(index = 20)
+    @ExcelCell(index = 21)
     private String graduatedMajor;
 
-    @ExcelCell(index = 16)
+    @ExcelCell(index = 15)
     private String educationBackground;
 
-    @ExcelCell(index = 47)
+    @ExcelCell(index = 46)
     private String degree;
 
-    @ExcelCell(index = 11)
+    @ExcelCell(index = 10)
     private String professionalTitle;
 
-    @ExcelCell(index = 10)
+    @ExcelCell(index = 11)
     private String professionalPosition;
 
-    @ExcelCell(index = 17)
+    @ExcelCell(index = 16)
     private String subjectDirection;
 
-    @ExcelCell(index = 25)
+    @ExcelCell(index = 24)
     private String teacherCertificateNo;
 
-    @ExcelCell(index = 1)
+    //@ExcelCell(index = 1)
     private String staffNo;
 
-    @ExcelCell(index = 30)
+    @ExcelCell(index = 29)
     private String isLabStaff;
 
     /**
      * 简介
      */
-    @ExcelCell(index = 13)
+    @ExcelCell(index = 12)
     private String shortIntroduce;
+    
+    /**
+     * 所属专业（教那个系）
+     */
+    @ExcelCell(index = 19)
+    private String teachMajor;
 
     /**
      * 是否教师资格证(1是，0无）
      */
-    @ExcelCell(index = 24)
+    @ExcelCell(index = 23)
     private String hasTeacherCertificate;
 
     /**
      * 教师类型
      */
-    @ExcelCell(index = 26)
+    @ExcelCell(index = 25)
     private String teacherType;
 
     /**
      * 教师级别
      */
-    @ExcelCell(index = 27)
+    @ExcelCell(index = 26)
     private String teacherLever;
 
     /**
      * 是否外聘
      */
-    @ExcelCell(index = 31)
+    @ExcelCell(index = 30)
     private String isOutside;
 
     /**
      * 姓名简拼
      */
-    @ExcelCell(index = 56)
+    @ExcelCell(index = 55)
     private String shortName;
-
+    
     /**
-     * 所属专业（教那个系）
+     * 教师密码
      */
-    @ExcelCell(index = 20)
-    private String teachMajor;
+    @ExcelCell(index = 70)
+    private String jsmm;
 
     public String getShortIntroduce() {
         return shortIntroduce;
@@ -331,8 +337,16 @@ public class TeacherExcelDto implements Serializable {
     public void setIsLabStaff(String isLabStaff) {
         this.isLabStaff = isLabStaff;
     }
+    
+    public String getJsmm() {
+		return jsmm;
+	}
 
-    public Teacher buildTeacher() {
+	public void setJsmm(String jsmm) {
+		this.jsmm = jsmm;
+	}
+
+	public Teacher buildTeacher() {
         Teacher teacher = new Teacher();
         teacher.setName(this.name);
         teacher.setEmail(this.email);
@@ -359,6 +373,7 @@ public class TeacherExcelDto implements Serializable {
         teacher.setTeacherLever(this.teacherLever);
         teacher.setTeachMajor(this.teachMajor);
         teacher.setIsOutside("是".equals(this.isOutside) ? 1 : 0);
+        teacher.setPassword(this.jsmm);
         return teacher;
     }
 }

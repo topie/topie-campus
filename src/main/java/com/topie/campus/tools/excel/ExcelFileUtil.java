@@ -28,7 +28,7 @@ public class ExcelFileUtil {
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-core");
         response.setHeader("Content-Disposition",
-                "attachment;filename=" + encodingFileName(fileName));
+              "attachment;filename=" + encodingFileName(fileName));
         File file = new File(filePath);
         InputStream inputStream = new FileInputStream(file);
         OutputStream os = response.getOutputStream();

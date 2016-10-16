@@ -9,27 +9,27 @@ import com.topie.campus.tools.excel.ExcelCell;
 public class StuSeleExcelDto {
 	
 	
-	    @ExcelCell(index=1)
+	    @ExcelCell(index=0)
 	    private String studyYear;
 
-	    @ExcelCell(index=2)
+	    @ExcelCell(index=1)
 	    private String studyYearNum;
 
 	    /**
 	     * ѡ�οκ�
 	     */
-	    @ExcelCell(index=3)
+	    @ExcelCell(index=2)
 	    private String selectCourseNum;
 
-	    @ExcelCell(index=4)
+	    @ExcelCell(index=3)
 	    private String stuId;
 
-	    @ExcelCell(index=5)
+	    @ExcelCell(index=4)
 	    private String name;
 	    
 	    private String courseName;
 
-	    @ExcelCell(index=6)
+	    @ExcelCell(index=5)
 	    private String major;
 
 	    @ExcelCell(index=7)

@@ -17,60 +17,60 @@ public class StuTimeTableExcelDto implements Serializable{
 	 */
 	private static final long serialVersionUID = -5149683284709434475L;
 
-	@ExcelCell(index=1)
+	@ExcelCell(index=0)
 	private String studyYear;
 
     /**
      * ѧ��
      */
-	@ExcelCell(index=2)
+	@ExcelCell(index=1)
     private String studyYearNum;
 
     /**
      * ѧ��
      */
-	@ExcelCell(index=3)
+	@ExcelCell(index=2)
     private String stuId;
 
     /**
      * ѡ�οκ�
      */
-	@ExcelCell(index=4)
+	@ExcelCell(index=3)
     private String selectCourseNum;
 
     /**
      * ���ڼ�
      */
-	@ExcelCell(index=5)
+	@ExcelCell(index=4)
     private String week;
 
     /**
      * �ڼ���
      */
-	@ExcelCell(index=6)
+	@ExcelCell(index=5)
     private String section;
 
-	@ExcelCell(index=7)
+	@ExcelCell(index=6)
     private String sectionLength;
 
-	@ExcelCell(index=9)
+	@ExcelCell(index=8)
     private String startWeek;
 
     /**
      * ������
      */
 	
-	@ExcelCell(index=10)
+	@ExcelCell(index=9)
     private String endWeek;
 
     /**
      * �α�����
      */
 	
-	@ExcelCell(index=11)
+	@ExcelCell(index=10)
     private String content;
 
-	@ExcelCell(index=13)
+	@ExcelCell(index=12)
     private String isSelected;
 
 
