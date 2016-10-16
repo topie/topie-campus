@@ -339,9 +339,7 @@
                                     },
                                     dataType: "json",
                                     data: {
-                                        typeId: $("#typeId").val(),
-                                        studentId: stData.id,
-                                        teacherId: data.id
+                                        groupId: stData.groupId
                                     },
                                     url: requestUrl,
                                     success: function (result) {

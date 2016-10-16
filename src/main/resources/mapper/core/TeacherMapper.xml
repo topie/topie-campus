@@ -161,7 +161,7 @@
         select id from topie_campus.t_teacher where employee_no=#{employeeNo}
     </select>
     <select id="findTeacherByStudentIdAndTypeId" resultType="com.topie.campus.core.dto.TeacherSimpleDto">
-        select t.id,t.name,t.employee_no employeeNo from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
+        select t.id,t.name,t.employee_no employeeNo,t.avatar from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
         on t.id = st.teacher_id
         where st.student_id=#{studentId} and st.type_id=#{typeId}
     </select>
