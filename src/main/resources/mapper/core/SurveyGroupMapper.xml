@@ -30,7 +30,7 @@
         update topie_campus.t_survey_group_question set is_online=#{isOnline} where  group_id=#{groupId}
     </update>
     <update id="updateGroupStudentComplete">
-        update topie_campus.t_survey_group_student set is_complete=1 where group_id=#{groupId} and studentId = #{studentId}
+        update topie_campus.t_survey_group_student set is_complete=1 where group_id=#{groupId} and student_id = #{studentId}
     </update>
     <delete id="deleteGroupQuestionRelate">
         delete from topie_campus.t_survey_group_question where group_id=#{groupId} and question_id=#{questionId}
