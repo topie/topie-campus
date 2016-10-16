@@ -17,7 +17,7 @@
     App.frontTeacher.initEvents = function () {
         var grid;
         var teacherOpt = {
-            url: App.href + "/api/front/teacher/page",
+            url: App.href + "/api/front/teacher/page?isBind=1",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -29,7 +29,7 @@
             checkboxWidth: "3%",
             showIndexNum: false,
             indexNumWidth: "5%",
-            pageSelect: [2, 15, 30, 50],
+            pageSelect: [10, 15, 30, 50],
             columns: [
                 {
                     title: "教师名称",
@@ -40,7 +40,12 @@
                 }, {
                     title: "联系电话",
                     field: "contactPhone"
-                }, {
+                },
+                {
+                    title: "email",
+                    field: "email"
+                }
+                /* ,{
                     title: "是否我的教师",
                     field: "isBind",
                     format: function (num, grid) {
@@ -50,7 +55,7 @@
                             return "否"
                         }
                     }
-                }],
+                }*/],
             actionColumnText: "操作",//操作列文本
             actionColumnWidth: "20%",
             actionColumns: [
@@ -200,7 +205,7 @@
                         label: "手机号",
                         name: "contactPhone",
                         placeholder: "输入要搜索的手机号"
-                    }, {
+                    }/*, {
                         type: "select",
                         label: "是否绑定",
                         name: "isBind",
@@ -216,7 +221,7 @@
                                 text: "否"
                             }
                         ]
-                    }]
+                    }*/]
             }
         };
         grid = window.App.content.find("#teacher_grid").topieGrid(teacherOpt);

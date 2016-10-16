@@ -101,7 +101,21 @@ public class StuSeleCourse {
      */
     @Column(name = "is_minor")
     private String isMinor;
+    
+    @Column(name = "course_code")
+    private String courseCode;
+    
+    @Column(name = "course_nature")
+    private String courseNature;
+    
+    @Column(name = "course_affiliation")
+    private String courseAffiliation;
 
+    @Column(name = "course_credit")
+    private Float courseCredit;
+    
+    @Column(name = "teacher_name")
+    private String teacherName;
     /**
      * @return id
      */
@@ -421,6 +435,45 @@ public class StuSeleCourse {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-    
+
+	public String getCourseCode() {
+		return courseCode;
+	}
+
+	public void setCourseCode(String courseCode) {
+		this.courseCode = courseCode;
+	}
+
+	public String getCourseNature() {
+		return courseNature;
+	}
+
+	public void setCourseNature(String courseNature) {
+		this.courseNature = courseNature;
+	}
+
+	public String getCourseAffiliation() {
+		return courseAffiliation;
+	}
+
+	public void setCourseAffiliation(String courseAffiliation) {
+		this.courseAffiliation = courseAffiliation;
+	}
+
+	public Float getCourseCredit() {
+		return courseCredit;
+	}
+
+	public void setCourseCredit(Float courseCredit) {
+		this.courseCredit = courseCredit;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
     
 }

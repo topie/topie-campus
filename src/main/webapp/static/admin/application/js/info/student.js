@@ -134,8 +134,8 @@
         }
     ];
     App.infoStudent.columns = [{
-        title: "id",
-        field: "id",
+        title: "学号",
+        field: "studentNo",
         sort: true,
         width: "5%"
     }, {
@@ -164,8 +164,8 @@
             pageSelect: [2, 15, 30, 50],
             columns: App.infoStudent.columns,
             actionColumnText: "操作",
-            actionColumnWidth: "25%",
-            actionColumns: [{
+            actionColumnWidth: "35%",
+            actionColumns: [/*{
                 text: "编辑",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
@@ -206,7 +206,66 @@
                     form.loadRemote(App.href + "/api/info/student/load/" + data.id);
                     modal.show();
                 }
-            }, {
+            },*/ 
+            {
+             text: "发短信",
+             cls: "btn-success btn-sm",
+             handle: function (index, data) {
+             var modal = $.topieModal({
+             id: "studentMsg",
+             title: "发送短信",
+             destroy: true
+             });
+             var formOpts = {
+                     id: "student_msg",
+                     name: "student_msg",
+                     method: "POST",
+                     action: App.href + "/api/info/student/sendOneMsg?phone="+data.contactPhone,
+                     ajaxSubmit: true,
+                     beforeSend: function (request) {
+                         request.setRequestHeader("X-Auth-Token", App.token);
+                     },
+                     ajaxSuccess: function (result) {
+                    	 bootbox.alert(result.message);
+                         modal.hide();
+                         grid.reload();
+                     },
+                     submitText: "发送",
+                     showReset: true,
+                     rowEleNum: 1,
+                     resetText: "重置",
+                     isValidate: true,
+                     buttons: [{
+                         type: 'button',
+                         text: '关闭',
+                         handle: function () {
+                             modal.hide();
+                         }
+                     }],
+                     buttonsAlign: "center",
+                     items: [
+								{
+								    type: 'textarea',
+								    name: 'message',
+								    id: 'message',
+								    label: '短信内容',
+								    cls: 'input-large'
+								},
+								{
+								    type: 'select',
+								    name: 'sign',
+								    id: 'sign',
+								    label: '短信签名',
+								    cls: 'input-large',
+								    itemsUrl:App.href+"/api/dict/3?topie_token=" + App.token
+								}
+                         ]
+                 };
+                 var form = modal.$body.topieForm(formOpts);
+                 modal.show();
+              }
+             },             
+               {
                 text: "选择教师",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
@@ -381,7 +440,7 @@
                 }
             }],
             tools: [
-                {
+                /*{
                     text: " 添 加",
                     cls: "btn btn-primary",
                     icon: "fa fa-cubes",
@@ -422,7 +481,7 @@
                         var form = modal.$body.topieForm(formOpts);
                         modal.show();
                     }
-                }
+                }*/
             ],
             search: {
                 rowEleNum: 2,

@@ -17,7 +17,7 @@
     App.frontStudent.initEvents = function () {
         var grid;
         var studentOpt = {
-            url: App.href + "/api/front/student/page",
+            url: App.href + "/api/front/student/page?isBind=1",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -28,19 +28,24 @@
             checkboxWidth: "3%",
             showIndexNum: false,
             indexNumWidth: "5%",
-            pageSelect: [2, 15, 30, 50],
+            pageSelect: [10, 15, 30, 50],
             columns: [
+                      {
+                          title: "学号",
+                          field: "studentNo",
+                          sort: true
+                      },
                 {
                     title: "学生名称",
                     field: "name"
                 }, {
-                    title: "学号",
-                    field: "studentNo",
-                    sort: true
-                }, {
                     title: "联系电话",
                     field: "contactPhone"
                 }, {
+                    title: "专业",
+                    field: "subject"
+                }
+                /*, {
                     title: "是否我的学生",
                     field: "isBind",
                     format: function (num, grid) {
@@ -50,7 +55,7 @@
                             return "否"
                         }
                     }
-                }],
+                }*/],
             actionColumnText: "操作",//操作列文本
             actionColumnWidth: "20%",
             actionColumns: [
@@ -201,7 +206,7 @@
                         label: "手机号",
                         name: "contactPhone",
                         placeholder: "输入要搜索的手机号"
-                    }, {
+                    }/*, {
                         type: "select",
                         label: "是否绑定",
                         name: "isBind",
@@ -217,7 +222,7 @@
                                 text: "否"
                             }
                         ]
-                    }]
+                    }*/]
             }
         };
         grid = window.App.content.find("#student_grid").topieGrid(studentOpt);
