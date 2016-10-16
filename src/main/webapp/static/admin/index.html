@@ -171,7 +171,7 @@
                     success: function (result) {
                         if (result.code == 200) {
                             $.cookie('tc_t', null);
-                            window.location.href = App.href + "/admin/login.html";
+                            window.location.href = App.href + "/static/admin/login.html";
                         } else {
                             alert(result.message);
                         }
