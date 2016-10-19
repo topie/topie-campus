@@ -1,6 +1,7 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.basedao.service.impl.BaseService;
+import com.topie.campus.core.dao.SurveyAnswerMapper;
 import com.topie.campus.core.model.SurveyAnswer;
 import com.topie.campus.core.service.ISurveyAnswerService;
 import com.topie.campus.core.service.ISurveyGroupService;
@@ -16,13 +17,16 @@ import java.util.List;
 public class SurveyAnswerServiceImpl extends BaseService<SurveyAnswer> implements ISurveyAnswerService {
 
     @Autowired
+    private SurveyAnswerMapper surveyAnswerMapper;
+
+    @Autowired
     private ISurveyGroupService iSurveyGroupService;
 
     @Override
     public void insertAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer studentId) {
         for (SurveyAnswer surveyAnswer : answerList) {
             surveyAnswer.setStudentId(studentId);
-            insert(surveyAnswer);
+            surveyAnswerMapper.insertOrUpdate(surveyAnswer);
         }
         iSurveyGroupService.updateGroupStudentComplete(groupId, studentId);
     }

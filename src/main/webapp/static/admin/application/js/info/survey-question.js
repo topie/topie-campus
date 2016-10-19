@@ -19,6 +19,27 @@
             name: 'questionId',
             id: 'questionId'
         }, {
+            label: '题目类型',
+            type: 'select',
+            name: 'questionType',
+            id: 'questionType',
+            items: [
+                {
+                    text: "评分题",
+                    value: 1,
+                    select: true
+                }, {
+                    text: "问答题",
+                    value: 2
+                }
+            ],
+            rule: {
+                required: true
+            },
+            message: {
+                required: "请选择题目类型"
+            }
+        }, {
             type: 'textarea',
             name: 'questionContent',
             id: 'questionContent',
@@ -32,14 +53,26 @@
             }
         }
     ];
-    App.surveyQuestion.columns = [{
-        title: "questionId",
-        field: "questionId",
-        width: "5%"
-    }, {
-        title: "问卷题内容",
-        field: "questionContent"
-    }];
+    App.surveyQuestion.columns = [
+        {
+            title: "questionId",
+            field: "questionId",
+            width: "5%"
+        },
+        {
+            title: "题目类型",
+            field: "questionType",
+            format: function (i, data) {
+                if (data.questionType == 1) {
+                    return '<span class="label label-info">评分题</span>';
+                } else {
+                    return '<span class="label label-success">问答题</span>';
+                }
+            }
+        }, {
+            title: "问卷题内容",
+            field: "questionContent"
+        }];
     App.surveyQuestion.initEvents = function () {
         var grid;
         var options = {

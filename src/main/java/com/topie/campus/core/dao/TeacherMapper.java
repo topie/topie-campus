@@ -38,4 +38,6 @@ public interface TeacherMapper extends Mapper<Teacher> {
 
     List<TeacherSimpleDto> findTeacherByStudentIdAndTypeId(@Param("studentId") Integer studentId,
             @Param("typeId") Integer typeId);
+
+    List<TeacherSimpleDto> findTeacherByAndTypeId(@Param("typeId") Integer typeId);
 }

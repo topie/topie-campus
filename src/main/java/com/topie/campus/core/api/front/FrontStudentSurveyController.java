@@ -71,16 +71,31 @@ public class FrontStudentSurveyController {
         if (studentId == null) {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
-        Integer typeId = iSurveyGroupService.selectTypeIdByGroupId(groupId);
-        //todo 判断是否可以参与
+        SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        if (surveyGroup == null) {
+            return ResponseUtil.error(500, "问卷调查不存在");
+        }
+        if (surveyGroup.getOnlineStatus() == 0) {
+            return ResponseUtil.error(500, "问卷调查未开始");
+        }
+        if (surveyGroup.getOnlineStatus() == 2) {
+            return ResponseUtil.error(500, "问卷调查已结束");
+        }
+        Boolean isComplete = iSurveyGroupService.selectComplete(groupId, studentId);
+        if (isComplete == null) {
+            return ResponseUtil.error(500, "没有权限参与该问卷");
+        }
+        Integer typeId = surveyGroup.getTypeId();
         List<TeacherSimpleDto> teacherSimpleDtoList = new ArrayList<>();
         if (typeId != null) {
             teacherSimpleDtoList = iTeacherService.findTeacherByStudentIdAndTypeId(studentId, typeId);
         }
         List<SurveyQuestion> surveyQuestions = iSurveyQuestionService.selectByGroupId(groupId);
         Map result = new HashMap();
+        result.put("group", surveyGroup);
         result.put("teacher", teacherSimpleDtoList);
         result.put("questions", surveyQuestions);
+        result.put("isComplete", isComplete);
         return ResponseUtil.success(result);
     }
 

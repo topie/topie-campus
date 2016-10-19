@@ -1206,7 +1206,6 @@
                                 $(".start", templateImpl).click(
                                     function () {
                                         currentData.bar = templateImpl;
-                                        $(this).button('loading');
                                         data.submit();
                                     });
                                 $(".cancel", templateImpl).click(

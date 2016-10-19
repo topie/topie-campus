@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>问卷调查</title>
+    <title>问卷调查结果</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -47,10 +47,11 @@
     </nav>
     <!-- Second Nav -->
 
+
     <div id="page-wrapper" style="margin-left: 0">
         <div class="row">
             <div class="col-lg-12">
-                <h3 class="page-header">问卷调查填写</h3>
+                <h3 class="page-header">问卷调查结果</h3>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -127,17 +128,12 @@
             <tr role="survey">
                 {{each teacher as t2 _index}}
                 <td>
-                    <input type="hidden" role="score" value="{{q.questionId}}">
-                    <input type="hidden" role="score_type" value="{{q.questionType}}">
                     {{if q.questionType==1}}
-                    <div class="starrr"></div>
-                    <span>0</span>分
-                    <input type="hidden" index="{{_index}}" role="score_val" value="0">
+                    <div t="{{t2.id}}" q="{{q.questionId}}" class="starrr"></div>
+                    平均评分：<span>0</span>分
                     {{/if}}
                     {{if q.questionType==2}}
-                    <textarea role="score_val" class="form-control input-large" rows="3"
-                              aria-required="true" aria-describedby="questionContent-error"
-                              aria-invalid="false"></textarea>
+                    <a>导出回答</a>
                     {{/if}}
                 </td>
                 {{/each}}
@@ -146,15 +142,13 @@
             <tr role="summary">
                 {{each teacher as t2 _index}}
                 <td>
-                    合计:<span style="font-size: large;font-weight: 200;color: red" index="{{_index}}">0</span>分
+                    合计:<span style="font-size: large;font-weight: 200;color: red" t="{{t2.id}}">0</span>分
                 </td>
                 {{/each}}
             </tr>
             <tr>
                 <td class="high" style="text-align: center" colspan="{{teacher.length}}">
                     <div>
-                        <button type="button" id="submit" class="btn btn-lg btn-info">提 交
-                        </button>
                         <button type="button" id="leave" class="btn btn-lg btn-default">离 开
                         </button>
                     </div>
@@ -169,6 +163,8 @@
     bootbox.setLocale("zh_CN");
     if (window.location.href.lastIndexOf("?u=") > 0) {
         var teacherArray = [];
+        var resultArray = {};
+        var totalArray = {};
         var token = $.cookie('tc_t');
         if (typeof(token) == "undefined" || token == null) {
             window.location.href = './login.html';
@@ -179,7 +175,7 @@
         $.ajax(
                 {
                     type: 'GET',
-                    url: App.href + "/api/front/studentSurvey/survey",
+                    url: App.href + "/api/info/surveyGroup/stat",
                     dataType: "json",
                     data: {
                         "groupId": groupId
@@ -191,77 +187,42 @@
                         if (result.code === 200) {
                             var data = result.data;
                             $("h3.page-header").html("问卷结果-" + data.group.groupName);
-                            if (data.isComplete) {
-                                bootbox.confirm("你已经参与过该问卷，是否重新参与?", function (result) {
-                                    if (!result) {
-                                        alert("谢谢！系统自动离开~")
-                                        window.close();
-                                    }
-                                });
-                            }
                             if (data.teacher.length > 0) {
                                 $.each(data.teacher, function (i, d) {
                                     teacherArray.push(d.id);
                                 });
                             }
+                            if (data.result.length > 0) {
+                                $.each(data.result, function (i, d) {
+                                    resultArray["'" + d.teacherId + "#" + d.questionId + "'"] = d.record;
+                                    if (typeof(totalArray[d.teacherId]) == "undefined") {
+                                        totalArray[d.teacherId] = 0;
+                                    }
+                                    totalArray[d.teacherId] += d.record;
+                                });
+                            }
+                            console.info(resultArray);
                             var html = template('surveyTmpl', data);
                             $("#page-wrapper").append(html);
-                            $(".starrr").starrr();
-                            $('.starrr').on('starrr:change', function (e, value) {
-                                $(this).next("span").html(value);
-                                $(this).next().next("input").val(value);
-                                var i = $(this).next().next("input").attr("index");
-                                calculateRecord(i);
+                            $('.starrr').each(function (i, data) {
+                                var t = parseInt($(this).attr("t"));
+                                var q = parseInt($(this).attr("q"));
+                                var start = parseInt(resultArray["'" + t + "#" + q + "'"]);
+                                $(this).starrr({
+                                    'rating': start
+                                });
+                                $(this).next("span").html(resultArray["'" + t + "#" + q + "'"]);
                             });
+                            $("tr[role=summary]").find("span").each(
+                                    function (i, d) {
+                                        var t = parseInt($(this).attr("t"));
+                                        $(this).text(totalArray[t]);
+                                    }
+                            );
                             $("#leave").on("click", function () {
                                 bootbox.confirm("确定离开吗?", function (result) {
                                     if (result) {
                                         window.close();
-                                    }
-                                });
-                            });
-                            $("#submit").on("click", function () {
-                                bootbox.confirm("确定提交吗?", function (result) {
-                                    if (result) {
-                                        var submit_array = [];
-                                        $.each(teacherArray, function (i, teacherId) {
-                                            $("#survey_table >tbody").find("tr[role=survey]").each(function (j, d) {
-                                                var q = {};
-                                                q['groupId'] = groupId;
-                                                q['teacherId'] = teacherId;
-                                                var v1 = $(this).find("td:eq(" + i + ")").find("input[role=score]").val();
-                                                q['questionId'] = parseInt(v1);
-                                                var v2 = $(this).find("td:eq(" + i + ")").find("input[role=score_type]").val();
-                                                q['questionType'] = parseInt(v2);
-                                                if (v2 == 1) {
-                                                    var v3 = $(this).find("td:eq(" + i + ")").find("input[role=score_val]").val();
-                                                    q['record'] = parseInt(v3);
-                                                    q['content'] = "";
-                                                } else {
-                                                    var v4 = $(this).find("td:eq(" + i + ")").find("textarea[role=score_val]").val();
-                                                    q['record'] = 0;
-                                                    q['content'] = v4;
-                                                }
-                                                submit_array.push(q);
-                                            });
-                                        });
-                                        alert(JSON.stringify(submit_array));
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: App.href + "/api/front/studentSurvey/submit?groupId=" + groupId,
-                                            dataType: "json",
-                                            contentType: "application/json; charset=utf-8",
-                                            data: JSON.stringify(submit_array),
-                                            beforeSend: function (request) {
-                                                request.setRequestHeader("X-Auth-Token", token);
-                                            },
-                                            success: function (result) {
-                                                if (result.code === 200) {
-                                                    alert("谢谢~");
-                                                    window.close();
-                                                }
-                                            }
-                                        });
                                     }
                                 });
                             });
@@ -271,14 +232,7 @@
                     }
                 }
         );
-        function calculateRecord(i) {
-            var total = 0;
-            $("tr[role=survey]").find("input[index=" + i + "]").each(function (i, d) {
-                var record = $(this).val();
-                total += parseInt(record);
-            });
-            $("tr[role=summary]").find("span[index=" + i + "]").text(total);
-        }
+
     }
 </script>
 

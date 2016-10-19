@@ -41,6 +41,12 @@ public class InfoSurveyQuestionController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
     public Result surveyQuestionInsert(SurveyQuestion surveyQuestion) {
+        if (surveyQuestion.getQuestionType() == null) {
+            return ResponseUtil.error("问题类型不能为空！");
+        }
+        if (surveyQuestion.getQuestionType() > 2 || surveyQuestion.getQuestionType() < 1) {
+            return ResponseUtil.error("问题类型错误！");
+        }
         int result = iSurveyQuestionService.insertSelective(surveyQuestion);
         if (result > 0) {
             return ResponseUtil.success(ResultCode.OP_SUCCESS);

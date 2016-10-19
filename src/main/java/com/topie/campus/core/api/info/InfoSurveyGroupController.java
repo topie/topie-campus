@@ -5,13 +5,22 @@ import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dto.TeacherSimpleDto;
+import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
 import com.topie.campus.core.model.SurveyQuestion;
 import com.topie.campus.core.service.ISurveyGroupService;
 import com.topie.campus.core.service.ISurveyQuestionService;
+import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 9/21/16.
@@ -25,6 +34,9 @@ public class InfoSurveyGroupController {
 
     @Autowired
     private ISurveyQuestionService iSurveyQuestionService;
+
+    @Autowired
+    private ITeacherService iTeacherService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -122,24 +134,48 @@ public class InfoSurveyGroupController {
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
-    @RequestMapping(value = "/updateOnline", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateOnlineBegin", method = RequestMethod.GET)
     @ResponseBody
-    public Result updateOnline(@RequestParam("groupId") Integer groupId) {
-        int result = iSurveyGroupService.updateIsOnline(groupId, true);
+    public Result updateOnlineBegin(@RequestParam("groupId") Integer groupId) {
+        int result = iSurveyGroupService.updateOnlineStatus(groupId, 1);
         if (result > 0) {
             return ResponseUtil.success(ResultCode.OP_SUCCESS);
         }
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
-    @RequestMapping(value = "/updateOffline", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateOnlineEnd", method = RequestMethod.GET)
     @ResponseBody
-    public Result updateOffline(@RequestParam("groupId") Integer groupId) {
-        int result = iSurveyGroupService.updateIsOnline(groupId, false);
+    public Result updateOnlineEnd(@RequestParam("groupId") Integer groupId) {
+        int result = iSurveyGroupService.updateOnlineStatus(groupId, 2);
         if (result > 0) {
             return ResponseUtil.success(ResultCode.OP_SUCCESS);
         }
         return ResponseUtil.error(ResultCode.OP_FAIL);
+    }
+
+    @RequestMapping(value = "/stat", method = RequestMethod.GET)
+    @ResponseBody
+    public Result stat(@RequestParam(value = "groupId") Integer groupId) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        Integer typeId = surveyGroup.getTypeId();
+        List<TeacherSimpleDto> teacherSimpleDtoList = new ArrayList<>();
+        if (typeId != null) {
+            teacherSimpleDtoList = iTeacherService.findTeacherByTypeId(typeId);
+        }
+        List<SurveyQuestion> surveyQuestions = iSurveyQuestionService.selectByGroupId(groupId);
+
+        List<GroupStat> list = iSurveyGroupService.selectStatByGroupId(groupId);
+        Map result = new HashMap();
+        result.put("group", surveyGroup);
+        result.put("teacher", teacherSimpleDtoList);
+        result.put("questions", surveyQuestions);
+        result.put("result", list);
+        return ResponseUtil.success(result);
     }
 
 }

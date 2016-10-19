@@ -2,7 +2,10 @@ package com.topie.campus.core.service;
 
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
+
+import java.util.List;
 
 /**
  * Created by chenguojun on 8/28/16.
@@ -19,7 +22,7 @@ public interface ISurveyGroupService extends IService<SurveyGroup> {
 
     int countGroupQuestionRelate(Integer groupId);
 
-    int updateIsOnline(Integer groupId, Boolean isOnline);
+    int updateOnlineStatus(Integer groupId, Integer onlineStatus);
 
     int insertInitGroupStudent(Integer groupId,Integer typeId);
 
@@ -28,4 +31,9 @@ public interface ISurveyGroupService extends IService<SurveyGroup> {
     Integer selectTypeIdByGroupId(Integer groupId);
 
     int updateGroupStudentComplete(Integer groupId, Integer studentId);
+
+    Boolean selectComplete(Integer groupId, Integer studentId);
+
+    List<GroupStat> selectStatByGroupId(Integer groupId);
+
 }

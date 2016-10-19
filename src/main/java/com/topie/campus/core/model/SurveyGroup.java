@@ -46,8 +46,8 @@ public class SurveyGroup {
     /**
      * 是否在线 0:否 1:是
      */
-    @Column(name = "is_online")
-    private Boolean isOnline;
+    @Column(name = "online_status")
+    private Integer onlineStatus;
 
     /**
      * @return group_id
@@ -155,21 +155,11 @@ public class SurveyGroup {
         this.status = status;
     }
 
-    /**
-     * 获取是否在线 0:否 1:是
-     *
-     * @return is_online - 是否在线 0:否 1:是
-     */
-    public Boolean getIsOnline() {
-        return isOnline;
+    public Integer getOnlineStatus() {
+        return onlineStatus;
     }
 
-    /**
-     * 设置是否在线 0:否 1:是
-     *
-     * @param isOnline 是否在线 0:否 1:是
-     */
-    public void setIsOnline(Boolean isOnline) {
-        this.isOnline = isOnline;
+    public void setOnlineStatus(Integer onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 }

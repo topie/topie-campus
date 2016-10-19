@@ -6,6 +6,7 @@
           WARNING - @mbggenerated
         -->
         <id column="question_id" property="questionId" jdbcType="INTEGER"/>
+        <result column="question_type" property="questionType" jdbcType="INTEGER"/>
         <result column="question_content" property="questionContent" jdbcType="VARCHAR"/>
         <result column="c_time" property="cTime" jdbcType="TIMESTAMP"/>
         <result column="u_time" property="uTime" jdbcType="TIMESTAMP"/>
@@ -15,6 +16,9 @@
     <select id="selectByPage" resultMap="BaseResultMap">
         select * from topie_campus.t_survey_question
         <where>
+            <if test="surveyQuestion.questionType!=null">
+                and question_type = #{surveyQuestion.questionType}
+            </if>
             <if test="surveyQuestion.questionContent!=null and surveyQuestion.questionContent!=''">
                 and question_content like concat('%',concat(#{surveyQuestion.questionContent},'%'))
             </if>
@@ -26,6 +30,9 @@
     <select id="count" resultType="java.lang.Long">
         select count(1) from topie_campus.t_survey_question
         <where>
+            <if test="surveyQuestion.questionType!=null">
+                and question_type = #{surveyQuestion.questionType}
+            </if>
             <if test="surveyQuestion.questionContent!=null and surveyQuestion.questionContent!=''">
                 and question_content like concat('%',concat(#{surveyQuestion.questionContent},'%'))
             </if>
@@ -39,6 +46,9 @@
         on sq.question_id=gq.question_id
         <where>
             gq.group_id = #{groupId}
+            <if test="surveyQuestion.questionType!=null">
+                and question_type = #{surveyQuestion.questionType}
+            </if>
             <if test="surveyQuestion.questionContent!=null and surveyQuestion.questionContent!=''">
                 and question_content like concat('%',concat(#{surveyQuestion.questionContent},'%'))
             </if>
@@ -56,6 +66,9 @@
         on sq.question_id=gq.question_id
         <where>
             gq.group_id = #{groupId}
+            <if test="surveyQuestion.questionType!=null">
+                and question_type = #{surveyQuestion.questionType}
+            </if>
             <if test="surveyQuestion.questionContent!=null and surveyQuestion.questionContent!=''">
                 and question_content like concat('%',concat(#{surveyQuestion.questionContent},'%'))
             </if>

@@ -89,12 +89,14 @@
             field: "end"
         }, {
             title: "是否上线",
-            field: "isOnline",
+            field: "onlineStatus",
             format: function (i, data) {
-                if (data.isOnline) {
-                    return '<span class="label label-info">上线</span>';
+                if (data.onlineStatus == 0) {
+                    return '<span class="label label-default">未开始</span>';
+                } else if (data.onlineStatus == 1) {
+                    return '<span class="label label-info">进行中</span>';
                 } else {
-                    return '<span class="label label-default">未上线</span>';
+                    return '<span class="label label-warning">已结束</span>';
                 }
             }
         }
@@ -139,6 +141,17 @@
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
             columns: [
+                {
+                    title: "题目类型",
+                    field: "questionType",
+                    format: function (i, data) {
+                        if (data.questionType == 1) {
+                            return '<span class="label label-info">评分题</span>';
+                        } else {
+                            return '<span class="label label-success">问答题</span>';
+                        }
+                    }
+                },
                 {
                     title: "问卷题内容",
                     field: "questionContent"
@@ -208,6 +221,17 @@
                 {
                     title: "问卷题内容",
                     field: "questionContent"
+                },
+                {
+                    title: "题目类型",
+                    field: "questionType",
+                    format: function (i, data) {
+                        if (data.questionType == 1) {
+                            return '<span class="label label-info">评分题</span>';
+                        } else {
+                            return '<span class="label label-success">问答题</span>';
+                        }
+                    }
                 },
                 {
                     title: "题目序号",
@@ -312,51 +336,88 @@
             actionColumns: [
                 {
                     textHandle: function (index, stData) {
-                        if (stData.isOnline) {
-                            return "下线";
+                        if (stData.onlineStatus == 0) {
+                            return "开始";
+                        } else if (stData.onlineStatus == 1) {
+                            return "结束";
                         } else {
-                            return "上线";
+                            return "查看统计结果";
                         }
                     },
                     clsHandle: function (index, stData) {
-                        if (stData.isOnline) {
+                        if (stData.onlineStatus == 0) {
                             return "btn-danger btn-sm";
+                        } else if (stData.onlineStatus == 1) {
+                            return "btn-primary btn-sm";
                         } else {
                             return "btn-primary btn-sm";
                         }
                     },
                     handle: function (index, stData) {
-                        bootbox.confirm("确定该操作吗?", function (result) {
-                            if (result) {
-                                var requestUrl = App.href + "/api/info/surveyGroup/updateOnline";
-                                if (stData.isOnline) {
-                                    requestUrl = App.href + "/api/info/surveyGroup/updateOffline";
-                                }
-                                $.ajax({
-                                    type: "GET",
-                                    beforeSend: function (request) {
-                                        request.setRequestHeader("X-Auth-Token", App.token);
-                                    },
-                                    dataType: "json",
-                                    data: {
-                                        groupId: stData.groupId
-                                    },
-                                    url: requestUrl,
-                                    success: function (result) {
-                                        if (result.code === 200) {
-                                            grid.reload();
-                                        } else {
-                                            alert(result.message);
+                        var requestUrl;
+                        if (stData.onlineStatus == 0) {
+                            bootbox.confirm("确定该操作吗?", function (result) {
+                                if (result) {
+                                    requestUrl = App.href + "/api/info/surveyGroup/updateOnlineBegin";
+                                    $.ajax({
+                                        type: "GET",
+                                        beforeSend: function (request) {
+                                            request.setRequestHeader("X-Auth-Token", App.token);
+                                        },
+                                        dataType: "json",
+                                        data: {
+                                            groupId: stData.groupId
+                                        },
+                                        url: requestUrl,
+                                        success: function (result) {
+                                            if (result.code === 200) {
+                                                grid.reload();
+                                            } else {
+                                                alert(result.message);
+                                            }
+                                        },
+                                        error: function (e) {
+                                            alert("请求异常。");
                                         }
-                                    },
-                                    error: function (e) {
-                                        alert("请求异常。");
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
+
+                        } else if (stData.onlineStatus == 1) {
+                            requestUrl = App.href + "/api/info/surveyGroup/updateOnlineEnd";
+                            bootbox.confirm("确定该操作吗?", function (result) {
+                                if (result) {
+                                    $.ajax({
+                                        type: "GET",
+                                        beforeSend: function (request) {
+                                            request.setRequestHeader("X-Auth-Token", App.token);
+                                        },
+                                        dataType: "json",
+                                        data: {
+                                            groupId: stData.groupId
+                                        },
+                                        url: requestUrl,
+                                        success: function (result) {
+                                            if (result.code === 200) {
+                                                grid.reload();
+                                            } else {
+                                                alert(result.message);
+                                            }
+                                        },
+                                        error: function (e) {
+                                            alert("请求异常。");
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            window.open(App.href + "/static/front/survey-result.html?u=" + stData.groupId);
+                        }
                     }
                 }, {
+                    visible: function (i, data) {
+                        return data.onlineStatus != 2;
+                    },
                     text: "编辑",
                     cls: "btn-primary btn-sm",
                     handle: function (index, data) {
@@ -397,6 +458,9 @@
                         form.loadRemote(App.href + "/api/info/surveyGroup/load/" + data.groupId);
                     }
                 }, {
+                    visible: function (i, data) {
+                        return data.onlineStatus != 2;
+                    },
                     text: "选择题目",
                     cls: "btn-primary btn-sm",
                     handle: function (index, data) {
@@ -412,6 +476,9 @@
                         initSelectQuestion(div, data.groupId);
                     }
                 }, {
+                    visible: function (i, data) {
+                        return data.onlineStatus != 2;
+                    },
                     text: "删除",
                     cls: "btn-danger btn-sm",
                     handle: function (index, data) {
