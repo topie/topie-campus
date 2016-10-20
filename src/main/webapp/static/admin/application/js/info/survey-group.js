@@ -335,13 +335,20 @@
             actionColumnWidth: "25%",
             actionColumns: [
                 {
+                    text: "查看",
+                    cls: "btn-primary btn-sm",
+                    handle: function (index, data) {
+                        window.open(App.href + "/static/admin/survey-result.html?u=" + data.groupId);
+                    }
+                }, {
+                    visible: function (i, data) {
+                        return data.onlineStatus < 2;
+                    },
                     textHandle: function (index, stData) {
                         if (stData.onlineStatus == 0) {
                             return "开始";
                         } else if (stData.onlineStatus == 1) {
                             return "结束";
-                        } else {
-                            return "查看统计结果";
                         }
                     },
                     clsHandle: function (index, stData) {
@@ -349,70 +356,40 @@
                             return "btn-danger btn-sm";
                         } else if (stData.onlineStatus == 1) {
                             return "btn-primary btn-sm";
-                        } else {
-                            return "btn-primary btn-sm";
                         }
                     },
                     handle: function (index, stData) {
                         var requestUrl;
                         if (stData.onlineStatus == 0) {
-                            bootbox.confirm("确定该操作吗?", function (result) {
-                                if (result) {
-                                    requestUrl = App.href + "/api/info/surveyGroup/updateOnlineBegin";
-                                    $.ajax({
-                                        type: "GET",
-                                        beforeSend: function (request) {
-                                            request.setRequestHeader("X-Auth-Token", App.token);
-                                        },
-                                        dataType: "json",
-                                        data: {
-                                            groupId: stData.groupId
-                                        },
-                                        url: requestUrl,
-                                        success: function (result) {
-                                            if (result.code === 200) {
-                                                grid.reload();
-                                            } else {
-                                                alert(result.message);
-                                            }
-                                        },
-                                        error: function (e) {
-                                            alert("请求异常。");
-                                        }
-                                    });
-                                }
-                            });
-
+                            requestUrl = App.href + "/api/info/surveyGroup/updateOnlineBegin";
                         } else if (stData.onlineStatus == 1) {
                             requestUrl = App.href + "/api/info/surveyGroup/updateOnlineEnd";
-                            bootbox.confirm("确定该操作吗?", function (result) {
-                                if (result) {
-                                    $.ajax({
-                                        type: "GET",
-                                        beforeSend: function (request) {
-                                            request.setRequestHeader("X-Auth-Token", App.token);
-                                        },
-                                        dataType: "json",
-                                        data: {
-                                            groupId: stData.groupId
-                                        },
-                                        url: requestUrl,
-                                        success: function (result) {
-                                            if (result.code === 200) {
-                                                grid.reload();
-                                            } else {
-                                                alert(result.message);
-                                            }
-                                        },
-                                        error: function (e) {
-                                            alert("请求异常。");
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            window.open(App.href + "/static/admin/survey-result.html?u=" + stData.groupId);
                         }
+                        bootbox.confirm("确定该操作吗?", function (result) {
+                            if (result) {
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    dataType: "json",
+                                    data: {
+                                        groupId: stData.groupId
+                                    },
+                                    url: requestUrl,
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            grid.reload();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
+                            }
+                        });
                     }
                 }, {
                     visible: function (i, data) {

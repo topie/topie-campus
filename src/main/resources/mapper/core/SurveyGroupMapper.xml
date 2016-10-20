@@ -138,4 +138,27 @@
         <![CDATA[ `end`<=#{current} ]]>
         and status=1 and online_status=1;
     </select>
+    <select id="selectSurveyComment" resultType="com.topie.campus.core.dto.SurveyAnswerExcelDto">
+        select
+        group_id groupId,
+        t.name teacherName,
+        t.employee_no employeeNo,
+        s.name studentName,
+        s.student_no studentNo,
+        content comment
+        from
+        topie_campus.t_survey_group_question_answer a
+        left join topie_campus.t_teacher t
+        on a.teacher_id=t.id
+        left join topie_campus.t_student s
+        on a.student_id = s.id
+        where group_id=#{groupId}
+        and question_type=2
+    </select>
+    <select id="selectStudentProcessByGroupId" resultType="java.util.Map">
+        select
+        student_id studentId,s.name studentName,is_complete isComplete
+        from topie_campus.t_survey_group_student gs left join topie_campus.t_student s on gs.student_id=s.id
+        where group_id=#{groupId}
+    </select>
 </mapper>

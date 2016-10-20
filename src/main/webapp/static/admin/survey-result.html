@@ -41,6 +41,15 @@
         <div class="col-md-12">
             <h3 class="page-header"></h3>
         </div>
+        <div class="col-md-12">
+            <h5>学生回答进度:</h5>
+            <span id="progress-text" class="pull-right"></span>
+            <div class="progress">
+                <div id="progress" class="progress-bar" role="progressbar"
+                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                </div>
+            </div>
+        </div>
         <div id="survey_page" class="col-md-12">
         </div>
     </div>
@@ -106,17 +115,20 @@
                 </td>
             </tr>
             <tr role="survey">
+                {{if q.questionType==1}}
                 {{each teacher as t2 _index}}
                 <td>
-                    {{if q.questionType==1}}
+
                     <div t="{{t2.id}}" q="{{q.questionId}}" class="starrr"></div>
                     平均评分：<span>0</span>分
-                    {{/if}}
-                    {{if q.questionType==2}}
-                    <a>导出回答</a>
-                    {{/if}}
                 </td>
                 {{/each}}
+                {{/if}}
+                {{if q.questionType==2}}
+                <td class="high" colspan="{{teacher.length}}">
+                    <a style="color:red" id="export" href="javascript:void(0);">导出学生回答</a>
+                </td>
+                {{/if}}
             </tr>
             {{/each}}
             <tr role="summary">
@@ -171,6 +183,18 @@
                                     teacherArray.push(d.id);
                                 });
                             }
+                            if (data.progress.length > 0) {
+                                var t = data.progress.length;
+                                var n = 0;
+                                $.each(data.progress, function (i, data) {
+                                    if (data.isComplete) {
+                                        n++;
+                                    }
+                                });
+                                var p = parseFloat(n / t).toFixed(2) * 100;
+                                $("#progress").attr("style", "width:" + p + "%;");
+                                $("#progress-text").text(p + "%");
+                            }
                             if (data.result.length > 0) {
                                 $.each(data.result, function (i, d) {
                                     resultArray["'" + d.teacherId + "#" + d.questionId + "'"] = d.record;
@@ -187,7 +211,7 @@
                                 var q = parseInt($(this).attr("q"));
                                 var start = parseInt(resultArray["'" + t + "#" + q + "'"]);
                                 $(this).starrr({
-                                    'rating': start,
+                                    rating: start,
                                     readonly: true
                                 });
                                 $(this).next("span").html(resultArray["'" + t + "#" + q + "'"]);
@@ -204,6 +228,9 @@
                                         window.close();
                                     }
                                 });
+                            });
+                            $("#export").on("click", function () {
+                                window.location.href = App.href + "/api/info/surveyGroup/export?groupId=" + groupId + "&topie_token=" + token;
                             });
                         } else {
                             alert(result.message);

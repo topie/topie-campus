@@ -5,6 +5,7 @@ import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dto.SurveyAnswerExcelDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
@@ -13,10 +14,12 @@ import com.topie.campus.core.service.ISurveyGroupService;
 import com.topie.campus.core.service.ISurveyQuestionService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.security.utils.SecurityUtil;
+import com.topie.campus.tools.excel.ExcelFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,6 +165,10 @@ public class InfoSurveyGroupController {
             return ResponseUtil.error(401, "未登录");
         }
         SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        if (surveyGroup == null) {
+            return ResponseUtil.error(500, "问卷调查不存在");
+        }
+        List<Map> progress = iSurveyGroupService.selectStudentProcessByGroupId(groupId);
         Integer typeId = surveyGroup.getTypeId();
         List<TeacherSimpleDto> teacherSimpleDtoList = new ArrayList<>();
         if (typeId != null) {
@@ -171,11 +178,29 @@ public class InfoSurveyGroupController {
 
         List<GroupStat> list = iSurveyGroupService.selectStatByGroupId(groupId);
         Map result = new HashMap();
+        result.put("progress", progress);
         result.put("group", surveyGroup);
         result.put("teacher", teacherSimpleDtoList);
         result.put("questions", surveyQuestions);
         result.put("result", list);
         return ResponseUtil.success(result);
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public void export(@RequestParam(value = "groupId") Integer groupId, HttpServletResponse response)
+            throws Exception {
+        SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        if (surveyGroup == null) {
+            ResponseUtil.writeJson(response, ResponseUtil.error("问卷调查不存在"));
+        }
+        List<SurveyAnswerExcelDto> list = iSurveyGroupService.selectSurveyComment(groupId);
+        String[] headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "学生回答" };
+        String fileName = "问卷回答.xlsx";
+        try {
+            ExcelFileUtil.reponseXlsx(response, fileName, headers, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

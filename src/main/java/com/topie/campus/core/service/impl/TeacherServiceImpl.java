@@ -57,9 +57,9 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
             Integer typeId, Integer studentId, Integer pageNum, Integer pageSize) {
         List<TeacherSimpleDto> list = teacherMapper
-                .findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, typeId, studentId,
+                .findTeacherSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, typeId, studentId,
                         (pageNum - 1) * pageSize, pageSize);
-        Long total = teacherMapper.countStudentSimpleDtoListByTeacherId(teacherSimpleDto, typeId, studentId);
+        Long total = teacherMapper.countTeacherSimpleDtoListByTeacherId(teacherSimpleDto, typeId, studentId);
         SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
         return pageInfo;
     }

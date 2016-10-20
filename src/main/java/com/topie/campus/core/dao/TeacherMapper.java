@@ -26,12 +26,12 @@ public interface TeacherMapper extends Mapper<Teacher> {
 
     String selectTeacherNameByUserId(@Param("userId") Integer userId);
 
-    List<TeacherSimpleDto> findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize(
+    List<TeacherSimpleDto> findTeacherSimpleDtoByTeacherIdAndPageNumAndPageSize(
             @Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("typeId") Integer typeId,
             @Param("studentId") Integer studentId, @Param("pageOffset") Integer pageOffset,
             @Param("pageSize") Integer pageSize);
 
-    Long countStudentSimpleDtoListByTeacherId(@Param("teacher") TeacherSimpleDto teacherSimpleDto,
+    Long countTeacherSimpleDtoListByTeacherId(@Param("teacher") TeacherSimpleDto teacherSimpleDto,
             @Param("typeId") Integer typeId, @Param("studentId") Integer studentId);
 
     Integer selectIdByEmployeeNo(@Param("employeeNo") String employeeNo);

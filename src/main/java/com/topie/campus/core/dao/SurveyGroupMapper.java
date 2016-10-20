@@ -1,11 +1,13 @@
 package com.topie.campus.core.dao;
 
+import com.topie.campus.core.dto.SurveyAnswerExcelDto;
 import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
 
@@ -45,4 +47,8 @@ public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
     List<SurveyGroup> selectByCurrentForStartTask(@Param("current") String current);
 
     List<SurveyGroup> selectByCurrentForEndTask(@Param("current") String current);
+
+    List<SurveyAnswerExcelDto> selectSurveyComment(@Param("groupId") Integer groupId);
+
+    List<Map> selectStudentProcessByGroupId(@Param("groupId") Integer groupId);
 }

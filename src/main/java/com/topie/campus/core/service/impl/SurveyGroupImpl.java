@@ -4,6 +4,7 @@ import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.SurveyGroupMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
+import com.topie.campus.core.dto.SurveyAnswerExcelDto;
 import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
 import com.topie.campus.core.service.ISurveyGroupService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/28/16.
@@ -108,6 +110,16 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     @Override
     public List<SurveyGroup> selectByCurrentForEndTask(String current) {
         return surveyGroupMapper.selectByCurrentForEndTask(current);
+    }
+
+    @Override
+    public List<SurveyAnswerExcelDto> selectSurveyComment(Integer groupId) {
+        return surveyGroupMapper.selectSurveyComment(groupId);
+    }
+
+    @Override
+    public List<Map> selectStudentProcessByGroupId(Integer groupId) {
+        return surveyGroupMapper.selectStudentProcessByGroupId(groupId);
     }
 
 }

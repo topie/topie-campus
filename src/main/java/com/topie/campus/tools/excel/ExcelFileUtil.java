@@ -315,7 +315,7 @@ public class ExcelFileUtil {
 
     private static File createTempFile() throws IOException {
         File temp = new File(
-                PropertiesUtil.get("/config/properties/project", "temp.folder") + System
+                PropertiesUtil.get("/config/properties/project.properties", "temp.folder") + System
                         .currentTimeMillis());
         return temp;
     }
