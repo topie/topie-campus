@@ -42,4 +42,7 @@ public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
 
     List<GroupStat> selectStatByGroupId(@Param("groupId") Integer groupId);
 
+    List<SurveyGroup> selectByCurrentForStartTask(@Param("current") String current);
+
+    List<SurveyGroup> selectByCurrentForEndTask(@Param("current") String current);
 }

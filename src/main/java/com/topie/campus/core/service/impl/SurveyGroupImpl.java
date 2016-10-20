@@ -99,4 +99,15 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
         return surveyGroupMapper.selectStatByGroupId(groupId);
     }
 
+    @Override
+    public List<SurveyGroup> selectByCurrentForStartTask(String current) {
+
+        return surveyGroupMapper.selectByCurrentForStartTask(current);
+    }
+
+    @Override
+    public List<SurveyGroup> selectByCurrentForEndTask(String current) {
+        return surveyGroupMapper.selectByCurrentForEndTask(current);
+    }
+
 }

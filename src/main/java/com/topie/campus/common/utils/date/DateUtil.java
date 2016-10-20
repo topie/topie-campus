@@ -1,12 +1,7 @@
 package com.topie.campus.common.utils.date;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DateUtil {
 
@@ -91,7 +86,7 @@ public class DateUtil {
                     for (int j = i + 1; j < timestamps.size(); j++) {
                         long absoluteValue = Math.abs(timestamps.get(i) - timestamps.get(j));
                         absoluteValues.add(absoluteValue);
-                        long[] timestampTmp = {timestamps.get(i), timestamps.get(j)};
+                        long[] timestampTmp = { timestamps.get(i), timestamps.get(j) };
                         map.put(absoluteValue, timestampTmp);
                     }
                 }
@@ -333,8 +328,7 @@ public class DateUtil {
      * @param newDateStyle 新日期风格
      * @return 新日期字符串
      */
-    public static String StringToString(String date, DateStyle olddDteStyle,
-                                        DateStyle newDateStyle) {
+    public static String StringToString(String date, DateStyle olddDteStyle, DateStyle newDateStyle) {
         String dateString = null;
         if (olddDteStyle == null) {
             DateStyle style = getDateStyle(date);
@@ -719,13 +713,11 @@ public class DateUtil {
     /**
      * 获取两个日期中的以天的拆分
      */
-    public static List<String> getDatesOfDayBetweenDates(Date start, Date end,
-                                                         DateStyle dateStyle) {
+    public static List<String> getDatesOfDayBetweenDates(Date start, Date end, DateStyle dateStyle) {
         if (start.after(end)) {
             return null;
         }
-        if (dateStyle == null)
-            dateStyle = DateStyle.YYYY_MM_DD_HH_MM_SS;
+        if (dateStyle == null) dateStyle = DateStyle.YYYY_MM_DD_HH_MM_SS;
         List<String> list = new ArrayList<>();
         int interval = getIntervalDays(start, end);
         interval = Math.abs(interval);
@@ -736,12 +728,10 @@ public class DateUtil {
         return list;
     }
 
-
     /**
      * 获取两个日期中的以天的拆分
      */
-    public static List<String> getDatesOfDayBetweenDates(String start, String end,
-                                                         DateStyle dateStyle) {
+    public static List<String> getDatesOfDayBetweenDates(String start, String end, DateStyle dateStyle) {
         return getDatesOfDayBetweenDates(StringToDate(start), StringToDate(end), dateStyle);
     }
 
@@ -771,13 +761,11 @@ public class DateUtil {
         return getMonthFirstDay(new Date());
     }
 
-    public static List<String> getDatesOfMonthBetweenDates(Date start, Date end,
-                                                           DateStyle dateStyle) {
+    public static List<String> getDatesOfMonthBetweenDates(Date start, Date end, DateStyle dateStyle) {
         if (start.after(end)) {
             return null;
         }
-        if (dateStyle == null)
-            dateStyle = DateStyle.YYYY_MM_DD;
+        if (dateStyle == null) dateStyle = DateStyle.YYYY_MM_DD;
         List<String> list = new ArrayList<>();
         do {
             Calendar cal = Calendar.getInstance();
@@ -790,8 +778,7 @@ public class DateUtil {
         return list;
     }
 
-    public static List<String> getDatesOfMonthBetweenDates(String start, String end,
-                                                           DateStyle dateStyle) {
+    public static List<String> getDatesOfMonthBetweenDates(String start, String end, DateStyle dateStyle) {
         return getDatesOfMonthBetweenDates(StringToDate(start), StringToDate(end), dateStyle);
     }
 
@@ -810,9 +797,10 @@ public class DateUtil {
         long hour = seconds % (24 * 3600) / 3600;
         long minute = seconds % 3600 / 60;
         long second = seconds % 60 / 60;
-        return (day > 0 ? (day + "天") : "") + (hour > 0 ? (hour + "小时") : "") + (minute > 0 ?
-                (minute + "分钟") :
-                "") + (second > 0 ? (second + "秒") : "");
+        return (day > 0 ? (day + "天") : "") + (hour > 0 ? (hour + "小时") : "") + (minute > 0 ? (minute + "分钟") : "") + (
+                second > 0 ?
+                        (second + "秒") :
+                        "");
     }
 
     public static Date getToday() {
@@ -830,5 +818,9 @@ public class DateUtil {
 
     public static String getTodayString(DateStyle dateStyle) {
         return DateToString(getToday(), dateStyle);
+    }
+
+    public static String getCurrent(DateStyle dateStyle) {
+        return DateToString(new Date(), dateStyle);
     }
 }

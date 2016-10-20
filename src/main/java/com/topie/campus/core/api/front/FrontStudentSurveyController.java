@@ -110,6 +110,20 @@ public class FrontStudentSurveyController {
         if (studentId == null) {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
+        SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        if (surveyGroup == null) {
+            return ResponseUtil.error(500, "问卷调查不存在");
+        }
+        if (surveyGroup.getOnlineStatus() == 0) {
+            return ResponseUtil.error(500, "问卷调查未开始");
+        }
+        if (surveyGroup.getOnlineStatus() == 2) {
+            return ResponseUtil.error(500, "问卷调查已结束");
+        }
+        Boolean isComplete = iSurveyGroupService.selectComplete(groupId, studentId);
+        if (isComplete == null) {
+            return ResponseUtil.error(500, "没有权限参与该问卷");
+        }
         iSurveyAnswerService.insertAnswerList(answerList, groupId, studentId);
         return ResponseUtil.success();
     }

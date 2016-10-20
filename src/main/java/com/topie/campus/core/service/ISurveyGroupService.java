@@ -36,4 +36,8 @@ public interface ISurveyGroupService extends IService<SurveyGroup> {
 
     List<GroupStat> selectStatByGroupId(Integer groupId);
 
+    List<SurveyGroup> selectByCurrentForStartTask(String current);
+
+    List<SurveyGroup> selectByCurrentForEndTask(String current);
+
 }

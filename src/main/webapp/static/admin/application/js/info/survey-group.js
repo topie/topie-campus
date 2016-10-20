@@ -416,7 +416,7 @@
                     }
                 }, {
                     visible: function (i, data) {
-                        return data.onlineStatus != 2;
+                        return data.onlineStatus == 0;
                     },
                     text: "编辑",
                     cls: "btn-primary btn-sm",
@@ -459,7 +459,7 @@
                     }
                 }, {
                     visible: function (i, data) {
-                        return data.onlineStatus != 2;
+                        return data.onlineStatus == 0;
                     },
                     text: "选择题目",
                     cls: "btn-primary btn-sm",
@@ -477,7 +477,7 @@
                     }
                 }, {
                     visible: function (i, data) {
-                        return data.onlineStatus != 2;
+                        return data.onlineStatus == 0;
                     },
                     text: "删除",
                     cls: "btn-danger btn-sm",

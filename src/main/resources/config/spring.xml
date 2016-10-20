@@ -14,5 +14,5 @@
     <import resource="classpath*:/config/spring/spring-*.xml"/>
     <import resource="classpath*:/config/spring/init-*.xml"/>
     <context:component-scan
-            base-package="com.topie.campus.*.service,com.topie.campus.tools.*,com.topie.campus.*.utils.*"/>
+            base-package="com.topie.campus.*.task,com.topie.campus.*.service,com.topie.campus.tools.*,com.topie.campus.*.utils.*"/>
 </beans>

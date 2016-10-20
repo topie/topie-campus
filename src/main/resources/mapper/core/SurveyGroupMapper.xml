@@ -122,4 +122,20 @@
         where group_id=#{groupId} and question_type=1
         group by teacher_id,question_id;
     </select>
+    <select id="selectByCurrentForStartTask" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_survey_group
+        where
+        <![CDATA[ start<=#{current} and `end`>#{current} ]]>
+        and status=1 and online_status=0;
+    </select>
+    <select id="selectByCurrentForEndTask" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_survey_group
+        where
+        <![CDATA[ `end`<=#{current} ]]>
+        and status=1 and online_status=1;
+    </select>
 </mapper>
