@@ -100,13 +100,13 @@
                 locale: {
                     format: 'YYYY-MM-DD'
                 }
-            },
+            }/*,
             rule: {
                 required: true
             },
             message: {
                 required: "请选择出生日期"
-            }
+            }*/
         }, {
             type: "select",
             label: "民族",
@@ -363,6 +363,7 @@
                     var studentGrid;
                     var studentOpt = {
                         url: App.href + "/api/info/teacher/student?teacherId=" + data.id,
+                        //url: App.href + "/api/info/teacher/student",
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },

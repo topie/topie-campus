@@ -402,8 +402,8 @@ public class StuSeleExcelDto {
 		public StuSeleCourse buildstuSeleCourse(StuSeleExcelDto dto) {
 			// TODO Auto-generated method stub
 			StuSeleCourse stuSelectCourse = new StuSeleCourse();
-		     BeanUtils.copyProperties(dto, stuSelectCourse);
-		     stuSelectCourse.setCourseCredit(Float.valueOf(dto.getCourseCredit()));
+			BeanUtils.copyProperties(dto, stuSelectCourse);
+		    stuSelectCourse.setCourseCredit(Float.valueOf(dto.getCourseCredit()));
 			return stuSelectCourse;      
 		}
 

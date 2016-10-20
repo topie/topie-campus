@@ -84,7 +84,7 @@ public class InfoTeacherController {
     @RequestMapping(value = "/student", method = RequestMethod.GET)
     @ResponseBody
     public Result student(StudentSimpleDto studentSimpleDto, @RequestParam("typeId") Integer typeId,
-            @RequestParam("teacherId") Integer teacherId,
+            @RequestParam(value ="teacherId",required = false) Integer teacherId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         SimplePageInfo<StudentSimpleDto> pageInfo = iInfoBasicService

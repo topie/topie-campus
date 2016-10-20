@@ -94,13 +94,10 @@
                 and s.contact_phone like concat('%',concat(#{student.contactPhone}, '%'))
             </if>
             <if test="student.isBind != null and student.isBind == 0">
-                and st.teacher_id is null
+                and (st.teacher_id is null or st.teacher_id!=#{teacherId})
             </if>
             <if test="student.isBind != null and student.isBind == 1">
-                and st.teacher_id is not null
-            </if>
-            <if test="teacherId != null and teacherId == ''">
-                and st.teacher_id = #{teacherId}
+                and st.teacher_id is not null and st.teacher_id = #{teacherId}
             </if>
         </where>
         order by is_bind desc,s.id asc
@@ -123,15 +120,15 @@
             <if test="student.contactPhone != null and student.contactPhone != ''">
                 and s.contact_phone like concat('%',concat(#{student.contactPhone}, '%'))
             </if>
-            <if test="student.isBind != null and student.isBind == 0">
-                and st.teacher_id is null
+             <if test="student.isBind != null and student.isBind == 0">
+                and (st.teacher_id is null or st.teacher_id!=#{teacherId})
             </if>
             <if test="student.isBind != null and student.isBind == 1">
-                and st.teacher_id is not null
+                and st.teacher_id is not null and st.teacher_id = #{teacherId}
             </if>
-            <if test="teacherId != null and teacherId == ''">
+            <!-- <if test="teacherId != null and teacherId != ''">
                 and st.teacher_id = #{teacherId}
-            </if>
+            </if> -->
         </where>
     </select>
     <select id="findStudentIdByUserId" resultType="java.lang.Integer">

@@ -41,10 +41,10 @@
                 {
                     title: "学生名称",
                     field: "name"
-                }, {
+                }/*, {
                     title: "课程代码",
                     field: "courceCode"
-                }, {
+                }*/, {
                     title: "课程名称",
                     field: "courceName"
                 }, {
