@@ -15,62 +15,90 @@
         </div>
     </div>
 </div>
-<article class="row">
-    <div class="col-md-2 col-sm-2 hidden-xs">
-        <figure class="thumbnail">
-            <img class="img-responsive"
-                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
-            <figcaption class="text-center">{{name}}</figcaption>
-        </figure>
-    </div>
-    <div class="col-md-10 col-sm-10">
-        <table class="table table-user-information">
-            <tbody>
-            <tr>
-                <td>名字:</td>
-                <td><p style='color:blue;'>{{name}}</p></td>
-                <td>学号:</td>
-                <td><p style='color:blue;'>{{studentNo}}</p></td>
-            </tr>
-            <tr>
-                <td>性别</td>
-                <td>
-                    <p style='color:blue;'>
-                        {{if gender==1}}男{{/if}}
-                        {{if gender==0}}女{{/if}}
-                    </p>
-                </td>
-                <td>民族</td>
-                <td><p style='color:blue;'>{{ethnicGroupStr}}</p></td>
-            </tr>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#base" data-toggle="tab" aria-expanded="true">基本信息</a>
+            </li>
+            <li><a href="#score" role="score" data-toggle="tab" aria-expanded="false">成绩</a>
+            </li>
+            <li><a href="#cet" role="cet" data-toggle="tab" aria-expanded="false">CET</a>
+            </li>
+            <li><a href="#selectCourse" role="selectCourse" data-toggle="tab" aria-expanded="false">选课信息</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="base">
+                <article class="row" style="margin-top: 5px;">
+                    <div class="col-md-2 col-sm-2 hidden-xs">
+                        <figure class="thumbnail">
+                            <img class="img-responsive"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+                            <figcaption class="text-center">{{name}}</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <table class="table table-user-information">
+                            <tbody>
+                            <tr>
+                                <td style="border-top: none">名字:</td>
+                                <td style="border-top: none"><p style='color:blue;'>{{name}}</p></td>
+                                <td style="border-top: none">学号:</td>
+                                <td style="border-top: none"><p style='color:blue;'>{{studentNo}}</p></td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td>
+                                    <p style='color:blue;'>
+                                        {{if gender==1}}男{{/if}}
+                                        {{if gender==0}}女{{/if}}
+                                    </p>
+                                </td>
+                                <td>民族</td>
+                                <td><p style='color:blue;'>{{ethnicGroupStr}}</p></td>
+                            </tr>
 
-            <tr>
-            <tr>
-                <td>出生日期</td>
-                <td><p style='color:blue;'>{{birth}}</p></td>
-                <td>政治面貌</td>
-                <td><p style='color:blue;'>{{politicalStatusStr}}</p></td>
-            </tr>
-            <tr>
-                <td>学院</td>
-                <td><p style='color:blue;'>{{academe}}</p></td>
-                <td>系(所)</td>
-                <td>
-                    <p style='color:blue;'>
-                        {{department}}
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td>联系电话</td>
-                <td><p style='color:blue;'>{{contactPhone}}</p></td>
-                <td>邮箱</td>
-                <td>
-                    <p style='color:blue;'>{{email}}</p>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</article>
+                            <tr>
+                            <tr>
+                                <td>出生日期</td>
+                                <td><p style='color:blue;'>{{birth}}</p></td>
+                                <td>政治面貌</td>
+                                <td><p style='color:blue;'>{{politicalStatusStr}}</p></td>
+                            </tr>
+                            <tr>
+                                <td>学院</td>
+                                <td><p style='color:blue;'>{{academe}}</p></td>
+                                <td>系(所)</td>
+                                <td>
+                                    <p style='color:blue;'>
+                                        {{department}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>联系电话</td>
+                                <td><p style='color:blue;'>{{contactPhone}}</p></td>
+                                <td>邮箱</td>
+                                <td>
+                                    <p style='color:blue;'>{{email}}</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </div>
+            <div class="tab-pane fade" id="score">
 
+            </div>
+            <div class="tab-pane fade" id="cet">
+
+            </div>
+            <div class="tab-pane fade" id="selectCourse">
+
+            </div>
+        </div>
+
+    </div>
+</div>

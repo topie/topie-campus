@@ -5,12 +5,8 @@ import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dto.TeacherSimpleDto;
-import com.topie.campus.core.model.Message;
-import com.topie.campus.core.model.Teacher;
-import com.topie.campus.core.service.IInfoBasicService;
-import com.topie.campus.core.service.IMessageService;
-import com.topie.campus.core.service.IStudentService;
-import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.core.model.*;
+import com.topie.campus.core.service.*;
 import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +23,15 @@ import java.util.Date;
 @Controller
 @RequestMapping("/api/front/teacher")
 public class FrontTeacherController {
+
+    @Autowired
+    IStudentScoreService studentScoreService;
+
+    @Autowired
+    IStuCetService stuCetService;
+
+    @Autowired
+    IStuSeleCourseService stuSeleCourseService;
 
     @Autowired
     private IInfoBasicService iInfoBasicService;
@@ -112,5 +117,31 @@ public class FrontTeacherController {
         Integer studentId = iStudentService.findStudentIdByUserId(userId);
         iInfoBasicService.deleteToUnbindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
+    }
+
+    @RequestMapping("/stuScore")
+    @ResponseBody
+    public Result findByPage(StuScore stuScore, @RequestParam("studentNo") String studentNo, int pageSize,
+            int pageNum) {
+        stuScore.setStuId(studentNo);
+        SimplePageInfo<StuScore> pageInfo = studentScoreService.findByPage(pageNum, pageSize, stuScore);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping("/stuCetScore")
+    @ResponseBody
+    public Result findByPage(StuCet stuCet, @RequestParam("studentNo") String studentNo, int pageSize, int pageNum) {
+        stuCet.setStuId(studentNo);
+        SimplePageInfo<StuCet> pageInfo = stuCetService.findByPage(pageNum, pageSize, stuCet);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping("/stuSelectCourse")
+    @ResponseBody
+    public Result selectCourse(StuSeleCourse stuSeleCourse, @RequestParam("studentNo") String studentNo, int pageSize,
+            int pageNum) {
+        stuSeleCourse.setStuId(studentNo);
+        SimplePageInfo<StuSeleCourse> pageInfo = stuSeleCourseService.findByPage(pageNum, pageSize, stuSeleCourse);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 }

@@ -245,7 +245,6 @@
                                                 submit_array.push(q);
                                             });
                                         });
-                                        alert(JSON.stringify(submit_array));
                                         $.ajax({
                                             type: 'POST',
                                             url: App.href + "/api/front/studentSurvey/submit?groupId=" + groupId,

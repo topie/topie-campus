@@ -112,7 +112,7 @@
         select
         count(1)
         from topie_campus.t_student s
-        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id  and st.type_id = #{typeId}
+        left join topie_campus.t_relate_student_teacher st on s.id=st.student_id and st.type_id = #{typeId}
         <where>
             <if test="student.name != null and student.name != ''">
                 and s.name like concat('%',concat(#{student.name}, '%'))
@@ -154,5 +154,8 @@
     </select>
     <select id="findIdByStudentNo" resultType="java.lang.Integer">
         select id from topie_campus.t_student where student_no=#{studentNo}
+    </select>
+    <select id="findStudentNoByUserId" resultType="java.lang.String">
+        select student_no from topie_campus.t_student where user_id=#{userId}
     </select>
 </mapper>

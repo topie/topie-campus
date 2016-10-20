@@ -9,7 +9,9 @@ import com.topie.campus.core.model.StuScore;
 import com.topie.campus.core.service.IStuCetService;
 import com.topie.campus.core.service.IStuSeleCourseService;
 import com.topie.campus.core.service.IStudentScoreService;
+import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.security.utils.SecurityUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +30,21 @@ public class FrontStuScoreController {
     @Autowired
     IStuSeleCourseService stuSeleCourseService;
 
+    @Autowired
+    IStudentService iStudentService;
+
     @RequestMapping("/score")
     @ResponseBody
     public Result findByPage(StuScore stuScore, int pageSize, int pageNum) {
-        String loginName = SecurityUtil.getCurrentSecurityUser().getLoginName();
-        stuScore.setStuId(loginName);
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        String studentNo = iStudentService.findStudentNoByUserId(userId);
+        if (StringUtils.isEmpty(studentNo)) {
+            return ResponseUtil.error(401, "当前用户非学生角色");
+        }
+        stuScore.setStuId(studentNo);
         SimplePageInfo<StuScore> pageInfo = studentScoreService.findByPage(pageNum, pageSize, stuScore);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
@@ -40,8 +52,15 @@ public class FrontStuScoreController {
     @RequestMapping("/cetscore")
     @ResponseBody
     public Result findByPage(StuCet stuCet, int pageSize, int pageNum) {
-        String loginName = SecurityUtil.getCurrentSecurityUser().getLoginName();
-        stuCet.setStuId(loginName);
+        Integer userId = SecurityUtil.getCurrentUserId();
+        if (userId == null) {
+            return ResponseUtil.error(401, "未登录");
+        }
+        String studentNo = iStudentService.findStudentNoByUserId(userId);
+        if (StringUtils.isEmpty(studentNo)) {
+            return ResponseUtil.error(401, "当前用户非学生角色");
+        }
+        stuCet.setStuId(studentNo);
         SimplePageInfo<StuCet> pageInfo = stuCetService.findByPage(pageNum, pageSize, stuCet);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }

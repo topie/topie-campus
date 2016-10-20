@@ -26,7 +26,7 @@ public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
     int updateOnlineStatus(@Param("groupId") Integer groupId, @Param("onlineStatus") Integer onlineStatus);
 
     int insertGroupStudentRelate(@Param("groupId") Integer groupId, @Param("studentId") Integer studentId,
-            @Param("selectComplete") Boolean isComplete);
+            @Param("isComplete") Boolean isComplete);
 
     List<SurveyGroup> selectByPageByStudentId(@Param("surveyGroup") SurveyGroup surveyGroup,
             @Param("studentId") Integer studentId, @Param("pageOffset") Integer pageOffset,

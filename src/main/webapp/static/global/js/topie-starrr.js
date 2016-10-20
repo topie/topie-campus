@@ -8,6 +8,7 @@
         Starrr.prototype.defaults = {
             rating: void 0,
             numStars: 5,
+            readonly: false,
             change: function (e, value) {
             }
         };
@@ -27,6 +28,9 @@
             }
             this.createStars();
             this.syncRating();
+            if (this.options.readonly) {
+                return;
+            }
             this.$el.on('mouseover.starrr', 'span', function (e) {
                 return _this.syncRating(_this.$el.find('span').index(e.currentTarget) + 1);
             });

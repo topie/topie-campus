@@ -1,0 +1,82 @@
+table {
+    background-color: rgba(162, 159, 159, 0.2);
+    margin-top: 30px;
+}
+
+table thead {
+    -webkit-transition: all .3s ease;
+    color: #337ab7;
+    font-size: 16px;
+    background-color: #d9edf7;
+    border-top: 2px solid #6887c4;
+    box-shadow: 0px 5px 0px rgba(50, 50, 50, .2) inset;
+}
+
+.table-bordered > thead > tr > th {
+    border: 1px solid #6887c4;
+    border-bottom-width: 1px;
+    border-bottom-color: #E4D4D4;
+    box-shadow: 0px 2px 6px rgba(19, 17, 17, 0.68);
+}
+
+.table-bordered > tbody > tr > td {
+    border: 1px solid #6887c4;
+    font-size: 16px;
+}
+
+.table-bordered {
+    border: 1px solid #CFCFCF;
+}
+
+.table-bordered > tbody > tr > td.high {
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #FFFFFF;
+    color: #6887c4;
+}
+
+.cross {
+    color: red;
+}
+
+.ok-cross {
+    color: green;
+}
+
+.user-head {
+    background: none repeat scroll 0 0 #6887c4;
+    border-radius: 4px 0 0;
+    color: #fff;
+    min-height: 80px;
+    padding: 10px;
+}
+
+.user-head .inbox-avatar {
+    float: left;
+    width: 65px;
+}
+
+.user-head .inbox-avatar img {
+    border-radius: 4px;
+}
+
+.user-head .user-name {
+    display: inline-block;
+    margin: 0 0 0 10px;
+}
+
+.user-head .user-name h5 {
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+
+.user-head .user-name h5 a {
+    color: #fff;
+}
+
+.user-head .user-name span a {
+    color: #000000;
+    font-size: 12px;
+}
