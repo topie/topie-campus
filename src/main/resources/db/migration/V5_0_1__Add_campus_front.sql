@@ -4,7 +4,7 @@ INSERT INTO `sys_function` VALUES ('12', '0', '首页', '1', '2', NULL, '/api/fr
 INSERT INTO `sys_function` VALUES ('13', '0', '收到的留言', '1', '2', NULL, '/api/front/message/receive', '5', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('14', '0', '发出的留言', '1', '2', NULL, '/api/front/message/send', '6', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('15', '0', '学生列表', '1', '2', NULL, '/api/front/student/page', '7', NULL, NULL);
-INSERT INTO `sys_function` VALUES ('16', '0', '教师列表', '1', '2', NULL, '/api/front/teacher/page', '8', NULL, NULL);
+INSERT INTO `sys_function` VALUES ('16', '0', '我的老师', '1', '2', NULL, '/api/front/teacher/page', '8', NULL, NULL);
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)
 VALUES ('19', '0', '成绩查询', '1', '2', '', '/api/front/student/score', '0', '2016-10-07 14:08:26', '2016-10-07 14:09:04');
 INSERT INTO `sys_function` (`id`, `parent_id`, `function_name`, `display`, `display_type`, `icon`, `action`, `function_desc`, `insert_time`, `update_time`)

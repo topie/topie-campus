@@ -32,4 +32,9 @@ public interface ITeacherService extends IService<Teacher> {
     List<TeacherSimpleDto> findTeacherByStudentIdAndTypeId(Integer studentId, Integer typeId);
 
     List<TeacherSimpleDto> findTeacherByTypeId(Integer typeId);
+    
+    Long findCountTeacherByStudentNo(Integer studentId);
+
+    SimplePageInfo<TeacherSimpleDto> findTeacherByStudentNo(Integer studentId,
+			Integer pageNum, Integer pageSize);
 }
