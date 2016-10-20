@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>问卷调查结果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- jQuery UI -->
+    <link href="../vendors/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- styles -->
+    <link href="application/css/styles.css" rel="stylesheet">
+    <link href="application/css/survey.css" rel="stylesheet">
+    <link href="../vendors/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- Custom Fonts -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../vendors/html5shiv/dist/html5shiv.js"></script>
+    <script src="../vendors/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Logo -->
+                <div class="logo">
+                    <h1><a href="index.html">后台管理</a></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="page-header"></h3>
+        </div>
+        <div id="survey_page" class="col-md-12">
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+
+        <div class="copy text-center">
+            Copyright 2016 <a href='#'>TOPIE</a>
+        </div>
+
+    </div>
+</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../vendors/jquery/dist/jquery.js"></script>
+<script src="../vendors/jquery-ui/jquery-ui.min.js"></script>
+<script src="../vendors/moment.js"></script>
+<script src="../vendors/jquery.cookie/jquery.cookie.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="../vendors/bootbox.min.js"></script>
+<script src="../vendors/block-ui/jquery.blockUI.js"></script>
+<script src="../vendors/jquery.tmpl.min.js"></script>
+<script src="../vendors/artTemplate/template.js"></script>
+<script src="application/js/app.js"></script>
+<script src="../global/js/topie-starrr.js"></script>
+
+<script id="surveyTmpl" type="text/html">
+    <div class="table-responsive">
+        <table id="survey_table" class="table table-striped table-bordered table-hover dataTable">
+            <thead>
+            <tr>
+                {{each teacher as t}}
+                <th>
+                    <div class="user-head">
+                        <a class="inbox-avatar" href="javascript:;">
+                            {{if t.avatar==null || t.avatar==""}}
+                            <img width="64" height="64"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+                            {{/if}}
+                            {{if t.avatar!=""}}
+                            <img width="64" height="64"
+                                 src="{{t.avatar}}"/>
+                            {{/if}}
+                        </a>
+                        <div class="user-name">
+                            <h3><a style="color:black" href="javascript:void(0);">{{t.name}}</a></h3>
+                        </div>
+                    </div>
+                </th>
+                {{/each}}
+            </tr>
+            </thead>
+            <tbody>
+            {{each questions as q}}
+            <tr>
+                <td class="high" colspan="{{teacher.length}}">
+                    {{if q.questionType==1}}评分题{{/if}}
+                    {{if q.questionType==2}}问答题{{/if}}
+                    {{q.sort}}:{{q.questionContent}}
+                </td>
+            </tr>
+            <tr role="survey">
+                {{each teacher as t2 _index}}
+                <td>
+                    {{if q.questionType==1}}
+                    <div t="{{t2.id}}" q="{{q.questionId}}" class="starrr"></div>
+                    平均评分：<span>0</span>分
+                    {{/if}}
+                    {{if q.questionType==2}}
+                    <a>导出回答</a>
+                    {{/if}}
+                </td>
+                {{/each}}
+            </tr>
+            {{/each}}
+            <tr role="summary">
+                {{each teacher as t2 _index}}
+                <td>
+                    合计:<span style="font-size: large;font-weight: 200;color: red;" t="{{t2.id}}">0</span>分
+                </td>
+                {{/each}}
+            </tr>
+            <tr>
+                <td class="high" style="text-align: center" colspan="{{teacher.length}}">
+                    <div>
+                        <button type="button" id="leave" class="btn btn-lg btn-default">离 开
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
+<script type="text/javascript">
+    bootbox.setLocale("zh_CN");
+    if (window.location.href.lastIndexOf("?u=") > 0) {
+        var teacherArray = [];
+        var resultArray = {};
+        var totalArray = {};
+        var token = $.cookie('tc_t');
+        if (typeof(token) == "undefined" || token == null) {
+            window.location.href = './login.html';
+        }
+        var url = window.location;
+        url = url.toString();
+        var groupId = url.substring(url.lastIndexOf("?u=") + 3);
+        $.ajax(
+                {
+                    type: 'GET',
+                    url: App.href + "/api/info/surveyGroup/stat",
+                    dataType: "json",
+                    data: {
+                        "groupId": groupId
+                    },
+                    beforeSend: function (request) {
+                        request.setRequestHeader("X-Auth-Token", token);
+                    },
+                    success: function (result) {
+                        if (result.code === 200) {
+                            var data = result.data;
+                            $("h3.page-header").html("问卷结果-" + data.group.groupName);
+                            if (data.teacher.length > 0) {
+                                $.each(data.teacher, function (i, d) {
+                                    teacherArray.push(d.id);
+                                });
+                            }
+                            if (data.result.length > 0) {
+                                $.each(data.result, function (i, d) {
+                                    resultArray["'" + d.teacherId + "#" + d.questionId + "'"] = d.record;
+                                    if (typeof(totalArray[d.teacherId]) == "undefined") {
+                                        totalArray[d.teacherId] = 0;
+                                    }
+                                    totalArray[d.teacherId] += d.record;
+                                });
+                            }
+                            var html = template('surveyTmpl', data);
+                            $("#survey_page").append(html);
+                            $('.starrr').each(function (i, data) {
+                                var t = parseInt($(this).attr("t"));
+                                var q = parseInt($(this).attr("q"));
+                                var start = parseInt(resultArray["'" + t + "#" + q + "'"]);
+                                $(this).starrr({
+                                    'rating': start,
+                                    readonly: true
+                                });
+                                $(this).next("span").html(resultArray["'" + t + "#" + q + "'"]);
+                            });
+                            $("tr[role=summary]").find("span").each(
+                                    function (i, d) {
+                                        var t = parseInt($(this).attr("t"));
+                                        $(this).text(totalArray[t]);
+                                    }
+                            );
+                            $("#leave").on("click", function () {
+                                bootbox.confirm("确定离开吗?", function (result) {
+                                    if (result) {
+                                        window.close();
+                                    }
+                                });
+                            });
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                }
+        );
+    }
+</script>
+</body>
+</html>

@@ -39,7 +39,7 @@ INSERT INTO `sys_user` VALUES
         '1', '1', NULL, NULL, 'teacher@163.com', '15802983637', '2015-10-12 00:00:00',
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `t_teacher` VALUES
-  (1, '', 4, '32319', '老师', 1, 1, '1990-10-12', 0, '软件学院', '', '18600200791', '18600200791@163.com', '', '', 0, 0, '',
+  (1, '', 4, 'teacher', '老师', 1, 1, '1990-10-12', 0, '软件学院', '', '18600200791', '18600200791@163.com', '', '', 0, 0, '',
                                                                '', '', '', '', '', 0, '我是陈老师', '0', '1', '1', '0',
                                                                            'chenguojun', 'teacher', '');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('4', '4');
@@ -49,7 +49,7 @@ INSERT INTO `sys_user` VALUES
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `t_student` (`id`, `user_id`, `student_no`, `name`, `birth`, `academe`, `subject`, `contact_phone`, `email`)
 VALUES
-  (1, 5, '32322', '学生', '1990-10-12', '软件学院', '软件工程', '18600200791',
+  (1, 5, 'student', '学生', '1990-10-12', '软件学院', '软件工程', '18600200791',
    '18600200791@163.com');
 INSERT INTO `sys_user` VALUES
   ('9', 'student2', '$2a$10$g9iJtxSdTyXj7I2jSDFpPOWN7xHlyasFOVb8Q5m/rX3EP5nTS4Pxi', '学生2', '1', '1',
@@ -57,7 +57,7 @@ INSERT INTO `sys_user` VALUES
    '2015-10-12 00:00:00', '2015-10-12 00:00:00');
 INSERT INTO `t_student` (`id`, `user_id`, `student_no`, `name`, `birth`, `academe`, `subject`, `contact_phone`, `email`)
 VALUES
-  (2, 9, '32323', '学生2', '1990-10-12', '软件学院', '软件工程', '18600200791',
+  (2, 9, 'student2', '学生2', '1990-10-12', '软件学院', '软件工程', '18600200791',
    '18600200791@163.com');
 INSERT INTO `sys_user_role` (user_id, role_id) VALUES ('5', '5');
 
@@ -68,6 +68,6 @@ INSERT INTO `t_teacher_type` (`type_id`, `type_name`, `c_time`, `u_time`) VALUES
 INSERT INTO `t_relate_teacher_teacher_type` VALUES (1, 1);
 
 INSERT INTO `t_relate_student_teacher` (type_id, teacher_id, student_id, employee_no, student_no)
-VALUES (1, 1, 1, '32319', '32322');
+VALUES (1, 1, 1, 'teacher', 'student');
 
 

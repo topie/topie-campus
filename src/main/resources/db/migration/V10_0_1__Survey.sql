@@ -1,17 +1,17 @@
 DROP TABLE IF EXISTS `t_survey_group`;
 CREATE TABLE `t_survey_group` (
-  `group_id`   INT(11)   NOT NULL AUTO_INCREMENT,
-  `group_name` VARCHAR(65) COMMENT '问卷组名称',
-  `type_id`    INT(11)   NOT NULL
+  `group_id`      INT(11)   NOT NULL AUTO_INCREMENT,
+  `group_name`    VARCHAR(65) COMMENT '问卷组名称',
+  `type_id`       INT(11)   NOT NULL
   COMMENT '老师类型id',
-  `start`      TIMESTAMP NULL
+  `start`         TIMESTAMP NULL
   COMMENT '开始时间',
-  `end`        TIMESTAMP NULL
+  `end`           TIMESTAMP NULL
   COMMENT '结束时间',
-  `status`     SMALLINT(5)        DEFAULT 0
-  COMMENT '状态 0:待审核 1：已发布 2：驳回',
-  `is_online`  TINYINT(1)         DEFAULT 0
-  COMMENT '是否在线 0:否 1:是',
+  `status`        SMALLINT(5)        DEFAULT 0
+  COMMENT '审核状态 0:待审核 1：已发布 2：驳回',
+  `online_status` TINYINT(1)         DEFAULT 0
+  COMMENT '在线状体 0:未开始 1:进行中 2:已结束',
   PRIMARY KEY (`group_id`)
 )
   ENGINE = InnoDB
@@ -20,12 +20,14 @@ CREATE TABLE `t_survey_group` (
 
 DROP TABLE IF EXISTS `t_survey_question`;
 CREATE TABLE `t_survey_question` (
-  `question_id`      INT(11)   NOT NULL     AUTO_INCREMENT,
-  `question_content` VARCHAR(255)           DEFAULT ''
+  `question_id`      INT(11)     NOT NULL     AUTO_INCREMENT,
+  `question_type`    SMALLINT(5) NOT NULL     DEFAULT 1
+  COMMENT '问题类型 1：评分题 2：问答题',
+  `question_content` VARCHAR(255)             DEFAULT ''
   COMMENT '调查问卷问题内容',
-  `c_time`           TIMESTAMP NULL         DEFAULT CURRENT_TIMESTAMP
+  `c_time`           TIMESTAMP   NULL         DEFAULT CURRENT_TIMESTAMP
   COMMENT '创建时间',
-  `u_time`           TIMESTAMP NULL         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `u_time`           TIMESTAMP   NULL         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   COMMENT '修改时间',
   PRIMARY KEY (`question_id`)
 )
@@ -48,16 +50,20 @@ CREATE TABLE `t_survey_group_question` (
   COMMENT '调查问卷题关联表';
 
 CREATE TABLE `t_survey_group_question_answer` (
-  `group_id`    INT(11) NOT NULL DEFAULT 0
+  `group_id`      INT(11)      NOT NULL DEFAULT 0
   COMMENT '问卷组id',
-  `question_id` INT(11) NOT NULL DEFAULT 0
-  COMMENT '问题id',
-  `teacher_id`  INT(11) NOT NULL DEFAULT 0
+  `teacher_id`    INT(11)      NOT NULL DEFAULT 0
   COMMENT '老师id',
-  `student_id`  INT(11) NOT NULL DEFAULT 0
+  `student_id`    INT(11)      NOT NULL DEFAULT 0
   COMMENT '学生id',
-  `record`      INT(11)          DEFAULT 0
-  COMMENT '分数',
+  `question_id`   INT(11)      NOT NULL DEFAULT 0
+  COMMENT '问题id',
+  `question_type` SMALLINT(11) NOT NULL DEFAULT 1
+  COMMENT '问题类型 1：评分题 2：问答题',
+  `record`        INT(11)               DEFAULT 0
+  COMMENT '评分分数',
+  `content`       VARCHAR(255)          DEFAULT ''
+  COMMENT '回答内容',
   PRIMARY KEY (`group_id`, `question_id`, `teacher_id`, `student_id`),
   KEY k_teacher(teacher_id, group_id, question_id)
 )

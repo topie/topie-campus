@@ -1,9 +1,12 @@
 package com.topie.campus.core.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "t_survey_group_question_answer")
 public class SurveyAnswer {
+
     /**
      * 问卷组id
      */
@@ -32,10 +35,28 @@ public class SurveyAnswer {
     @Column(name = "student_id")
     private Integer studentId;
 
-    /**
-     * 分数
-     */
+    @Column(name = "question_type")
+    private Integer questionType;
+
     private Integer record;
+
+    private String content;
+
+    public Integer getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(Integer questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     /**
      * 获取问卷组id

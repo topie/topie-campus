@@ -11,7 +11,7 @@
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
         <result column="end" jdbcType="TIMESTAMP" property="end"/>
         <result column="status" jdbcType="SMALLINT" property="status"/>
-        <result column="is_online" jdbcType="BIT" property="isOnline"/>
+        <result column="online_status" jdbcType="BIT" property="onlineStatus"/>
     </resultMap>
     <insert id="insertGroupQuestionRelate">
         insert ignore into
@@ -26,8 +26,8 @@
     <update id="updateGroupQuestionSort">
         update topie_campus.t_survey_group_question set sort=#{sort} where group_id=#{groupId} and question_id=#{questionId}
     </update>
-    <update id="updateIsOnline">
-        update topie_campus.t_survey_group set is_online=#{isOnline} where  group_id=#{groupId}
+    <update id="updateOnlineStatus">
+        update topie_campus.t_survey_group set online_status=#{onlineStatus} where  group_id=#{groupId}
     </update>
     <update id="updateGroupStudentComplete">
         update topie_campus.t_survey_group_student set is_complete=1 where group_id=#{groupId} and student_id = #{studentId}
@@ -44,8 +44,8 @@
             <if test="surveyGroup.status!=null">
                 and status = #{surveyGroup.status}
             </if>
-            <if test="surveyGroup.isOnline!=null">
-                and is_online = #{surveyGroup.isOnline}
+            <if test="surveyGroup.onlineStatus!=null">
+                and online_status = #{surveyGroup.onlineStatus}
             </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
@@ -61,8 +61,8 @@
             <if test="surveyGroup.status!=null">
                 and status = #{surveyGroup.status}
             </if>
-            <if test="surveyGroup.isOnline!=null">
-                and is_online = #{surveyGroup.isOnline}
+            <if test="surveyGroup.onlineStatus!=null">
+                and online_status = #{surveyGroup.onlineStatus}
             </if>
         </where>
     </select>
@@ -81,8 +81,8 @@
             <if test="surveyGroup.status!=null">
                 and sg.status = #{surveyGroup.status}
             </if>
-            <if test="surveyGroup.isOnline!=null">
-                and sg.is_online = #{surveyGroup.isOnline}
+            <if test="surveyGroup.onlineStatus!=null">
+                and sg.online_status = #{surveyGroup.onlineStatus}
             </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
@@ -101,12 +101,41 @@
             <if test="surveyGroup.status!=null">
                 and sg.status = #{surveyGroup.status}
             </if>
-            <if test="surveyGroup.isOnline!=null">
-                and sg.is_online = #{surveyGroup.isOnline}
+            <if test="surveyGroup.onlineStatus!=null">
+                and sg.online_status = #{surveyGroup.onlineStatus}
             </if>
         </where>
     </select>
     <select id="selectTypeIdByGroupId" resultType="java.lang.Integer">
         select type_id from topie_campus.t_survey_group where group_id=#{groupId}
+    </select>
+
+    <select id="selectComplete" resultType="java.lang.Boolean">
+       select is_complete from topie_campus.t_survey_group_student where group_id=#{groupId} and student_id = #{studentId}
+    </select>
+    <select id="selectStatByGroupId" resultType="com.topie.campus.core.model.GroupStat">
+        select
+        teacher_id teacherId,
+        question_id questionId,
+        avg(record) record
+        from t_survey_group_question_answer
+        where group_id=#{groupId} and question_type=1
+        group by teacher_id,question_id;
+    </select>
+    <select id="selectByCurrentForStartTask" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_survey_group
+        where
+        <![CDATA[ start<=#{current} and `end`>#{current} ]]>
+        and status=1 and online_status=0;
+    </select>
+    <select id="selectByCurrentForEndTask" resultMap="BaseResultMap">
+        select
+        *
+        from topie_campus.t_survey_group
+        where
+        <![CDATA[ `end`<=#{current} ]]>
+        and status=1 and online_status=1;
     </select>
 </mapper>

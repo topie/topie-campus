@@ -11,6 +11,9 @@ public class SurveyQuestion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer questionId;
 
+    @Column(name = "question_type")
+    private Integer questionType;
+
     /**
      * 调查问卷问题内容
      */
@@ -106,5 +109,13 @@ public class SurveyQuestion {
      */
     public void setuTime(Date uTime) {
         this.uTime = uTime;
+    }
+
+    public Integer getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(Integer questionType) {
+        this.questionType = questionType;
     }
 }

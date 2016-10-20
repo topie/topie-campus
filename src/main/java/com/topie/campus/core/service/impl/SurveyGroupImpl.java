@@ -4,6 +4,7 @@ import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.SurveyGroupMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
+import com.topie.campus.core.model.GroupStat;
 import com.topie.campus.core.model.SurveyGroup;
 import com.topie.campus.core.service.ISurveyGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +53,8 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     }
 
     @Override
-    public int updateIsOnline(Integer groupId, Boolean isOnline) {
-        return surveyGroupMapper.updateIsOnline(groupId, isOnline);
+    public int updateOnlineStatus(Integer groupId, Integer onlineStatus) {
+        return surveyGroupMapper.updateOnlineStatus(groupId, onlineStatus);
     }
 
     @Override
@@ -85,6 +86,28 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     @Override
     public int updateGroupStudentComplete(Integer groupId, Integer studentId) {
         return surveyGroupMapper.updateGroupStudentComplete(groupId, studentId);
+    }
+
+    @Override
+    public Boolean selectComplete(Integer groupId, Integer studentId) {
+        Boolean result = surveyGroupMapper.selectComplete(groupId, studentId);
+        return result;
+    }
+
+    @Override
+    public List<GroupStat> selectStatByGroupId(Integer groupId) {
+        return surveyGroupMapper.selectStatByGroupId(groupId);
+    }
+
+    @Override
+    public List<SurveyGroup> selectByCurrentForStartTask(String current) {
+
+        return surveyGroupMapper.selectByCurrentForStartTask(current);
+    }
+
+    @Override
+    public List<SurveyGroup> selectByCurrentForEndTask(String current) {
+        return surveyGroupMapper.selectByCurrentForEndTask(current);
     }
 
 }

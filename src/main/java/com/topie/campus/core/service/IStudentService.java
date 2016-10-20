@@ -22,4 +22,6 @@ public interface IStudentService extends IService<Student> {
     String findStudentNameByUserId(Integer userId);
 
     Integer findIdByStudentNo(String studentNo);
+
+    String findStudentNoByUserId(Integer userId);
 }
