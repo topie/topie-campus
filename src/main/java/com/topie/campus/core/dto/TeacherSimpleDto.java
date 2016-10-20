@@ -22,6 +22,8 @@ public class TeacherSimpleDto implements Serializable {
     private Integer isBind;
     
     private String typeName;
+    
+    private String email;
 
     public String getAvatar() {
         return avatar;
@@ -78,4 +80,13 @@ public class TeacherSimpleDto implements Serializable {
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }

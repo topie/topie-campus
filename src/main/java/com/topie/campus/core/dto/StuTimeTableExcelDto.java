@@ -265,6 +265,11 @@ public class StuTimeTableExcelDto implements Serializable{
 		// TODO Auto-generated method stub
 		StuTimeTable stuTimeTable = new StuTimeTable();
 		BeanUtils.copyProperties(dto, stuTimeTable);
+		stuTimeTable.setEndWeek(Integer.valueOf(dto.getEndWeek()));
+		stuTimeTable.setStartWeek(Integer.valueOf(dto.getStartWeek()));
+		stuTimeTable.setSectionLength(Integer.valueOf(dto.getSectionLength()));
+		stuTimeTable.setSection(Integer.valueOf(dto.getSection()));
+		stuTimeTable.setWeek(Integer.valueOf(dto.getWeek()));
 		return stuTimeTable;
 	}
 }

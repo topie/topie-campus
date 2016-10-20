@@ -185,7 +185,7 @@
                     }
                 }
             ],
-            search: {
+            /*search: {
                 rowEleNum: 2,
                 //搜索栏元素
                 items: [
@@ -209,7 +209,7 @@
                         label: "手机号",
                         name: "contactPhone",
                         placeholder: "输入要搜索的手机号"
-                    }/*, {
+                    }, {
                         type: "select",
                         label: "是否绑定",
                         name: "isBind",
@@ -225,8 +225,8 @@
                                 text: "否"
                             }
                         ]
-                    }*/]
-            }
+                    }]
+            }*/
         };
         grid = window.App.content.find("#teacher_grid").topieGrid(teacherOpt);
     }

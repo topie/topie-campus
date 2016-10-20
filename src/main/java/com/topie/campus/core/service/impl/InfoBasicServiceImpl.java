@@ -176,7 +176,6 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             userService.insertUser(user);
             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
             Teacher teacher = teacherDto.buildTeacher();
-            teacher.setPassword(teacherDto.getEmployeeNo());
             teacher.setUserId(user.getId());
             iTeacherService.insertSelective(teacher);
         }

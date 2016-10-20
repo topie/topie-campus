@@ -69,8 +69,8 @@
                 }
                 ],
             actionColumnText: "操作",//操作列文本
-            actionColumnWidth: "20%",
-            search: {
+            actionColumnWidth: "20%"
+            /*search: {
                 rowEleNum: 2,
                 //搜索栏元素
                 items: [
@@ -106,7 +106,7 @@
 		                    ]
 		                   }
 	                	]
-            			}
+            			}*/
         };
         grid = window.App.content.find("#score_grid").topieGrid(scoreOpts);
     }

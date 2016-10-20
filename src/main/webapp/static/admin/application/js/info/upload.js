@@ -68,7 +68,6 @@
                 dataType: "json",
                 url: App.href + "/api/info/teacherType/options?topie_token=" + App.token,
                 success: function (data) {
-                    data = data.data;
                     $.each(
                         data,
                         function (index, option) {

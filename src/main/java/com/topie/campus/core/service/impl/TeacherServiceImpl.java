@@ -6,6 +6,7 @@ import com.topie.campus.core.dao.TeacherMapper;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.ITeacherService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +79,20 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     public List<TeacherSimpleDto> findTeacherByTypeId(Integer typeId) {
         return teacherMapper.findTeacherByAndTypeId(typeId);
     }
+
+	@Override
+	public SimplePageInfo<TeacherSimpleDto> findTeacherByStudentNo(Integer studentId,Integer pageNum,Integer pageSize) {
+		// TODO Auto-generated method stub
+		List<TeacherSimpleDto> list = teacherMapper.findTeacherByStudentNo(studentId,(pageNum - 1) * pageSize,pageSize);
+		Long total = teacherMapper.findCountTeacherByStudentNo(studentId);
+		SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+		return pageInfo;
+	}
+
+	@Override
+	public Long findCountTeacherByStudentNo(Integer studentId) {
+		// TODO Auto-generated method stub
+		return teacherMapper.findCountTeacherByStudentNo(studentId);
+	}
 
 }
