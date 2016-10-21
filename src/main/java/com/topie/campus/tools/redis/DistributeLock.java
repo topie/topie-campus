@@ -46,7 +46,7 @@ public class DistributeLock {
         //得到锁后设置的过期时间，未得到锁返回0
         long expireTime = 0;
         Jedis jedis = new Jedis(host, port);
-        jedis.auth(password);
+        if (StringUtils.isNotEmpty(password)) jedis.auth(password);
         expireTime = System.currentTimeMillis() + lockTimeOut + 1;
         if (jedis.setnx(key, String.valueOf(expireTime)) == 1) {
             //得到了锁返回
@@ -82,7 +82,7 @@ public class DistributeLock {
         //得到锁后设置的过期时间，未得到锁返回0
         long expireTime = 0;
         Jedis jedis = new Jedis(host, port);
-        jedis.auth(password);
+        if (StringUtils.isNotEmpty(password)) jedis.auth(password);
         for (; ; ) {
             expireTime = System.currentTimeMillis() + lockTimeOut + 1;
             if (jedis.setnx(key, String.valueOf(expireTime)) == 1) {
@@ -125,7 +125,7 @@ public class DistributeLock {
             return;
         }
         Jedis jedis = new Jedis(host, port);
-        jedis.auth(password);
+        if (StringUtils.isNotEmpty(password)) jedis.auth(password);
         String curLockTimeStr = jedis.get(key);
         if (StringUtils.isNotBlank(curLockTimeStr) && Long.valueOf(curLockTimeStr) > System.currentTimeMillis()) {
             jedis.del(key);
