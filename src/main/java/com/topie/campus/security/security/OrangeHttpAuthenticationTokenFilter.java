@@ -50,10 +50,10 @@ public class OrangeHttpAuthenticationTokenFilter extends UsernamePasswordAuthent
         String username = this.tokenUtils.getUsernameFromToken(authToken);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userCache.getUserFromCache(username);
-            if (userDetails != null && this.tokenUtils.validateToken(authToken, userDetails)) {
+            if (userDetails != null && !this.tokenUtils.isTokenExpired(authToken)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new OrangeHttpAuthenticationDetails(httpRequest));
+                //authentication.setDetails(new OrangeHttpAuthenticationDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

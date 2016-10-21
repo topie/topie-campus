@@ -79,10 +79,7 @@ public class TokenUtils {
     private Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser()
-                    .setSigningKey(this.secret)
-                    .parseClaimsJws(token)
-                    .getBody();
+            claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
         }
@@ -97,7 +94,7 @@ public class TokenUtils {
         return new Date(System.currentTimeMillis() + this.expiration * 1000);
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = this.getExpirationDateFromToken(token);
         return expiration.before(this.generateCurrentDate());
     }
@@ -115,16 +112,14 @@ public class TokenUtils {
     }
 
     private String generateToken(Map<String, Object> claims) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(this.generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, this.secret)
-                .compact();
+        return Jwts.builder().setClaims(claims).setExpiration(this.generateExpirationDate())
+                .signWith(SignatureAlgorithm.HS512, this.secret).compact();
     }
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = this.getCreatedDateFromToken(token);
-        return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset)) && (!(this.isTokenExpired(token))));
+        return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset)) && (!(this
+                .isTokenExpired(token))));
     }
 
     public String refreshToken(String token) {
@@ -143,7 +138,8 @@ public class TokenUtils {
         OrangeSecurityUser user = (OrangeSecurityUser) userDetails;
         final String username = this.getUsernameFromToken(token);
         final Date created = this.getCreatedDateFromToken(token);
-        return (username.equals(user.getUsername()) && !(this.isTokenExpired(token)) && !(this.isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())));
+        return (username.equals(user.getUsername()) && !(this.isTokenExpired(token)) && !(this
+                .isCreatedBeforeLastPasswordReset(created, user.getLastPasswordReset())));
     }
 
 }
