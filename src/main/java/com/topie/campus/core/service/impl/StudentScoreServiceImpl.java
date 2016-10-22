@@ -9,6 +9,8 @@ import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.StuCetMapper;
 import com.topie.campus.core.dao.StuScoreMapper;
+import com.topie.campus.core.dto.ScoreCourceType;
+import com.topie.campus.core.dto.StaticScoreDto;
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.core.model.StuScore;
 import com.topie.campus.core.service.IStudentScoreService;
@@ -27,5 +29,21 @@ public class StudentScoreServiceImpl extends BaseService<StuScore> implements IS
 		Long total = stuScoreMapper.count(stuScore);
 		SimplePageInfo<StuScore> pageInfo = new SimplePageInfo<StuScore>(pageNum, pageSize, total, stuScores);
 		return pageInfo;
+	}
+
+	@Override
+	public StaticScoreDto findByStuScoreStatic(String studentId) {
+		// TODO Auto-generated method stub
+		List<StaticScoreDto> StaticScoreDtos =  stuScoreMapper.findByStuScoreStatic(studentId);
+		List<ScoreCourceType> scoreCourceTypes = stuScoreMapper.findByStuScoreByCourseType(studentId);
+		StaticScoreDtos.get(0).setScoreCourseType(scoreCourceTypes);
+		StaticScoreDto dto = StaticScoreDtos.get(0);
+		return dto;
+	}
+
+	@Override
+	public List<ScoreCourceType> findByStuScoreByCourseType(String studentId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

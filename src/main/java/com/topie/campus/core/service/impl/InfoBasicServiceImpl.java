@@ -1,7 +1,11 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dao.CollegeMapper;
+import com.topie.campus.core.dao.FacultyMapper;
+import com.topie.campus.core.dao.MajorMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
+import com.topie.campus.core.dao.UserFacultyMapper;
 import com.topie.campus.core.dto.*;
 import com.topie.campus.core.model.*;
 import com.topie.campus.core.service.*;
@@ -27,6 +31,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,8 +39,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -66,6 +74,18 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private TeacherStudentMapper teacherStudentMapper;
+    
+    @Autowired
+    CollegeMapper collegeMapper;
+    
+    @Autowired
+    FacultyMapper facultyMapper;
+    
+    @Autowired
+    MajorMapper majorMapper;
+    
+    @Autowired
+    UserFacultyMapper userFacultyMapper;
     
     @Value("${sendUrl}")
     private String sendUrl;
@@ -403,5 +423,101 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 		}
 		return false;
 		}
+	}
+
+	@Override
+	public List<TreeDto> collegeTree() {
+		// TODO Auto-generated method stub
+		List<College> colleges = collegeMapper.selectAll();
+		List<TreeDto> dtos = new ArrayList<TreeDto>();
+		for(College c:colleges)
+		{
+			dtos.add(new TreeDto(c));
+			List<Faculty> faculties = facultyMapper.selectAll();
+			for(Faculty f:faculties)
+			{
+				dtos.add(new TreeDto(f));
+			}
+		}
+		return dtos;
+	}
+
+	@Async
+	@Override
+	public void sendMsg(String message, String reciever, String sign) {
+		// TODO Auto-generated method stub
+		String cx[] = reciever.split(",");
+		List<String> facultyIds = facultyIds = Arrays.asList(cx);
+		for(String f:facultyIds)
+		{
+			List<String> majorIds = majorMapper.selectByFacultyId(f);
+			for(String m:majorIds)
+			{
+				List<String> phones = iStudentService.findPhoneByMajorId(m);
+				StringBuffer stringBuffer = new StringBuffer();
+				for(int i=0;i<phones.size();i++)
+				{
+					stringBuffer.append(phones.get(i));
+					if(i<phones.size()-1)
+					stringBuffer.append(",");
+				}
+				System.out.println(stringBuffer.toString());
+				sendMsgTo(message, sign, stringBuffer.toString());
+			}
+		}
+	}
+	
+	private void sendMsgTo(String message,String sign,String phone) 
+	{
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost=new HttpPost(sendUrl);
+		//httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk"); 
+		List<NameValuePair> params=new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("username",username));
+		params.add(new BasicNameValuePair("password",password));
+		params.add(new BasicNameValuePair("mobile",phone));
+		message = new String("【"+sign+"】"+message);
+		params.add(new BasicNameValuePair("message",message));
+		try {
+			httppost.setEntity(new UrlEncodedFormEntity(params,"GBK"));
+			HttpResponse response=httpclient.execute(httppost);
+			System.out.println(EntityUtils.toString(response.getEntity()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void insertUserFacultyRation(Integer userId, String facultyId) {
+		// TODO Auto-generated method stub
+		String facultyIdArray[] = facultyId.split(",");
+		userFacultyMapper.deleteByUserId(userId);
+		for(String fa:facultyIdArray)
+		{
+			UserFaculty record = new UserFaculty();
+			record.setUserId(userId);
+			record.setFaculty(fa);
+			userFacultyMapper.insert(record);
+		}
+	}
+	
+	@Override
+	public UserFaculty getUserFacultyRation(Integer userId) {
+		// TODO Auto-generated method stub
+		List<UserFaculty> userFaculties =  userFacultyMapper.findByUserId(userId);
+		String faculties = "";
+		for(int i=0;i<userFaculties.size();i++)
+		{
+			faculties = faculties+userFaculties.get(i).getFaculty();
+			if(i<userFaculties.size()-1)
+			{
+				faculties = faculties+",";
+			}
+		}
+		UserFaculty userFaculty = new UserFaculty();
+		userFaculty.setFaculty(faculties);
+		userFaculty.setUserId(userId);
+		return userFaculty;
 	}
 }

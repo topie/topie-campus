@@ -1,23 +1,23 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/front/student/selectCourse": "stuSelectCourse"
+        "/api/front/student/examCourse": "examCourse"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.stuSelectCourse = {
+    App.examCourse = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
             var content = $('<div class="panel-body" id="score_grid"></div>');
             window.App.content.append(content);
-            App.stuSelectCourse.initEvents();
+            App.examCourse.initEvents();
         }
     };
 
-    App.stuSelectCourse.initEvents = function () {
+    App.examCourse.initEvents = function () {
         var grid;
         var scoreOpts = {
-            url: App.href + "/api/front/student/selectCourse",
+            url: App.href + "/api/front/student/examCourse",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -31,47 +31,23 @@
             pageSelect: [2, 15, 30, 50],
             columns: [
                 {
-                    title: "学年",
-                    field: "studyYear"
+                    title: "考试时间",
+                    field: "examTime"
                 },
                 {
-                    title: "学期",
-                    field: "studyYearNum"
+                    title: "教室名称",
+                    field: "classroomName"
                 },
                 {
-                    title: "选课课号",
-                    field: "selectCourseNum"
+                    title: "教室编号",
+                    field: "classroomNum"
                 }, {
-                    title: "课程名称",
-                    field: "courseName"
+                    title: "座位号",
+                    field: "seatNum"
                 },
                 {
-                    title: "课程性质",
-                    field: "courseNature"
-                },
-                {
-                    title: "课程归属",
-                    field: "courseAffiliation"
-                },
-                {
-                    title: "学分",
-                    field: "courseCredit"
-                },
-                {
-                    title: "任课老师",
-                    field: "teacherName"
-                },
-                {
-                    title: "重修标记",
-                    field: "restudyFlag"
-                },
-                {
-                    title: "辅修标记",
-                    field: "isMinor"
-                },
-                {
-                    title: "选课时间",
-                    field: "selectTime"
+                    title: "备注",
+                    field: "comment"
                 }
             ],
             actionColumnText: "操作",//操作列文本

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.CollegeMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.College" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="xydm" property="xydm" jdbcType="VARCHAR" />
+    <result column="xymc" property="xymc" jdbcType="VARCHAR" />
+    <result column="xyjc" property="xyjc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+</mapper>

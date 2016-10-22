@@ -154,4 +154,34 @@
     <select id="findStudentNoByUserId" resultType="java.lang.String">
         select student_no from topie_campus.t_student where user_id=#{userId}
     </select>
+    
+     <select id="findPhoneByMajorId" resultType="java.lang.String">
+        select contact_phone from t_student 
+     <where>
+          <if test="facultyId != null and facultyId !=''">
+              binary major_code = #{facultyId}
+            </if>
+     </where>
+    </select>
+    
+    <select id="findByMajor"  resultMap="BaseResultMap">
+        select * from t_student 
+	     <where>
+	          binary major_code in 
+	          <foreach item="item" index="index" collection="majorIds" open="(" separator="," close=")">  
+			  #{item}  
+			 </foreach>
+	     </where>
+    </select>
+    
+    <select id="countByMajor" resultType="java.lang.Long">
+        select count(1) from t_student 
+	     <where>
+	      binary major_code in 
+	          <foreach item="item" index="index" collection="majorIds" open="(" separator="," close=")">  
+			  #{item}  
+			 </foreach>
+	     </where>
+    </select>
+    
 </mapper>

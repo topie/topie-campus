@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.MajorMapper">
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Major">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="zydm" jdbcType="VARCHAR" property="zydm" />
+    <result column="zymc" jdbcType="VARCHAR" property="zymc" />
+    <result column="zylb" jdbcType="VARCHAR" property="zylb" />
+    <result column="xz" jdbcType="INTEGER" property="xz" />
+    <result column="xw" jdbcType="VARCHAR" property="xw" />
+    <result column="zyywmc" jdbcType="VARCHAR" property="zyywmc" />
+    <result column="ssxydm" jdbcType="VARCHAR" property="ssxydm" />
+    <result column="yxj" jdbcType="VARCHAR" property="yxj" />
+    <result column="ssxdm" jdbcType="VARCHAR" property="ssxdm" />
+    <result column="zyjc" jdbcType="VARCHAR" property="zyjc" />
+    <result column="jzydm" jdbcType="VARCHAR" property="jzydm" />
+    <result column="cc" jdbcType="VARCHAR" property="cc" />
+    <result column="xklb" jdbcType="VARCHAR" property="xklb" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+    <result column="zszydm" jdbcType="VARCHAR" property="zszydm" />
+    <result column="tjzymc" jdbcType="VARCHAR" property="tjzymc" />
+    <result column="sfwy" jdbcType="VARCHAR" property="sfwy" />
+    <result column="sfsf" jdbcType="VARCHAR" property="sfsf" />
+    <result column="sfwxw" jdbcType="VARCHAR" property="sfwxw" />
+    <result column="kxlb" jdbcType="VARCHAR" property="kxlb" />
+    <result column="bks" jdbcType="VARCHAR" property="bks" />
+    <result column="ssxsxydm" jdbcType="VARCHAR" property="ssxsxydm" />
+    <result column="sfxs" jdbcType="VARCHAR" property="sfxs" />
+    <result column="xkjxpt" jdbcType="VARCHAR" property="xkjxpt" />
+    <result column="bkflmc" jdbcType="VARCHAR" property="bkflmc" />
+    <result column="ywxwlb" jdbcType="VARCHAR" property="ywxwlb" />
+    <result column="gbxh" jdbcType="VARCHAR" property="gbxh" />
+    <result column="zypymb" jdbcType="LONGVARCHAR" property="zypymb" />
+    <result column="zypyyq" jdbcType="LONGVARCHAR" property="zypyyq" />
+    <result column="zykc" jdbcType="LONGVARCHAR" property="zykc" />
+    <result column="tskc" jdbcType="LONGVARCHAR" property="tskc" />
+  </resultMap>
+  
+  <select id="selectByFacultyId" resultType="java.lang.String">
+        select
+        zydm
+        from t_major
+        <where>
+            <if test="facultyId!=null and facultyId!=''">
+                and ssxdm=#{facultyId}
+            </if>
+        </where>
+    </select>
+  
+</mapper>

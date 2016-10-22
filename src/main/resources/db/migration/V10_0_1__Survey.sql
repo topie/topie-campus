@@ -96,6 +96,6 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '25');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '25');
 
 INSERT INTO `sys_function`
-VALUES ('26', '6', '问卷调查', '1', '2', NULL, '/api/front/studentSurvey/page', '9', NULL, NULL);
+VALUES ('27', '6', '问卷调查', '1', '2', NULL, '/api/front/studentSurvey/page', '9', NULL, NULL);
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '26');
 

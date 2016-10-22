@@ -9,7 +9,9 @@
             window.App.content.empty();
             window.App.title(title);
             var content = $('<div class="panel-body" id="score_grid"></div>');
+            var scoreStatic = $('<table id="score_static" class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="score_grid_info"></table>');
             window.App.content.append(content);
+            content.after(scoreStatic);
             App.frontStuScore.initEvents();
         }
     };
@@ -91,6 +93,7 @@
                 //搜索栏元素
                 items: [
                         {
+                    id:"studyYear",
                     type: "select",
                     label: "学年",
                     name: "studyYear",
@@ -103,6 +106,7 @@
 	                itemsUrl:App.href+"/api/dict/1?topie_token=" + App.token
 	                },
 		                {
+	                	    id:"studyYearNum",
 		                    type: "select",
 		                    label: "学期",
 		                    name: "studyYearNum",
@@ -124,6 +128,21 @@
 	                	]
             			}
         };
+       
         grid = window.App.content.find("#score_grid").topieGrid(scoreOpts);
+        grid.reload(scoreOpts.url +'?'+getStudyYear());
+        $.ajax({
+        	url: App.href + "/api/front/student/staticScore?topie_token="+App.token,
+        	success:function(result)
+        	{
+        		var data = '<tr><td>平均分</td><td>'+result.data.avgCredit+'分</td><td>平均学分绩点</td><td>'+result.data.totalCredit+'</td>';
+        		for(var i in result.data.scoreCourseType)
+        			{
+        			data = data+ '<td>'+result.data.scoreCourseType[i].courceType+'</td><td>'+result.data.scoreCourseType[i].totalCredit+'分</td>'
+        			}
+        		data = data+'</tr>'
+        		$("#score_static").html(data);           
+        	}
+        });
     }
 })(jQuery, window, document);

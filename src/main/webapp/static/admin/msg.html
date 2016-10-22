@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <div class="panel-body">
+    <form id="student_msg" name="student_msg" action="../../api/info/student/sendOneMsg" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="novalidate">
+      <div>
+      <div data-row="0" class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label col-md-2">收件人</label>
+            <div class="col-md-10">
+            <div id="faculty" class="form-control input-large" rows="3"></div>
+            </div>
+           </div>
+          </div>
+         </div>
+        <div data-row="1" class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label col-md-2">短信内容</label>
+            <div formele="textarea" class="col-md-10">
+            <textarea id="message" name="message" class="form-control input-large" rows="3"></textarea>
+            </div>
+           </div>
+          </div>
+         </div>
+        <div data-row="2" class="row"><div class="col-md-12">
+	       <div class="form-group">
+	      	<label class="control-label col-md-2">短信签名</label>
+	     	<div formele="select" class="col-md-10">
+	     	<select id="sign" name="sign" class="form-control input-large">
+	     	<option value="北京联合大学生物化学工程学院">北京联合大学生物化学工程学院</option>
+	     	</select>
+	   </div>
+   		</div>
+  	 </div>
+   	</div>
+   </div>
+   <div class="form-actions" style="padding-bottom:20px;text-align:center;"><button type="button" class="btn btn-default " role="reset">重置</button>&nbsp;<button type="submit" class="btn btn-primary " role="submit">发送</button>&nbsp;<button type="button" class="btn btn-default ">关闭</button>&nbsp;</div>
+   </form>
+   </div>
+</body>
+</html>

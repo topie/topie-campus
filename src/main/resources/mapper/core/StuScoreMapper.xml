@@ -28,6 +28,16 @@
     <result column="invalid" property="invalid" jdbcType="VARCHAR" />
   </resultMap>
  
+ <resultMap id="StaticScoreMap" type="com.topie.campus.core.dto.StaticScoreDto" >
+    <result column="totalCredit" property="totalCredit" jdbcType="VARCHAR" />
+    <result column="avgCredit" property="avgCredit" jdbcType="VARCHAR" />
+ </resultMap>
+ 
+ <resultMap id="ScoreCourceType" type="com.topie.campus.core.dto.ScoreCourceType" >
+    <result column="totalCredit" property="totalCredit" jdbcType="VARCHAR" />
+    <result column="courceType" property="courceType" jdbcType="VARCHAR" />
+ </resultMap>
+ 
   <sql id="Base_Column_List">
   id,study_year,study_year_num,course_num,stu_id,name,cource_name,credit,score,score_point,comment,re_study_flag,common_score,page_score,second_score,restudy_score,cource_type,cource_code,minor_flag,cource_attr,invalid
   </sql> 
@@ -79,5 +89,15 @@
         </where>
     </select>
   
+  <select id="findByStuScoreStatic" resultMap="StaticScoreMap">
+        select FORMAT(sum(credit*score_point)/SUM(credit),2) as totalCredit,FORMAT(AVG(score),2) as avgCredit from t_stu_score t 
+        where t.stu_id = #{studentId}
+        GROUP BY stu_id;
+    </select>
+  
+  <select id="findByStuScoreByCourseType" resultMap="ScoreCourceType">
+       select FORMAT(SUM(credit),2) as totalCredit,t.cource_type as courceType from t_stu_score t where t.stu_id = #{studentId}
+       GROUP BY t.cource_type;
+    </select>
   
 </mapper>

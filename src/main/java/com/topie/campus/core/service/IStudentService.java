@@ -1,7 +1,10 @@
 package com.topie.campus.core.service;
 
+import java.util.List;
+
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.StaticScoreDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
 
@@ -24,4 +27,10 @@ public interface IStudentService extends IService<Student> {
     Integer findIdByStudentNo(String studentNo);
 
     String findStudentNoByUserId(Integer userId);
+
+	List<String> findPhoneByMajorId(String zydm);
+
+	SimplePageInfo<Student> findByLeadRole(Integer userId, int pageNum,
+			int pageSize);
+
 }

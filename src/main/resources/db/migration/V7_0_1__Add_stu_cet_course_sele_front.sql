@@ -74,7 +74,7 @@ CREATE TABLE `t_stu_sele_course` (
   `select_course_num` varchar(255) DEFAULT NULL COMMENT '选课课号',
   `stu_id` varchar(255) DEFAULT NULL COMMENT '学号',
   `name` varchar(255) DEFAULT NULL COMMENT '姓名',
-  `course_name` varchar(255) DEFAULT NULL,
+  `course_name` varchar(255) DEFAULT NULL COMMENT '课程名称',
   `major` varchar(255) DEFAULT NULL COMMENT '专业',
   `is_select` varchar(255) DEFAULT NULL COMMENT '是否选上',
   `select_times` varchar(255) DEFAULT NULL COMMENT '选课轮数',
@@ -83,6 +83,7 @@ CREATE TABLE `t_stu_sele_course` (
   `restudy_flag` varchar(255) DEFAULT NULL COMMENT '重修标记',
   `classroom_num` varchar(100) DEFAULT NULL COMMENT '教室号',
   `classroom_name` varchar(255) DEFAULT NULL COMMENT '教室名称',
+  `seat_num` varchar(255) DEFAULT NULL COMMENT '座位号',
   `couse_study_time` varchar(50) DEFAULT NULL COMMENT '上课时间',
   `select_time` varchar(255) DEFAULT NULL COMMENT '选课时间',
   `grade` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '年级',
@@ -93,7 +94,7 @@ CREATE TABLE `t_stu_sele_course` (
   `course_credit` float DEFAULT NULL COMMENT '学分',
   `teacher_name` varchar(255) DEFAULT NULL COMMENT '教师姓名',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_stu_timetable

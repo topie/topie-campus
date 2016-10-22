@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.FacultyMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Faculty" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="xdm" property="xdm" jdbcType="VARCHAR" />
+    <result column="xmc" property="xmc" jdbcType="VARCHAR" />
+    <result column="ssxydm" property="ssxydm" jdbcType="VARCHAR" />
+    <result column="xfzr" property="xfzr" jdbcType="VARCHAR" />
+    <result column="lxfs" property="lxfs" jdbcType="VARCHAR" />
+    <result column="xclsj" property="xclsj" jdbcType="VARCHAR" />
+    <result column="xkyjyjfx" property="xkyjyjfx" jdbcType="VARCHAR" />
+    <result column="xjj" property="xjj" jdbcType="VARCHAR" />
+    <result column="kyjjxcg" property="kyjjxcg" jdbcType="VARCHAR" />
+    <result column="bz" property="bz" jdbcType="VARCHAR" />
+    <result column="ssxsxydm" property="ssxsxydm" jdbcType="VARCHAR" />
+    <result column="xywmc" property="xywmc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByCollegeId" resultType="java.lang.String">
+        select
+        xdm
+        from t_faculty
+        <where>
+            <if test="collegeId!=null and collegeId!=''">
+                and ssxsxydm=#{collegeId}
+            </if>
+        </where>
+    </select>
+</mapper>

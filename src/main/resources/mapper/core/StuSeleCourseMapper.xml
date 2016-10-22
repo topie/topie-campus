@@ -29,10 +29,11 @@
     <result column="course_affiliation" property="courseAffiliation" jdbcType="VARCHAR" />
     <result column="course_credit" property="courseCredit" jdbcType="FLOAT" />
     <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="seat_num" property="seatNum" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
   id,study_year,study_year_num,select_course_num,stu_id,name,course_name,major,is_select,select_times,exam_time,comment,restudy_flag,classroom_num,classroom_name,couse_study_time,select_time,grade,is_minor
-  ,course_code,course_nature,course_affiliation,course_credit,teacher_name
+  ,course_code,course_nature,course_affiliation,course_credit,teacher_name,seat_num
   </sql>
   
    <select id="findByPage" resultMap="BaseResultMap">

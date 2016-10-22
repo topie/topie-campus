@@ -153,7 +153,7 @@
     
     <select id="findOtherByPageGroupByMajor" resultMap="StaticResultMap">
       select man,woman,poor_rate,w.major from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
-      left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+      left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
              w.major = #{employment.major}
@@ -166,7 +166,7 @@
     
     <select id="countOtherByPageGroupByMajor" resultType="java.lang.Long">
          select count(w.major) from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
-        left join (select COUNT(*)/total as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
              w.major = #{employment.major}
@@ -176,7 +176,7 @@
     
     <select id="findOtherByPageGroupByClassNum" resultMap="StaticResultMap">
       select man,woman,poor_rate,w.class_num from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
-      left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+      left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
              w.class_num = #{employment.classNum}
@@ -189,7 +189,7 @@
     
     <select id="countOtherByPageGroupByClassNum" resultType="java.lang.Long">
     select count(w.class_num) from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
-    left join (select COUNT(*)/total as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+    left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
              w.class_num = #{employment.classNum}

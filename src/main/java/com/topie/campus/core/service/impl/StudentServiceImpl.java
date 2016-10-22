@@ -2,13 +2,19 @@ package com.topie.campus.core.service.impl;
 
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dao.MajorMapper;
 import com.topie.campus.core.dao.StudentMapper;
+import com.topie.campus.core.dao.UserFacultyMapper;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
+import com.topie.campus.core.model.UserFaculty;
 import com.topie.campus.core.service.IStudentService;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +25,12 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 
     @Autowired
     private StudentMapper studentMapper;
+    
+    @Autowired
+    UserFacultyMapper userFacultyMapper;
+    
+    @Autowired
+    MajorMapper majorMapper;
 
     @Override
     public SimplePageInfo<Student> findStudentList(Student student, Integer pageNum, Integer pageSize) {
@@ -63,5 +75,32 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
     public String findStudentNoByUserId(Integer userId) {
         return studentMapper.findStudentNoByUserId(userId);
     }
+
+	@Override
+	public List<String> findPhoneByMajorId(String zydm) {
+		// TODO Auto-generated method stub
+		return studentMapper.findPhoneByMajorId(zydm);
+	}
+
+	@Override
+	public SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,int pageSize) {
+		// TODO Auto-generated method stub
+		List<UserFaculty> userFaculties =  userFacultyMapper.findByUserId(userId);
+		SimplePageInfo<Student> pageInfo = null;
+		String faculties = "";
+		List<String> majorIds = new ArrayList<>();
+			for(UserFaculty f:userFaculties)
+			{
+				majorIds.addAll(majorMapper.selectByFacultyId(f.getFaculty()));
+		    }
+			if(majorIds.size()==0)
+			{
+			 return	new SimplePageInfo<>(pageNum,pageSize,0,new ArrayList<Student>());
+			}
+			List<Student> students = studentMapper.findByMajor(majorIds,(pageNum-1)*pageSize,pageSize);
+			Long total = studentMapper.countByMajor(majorIds);
+			pageInfo = new SimplePageInfo<>(pageNum,pageSize,total,students);
+		return pageInfo;
+	}
 
 }

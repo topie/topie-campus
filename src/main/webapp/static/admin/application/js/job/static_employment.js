@@ -59,12 +59,12 @@
         }
     },{
         field: 'poorRate',
-        title: '困难生率',
+        title: '困难生数',
         width: "10%",
-        sort: true,
-        format: function(i, c) {
+        sort: true
+        /*format: function(i, c) {
         	return (c.poorRate*100).toFixed(2)+"%"
-        }
+        }*/
     },
     {
         field: 'manToWoman',

@@ -106,6 +106,7 @@ INSERT INTO `sys_function` VALUES ('3', '2', '用户管理', '1', '1', NULL, '/a
 INSERT INTO `sys_function` VALUES ('4', '2', '角色管理', '1', '1', NULL, '/api/sys/role/pageList', '1', NULL, NULL);
 INSERT INTO `sys_function` VALUES ('5', '2', '菜单管理', '1', '1', NULL, '/api/sys/function/pageList', '1', NULL, NULL);
 
+
 INSERT INTO `sys_role` VALUES ('1', '管理员', '/', '1', NULL, NULL);
 INSERT INTO `sys_role` VALUES ('2', '普通用户', '/', '1', NULL, NULL);
 

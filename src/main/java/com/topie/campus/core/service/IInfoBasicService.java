@@ -3,8 +3,10 @@ package com.topie.campus.core.service;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
+import com.topie.campus.core.dto.TreeDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
+import com.topie.campus.core.model.UserFaculty;
 import com.topie.campus.tools.excel.ExcelLogs;
 
 import org.apache.http.client.ClientProtocolException;
@@ -12,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -68,4 +72,12 @@ public interface IInfoBasicService {
 
 	boolean sendOneMsg(String sign, String message, String phone)
 			throws ClientProtocolException, IOException;
+
+	 List<TreeDto> collegeTree();
+
+	void sendMsg(String message, String reciever, String sign);
+
+	void insertUserFacultyRation(Integer userId, String facultyId);
+
+	UserFaculty getUserFacultyRation(Integer userId); 
 }

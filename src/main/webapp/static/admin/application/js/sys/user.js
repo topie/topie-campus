@@ -46,11 +46,6 @@
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
             columns: [{
-                title: "id",
-                field: "id",
-                sort: true,
-                width: "5%"
-            }, {
                 title: "登录名",
                 field: "loginName",
                 sort: true
@@ -62,7 +57,7 @@
                 field: "email"
             }],
             actionColumnText: "操作",//操作列文本
-            actionColumnWidth: "20%",
+            actionColumnWidth: "35%",
             actionColumns: [{
                 text: "编辑",
                 cls: "btn-primary btn-sm",
@@ -274,7 +269,67 @@
                         }
                     });
                 }
-            }],
+            },{
+                text: "设置院系",
+                cls: "btn-success btn-sm",
+                handle: function (index, data) {
+                	var formOpts = {
+                            id: "college_major",
+                            name: "college_major",
+                            method: "POST",
+                            action: App.href + "/api/info/basic/setFaculty",
+                            ajaxSubmit: true,
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                                
+                            },
+                            ajaxSuccess: function (result) {
+                           	 bootbox.alert(result.message);
+                           	modal.hide();
+                            },
+                            submitText: "保存",
+                            showReset: true,
+                            rowEleNum: 1,
+                            resetText: "重置",
+                            isValidate: true,
+                            buttons: [{
+                                type: 'button',
+                                text: '关闭',
+                                handle: function () {
+                                    modal.hide();
+                                }
+                            }],
+                            buttonsAlign: "center",
+                            items: [
+           							{
+           							    type: 'tree',
+           							    name: 'faculty',
+           							    id: 'faculty',
+           							    label: '院系',
+           							    cls: 'input-large',
+           							    url : App.href+"/api/info/basic/collegeTree?topie_token="+App.token,
+           								autoParam : [ "id", "name", "pId" ],
+           								expandAll : false,
+           								chkboxType:{"Y": "s","Y": "s"}
+           							},
+           							{
+           							    type: 'hidden',
+           							    name: 'userId',
+           							    id: 'userId',
+           							}
+                                ]
+                        };
+                	var modal = $.topieModal({
+                        id: "faculty",
+                        title: "设置院系",
+                        destroy: true
+                    });
+                	var form = modal.$body.topieForm(formOpts);
+                	form.loadRemote(App.href+"/api/info/basic/getFacultyByUserId?userId="+data.id);
+                    modal.show();
+                }
+            }
+            ],
             tools: [
                 {
                     text: " 添 加",//按钮文本

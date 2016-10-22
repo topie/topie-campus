@@ -116,6 +116,9 @@ public class StuSeleCourse {
     
     @Column(name = "teacher_name")
     private String teacherName;
+    
+    @Column(name = "seat_num")
+    private String seatNum;
     /**
      * @return id
      */
@@ -474,6 +477,14 @@ public class StuSeleCourse {
 
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
+	}
+
+	public String getSeatNum() {
+		return seatNum;
+	}
+
+	public void setSeatNum(String seatNum) {
+		this.seatNum = seatNum;
 	}
     
 }

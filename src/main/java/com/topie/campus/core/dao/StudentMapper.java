@@ -1,8 +1,12 @@
 package com.topie.campus.core.dao;
 
+import com.topie.campus.core.dto.ScoreCourceType;
+import com.topie.campus.core.dto.StaticScoreDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
+
 import org.apache.ibatis.annotations.Param;
+
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -31,4 +35,12 @@ public interface StudentMapper extends Mapper<Student> {
     Integer findIdByStudentNo(@Param("studentNo") String studentNo);
 
     String findStudentNoByUserId(@Param("userId")Integer userId);
+    
+    List<String> findPhoneByMajorId(@Param("facultyId") String facultyId);
+
+	List<Student> findByMajor(@Param("majorIds") List<String> majorIds,@Param("pageOffset") Integer pageOffset,
+            @Param("pageSize") Integer pageSize);
+
+	Long countByMajor(@Param("majorIds") List<String> majorIds);
+    
 }
