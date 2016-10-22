@@ -40,7 +40,7 @@ public class OrangeSideUserCache implements UserCache, InitializingBean {
     public UserDetails getUserFromCache(String username) {
         UserDetails userDetails = null;
         try {
-            userDetails = (UserDetails) cache.get(SecurityConstant.USER_CACHE_PREFIX + username);
+            userDetails = (UserDetails) redisCache.get(SecurityConstant.USER_CACHE_PREFIX + username);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
