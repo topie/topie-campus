@@ -111,13 +111,13 @@
                     }
                 },*/
                 {
-                    visible: function (index, stData) {
+                    /*visible: function (index, stData) {
                         if (stData.isBind == 1) {
                             return true;
                         } else {
                             return false;
                         }
-                    },
+                    },*/
                     cls: "btn-primary btn-sm",
                     text: "留言",
                     handle: function (index, stData) {
