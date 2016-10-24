@@ -10,6 +10,10 @@ public class StaticEmployment implements Serializable{
 	 */
 	private static final long serialVersionUID = -7920058244540834111L;
 	
+	private String college;
+	
+	private String faculty;
+	
 	private String major;
 	
 	private String tutor;
@@ -17,6 +21,8 @@ public class StaticEmployment implements Serializable{
 	private String classNum;
 	
 	private double signRate;
+	
+	private double tableRate;
 	
 	private double employmentRate;
 
@@ -91,5 +97,28 @@ public class StaticEmployment implements Serializable{
 	public void setEmploymentRate(double employmentRate) {
 		this.employmentRate = employmentRate;
 	}
-	
+
+	public double getTableRate() {
+		return tableRate;
+	}
+
+	public void setTableRate(double tableRate) {
+		this.tableRate = tableRate;
+	}
+
+	public String getCollege() {
+		return college;
+	}
+
+	public void setCollege(String college) {
+		this.college = college;
+	}
+
+	public String getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(String faculty) {
+		this.faculty = faculty;
+	}
 }

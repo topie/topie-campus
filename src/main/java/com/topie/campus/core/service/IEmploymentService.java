@@ -23,4 +23,10 @@ public interface IEmploymentService extends IService<Employment> {
 
     void updateEmploymentStatus(Employment employment);
 
+	SimplePageInfo<StaticEmployment> findByPageGroupByCollege(int pageNum,
+			int pageSize, Employment employment);
+
+	SimplePageInfo<StaticEmployment> findByPageGroupByFaculty(int pageNum,
+			int pageSize, Employment employment);
+
 }

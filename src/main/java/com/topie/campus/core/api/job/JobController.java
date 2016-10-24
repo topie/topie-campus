@@ -70,16 +70,34 @@ public class JobController {
         else return ResponseUtil.success("导入成功！");
     }
     
-    @RequestMapping(value = "/staticEmploy", method = RequestMethod.GET)
+    @RequestMapping(value = "/staticByCollege", method = RequestMethod.GET)
     @ResponseBody
-    public Result staticjob(Employment employment,
+    public Result staticByCollege(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByCollege(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
+    @RequestMapping(value = "/staticByFaculty", method = RequestMethod.GET)
+    @ResponseBody
+    public Result staticByFaculty(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum, 
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByFaculty(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
+    @RequestMapping(value = "/staticByMajor", method = RequestMethod.GET)
+    @ResponseBody
+    public Result staticByMajor(Employment employment,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         SimplePageInfo<StaticEmployment> pageInfo = employmentService.findByPageGroupByMajor(pageNum, pageSize, employment);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
     
-    @RequestMapping(value = "/staticClassNum", method = RequestMethod.GET)
+    @RequestMapping(value = "/staticByClassNum", method = RequestMethod.GET)
     @ResponseBody
     public Result pageClassNum(Employment employment,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,

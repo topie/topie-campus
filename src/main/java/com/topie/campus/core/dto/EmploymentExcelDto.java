@@ -13,7 +13,7 @@ public class EmploymentExcelDto implements Serializable{
 	private static final long serialVersionUID = 7334040070907041634L;
 
 		@ExcelCell(index = 0)
-		private String college;
+		private String faculty;
 		
 		@ExcelCell(index = 1)
 	    private String major;
@@ -49,6 +49,9 @@ public class EmploymentExcelDto implements Serializable{
 	    @ExcelCell(index = 11)
 	    private String phone;
 
+	    /**
+	     * 所在年级
+	     */
 	    @ExcelCell(index = 12)
 	    private String education;
 
@@ -58,29 +61,34 @@ public class EmploymentExcelDto implements Serializable{
 	    @ExcelCell(index = 14)
 	    private String comment;
 	    
-	    @ExcelCell(index = 15)
 	    private String enterDate;
-
+	    
+	    @ExcelCell(index = 15)
+	    private String teacherNo;
+	    
 	    @ExcelCell(index = 16)
-	    private String graduateDate;
-
+	    private String college;
+	    
 	    @ExcelCell(index = 17)
+	    private String graduateDate;
+	    /**
+	     * 是否毕业班
+	     */
+	    @ExcelCell(index = 18)
+	    private String isImport;
+
 	    private String identifyId;
 
-	    @ExcelCell(index = 18)
 	    private String employProcess;
 
-	    @ExcelCell(index = 19)
 	    private String employPattern;
-
-	    @ExcelCell(index = 20)
+	    
 	    private String signPattern;
 
-	    @ExcelCell(index = 21)
 	    private String signCompany;
 
-	    @ExcelCell(index = 22)
 	    private String signCompanyAddress;
+	    
 
 	    /**
 	     * ��ȡѧ��
@@ -409,10 +417,36 @@ public class EmploymentExcelDto implements Serializable{
 	        this.signCompanyAddress = signCompanyAddress;
 	    }
 	    
-	    public Employment buildEmployment(EmploymentExcelDto dto)
+	    public String getFaculty() {
+			return faculty;
+		}
+
+		public void setFaculty(String faculty) {
+			this.faculty = faculty;
+		}
+
+		public String getTeacherNo() {
+			return teacherNo;
+		}
+
+		public void setTeacherNo(String teacherNo) {
+			this.teacherNo = teacherNo;
+		}
+
+		public String getIsImport() {
+			return isImport;
+		}
+
+		public void setIsImport(String isImport) {
+			this.isImport = isImport;
+		}
+
+		public Employment buildEmployment(EmploymentExcelDto dto)
 	    {
 	    	Employment employment = new Employment();
 	    	employment.setCollege(this.college);
+	    	employment.setFaculty(this.faculty);
+	    	employment.setTeacherNo(this.teacherNo);
 	    	employment.setEducation(this.education);
 	    	employment.setEmployPattern(this.employPattern);
 	    	employment.setEnterDate(this.enterDate);

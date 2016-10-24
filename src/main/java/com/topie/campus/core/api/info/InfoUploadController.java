@@ -108,6 +108,6 @@ public class InfoUploadController {
                 return ResponseUtil.error("请先选择教师类型");
             }
         }
-        return ResponseUtil.success(logs.getErrorLogList());
+        return ResponseUtil.success("导入完成！");
     }
 }

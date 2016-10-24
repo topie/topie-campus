@@ -402,7 +402,7 @@
                                                         "value_": (option.value == undefined ? ""
                                                             : option.value),
                                                         "text_": (option.text == undefined ? ""
-                                                            : option.text)
+                                                            : option.text)  
                                                     })
                                                 .appendTo(
                                                     ele);
@@ -428,7 +428,8 @@
                                                                     "value_": (option.value == undefined ? ""
                                                                         : option.value),
                                                                     "text_": (option.text == undefined ? ""
-                                                                        : option.text)
+                                                                        : option.text),
+                                                                    "selected":(option.value == item.value? 'selected = "selected"':''), 
                                                                 })
                                                             .appendTo(
                                                                 ele);

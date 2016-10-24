@@ -1,7 +1,7 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/job/staticEmploy": "infoStatic"
+        "/api/job/staticByCollege": "infoStatic"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
     App.infoStatic = {
@@ -9,38 +9,51 @@
             window.App.content.empty();
             window.App.title(title);
             var content = $('<div class="panel-body" id="static_grid"></div>');
-            var radios = '<div class="col-md-4"><label>专业分类<input  type="radio" checked="checked" onclick="App.infoStatic.gridChange(this)" name="classification" value="1" /></label></div><div class="col-md-4"><label>班级分类<input type="radio" onclick="App.infoStatic.gridChange(this)" name="classification" value="2" /></label></div><div class="col-md-4"><label>导师分类<input type="radio" onclick="App.infoStatic.gridChange(this)" name="classification" value="3" /></label></div>';
-             window.App.content.append(radios);
             window.App.content.append(content);
             App.infoStatic.initEvents();
         }
     };
     
-    App.infoStatic.gridChange = function(radiohtml)
+    App.infoStatic.gridChange = function(type,value)
     {
-    	if(radiohtml.value=='1')
+    	console.log(value);
+    	if(type==0)
     		{
     		$("#static_grid").html('');
-    		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
+    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.collegeOptions);
     		}
-    	else if(radiohtml.value=='2')
+    	if(type==1)
     		{
     		$("#static_grid").html('');
-    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.classOptions);
+    		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+value;
+    		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.facultyOptions);
+    		 //grid.reload({url:App.infoStatic.facultyOptions.url +"?&college="+value});
     		}
-    	else if(radiohtml.value=='3')
+    	else if(type==2)
     		{
     		$("#static_grid").html('');
-    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.tutorOptions);
+    		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+value;
+    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
+    		//grid.reload({url:App.infoStatic.majorOptions.url +"?&faculty="+value});
+    		}
+    	else if(type==3)
+    		{
+    		$("#static_grid").html('');
+    		App.infoStatic.classNumOptions.url = App.href + "/api/job/staticByClassNum?major="+value;
+    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.classNumOptions);
+    		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
     		}
     }
     
     App.infoStatic.columns = [ 
     {
         sort: true,
-        field: 'major',
-        title: '专业',
+        field: 'college',
+        title: '学院',
         width: "25%",
+        format: function(i, c) {
+        	return '<a href="javascript:void(0)" onclick="javascript:App.infoStatic.gridChange(1,\''+c.college+'\')">'+c.college+'</a>';
+        }
     }, {
         field: 'signRate',
         title: '签约率',
@@ -77,8 +90,98 @@
     }
     ];
     
-    App.infoStatic.majorOptions = {
-            url: App.href + "/api/job/staticEmploy",
+    App.infoStatic.facultyColumns = [ 
+                              {
+                                  sort: true,
+                                  field: 'faculty',
+                                  title: '院系',
+                                  width: "25%",
+                                  format: function(i, c) {
+                                  	return '<a href="javascript:void(0)" onclick="App.infoStatic.gridChange(2,\''+c.faculty+'\')">'+c.faculty+'</a>';
+                                  }
+                              }, {
+                                  field: 'signRate',
+                                  title: '签约率',
+                                  width: "10%",
+                                  sort: true,
+                                  format: function(i, c) {
+                                  	return (c.signRate*100).toFixed(2)+"%"
+                                  }
+                              }, {
+                                  field: 'employmentRate',
+                                  title: '就业率',
+                                  width: "10%",
+                                  sort: true,
+                                  format: function(i, c) {
+                                  	return (c.employmentRate*100).toFixed(2)+"%"
+                                  }
+                              },{
+                                  field: 'poorRate',
+                                  title: '困难生数',
+                                  width: "10%",
+                                  sort: true
+                                  /*format: function(i, c) {
+                                  	return (c.poorRate*100).toFixed(2)+"%"
+                                  }*/
+                              },
+                              {
+                                  field: 'manToWoman',
+                                  title: '男/女',
+                                  width: "10%",
+                                  sort: true,
+                                  format: function(i, c) {
+                                  	return c.man+'/'+c.woman;
+                                  }
+                              }
+                              ];
+    
+    App.infoStatic.majorColumns = [ 
+                                     {
+                                         sort: true,
+                                         field: 'major',
+                                         title: '专业',
+                                         width: "25%",
+                                         format: function(i, c) {
+                                         	return '<a href="javascript:void(0)" onclick="App.infoStatic.gridChange(3,\''+c.major+'\')">'+c.major+'</a>';
+                                         }
+                                     }, {
+                                         field: 'signRate',
+                                         title: '签约率',
+                                         width: "10%",
+                                         sort: true,
+                                         format: function(i, c) {
+                                         	return (c.signRate*100).toFixed(2)+"%"
+                                         }
+                                     }, {
+                                         field: 'employmentRate',
+                                         title: '就业率',
+                                         width: "10%",
+                                         sort: true,
+                                         format: function(i, c) {
+                                         	return (c.employmentRate*100).toFixed(2)+"%"
+                                         }
+                                     },{
+                                         field: 'poorRate',
+                                         title: '困难生数',
+                                         width: "10%",
+                                         sort: true
+                                         /*format: function(i, c) {
+                                         	return (c.poorRate*100).toFixed(2)+"%"
+                                         }*/
+                                     },
+                                     {
+                                         field: 'manToWoman',
+                                         title: '男/女',
+                                         width: "10%",
+                                         sort: true,
+                                         format: function(i, c) {
+                                         	return c.man+'/'+c.woman;
+                                         }
+                                     }
+                                     ];
+    
+    App.infoStatic.collegeOptions = {
+            url: App.href + "/api/job/staticByCollege",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -92,19 +195,281 @@
             columns: App.infoStatic.columns,
             actionColumnText: "操作",
             actionColumnWidth: "20%",
+            actionColumns: [{
+                            text: "统计图",
+                            cls: "btn-primary btn-sm",
+                            handle: function (index, data) {
+                            	console.log(data);
+                                var modal = $.topieModal({
+                                    id: "studentForm",
+                                    title: "学院统计",
+                                    width:"600px",
+                                    destroy: true
+                                });
+                                modal.$body.html('<div id="collegeCharts" style="width:500px !important;height:300px !important;display:block;">111</div>');
+                                modal.show();
+                              var mychart = echarts.init(document.getElementById('collegeCharts')); 
+                              mychart.title = "学院统计图"
+                              var option = {
+                            		    title:{text:data.college+"统计"},
+                            		    color: ['#3398DB'],
+                            		    tooltip : {
+                            		        trigger: 'axis',
+                            		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            		        }
+                            		    },
+                            		    grid: {
+                            		        left: '3%',
+                            		        right: '4%',
+                            		        bottom: '3%',
+                            		        containLabel: true
+                            		    },
+                            		    xAxis : [
+                            		        {
+                            		            type : 'category',
+                            		            data : ['领表率','签约率','就业率','男生百分比','女生百分比'],
+                            		            axisTick: {
+                            		                alignWithLabel: true
+                            		            }
+                            		        }
+                            		    ],
+                            		    yAxis : [
+                            		        {
+                            		            type : 'value',
+                            		            axisLabel: {
+                            		                  show: true,
+                            		                  interval: 'auto',
+                            		                  formatter: '{value} %'
+                            		                }
+                            		        }
+                            		    ],
+                            		    series : [
+                            		        {
+                            		            name:'(单位%)',
+                            		            type:'bar',
+                            		            barWidth: '40%',
+                            		            data:[(data.tableRate*100).toFixed(2),(data.signRate*100).toFixed(2),(data.employmentRate*100).toFixed(2),(data.man*100/(data.man+data.woman)).toFixed(2),(data.woman*100/(data.man+data.woman)).toFixed(2)]
+                            		        }
+                            		    ]
+                            		};
+                               mychart.setOption(option);
+                            }
+                        } 
+                      ],
             search: {
                 rowEleNum: 2,
                 items: [{
-                    type: "text",
-                    label: "专业名称",
-                    name: "major",
-                    placeholder: "输入要搜索的专业名"
+                    type: "select",
+                    label: "毕业年份",
+                    name: "graduateDate",
+                    id: 'graduateDate',
+                    value:getGraduateYear(),
+                    itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
                 }]
             }
         };
     
-    App.infoStatic.classOptions = {
-            url: App.href + "/api/job/staticClassNum",
+    App.infoStatic.facultyOptions = {
+            url: App.href + "/api/job/staticByFaculty",
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Auth-Token", App.token);
+            },
+            pageNum: 1,
+            pageSize: 15,
+            idFiled: "id",
+            showCheckbox: false,
+            showIndexNum: true,
+            indexNumWidth: "5%",
+            pageSelect: [2, 15, 30, 50],
+            columns: App.infoStatic.facultyColumns,
+            actionColumnText: "操作",
+            actionColumnWidth: "20%",
+            actionColumns: [{
+                text: "统计图",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                	console.log(data);
+                    var modal = $.topieModal({
+                        id: "studentForm",
+                        title: "院系统计",
+                        width:"600px",
+                        destroy: true
+                    });
+                    modal.$body.html('<div id="collegeCharts" style="width:500px !important;height:300px !important;display:block;">111</div>');
+                    modal.show();
+                  var mychart = echarts.init(document.getElementById('collegeCharts')); 
+                  mychart.title = "院系统计图"
+                  var option = {
+                		    title:{text:data.faculty+"统计"},
+                		    color: ['#3398DB','#23Db45'],
+                		    tooltip : {
+                		        trigger: 'axis',
+                		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                		        }
+                		    },
+                		    grid: {
+                		        left: '3%',
+                		        right: '4%',
+                		        bottom: '3%',
+                		        containLabel: true
+                		    },
+                		    xAxis : [
+                		        {
+                		            type : 'category',
+                		            data : ['领表率','签约率','就业率','男生百分比','女生百分比'],
+                		            axisTick: {
+                		                alignWithLabel: true
+                		            }
+                		        }
+                		    ],
+                		    yAxis : [
+                		        {
+                		            type : 'value',
+                		            axisLabel: {
+                		                  show: true,
+                		                  interval: 'auto',
+                		                  formatter: '{value} %'
+                		                }
+                		        }
+                		    ],
+                		    series : [
+                		        {
+                		            name:'(单位%)',
+                		            type:'bar',
+                		            barWidth: '40%',
+                		            data:[(data.tableRate*100).toFixed(2),(data.signRate*100).toFixed(2),(data.employmentRate*100).toFixed(2),(data.man*100/(data.man+data.woman)).toFixed(2),(data.woman*100/(data.man+data.woman)).toFixed(2)]
+                		        }
+                		    ]
+                		};
+                   mychart.setOption(option);
+                }
+            } 
+          ],
+            tools: [
+    				{
+    				    text: " 返回",
+    				    cls: "btn btn-primary",
+    				    icon: "fa fa-cubes",
+    				    handle: function (grid) {
+    				    	App.infoStatic.gridChange(0,'');
+    				    }
+    				}],
+            	search: {
+                    rowEleNum: 2,
+                    items: [{
+                        type: "select",
+                        label: "毕业年份",
+                        name: "graduateDate",
+                        id: 'graduateDate',
+                        value:getGraduateYear(),
+                        itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
+                    }]
+                }
+        };
+    
+    App.infoStatic.majorOptions = {
+            url: App.href + "/api/job/staticByMajor",
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Auth-Token", App.token);
+            },
+            pageNum: 1,
+            pageSize: 15,
+            idFiled: "id",
+            showCheckbox: false,
+            showIndexNum: true,
+            indexNumWidth: "5%",
+            pageSelect: [2, 15, 30, 50],
+            columns: App.infoStatic.majorColumns,
+            actionColumnText: "操作",
+            actionColumnWidth: "20%",
+            actionColumns: [{
+                text: "统计图",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                	console.log(data);
+                    var modal = $.topieModal({
+                        id: "studentForm",
+                        title: "院系统计",
+                        width:"600px",
+                        destroy: true
+                    });
+                    modal.$body.html('<div id="collegeCharts" style="width:500px !important;height:300px !important;display:block;">111</div>');
+                    modal.show();
+                  var mychart = echarts.init(document.getElementById('collegeCharts')); 
+                  mychart.title = "专业统计图"
+                  var option = {
+                		    title:{text:data.major+"专业统计"},
+                		    color: ['#3398DB','#FF3300'],
+                		    tooltip : {
+                		        trigger: 'axis',
+                		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                		        }
+                		    },
+                		    grid: {
+                		        left: '3%',
+                		        right: '4%',
+                		        bottom: '3%',
+                		        containLabel: true
+                		    },
+                		    xAxis : [
+                		        {
+                		            type : 'category',
+                		            data : ['领表率','签约率','就业率','男生百分比','女生百分比'],
+                		            axisTick: {
+                		                alignWithLabel: true
+                		            }
+                		        }
+                		    ],
+                		    yAxis : [
+                		        {
+                		            type : 'value',
+                		            axisLabel: {
+                		                  show: true,
+                		                  interval: 'auto',
+                		                  formatter: '{value} %'
+                		                }
+                		        }
+                		    ],
+                		    series : [
+                		        {
+                		            name:'(单位%)',
+                		            type:'bar',
+                		            barWidth: '40%',
+                		            data:[(data.tableRate*100).toFixed(2),(data.signRate*100).toFixed(2),(data.employmentRate*100).toFixed(2),(data.man*100/(data.man+data.woman)).toFixed(2),(data.woman*100/(data.man+data.woman)).toFixed(2)]
+                		        }
+                		    ]
+                		};
+                   mychart.setOption(option);
+                }
+            } 
+          ],
+            tools: [
+    				{
+    				    text: " 返回",
+    				    cls: "btn btn-primary",
+    				    icon: "fa fa-cubes",
+    				    handle: function (grid) {
+    				    	App.infoStatic.gridChange(1,'');
+    				    }
+    				}],
+            	search: {
+                    rowEleNum: 2,
+                    items: [{
+                        type: "select",
+                        label: "毕业年份",
+                        name: "graduateDate",
+                        id: 'graduateDate',
+                        value:getGraduateYear(),
+                        itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
+                    }]
+                }
+        };
+    
+    App.infoStatic.classNumOptions = {
+            url: App.href + "/api/job/staticByClassNum",
             beforeSend: function (request) {
                 request.setRequestHeader("X-Auth-Token", App.token);
             },
@@ -141,10 +506,10 @@
                           field: 'poorRate',
                           title: '困难生率',
                           width: "10%",
-                          sort: true,
-                          format: function(i, c) {
+                          sort: true
+                         /* format: function(i, c) {
                           	return (c.poorRate*100).toFixed(2)+"%"
-                          }
+                          }*/
                       },
                       {
                           field: 'manToWoman',
@@ -158,13 +523,86 @@
                       ],
             actionColumnText: "操作",
             actionColumnWidth: "20%",
+            actionColumns: [{
+                text: "统计图",
+                cls: "btn-primary btn-sm",
+                handle: function (index, data) {
+                	console.log(data);
+                    var modal = $.topieModal({
+                        id: "studentForm",
+                        title: "院系统计",
+                        width:"600px",
+                        destroy: true
+                    });
+                    modal.$body.html('<div id="collegeCharts" style="width:500px !important;height:300px !important;display:block;">111</div>');
+                    modal.show();
+                  var mychart = echarts.init(document.getElementById('collegeCharts')); 
+                  mychart.title = "班级统计图"
+                  var option = {
+                		    title:{text:data.major+"统计"},
+                		    color: ['#3398DB','#FF3300'],
+                		    tooltip : {
+                		        trigger: 'axis',
+                		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                		        }
+                		    },
+                		    grid: {
+                		        left: '3%',
+                		        right: '4%',
+                		        bottom: '3%',
+                		        containLabel: true
+                		    },
+                		    xAxis : [
+                		        {
+                		            type : 'category',
+                		            data : ['领表率','签约率','就业率','男生百分比','女生百分比'],
+                		            axisTick: {
+                		                alignWithLabel: true
+                		            }
+                		        }
+                		    ],
+                		    yAxis : [
+                		        {
+                		            type : 'value',
+                		            axisLabel: {
+                		                  show: true,
+                		                  interval: 'auto',
+                		                  formatter: '{value} %'
+                		                }
+                		        }
+                		    ],
+                		    series : [
+                		        {
+                		            name:'(单位%)',
+                		            type:'bar',
+                		            barWidth: '40%',
+                		            data:[(data.tableRate*100).toFixed(2),(data.signRate*100).toFixed(2),(data.employmentRate*100).toFixed(2),(data.man*100/(data.man+data.woman)).toFixed(2),(data.woman*100/(data.man+data.woman)).toFixed(2)]
+                		        }
+                		    ]
+                		};
+                   mychart.setOption(option);
+                }
+            } 
+          ],
+            tools: [
+    				{
+    				    text: " 返回",
+    				    cls: "btn btn-primary",
+    				    icon: "fa fa-cubes",
+    				    handle: function (grid) {
+    				    	App.infoStatic.gridChange(2,'');
+    				    }
+    				}],
             search: {
                 rowEleNum: 2,
                 items: [{
-                    type: "text",
-                    label: "班级名称",
-                    name: "classNum",
-                    placeholder: "输入要搜索的班级名"
+                    type: "select",
+                    label: "毕业年份",
+                    name: "graduateDate",
+                    id: 'graduateDate',
+                    value:getGraduateYear(),
+                    itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
                 }]
             }
         };
@@ -220,6 +658,6 @@
     
     App.infoStatic.initEvents = function () {
     	var grid;
-        grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
+        grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.collegeOptions);
     }
 })(jQuery, window, document);

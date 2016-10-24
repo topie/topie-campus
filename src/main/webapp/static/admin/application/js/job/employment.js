@@ -28,7 +28,7 @@
                 dataType: "json",
                 success: function (json, status) {
                     console.info(json);
-                    alert(json.message)
+                    alert(json.message);
                 },
                 error: function (data, status, e) {
                     alert(e);

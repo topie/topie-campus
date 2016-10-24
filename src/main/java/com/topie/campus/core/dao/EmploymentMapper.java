@@ -36,4 +36,12 @@ public interface EmploymentMapper extends Mapper<Employment> {
 	List<StaticEmployment> findOtherByPageGroupByClassNum(@Param("employment") Employment employment);
 	
 	Long countOtherByPageGroupByClassNum(@Param("employment") Employment employment);
+	
+	List<StaticEmployment> findByPageGroupByFaculty(@Param("employment") Employment employment, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
+	
+	Long countByPageGroupByFaculty(@Param("employment") Employment employment);
+	
+	List<StaticEmployment> findByPageGroupByCollege(@Param("employment") Employment employment, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
+	
+	Long countByPageGroupByCollege (@Param("employment") Employment employment);
 }

@@ -28,13 +28,18 @@
     <result column="tutor" property="tutor" jdbcType="VARCHAR" />
     <result column="comment" property="comment" jdbcType="VARCHAR" />
     <result column="sign_company_address" property="signCompanyAddress" jdbcType="VARCHAR" />
+    <result column="faculty" property="faculty" jdbcType="VARCHAR" />
+    <result column="teacherNo" property="teacherNo" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap id="StaticResultMap" type="com.topie.campus.core.model.StaticEmployment">
+     <result column="college" property="college" jdbcType="VARCHAR" />
+     <result column="faculty" property="faculty" jdbcType="VARCHAR" />
      <result column="major" property="major" jdbcType="VARCHAR" />
      <result column="class_num" property="classNum" jdbcType="VARCHAR" />
      <result column="tutor" property="tutor" jdbcType="VARCHAR" />
      <result column="sign_rate" property="signRate" jdbcType="DOUBLE" />
+     <result column="table_rate" property="tableRate" jdbcType="DOUBLE" />
      <result column="employment_rate" property="employmentRate" jdbcType="DOUBLE" />
      <result column="poor_rate" property="poorRate" jdbcType="DOUBLE" />
      <result column="man" property="man" jdbcType="INTEGER" />
@@ -42,7 +47,9 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-  id,stu_id,name,gender,phone,education,college,major,class_num,enter_date,graduate_date,identify_id,home_address,take_table,employment_status,sign_status,poor_student,employ_pattern,sign_pattern,sign_company,tutor,comment,sign_company_address
+  id,stu_id,name,gender,phone,education,college,major,class_num,enter_date,graduate_date,
+  identify_id,home_address,take_table,employment_status,sign_status,poor_student,employ_pattern,
+  sign_pattern,sign_company,tutor,comment,sign_company_address,faculty
   </sql>
   <select id="findByPage" resultMap="BaseResultMap">
         select
@@ -83,11 +90,56 @@
     </select>
     
     <select id="findByPageGroupByMajor" resultMap="StaticResultMap">
-        select employment_rate,w.major,sign_rate from (select count(*)/total as employment_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) group by e.major) r
-        left join (select count(*)/total as sign_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.sign_status is not null) group by e.major) w on w.major = r.major
+         select DISTINCT t.major,e.employment_rate,s.sign_rate,b.table_rate,p.poor_rate,m.man,m.woman from t_employment t 
+			LEFT JOIN 
+			(select count(*)/total as employment_rate,e.major from t_employment e 
+			LEFT JOIN 
+			(select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+			) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.major
+			) e 
+			on e.major = t.major
+			left JOIN 
+			(select count(*)/total as sign_rate,e.major from t_employment e 
+			LEFT JOIN 
+			(select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+			) c on e.major = c.major
+			where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.major
+			) s on s.major = t.major
+			LEFT JOIN 
+			(
+			select count(*)/total as table_rate,e.major from t_employment e 
+			LEFT JOIN 
+			(
+			select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+			) c on e.major = c.major 
+			where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.major
+			) b on b.major = t.major
+			LEFT JOIN 
+			(
+			   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.major
+			) 
+			p on p.major = t.major
+			LEFT JOIN 
+			(
+			select man,(total-man) as woman,major from 
+			(
+			select total,if(man is null,0,man) as man,v.major from 
+			(
+			select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+			) v left join 
+			(
+			select count(*) as man,t.major  from t_employment t 
+			where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.major
+			) t 
+			on v.major = t.major
+			) w
+			) m on m.major = t.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
-            w.major like concat(concat('%',#{employment.major}),'%')
+            t.major like concat(concat('%',#{employment.major}),'%')
+          </if>
+          <if test="employment.faculty!=null and employment.faculty!=''">
+            t.faculty = #{employment.faculty}
           </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
@@ -96,21 +148,331 @@
     </select>
     
     <select id="countByPageGroupByMajor" resultType="java.lang.Long">
-        select count(w.major) from (select count(*)/total as employment_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) group by e.major) r
-        left join (select count(*)/total as sign_rate,e.major from t_employment e LEFT JOIN (select COUNT(*) as total,t.major  from t_employment t group by t.major) c on e.major = c.major where (e.sign_status is not null) group by e.major) w on w.major = r.major
+        select count(DISTINCT t.major) from t_employment t 
+					LEFT JOIN 
+					(select count(*)/total as employment_rate,e.major from t_employment e 
+					LEFT JOIN 
+					(select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+					) c on e.major = c.major where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.major
+					) e 
+					on e.major = t.major
+					left JOIN 
+					(select count(*)/total as sign_rate,e.major from t_employment e 
+					LEFT JOIN 
+					(select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+					) c on e.major = c.major
+					where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.major
+					) s on s.major = t.major
+					LEFT JOIN 
+					(
+					select count(*)/total as table_rate,e.major from t_employment e 
+					LEFT JOIN 
+					(
+					select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+					) c on e.major = c.major 
+					where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.major
+					) b on b.major = t.major
+					LEFT JOIN 
+					(
+					   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.major
+					) 
+					p on p.major = t.major
+					LEFT JOIN 
+					(
+					select man,(total-man) as woman,major from 
+					(
+					select total,if(man is null,0,man) as man,v.major from 
+					(
+					select COUNT(*) as total,t.major,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.major
+					) v left join 
+					(
+					select count(*) as man,t.major  from t_employment t 
+					where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.major
+					) t 
+					on v.major = t.major
+					) w
+					) m on m.major = t.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
-            w.major like concat('%',concat(#{employment.major},'%'))
+            t.major like concat('%',concat(#{employment.major},'%'))
+          </if>
+          <if test="employment.faculty!=null and employment.faculty!=''">
+          and  t.faculty = #{employment.faculty}
+          </if>
+        </where>
+    </select>
+    
+    <select id="findByPageGroupByFaculty" resultMap="StaticResultMap">
+       select DISTINCT t.faculty,e.employment_rate,s.sign_rate,b.table_rate,p.poor_rate,m.man,m.woman from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) e 
+				on e.faculty = t.faculty
+				left JOIN 
+				(select count(*)/total as sign_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) s on s.faculty = t.faculty
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) b on b.faculty = t.faculty
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) 
+				p on p.faculty = t.faculty
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,faculty from 
+				(
+				select total,if(man is null,0,man) as man,v.faculty from 
+				(
+				select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) v left join 
+				(
+				select count(*) as man,t.faculty  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.faculty
+				) t 
+				on v.faculty = t.faculty
+				) w
+				) m on m.faculty = t.faculty
+        <where>
+          <if test="employment.faculty!=null and employment.faculty!=''">
+            t.faculty like concat('%',concat(#{employment.faculty},'%'))
+          </if>
+          <if test="employment.college!=null and employment.college!=''">
+           and t.college = #{employment.college}
+          </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPageGroupByFaculty" resultType="java.lang.Long">
+        select count(DISTINCT t.faculty) from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) e 
+				on e.faculty = t.faculty
+				left JOIN 
+				(select count(*)/total as sign_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) s on s.faculty = t.faculty
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.faculty from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) c on e.faculty = c.faculty 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.faculty
+				) b on b.faculty = t.faculty
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) 
+				p on p.faculty = t.faculty
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,faculty from 
+				(
+				select total,if(man is null,0,man) as man,v.faculty from 
+				(
+				select COUNT(*) as total,t.faculty,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.faculty
+				) v left join 
+				(
+				select count(*) as man,t.faculty  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.faculty
+				) t 
+				on v.faculty = t.faculty
+				) w
+				) m on m.faculty = t.faculty
+        <where>
+          <if test="employment.faculty!=null and employment.faculty!=''">
+            t.faculty like concat('%',concat(#{employment.faculty},'%'))
+          </if>
+          <if test="employment.college!=null and employment.college!=''">
+           and t.college = #{employment.college}
+          </if>
+        </where>
+    </select>
+    
+    <select id="findByPageGroupByCollege" resultMap="StaticResultMap">
+       select DISTINCT t.college,e.employment_rate,s.sign_rate,b.table_rate,p.poor_rate,m.man,m.woman from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.college
+				) e 
+				on e.college = t.college
+				left JOIN 
+				(select count(*)/total as sign_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.college
+				) s on s.college = t.college
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.college
+				) b on b.college = t.college
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.college
+				) 
+				p on p.college = t.college
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,college from 
+				(
+				select total,if(man is null,0,man) as man,v.college from 
+				(
+				select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) v left join 
+				(
+				select count(*) as man,t.college  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.college
+				) t 
+				on v.college = t.college
+				) w
+				) m on m.college = t.college
+        <where>
+          <if test="employment.college!=null and employment.college!=''">
+            t.college like concat('%',concat(#{employment.college},'%'))
+          </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPageGroupByCollege" resultType="java.lang.Long">
+       select count(DISTINCT t.college) from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.college
+				) e 
+				on e.college = t.college
+				left JOIN 
+				(select count(*)/total as sign_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.college
+				) s on s.college = t.college
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.college from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) c on e.college = c.college 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.college
+				) b on b.college = t.college
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.college
+				) 
+				p on p.college = t.college
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,college from 
+				(
+				select total,if(man is null,0,man) as man,v.college from 
+				(
+				select COUNT(*) as total,t.college,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.college
+				) v left join 
+				(
+				select count(*) as man,t.college  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.college
+				) t 
+				on v.college = t.college
+				) w
+				) m on m.college = t.college
+        <where>
+          <if test="employment.college!=null and employment.college!=''">
+            t.college like concat('%',concat(#{employment.college},'%'))
           </if>
         </where>
     </select>
     
     <select id="findByPageGroupByClassNum" resultMap="StaticResultMap">
-       select w.class_num,employment_rate,sign_rate from (select count(*)/total as employment_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) group by e.class_num) r
-        left join (select count(*)/total as sign_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.sign_status is not null) group by e.class_num) w on w.class_num = r.class_num
+        select DISTINCT t.class_num,e.employment_rate,s.sign_rate,b.table_rate,p.poor_rate,m.man,m.woman from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) e 
+				on e.class_num = t.class_num
+				left JOIN 
+				(select count(*)/total as sign_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) s on s.class_num = t.class_num
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) b on b.class_num = t.class_num
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) 
+				p on p.class_num = t.class_num
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,class_num from 
+				(
+				select total,if(man is null,0,man) as man,v.class_num from 
+				(
+				select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) v left join 
+				(
+				select count(*) as man,t.class_num  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.class_num
+				) t 
+				on v.class_num = t.class_num
+				) w
+				) m on m.class_num = t.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
-            w.class_num like concat('%',concat(#{employment.classNum},'%'))
+            t.class_num like concat('%',concat(#{employment.classNum},'%'))
+          </if>
+          <if test="employment.major!=null and employment.major!=''">
+            and t.major = #{employment.major}
           </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
@@ -119,11 +481,56 @@
     </select>
     
     <select id="countByPageGroupByClassNum" resultType="java.lang.Long">
-        select count(w.class_num) from (select count(*)/total as employment_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) group by e.class_num) r
-        left join (select count(*)/total as sign_rate,e.class_num from t_employment e LEFT JOIN (select COUNT(*) as total,t.class_num  from t_employment t group by t.class_num) c on e.class_num = c.class_num where (e.sign_status is not null) group by e.class_num) w on w.class_num = r.class_num
+        select count(DISTINCT t.class_num) from t_employment t 
+				LEFT JOIN 
+				(select count(*)/total as employment_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num where (e.employment_status is not null or e.sign_status is not null) and e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) e 
+				on e.class_num = t.class_num
+				left JOIN 
+				(select count(*)/total as sign_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num
+				where e.sign_status is not null and  e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) s on s.class_num = t.class_num
+				LEFT JOIN 
+				(
+				select count(*)/total as table_rate,e.class_num from t_employment e 
+				LEFT JOIN 
+				(
+				select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) c on e.class_num = c.class_num 
+				where e.take_table is not null and  e.graduate_date = #{employment.graduateDate} group by e.class_num
+				) b on b.class_num = t.class_num
+				LEFT JOIN 
+				(
+				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) 
+				p on p.class_num = t.class_num
+				LEFT JOIN 
+				(
+				select man,(total-man) as woman,class_num from 
+				(
+				select total,if(man is null,0,man) as man,v.class_num from 
+				(
+				select COUNT(*) as total,t.class_num,t.graduate_date from t_employment t where t.graduate_date = #{employment.graduateDate} group by t.class_num
+				) v left join 
+				(
+				select count(*) as man,t.class_num  from t_employment t 
+				where t.gender='男' and t.graduate_date = #{employment.graduateDate} GROUP BY t.class_num
+				) t 
+				on v.class_num = t.class_num
+				) w
+				) m on m.class_num = t.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
-            w.class_num like concat('%',concat(#{employment.classNum},'%'))
+            t.class_num like concat('%',concat(#{employment.classNum},'%'))
+          </if>
+          <if test="employment.major!=null and employment.major!=''">
+            and t.major = #{employment.major}
           </if>
         </where>
     </select>

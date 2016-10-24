@@ -48,6 +48,8 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         }
         for (EmploymentExcelDto employmentExcelDto : employmentExcelDtos) {
             //TODO 检测教师职工号是否唯一
+        	if(StringUtils.isNotEmpty(employmentExcelDto.getIsImport()) && employmentExcelDto.getIsImport().equals("1"))
+        	{
             Employment employMent = employmentExcelDto.buildEmployment(employmentExcelDto);
             List<Employment> employMents = new ArrayList<Employment>();
             if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
@@ -58,7 +60,7 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
             } else {
                 employmentMapper.insertSelective(employMent);
             }
-
+        	}
         }
     }
 
@@ -122,5 +124,27 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         old.setSignStatus(employment.getSignStatus());
         employmentMapper.updateByPrimaryKey(old);
     }
+
+	@Override
+	public SimplePageInfo<StaticEmployment> findByPageGroupByCollege(
+			int pageNum, int pageSize, Employment employment) {
+		// TODO Auto-generated method stub
+		List<StaticEmployment> staticEmployments = employmentMapper
+                .findByPageGroupByCollege(employment, (pageNum - 1) * pageSize, pageSize);
+        Long total = employmentMapper.countByPageGroupByCollege(employment);
+        SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
+        return pageInfo;
+	}
+
+	@Override
+	public SimplePageInfo<StaticEmployment> findByPageGroupByFaculty(
+			int pageNum, int pageSize, Employment employment) {
+		// TODO Auto-generated method stub
+		List<StaticEmployment> staticEmployments = employmentMapper
+                .findByPageGroupByFaculty(employment, (pageNum - 1) * pageSize, pageSize);
+        Long total = employmentMapper.countByPageGroupByFaculty(employment);
+        SimplePageInfo<StaticEmployment> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, staticEmployments);
+        return pageInfo;
+	}
 
 }
