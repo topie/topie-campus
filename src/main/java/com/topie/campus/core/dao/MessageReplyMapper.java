@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MessageReplyMapper extends Mapper<MessageReply> {
 
@@ -12,4 +13,6 @@ public interface MessageReplyMapper extends Mapper<MessageReply> {
             @Param("pageOffset") Integer pageOffset, @Param("pageSize") Integer pageSize);
 
     Long countMessageReply(@Param("reply") MessageReply messageReply);
+
+    List<Map> findMessageReplyStat(@Param("userId")Integer userId);
 }

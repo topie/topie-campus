@@ -53,4 +53,13 @@
             </if>
         </where>
     </select>
+    <select id="findReceiveMessageStat" resultType="java.util.Map">
+        select
+        message_from_user_id user_id,
+        min(message_from_user_name) name,
+        count(1) message_count
+        from topie_campus.t_message
+        where message_to_user_id=#{userId}
+        group by message_from_user_id
+    </select>
 </mapper>

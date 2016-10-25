@@ -5,8 +5,7 @@ import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.model.Message;
 import com.topie.campus.core.model.MessageReply;
-import com.topie.campus.core.service.IMessageReplyService;
-import com.topie.campus.core.service.IMessageService;
+import com.topie.campus.core.service.*;
 import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +29,15 @@ public class FrontMessageController {
     @Autowired
     private IMessageReplyService iMessageReplyService;
 
+    @Autowired
+    private IUserNotification iUserNotification;
+
+    @Autowired
+    private ITeacherService iTeacherService;
+
+    @Autowired
+    private IStudentService iStudentService;
+
     @RequestMapping(value = "/receive", method = RequestMethod.GET)
     @ResponseBody
     public Result receive(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
@@ -45,6 +53,7 @@ public class FrontMessageController {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
         }
+        iUserNotification.updateToClearNewMessageCount(userId);
         return ResponseUtil.success(pageInfo);
     }
 
@@ -63,6 +72,7 @@ public class FrontMessageController {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
         }
+        iUserNotification.updateToClearNewReplyCount(userId);
         return ResponseUtil.success(pageInfo);
     }
 
@@ -86,15 +96,24 @@ public class FrontMessageController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
+        String name = iTeacherService.findTeacherNameByUserId(userId);
+        if (name == null) {
+            name = iStudentService.findStudentNameByUserId(userId);
+        }
         MessageReply messageReply = new MessageReply();
         messageReply.setMessageId(messageId);
         messageReply.setReplyUserId(userId);
-        messageReply.setReplyUserName(SecurityUtil.getCurrentUserName());
+        messageReply.setReplyUserName(name);
         messageReply.setReplyDateTime(new Date());
         messageReply.setIsRead(false);
         messageReply.setReplyContent(replyContent);
         iMessageReplyService.insertSelective(messageReply);
         iMessageService.updateMessageUpdateTime(messageId);
+        Message message = iMessageService.selectByKey(messageId);
+        Integer receiveUser = message.getMessageFromUserId();
+        if (userId.intValue() != receiveUser.intValue()) {
+            iUserNotification.insertOrUpdateToIncrNewReplyCount(receiveUser);
+        }
         return ResponseUtil.success();
     }
 }

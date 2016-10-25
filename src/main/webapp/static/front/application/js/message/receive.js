@@ -34,7 +34,7 @@
                     url: App.href + "/api/front/message/receive",
                     data: {
                         "pageNum": pageNum,
-                        "pageSize": 2,
+                        "pageSize": 15,
                         "sortType": sortType
                     },
                     dataType: "json",
@@ -94,7 +94,8 @@
                         request.setRequestHeader("X-Auth-Token", App.token);
                     },
                     data: {
-                        "messageId": messageId
+                        "messageId": messageId,
+                        "pageSize": 5
                     },
                     success: function (result) {
                         if (result.code === 200) {
@@ -125,28 +126,35 @@
         };
         ele.find("a[role=message-btn]").click(function () {
             var target = $(this).attr("reply-target");
-            if(!$("#div_message_" + target).is(':visible')){
+            if (!$("#div_message_" + target).is(':visible')) {
                 loadReply(target);
             }
             $("#div_message_" + target).toggle();
         });
         ele.find("a[role=reply-submit]").click(function () {
+            var that = $(this);
+            var rep = that.parent().parent().find("#replyContent").val();
+            if ($.trim(rep) == "") {
+                return;
+            }
             $.ajax(
                 {
                     type: 'POST',
                     url: App.href + "/api/front/message/postReply",
                     dataType: "json",
                     data: {
-                        messageId: ele.find("#messageId").val(),
-                        replyContent: ele.find("#replyContent").val(),
+                        messageId: that.parent().parent().find("#messageId").val(),
+                        replyContent: rep,
                     },
                     beforeSend: function (request) {
                         request.setRequestHeader("X-Auth-Token", App.token);
                     },
                     success: function (result) {
                         if (result.code === 200) {
-                            ele.find("#replyContent").val("");
-                            loadReply(ele.find("#messageId").val());
+                            that.parent().parent().find("#replyContent").val("");
+                            var count = parseInt($("#reply_count_" + that.parent().parent().find("#messageId").val()).text());
+                            $("#reply_count_" + that.parent().parent().find("#messageId").val()).text(++count);
+                            loadReply(that.parent().parent().find("#messageId").val());
                         } else {
                             alert(result.message);
                         }

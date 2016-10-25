@@ -45,9 +45,13 @@ public class FrontTeacherController {
     @Autowired
     private IMessageService iMessageService;
 
+    @Autowired
+    private IUserNotification iUserNotification;
+
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
-    public Result student(TeacherSimpleDto teacherSimpleDto, @RequestParam(value = "typeId",required = false) Integer typeId,
+    public Result student(TeacherSimpleDto teacherSimpleDto,
+            @RequestParam(value = "typeId", required = false) Integer typeId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Integer userId = SecurityUtil.getCurrentUserId();
@@ -58,9 +62,8 @@ public class FrontTeacherController {
         if (studentId == null) {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
-        /*SimplePageInfo<TeacherSimpleDto> pageInfo = iInfoBasicService
-                .findTeacherSimpleDtoListWithBindInfo(teacherSimpleDto, typeId, studentId, pageNum, pageSize);*/
-        SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService.findTeacherByStudentNo(studentId, pageNum, pageSize);
+        SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService
+                .findTeacherByStudentNo(studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
@@ -91,6 +94,7 @@ public class FrontTeacherController {
         message.setMessageContent(messageContent);
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
+        iUserNotification.insertOrUpdateToIncrNewMessageCount(toUserId);
         return ResponseUtil.success();
     }
 

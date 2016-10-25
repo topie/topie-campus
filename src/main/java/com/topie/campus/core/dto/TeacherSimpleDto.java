@@ -11,6 +11,8 @@ public class TeacherSimpleDto implements Serializable {
 
     private Integer id;
 
+    private Integer userId;
+
     private String employeeNo;
 
     private String name;
@@ -20,10 +22,18 @@ public class TeacherSimpleDto implements Serializable {
     private String contactPhone;
 
     private Integer isBind;
-    
+
     private String typeName;
-    
+
     private String email;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getAvatar() {
         return avatar;
@@ -73,20 +83,20 @@ public class TeacherSimpleDto implements Serializable {
         this.isBind = isBind;
     }
 
-	public String getTypeName() {
-		return typeName;
-	}
+    public String getTypeName() {
+        return typeName;
+    }
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

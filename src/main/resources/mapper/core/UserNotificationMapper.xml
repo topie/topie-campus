@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.UserNotificationMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.UserNotification">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="new_message_count" property="newMessageCount" jdbcType="INTEGER"/>
+        <result column="new_reply_count" property="newReplyCount" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insertOrUpdateToIncrNewMessageCount">
+        insert
+        into
+        topie_campus.t_user_notification(user_id, new_message_count) values(#{userId},1)
+        on duplicate key update new_message_count=new_message_count+1
+    </insert>
+    <insert id="insertOrUpdateToIncrNewReplyCount">
+        insert
+        into
+        topie_campus.t_user_notification(user_id, new_reply_count) values(#{userId},1)
+        on duplicate key update new_reply_count=new_reply_count+1
+    </insert>
+    <update id="updateToClearNewMessageCount">
+        update topie_campus.t_user_notification set new_message_count=0 where user_id=#{userId}
+    </update>
+    <update id="updateToClearNewReplyCount">
+        update topie_campus.t_user_notification set new_reply_count=0 where user_id=#{userId}
+    </update>
+</mapper>

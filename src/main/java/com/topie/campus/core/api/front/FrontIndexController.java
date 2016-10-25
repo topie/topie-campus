@@ -4,14 +4,11 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
-import com.topie.campus.core.model.Message;
 import com.topie.campus.core.model.Notice;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
-import com.topie.campus.core.service.IMessageService;
-import com.topie.campus.core.service.INoticeService;
-import com.topie.campus.core.service.IStudentService;
-import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.core.model.UserNotification;
+import com.topie.campus.core.service.*;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
@@ -54,6 +51,12 @@ public class FrontIndexController {
     @Autowired
     private INoticeService iNoticeService;
 
+    @Autowired
+    private IUserNotification iUserNotification;
+
+    @Autowired
+    private IMessageReplyService iMessageReplyService;
+
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     @ResponseBody
     public Result myFunction() {
@@ -93,15 +96,22 @@ public class FrontIndexController {
         return ResponseUtil.success(result);
     }
 
-    @RequestMapping(value = "/receiveTop5Message", method = RequestMethod.GET)
+    @RequestMapping(value = "/messageCenter", method = RequestMethod.GET)
     @ResponseBody
-    public Result receiveTop5Message() {
+    public Result messageCenter() {
         Integer userId = SecurityUtil.getCurrentUserId();
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        SimplePageInfo<Message> pageInfo = iMessageService.findReceiveMessageListByPage(userId, 1, 5, 1);
-        return ResponseUtil.success(pageInfo.getList());
+        Map result = new HashMap<>();
+        UserNotification notification = iUserNotification.selectByKey(userId);
+        if (notification == null) notification = new UserNotification(userId, 0, 0);
+        result.put("notification", notification);
+        List<Map> messageStat = iMessageService.findReceiveMessageStat(userId);
+        result.put("messageStat", messageStat);
+        List<Map> replyStat = iMessageReplyService.findMessageReplyStat(userId);
+        result.put("replyStat", replyStat);
+        return ResponseUtil.success(result);
     }
 
     @RequestMapping(value = "/noticeTop5", method = RequestMethod.GET)

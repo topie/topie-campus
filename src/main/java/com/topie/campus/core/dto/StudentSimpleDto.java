@@ -11,6 +11,8 @@ public class StudentSimpleDto implements Serializable {
 
     private Integer id;
 
+    private Integer userId;
+
     private String studentNo;
 
     private String name;
@@ -18,8 +20,16 @@ public class StudentSimpleDto implements Serializable {
     private String contactPhone;
 
     private String subject;
-    
+
     private Integer isBind;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;
@@ -61,12 +71,12 @@ public class StudentSimpleDto implements Serializable {
         this.isBind = isBind;
     }
 
-	public String getSubject() {
-		return subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-    
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
 }
