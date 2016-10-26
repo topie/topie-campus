@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/28/16.
@@ -46,5 +47,10 @@ public class MessageServiceImpl extends BaseService<Message> implements IMessage
     @Override
     public int updateMessageUpdateTime(Integer messageId) {
         return messageMapper.updateTimeByPrimaryKey(messageId);
+    }
+
+    @Override
+    public List<Map> findReceiveMessageStat(Integer userId) {
+        return messageMapper.findReceiveMessageStat(userId);
     }
 }

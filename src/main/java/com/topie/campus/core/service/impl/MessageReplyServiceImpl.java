@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenguojun on 8/28/16.
@@ -39,5 +40,10 @@ public class MessageReplyServiceImpl extends BaseService<MessageReply> implement
         MessageReply messageReply = new MessageReply();
         messageReply.setMessageId(messageId);
         return countMessageReply(messageReply);
+    }
+
+    @Override
+    public List<Map> findMessageReplyStat(Integer userId) {
+        return messageReplyMapper.findMessageReplyStat(userId);
     }
 }

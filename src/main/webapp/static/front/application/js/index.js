@@ -100,7 +100,7 @@
                 $.ajax(
                     {
                         type: 'GET',
-                        url: App.href + "/api/frontIndex/receiveTop5Message",
+                        url: App.href + "/api/frontIndex/messageCenter",
                         dataType: "json",
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
@@ -110,15 +110,62 @@
                                 var data = result.data;
                                 var render = template.compile(source);
                                 var html = render({
-                                    "list": data
+                                    "data": data
                                 });
                                 that.html(html).show();
-                                that.find("button[role=message-btn]").click(function () {
-                                    $(this).parent().parent().next("div[role=message]").toggle();
+                                var da = [];
+                                $.each(data.messageStat, function (i, d) {
+                                    var t = {};
+                                    t.label = d.name+"["+d.message_count+"]";
+                                    t.data = parseInt(d.message_count);
+                                    da.push(t);
                                 });
-                                that.find("button[role=reply-btn]").click(function () {
-                                    $(this).parent().next("div[role=reply]").toggle();
+                                var plotObj = $.plot($("#message_pie"), da, {
+                                    series: {
+                                        pie: {
+                                            show: true
+                                        }
+                                    },
+                                    grid: {
+                                        hoverable: true
+                                    },
+                                    tooltip: true,
+                                    tooltipOpts: {
+                                        content: "%p.0%, %s",
+                                        shifts: {
+                                            x: 20,
+                                            y: 0
+                                        },
+                                        defaultTheme: false
+                                    }
                                 });
+                                var da = [];
+                                $.each(data.replyStat, function (i, d) {
+                                    var t = {};
+                                    t.label = d.user_name+"["+d.reply_count+"]";
+                                    t.data = parseInt(d.reply_count);
+                                    da.push(t);
+                                });
+                                var plotObj = $.plot($("#reply_pie"), da, {
+                                    series: {
+                                        pie: {
+                                            show: true
+                                        }
+                                    },
+                                    grid: {
+                                        hoverable: true
+                                    },
+                                    tooltip: true,
+                                    tooltipOpts: {
+                                        content: "%p.0%, %s",
+                                        shifts: {
+                                            x: 20,
+                                            y: 0
+                                        },
+                                        defaultTheme: false
+                                    }
+                                });
+
                             } else {
                                 alert(result.message);
                             }

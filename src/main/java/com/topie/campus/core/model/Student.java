@@ -1,6 +1,8 @@
 package com.topie.campus.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,51 +18,52 @@ public class Student extends Sortable {
     private Integer id;
 
     /**
-     * Í·Ïñ
+     * Í·ï¿½ï¿½
      */
     private String avatar;
 
     /**
-     * Æ½Ì¨ÓÃ»§id
+     * Æ½Ì¨ï¿½Ã»ï¿½id
      */
     @Column(name = "user_id")
     private Integer userId;
 
     /**
-     * Ñ§ºÅ
+     * Ñ§ï¿½ï¿½
      */
     @Column(name = "student_no")
     private String studentNo;
 
     /**
-     * ÐÕÃû
+     * ï¿½ï¿½ï¿½ï¿½
      */
     private String name;
 
     /**
-     * ÐÔ±ð:0 Å® 1 ÄÐ
+     * ï¿½Ô±ï¿½:0 Å® 1 ï¿½ï¿½
      */
     private String gender;
 
     /**
-     * ³öÉúÈÕÆÚ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
 
     /**
-     * ÕþÖÎÃæÃ²
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
      */
     @Column(name = "political_status")
     private String politicalStatus;
 
     /**
-     * Ãñ×å
+     * ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "ethnic_group")
     private String ethnicGroup;
 
     /**
-     * ÈëÈ¡µØÇø
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "src_region")
     private String srcRegion;
@@ -78,47 +81,47 @@ public class Student extends Sortable {
     private String grade;
 
     /**
-     * Ñ§ÖÆ
+     * Ñ§ï¿½ï¿½
      */
     @Column(name = "shool_len")
     private String shoolLen;
 
     /**
-     * Ñ§¼®
+     * Ñ§ï¿½ï¿½
      */
     @Column(name = "school_roll")
     private String schoolRoll;
 
     /**
-     * Äê¼¶
+     * ï¿½ê¼¶
      */
     @Column(name = "grade_year")
     private String gradeYear;
 
     /**
-     * ×¨Òµ·½Ïò
+     * ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "major_direction")
     private String majorDirection;
 
     /**
-     * ÈëÑ§ÈÕÆÚ
+     * ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "enter_date")
     private String enterDate;
 
     /**
-     * ÓÊÏä
+     * ï¿½ï¿½ï¿½ï¿½
      */
     private String email;
 
     /**
-     * ±¸×¢
+     * ï¿½ï¿½×¢
      */
     private String comment;
 
     /**
-     * Ñ§ÉúÀà±ð£¨Ó¢ÓïA,Ó¢ÓïB£©
+     * Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½A,Ó¢ï¿½ï¿½Bï¿½ï¿½
      */
     @Column(name = "english_type")
     private String englishType;
@@ -130,41 +133,41 @@ public class Student extends Sortable {
     private String fullName;
 
     /**
-     * ×¨Òµ´úÂë
+     * ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "major_code")
     private String majorCode;
 
     /**
-     * ²ã´Î£¨±¾¿Æ£¬¸ßÖ°µÈ£©
+     * ï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ö°ï¿½È£ï¿½
      */
     private String gradation;
 
     /**
-     * ÊÇ·ñÔÚÐ£
+     * ï¿½Ç·ï¿½ï¿½ï¿½Ð£
      */
     private String inschool;
 
     /**
-     * ÊÇ·ñ×¢²á
+     * ï¿½Ç·ï¿½×¢ï¿½ï¿½
      */
     @Column(name = "is_register")
     private String isRegister;
 
     /**
-     * ±ÏÒµÈÕÆÚ
+     * ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "graduate_date")
     private String graduateDate;
 
     /**
-     * ÁªÏµµç»°
+     * ï¿½ï¿½Ïµï¿½ç»°
      */
     @Column(name = "contact_phone")
     private String contactPhone;
 
     /**
-     * ÊÇ·ñ±ÏÒµ
+     * ï¿½Ç·ï¿½ï¿½Òµ
      */
     @Column(name = "is_graduate")
     private String isGraduate;
@@ -177,7 +180,7 @@ public class Student extends Sortable {
     private String password;
 
     /**
-     * »ñÈ¡ID
+     * ï¿½ï¿½È¡ID
      *
      * @return id - ID
      */
@@ -186,7 +189,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * ÉèÖÃID
+     * ï¿½ï¿½ï¿½ï¿½ID
      *
      * @param id ID
      */
@@ -195,169 +198,170 @@ public class Student extends Sortable {
     }
 
     /**
-     * »ñÈ¡Í·Ïñ
+     * ï¿½ï¿½È¡Í·ï¿½ï¿½
      *
-     * @return avatar - Í·Ïñ
+     * @return avatar - Í·ï¿½ï¿½
      */
     public String getAvatar() {
         return avatar;
     }
 
     /**
-     * ÉèÖÃÍ·Ïñ
+     * ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½
      *
-     * @param avatar Í·Ïñ
+     * @param avatar Í·ï¿½ï¿½
      */
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
     /**
-     * »ñÈ¡Æ½Ì¨ÓÃ»§id
+     * ï¿½ï¿½È¡Æ½Ì¨ï¿½Ã»ï¿½id
      *
-     * @return user_id - Æ½Ì¨ÓÃ»§id
+     * @return user_id - Æ½Ì¨ï¿½Ã»ï¿½id
      */
     public Integer getUserId() {
         return userId;
     }
 
     /**
-     * ÉèÖÃÆ½Ì¨ÓÃ»§id
+     * ï¿½ï¿½ï¿½ï¿½Æ½Ì¨ï¿½Ã»ï¿½id
      *
-     * @param userId Æ½Ì¨ÓÃ»§id
+     * @param userId Æ½Ì¨ï¿½Ã»ï¿½id
      */
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
     /**
-     * »ñÈ¡Ñ§ºÅ
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
      *
-     * @return student_no - Ñ§ºÅ
+     * @return student_no - Ñ§ï¿½ï¿½
      */
     public String getStudentNo() {
         return studentNo;
     }
 
     /**
-     * ÉèÖÃÑ§ºÅ
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
      *
-     * @param studentNo Ñ§ºÅ
+     * @param studentNo Ñ§ï¿½ï¿½
      */
     public void setStudentNo(String studentNo) {
         this.studentNo = studentNo;
     }
 
     /**
-     * »ñÈ¡ÐÕÃû
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      *
-     * @return name - ÐÕÃû
+     * @return name - ï¿½ï¿½ï¿½ï¿½
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃÐÕÃû
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param name ÐÕÃû
+     * @param name ï¿½ï¿½ï¿½ï¿½
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * »ñÈ¡ÐÔ±ð:0 Å® 1 ÄÐ
+     * ï¿½ï¿½È¡ï¿½Ô±ï¿½:0 Å® 1 ï¿½ï¿½
      *
-     * @return gender - ÐÔ±ð:0 Å® 1 ÄÐ
+     * @return gender - ï¿½Ô±ï¿½:0 Å® 1 ï¿½ï¿½
      */
     public String getGender() {
         return gender;
     }
 
     /**
-     * ÉèÖÃÐÔ±ð:0 Å® 1 ÄÐ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½:0 Å® 1 ï¿½ï¿½
      *
-     * @param gender ÐÔ±ð:0 Å® 1 ÄÐ
+     * @param gender ï¿½Ô±ï¿½:0 Å® 1 ï¿½ï¿½
      */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
     /**
-     * »ñÈ¡³öÉúÈÕÆÚ
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @return birth - ³öÉúÈÕÆÚ
+     * @return birth - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     public Date getBirth() {
         return birth;
     }
 
     /**
-     * ÉèÖÃ³öÉúÈÕÆÚ
+     * ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param birth ³öÉúÈÕÆÚ
+     * @param birth ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     public void setBirth(Date birth) {
         this.birth = birth;
     }
 
     /**
-     * »ñÈ¡ÕþÖÎÃæÃ²
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
      *
-     * @return political_status - ÕþÖÎÃæÃ²
+     * @return political_status - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
      */
     public String getPoliticalStatus() {
         return politicalStatus;
     }
 
     /**
-     * ÉèÖÃÕþÖÎÃæÃ²
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
      *
-     * @param politicalStatus ÕþÖÎÃæÃ²
+     * @param politicalStatus ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
      */
     public void setPoliticalStatus(String politicalStatus) {
         this.politicalStatus = politicalStatus;
     }
 
     /**
-     * »ñÈ¡Ãñ×å
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      *
-     * @return ethnic_group - Ãñ×å
+     * @return ethnic_group - ï¿½ï¿½ï¿½ï¿½
      */
     public String getEthnicGroup() {
         return ethnicGroup;
     }
 
     /**
-     * ÉèÖÃÃñ×å
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param ethnicGroup Ãñ×å
+     * @param ethnicGroup ï¿½ï¿½ï¿½ï¿½
      */
     public void setEthnicGroup(String ethnicGroup) {
         this.ethnicGroup = ethnicGroup;
     }
 
     /**
-     * »ñÈ¡ÈëÈ¡µØÇø
+     * ï¿½ï¿½È¡ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      *
-     * @return src_region - ÈëÈ¡µØÇø
+     * @return src_region - ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      */
     public String getSrcRegion() {
         return srcRegion;
     }
 
     /**
-     * ÉèÖÃÈëÈ¡µØÇø
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      *
-     * @param srcRegion ÈëÈ¡µØÇø
+     * @param srcRegion ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      */
     public void setSrcRegion(String srcRegion) {
         this.srcRegion = srcRegion;
     }
 
     /**
-     * »ñÈ¡Ñ§Ôº
+     * ï¿½ï¿½È¡Ñ§Ôº
      *
      * @return academe - Ñ§Ôº
      */
@@ -366,7 +370,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * ÉèÖÃÑ§Ôº
+     * ï¿½ï¿½ï¿½ï¿½Ñ§Ôº
      *
      * @param academe Ñ§Ôº
      */
@@ -375,7 +379,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * »ñÈ¡×¨Òµ
+     * ï¿½ï¿½È¡×¨Òµ
      *
      * @return subject - ×¨Òµ
      */
@@ -384,7 +388,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * ÉèÖÃ×¨Òµ
+     * ï¿½ï¿½ï¿½ï¿½×¨Òµ
      *
      * @param subject ×¨Òµ
      */
@@ -407,151 +411,151 @@ public class Student extends Sortable {
     }
 
     /**
-     * »ñÈ¡Ñ§ÖÆ
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
      *
-     * @return shool_len - Ñ§ÖÆ
+     * @return shool_len - Ñ§ï¿½ï¿½
      */
     public String getShoolLen() {
         return shoolLen;
     }
 
     /**
-     * ÉèÖÃÑ§ÖÆ
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
      *
-     * @param shoolLen Ñ§ÖÆ
+     * @param shoolLen Ñ§ï¿½ï¿½
      */
     public void setShoolLen(String shoolLen) {
         this.shoolLen = shoolLen;
     }
 
     /**
-     * »ñÈ¡Ñ§¼®
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
      *
-     * @return school_roll - Ñ§¼®
+     * @return school_roll - Ñ§ï¿½ï¿½
      */
     public String getSchoolRoll() {
         return schoolRoll;
     }
 
     /**
-     * ÉèÖÃÑ§¼®
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
      *
-     * @param schoolRoll Ñ§¼®
+     * @param schoolRoll Ñ§ï¿½ï¿½
      */
     public void setSchoolRoll(String schoolRoll) {
         this.schoolRoll = schoolRoll;
     }
 
     /**
-     * »ñÈ¡Äê¼¶
+     * ï¿½ï¿½È¡ï¿½ê¼¶
      *
-     * @return grade_year - Äê¼¶
+     * @return grade_year - ï¿½ê¼¶
      */
     public String getGradeYear() {
         return gradeYear;
     }
 
     /**
-     * ÉèÖÃÄê¼¶
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ê¼¶
      *
-     * @param gradeYear Äê¼¶
+     * @param gradeYear ï¿½ê¼¶
      */
     public void setGradeYear(String gradeYear) {
         this.gradeYear = gradeYear;
     }
 
     /**
-     * »ñÈ¡×¨Òµ·½Ïò
+     * ï¿½ï¿½È¡×¨Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @return major_direction - ×¨Òµ·½Ïò
+     * @return major_direction - ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     public String getMajorDirection() {
         return majorDirection;
     }
 
     /**
-     * ÉèÖÃ×¨Òµ·½Ïò
+     * ï¿½ï¿½ï¿½ï¿½×¨Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @param majorDirection ×¨Òµ·½Ïò
+     * @param majorDirection ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     public void setMajorDirection(String majorDirection) {
         this.majorDirection = majorDirection;
     }
 
     /**
-     * »ñÈ¡ÈëÑ§ÈÕÆÚ
+     * ï¿½ï¿½È¡ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      *
-     * @return enter_date - ÈëÑ§ÈÕÆÚ
+     * @return enter_date - ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     public String getEnterDate() {
         return enterDate;
     }
 
     /**
-     * ÉèÖÃÈëÑ§ÈÕÆÚ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      *
-     * @param enterDate ÈëÑ§ÈÕÆÚ
+     * @param enterDate ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     public void setEnterDate(String enterDate) {
         this.enterDate = enterDate;
     }
 
     /**
-     * »ñÈ¡ÓÊÏä
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
      *
-     * @return email - ÓÊÏä
+     * @return email - ï¿½ï¿½ï¿½ï¿½
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * ÉèÖÃÓÊÏä
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      *
-     * @param email ÓÊÏä
+     * @param email ï¿½ï¿½ï¿½ï¿½
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * »ñÈ¡±¸×¢
+     * ï¿½ï¿½È¡ï¿½ï¿½×¢
      *
-     * @return comment - ±¸×¢
+     * @return comment - ï¿½ï¿½×¢
      */
     public String getComment() {
         return comment;
     }
 
     /**
-     * ÉèÖÃ±¸×¢
+     * ï¿½ï¿½ï¿½Ã±ï¿½×¢
      *
-     * @param comment ±¸×¢
+     * @param comment ï¿½ï¿½×¢
      */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
     /**
-     * »ñÈ¡Ñ§ÉúÀà±ð£¨Ó¢ÓïA,Ó¢ÓïB£©
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½A,Ó¢ï¿½ï¿½Bï¿½ï¿½
      *
-     * @return english_type - Ñ§ÉúÀà±ð£¨Ó¢ÓïA,Ó¢ÓïB£©
+     * @return english_type - Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½A,Ó¢ï¿½ï¿½Bï¿½ï¿½
      */
     public String getEnglishType() {
         return englishType;
     }
 
     /**
-     * ÉèÖÃÑ§ÉúÀà±ð£¨Ó¢ÓïA,Ó¢ÓïB£©
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½A,Ó¢ï¿½ï¿½Bï¿½ï¿½
      *
-     * @param englishType Ñ§ÉúÀà±ð£¨Ó¢ÓïA,Ó¢ÓïB£©
+     * @param englishType Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½A,Ó¢ï¿½ï¿½Bï¿½ï¿½
      */
     public void setEnglishType(String englishType) {
         this.englishType = englishType;
     }
 
     /**
-     * »ñÈ¡È«Æ´
+     * ï¿½ï¿½È¡È«Æ´
      *
      * @return full_name - È«Æ´
      */
@@ -560,7 +564,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * ÉèÖÃÈ«Æ´
+     * ï¿½ï¿½ï¿½ï¿½È«Æ´
      *
      * @param fullName È«Æ´
      */
@@ -569,133 +573,133 @@ public class Student extends Sortable {
     }
 
     /**
-     * »ñÈ¡×¨Òµ´úÂë
+     * ï¿½ï¿½È¡×¨Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @return major_code - ×¨Òµ´úÂë
+     * @return major_code - ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     public String getMajorCode() {
         return majorCode;
     }
 
     /**
-     * ÉèÖÃ×¨Òµ´úÂë
+     * ï¿½ï¿½ï¿½ï¿½×¨Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @param majorCode ×¨Òµ´úÂë
+     * @param majorCode ×¨Òµï¿½ï¿½ï¿½ï¿½
      */
     public void setMajorCode(String majorCode) {
         this.majorCode = majorCode;
     }
 
     /**
-     * »ñÈ¡²ã´Î£¨±¾¿Æ£¬¸ßÖ°µÈ£©
+     * ï¿½ï¿½È¡ï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ö°ï¿½È£ï¿½
      *
-     * @return gradation - ²ã´Î£¨±¾¿Æ£¬¸ßÖ°µÈ£©
+     * @return gradation - ï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ö°ï¿½È£ï¿½
      */
     public String getGradation() {
         return gradation;
     }
 
     /**
-     * ÉèÖÃ²ã´Î£¨±¾¿Æ£¬¸ßÖ°µÈ£©
+     * ï¿½ï¿½ï¿½Ã²ï¿½Î£ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ö°ï¿½È£ï¿½
      *
-     * @param gradation ²ã´Î£¨±¾¿Æ£¬¸ßÖ°µÈ£©
+     * @param gradation ï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ö°ï¿½È£ï¿½
      */
     public void setGradation(String gradation) {
         this.gradation = gradation;
     }
 
     /**
-     * »ñÈ¡ÊÇ·ñÔÚÐ£
+     * ï¿½ï¿½È¡ï¿½Ç·ï¿½ï¿½ï¿½Ð£
      *
-     * @return inschool - ÊÇ·ñÔÚÐ£
+     * @return inschool - ï¿½Ç·ï¿½ï¿½ï¿½Ð£
      */
     public String getInschool() {
         return inschool;
     }
 
     /**
-     * ÉèÖÃÊÇ·ñÔÚÐ£
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð£
      *
-     * @param inschool ÊÇ·ñÔÚÐ£
+     * @param inschool ï¿½Ç·ï¿½ï¿½ï¿½Ð£
      */
     public void setInschool(String inschool) {
         this.inschool = inschool;
     }
 
     /**
-     * »ñÈ¡ÊÇ·ñ×¢²á
+     * ï¿½ï¿½È¡ï¿½Ç·ï¿½×¢ï¿½ï¿½
      *
-     * @return is_register - ÊÇ·ñ×¢²á
+     * @return is_register - ï¿½Ç·ï¿½×¢ï¿½ï¿½
      */
     public String getIsRegister() {
         return isRegister;
     }
 
     /**
-     * ÉèÖÃÊÇ·ñ×¢²á
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½×¢ï¿½ï¿½
      *
-     * @param isRegister ÊÇ·ñ×¢²á
+     * @param isRegister ï¿½Ç·ï¿½×¢ï¿½ï¿½
      */
     public void setIsRegister(String isRegister) {
         this.isRegister = isRegister;
     }
 
     /**
-     * »ñÈ¡±ÏÒµÈÕÆÚ
+     * ï¿½ï¿½È¡ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @return graduate_date - ±ÏÒµÈÕÆÚ
+     * @return graduate_date - ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
      */
     public String getGraduateDate() {
         return graduateDate;
     }
 
     /**
-     * ÉèÖÃ±ÏÒµÈÕÆÚ
+     * ï¿½ï¿½ï¿½Ã±ï¿½Òµï¿½ï¿½ï¿½ï¿½
      *
-     * @param graduateDate ±ÏÒµÈÕÆÚ
+     * @param graduateDate ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½
      */
     public void setGraduateDate(String graduateDate) {
         this.graduateDate = graduateDate;
     }
 
     /**
-     * »ñÈ¡ÁªÏµµç»°
+     * ï¿½ï¿½È¡ï¿½ï¿½Ïµï¿½ç»°
      *
-     * @return contact_phone - ÁªÏµµç»°
+     * @return contact_phone - ï¿½ï¿½Ïµï¿½ç»°
      */
     public String getContactPhone() {
         return contactPhone;
     }
 
     /**
-     * ÉèÖÃÁªÏµµç»°
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ç»°
      *
-     * @param contactPhone ÁªÏµµç»°
+     * @param contactPhone ï¿½ï¿½Ïµï¿½ç»°
      */
     public void setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
     }
 
     /**
-     * »ñÈ¡ÊÇ·ñ±ÏÒµ
+     * ï¿½ï¿½È¡ï¿½Ç·ï¿½ï¿½Òµ
      *
-     * @return is_graduate - ÊÇ·ñ±ÏÒµ
+     * @return is_graduate - ï¿½Ç·ï¿½ï¿½Òµ
      */
     public String getIsGraduate() {
         return isGraduate;
     }
 
     /**
-     * ÉèÖÃÊÇ·ñ±ÏÒµ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Òµ
      *
-     * @param isGraduate ÊÇ·ñ±ÏÒµ
+     * @param isGraduate ï¿½Ç·ï¿½ï¿½Òµ
      */
     public void setIsGraduate(String isGraduate) {
         this.isGraduate = isGraduate;
     }
 
     /**
-     * »ñÈ¡Ñ§Ôº
+     * ï¿½ï¿½È¡Ñ§Ôº
      *
      * @return college - Ñ§Ôº
      */
@@ -704,7 +708,7 @@ public class Student extends Sortable {
     }
 
     /**
-     * ÉèÖÃÑ§Ôº
+     * ï¿½ï¿½ï¿½ï¿½Ñ§Ôº
      *
      * @param college Ñ§Ôº
      */

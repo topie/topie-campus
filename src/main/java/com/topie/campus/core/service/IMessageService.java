@@ -4,6 +4,9 @@ import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.model.Message;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by chenguojun on 8/28/16.
  */
@@ -14,4 +17,6 @@ public interface IMessageService extends IService<Message> {
     SimplePageInfo<Message> findSendMessageListByPage(Integer fromUserId, int pageNum, int pageSize, int sortType);
 
     int updateMessageUpdateTime(Integer messageId);
+
+    List<Map> findReceiveMessageStat(Integer userId);
 }

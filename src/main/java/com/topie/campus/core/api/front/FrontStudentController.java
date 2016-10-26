@@ -7,10 +7,7 @@ import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Message;
 import com.topie.campus.core.model.Student;
-import com.topie.campus.core.service.IInfoBasicService;
-import com.topie.campus.core.service.IMessageService;
-import com.topie.campus.core.service.IStudentService;
-import com.topie.campus.core.service.ITeacherService;
+import com.topie.campus.core.service.*;
 import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +36,9 @@ public class FrontStudentController {
 
     @Autowired
     private IMessageService iMessageService;
+
+    @Autowired
+    private IUserNotification iUserNotification;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -85,6 +85,7 @@ public class FrontStudentController {
         message.setMessageContent(messageContent);
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
+        iUserNotification.insertOrUpdateToIncrNewMessageCount(toUserId);
         return ResponseUtil.success();
     }
 

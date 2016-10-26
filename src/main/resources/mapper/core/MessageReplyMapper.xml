@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.topie.campus.core.dao.MessageReplyMapper">
-  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.MessageReply">
-    <!--
-      WARNING - @mbggenerated
-    -->
-    <id column="reply_id" jdbcType="INTEGER" property="replyId" />
-    <result column="message_id" jdbcType="INTEGER" property="messageId" />
-    <result column="reply_content" jdbcType="VARCHAR" property="replyContent" />
-    <result column="reply_user_id" jdbcType="INTEGER" property="replyUserId" />
-    <result column="reply_user_name" jdbcType="VARCHAR" property="replyUserName" />
-    <result column="reply_date_time" jdbcType="TIMESTAMP" property="replyDateTime" />
-    <result column="is_read" jdbcType="BIT" property="isRead" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.MessageReply">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="reply_id" jdbcType="INTEGER" property="replyId"/>
+        <result column="message_id" jdbcType="INTEGER" property="messageId"/>
+        <result column="reply_content" jdbcType="VARCHAR" property="replyContent"/>
+        <result column="reply_user_id" jdbcType="INTEGER" property="replyUserId"/>
+        <result column="reply_user_name" jdbcType="VARCHAR" property="replyUserName"/>
+        <result column="reply_date_time" jdbcType="TIMESTAMP" property="replyDateTime"/>
+        <result column="is_read" jdbcType="BIT" property="isRead"/>
+    </resultMap>
     <select id="findMessageReplyByPageNumAndPageSize" resultMap="BaseResultMap">
         select
         *
@@ -36,5 +36,18 @@
                 and message_id=#{reply.messageId}
             </if>
         </where>
+    </select>
+    <select id="findMessageReplyStat" resultType="java.util.Map">
+        select
+        r.reply_user_id user_id,
+        min(r.reply_user_name) user_name,
+        count(distinct r.reply_id) reply_count
+        from
+        topie_campus.t_message_reply r
+        inner join topie_campus.t_message m
+        on r.message_id = m.message_id
+        where m.message_from_user_id=#{userId}
+        and r.reply_user_id!=#{userId}
+        group by r.reply_user_id
     </select>
 </mapper>

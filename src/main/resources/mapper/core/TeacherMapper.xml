@@ -40,11 +40,12 @@
     </resultMap>
     <resultMap id="SimpleDtoResultMap" type="com.topie.campus.core.dto.TeacherSimpleDto">
         <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
         <result column="is_bind" jdbcType="INTEGER" property="isBind"/>
-         <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -167,16 +168,20 @@
         on t.id = st.teacher_id
         where st.type_id=#{typeId}
     </select>
-    
+
     <select id="findTeacherByStudentNo" resultMap="SimpleDtoResultMap">
-        select t.id,t.name,t.employee_no,t.avatar,t.email,type_name from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
-        on t.id = st.teacher_id left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id left join t_teacher_type ttpn on ttpn.type_id = ttp.type_id
+        select
+        t.id,t.user_id,t.name,t.employee_no,t.avatar,t.email,type_name
+        from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
+        on t.id = st.teacher_id
+        left join topie_campus.t_relate_teacher_teacher_type ttp
+        on t.id=ttp.teacher_id left join t_teacher_type ttpn on ttpn.type_id = ttp.type_id
         where st.student_id=#{studentId}
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}
         </if>
     </select>
-    
+
     <select id="findCountTeacherByStudentNo" resultType="java.lang.Long">
         select count(t.id) from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
         on t.id = st.teacher_id left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id left join t_teacher_type ttpn on ttpn.type_id = ttp.type_id
