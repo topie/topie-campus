@@ -87,7 +87,6 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 		// TODO Auto-generated method stub
 		List<UserFaculty> userFaculties =  userFacultyMapper.findByUserId(userId);
 		SimplePageInfo<Student> pageInfo = null;
-		String faculties = "";
 		List<String> majorIds = new ArrayList<>();
 			for(UserFaculty f:userFaculties)
 			{

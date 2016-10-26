@@ -25,7 +25,7 @@ public class LeaderController {
 	public Result page(Integer pageNum,Integer pageSize)
 	{
 		Integer userId = SecurityUtil.getCurrentUserId();
-		SimplePageInfo<Student> students = studentService.findByLeadRole(pageNum,pageSize,userId);
+		SimplePageInfo<Student> students = studentService.findByLeadRole(userId,pageNum,pageSize);
 		return ResponseUtil.success(PageConvertUtil.grid(students));
 	}
 }

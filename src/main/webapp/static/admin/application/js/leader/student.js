@@ -45,8 +45,6 @@
             }],
             actionColumnText: "操作",
             actionColumnWidth: "35%",
-            actionColumns: [
-               ],
             search: {
                 rowEleNum: 2,
                 items: [
