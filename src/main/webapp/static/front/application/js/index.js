@@ -54,7 +54,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: App.href + "/api/frontIndex/profile",
+                url: App.href + "/api/frontIndex/profile?v="+new Date().getTime(),
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {

@@ -136,6 +136,7 @@
                                                 if (result.code === 200) {
                                                     bootbox.alert("留言成功~请到发出的留言查看相关动态！", function () {
                                                         modal.hide();
+                                                        window.location.href = "?u=/api/front/message/send";
                                                     });
                                                 } else {
                                                     alert(result.message);

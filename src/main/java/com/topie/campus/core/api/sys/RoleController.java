@@ -106,14 +106,14 @@ public class RoleController {
 
     @RequestMapping(value = "/options", method = RequestMethod.GET)
     @ResponseBody
-    public Result options() {
+    public Object options() {
         List<Role> list = roleService.findRoleList(null);
         List<Option> options = new ArrayList<>();
         for (Role role : list) {
             Option option = new Option(role.getRoleName(), role.getId());
             options.add(option);
         }
-        return ResponseUtil.success(options);
+        return options;
     }
 
 }

@@ -104,7 +104,7 @@
                 handle: function (index, data) {
                     var requestUrl = App.href + "/api/info/teacherType/delete";
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },

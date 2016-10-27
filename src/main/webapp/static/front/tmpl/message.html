@@ -26,9 +26,7 @@
         <div class="stats" style="margin-bottom: 10px;">
             <a role="message-btn" reply-target="{{$value.messageId}}" href="javascript:void(0);">
                 <i class="fa fa-comments"></i>回复
-                {{if $value.replayCount}}
-                <span id="reply_count_{{$value.messageId}}">{{$value.replayCount}}</span>
-                {{/if}}
+                <span id="reply_count_{{$value.messageId}}"> {{if $value.replayCount}}{{$value.replayCount}}{{/if}}</span>
             </a>
         </div>
     </div>

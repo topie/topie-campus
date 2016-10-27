@@ -141,7 +141,7 @@
                 handle: function (index, data) {
                     var requestUrl = App.href + "/api/info/notice/delete";
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         beforeSend: function (request) {
                             request.setRequestHeader("X-Auth-Token", App.token);
                         },
@@ -161,12 +161,6 @@
                             alert("请求异常。");
                         }
                     });
-                }
-            }, {
-                text: "查看",
-                cls: "btn-primary btn-sm",
-                handle: function (index, data) {
-                    window.open(App.href + "/static/front/notice.html?u=" + data.noticeId);
                 }
             }],
             tools: [

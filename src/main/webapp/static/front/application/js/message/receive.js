@@ -144,7 +144,7 @@
                     dataType: "json",
                     data: {
                         messageId: that.parent().parent().find("#messageId").val(),
-                        replyContent: rep,
+                        replyContent: rep
                     },
                     beforeSend: function (request) {
                         request.setRequestHeader("X-Auth-Token", App.token);
@@ -153,6 +153,11 @@
                         if (result.code === 200) {
                             that.parent().parent().find("#replyContent").val("");
                             var count = parseInt($("#reply_count_" + that.parent().parent().find("#messageId").val()).text());
+                            if ($.trim(count) == "") {
+                                count = 0;
+                            } else {
+                                count = parseInt(count);
+                            }
                             $("#reply_count_" + that.parent().parent().find("#messageId").val()).text(++count);
                             loadReply(that.parent().parent().find("#messageId").val());
                         } else {

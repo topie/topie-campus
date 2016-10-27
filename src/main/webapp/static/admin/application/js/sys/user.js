@@ -269,63 +269,63 @@
                         }
                     });
                 }
-            },{
+            }, {
                 text: "设置院系",
                 cls: "btn-success btn-sm",
                 handle: function (index, data) {
-                	var formOpts = {
-                            id: "college_major",
-                            name: "college_major",
-                            method: "POST",
-                            action: App.href + "/api/info/basic/setFaculty",
-                            ajaxSubmit: true,
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                                
+                    var formOpts = {
+                        id: "college_major",
+                        name: "college_major",
+                        method: "POST",
+                        action: App.href + "/api/info/basic/setFaculty",
+                        ajaxSubmit: true,
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-Auth-Token", App.token);
+
+                        },
+                        ajaxSuccess: function (result) {
+                            bootbox.alert(result.message);
+                            modal.hide();
+                        },
+                        submitText: "保存",
+                        showReset: true,
+                        rowEleNum: 1,
+                        resetText: "重置",
+                        isValidate: true,
+                        buttons: [{
+                            type: 'button',
+                            text: '关闭',
+                            handle: function () {
+                                modal.hide();
+                            }
+                        }],
+                        buttonsAlign: "center",
+                        items: [
+                            {
+                                type: 'tree',
+                                name: 'faculty',
+                                id: 'faculty',
+                                label: '院系',
+                                cls: 'input-large',
+                                url: App.href + "/api/info/basic/collegeTree?topie_token=" + App.token,
+                                autoParam: ["id", "name", "pId"],
+                                expandAll: false,
+                                chkboxType: {"Y": "s", "Y": "s"}
                             },
-                            ajaxSuccess: function (result) {
-                           	 bootbox.alert(result.message);
-                           	modal.hide();
-                            },
-                            submitText: "保存",
-                            showReset: true,
-                            rowEleNum: 1,
-                            resetText: "重置",
-                            isValidate: true,
-                            buttons: [{
-                                type: 'button',
-                                text: '关闭',
-                                handle: function () {
-                                    modal.hide();
-                                }
-                            }],
-                            buttonsAlign: "center",
-                            items: [
-           							{
-           							    type: 'tree',
-           							    name: 'faculty',
-           							    id: 'faculty',
-           							    label: '院系',
-           							    cls: 'input-large',
-           							    url : App.href+"/api/info/basic/collegeTree?topie_token="+App.token,
-           								autoParam : [ "id", "name", "pId" ],
-           								expandAll : false,
-           								chkboxType:{"Y": "s","Y": "s"}
-           							},
-           							{
-           							    type: 'hidden',
-           							    name: 'userId',
-           							    id: 'userId',
-           							}
-                                ]
-                        };
-                	var modal = $.topieModal({
+                            {
+                                type: 'hidden',
+                                name: 'userId',
+                                id: 'userId',
+                            }
+                        ]
+                    };
+                    var modal = $.topieModal({
                         id: "faculty",
                         title: "设置院系",
                         destroy: true
                     });
-                	var form = modal.$body.topieForm(formOpts);
-                	form.loadRemote(App.href+"/api/info/basic/getFacultyByUserId?userId="+data.id);
+                    var form = modal.$body.topieForm(formOpts);
+                    form.loadRemote(App.href + "/api/info/basic/getFacultyByUserId?userId=" + data.id);
                     modal.show();
                 }
             }
@@ -502,7 +502,7 @@
                                 expandAll: true,
                                 autoParam: ["id", "name", "pId"],
                                 chkStyle: "checkbox",
-                                detail: "如何设置角色?<a target='_blank' href='#!/api/sys/role/pageList'>点击设置</a>",
+                                detail: "如何设置角色?<a target='_blank' href='?u=/api/sys/role/pageList'>点击设置</a>",
                                 rule: {
                                     required: true
                                 },

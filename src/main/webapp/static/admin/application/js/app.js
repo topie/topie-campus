@@ -3,6 +3,9 @@
  */
 ;
 (function ($, window, document, undefined) {
+    $.ajaxSetup({
+        cache: false //关闭AJAX缓存
+    });
     window.App = {
         projectName: "/topie-campus",
         href: "../..",
