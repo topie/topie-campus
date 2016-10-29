@@ -12,6 +12,7 @@ import com.topie.campus.security.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class FrontStuCourseController {
         SimplePageInfo<StuSeleCourse> pageInfo = stuSeleCourseService.findByPage(pageNum, pageSize, stuSeleCourse);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-    
+
     @RequestMapping("/examCourse")
     @ResponseBody
     public Result examCourse(StuSeleCourse stuSeleCourse, int pageSize, int pageNum) {
@@ -50,6 +51,14 @@ public class FrontStuCourseController {
     public Result timeTable(StuTimeTable stuTimeTable) {
         String loginName = SecurityUtil.getCurrentUserName();
         stuTimeTable.setStuId(loginName);
+        List<StuTimeTable> list = iStuTimeTableService.find(stuTimeTable);
+        return ResponseUtil.success(list);
+    }
+
+    @RequestMapping("/sTimeTable")
+    @ResponseBody
+    public Result sTimeTable(StuTimeTable stuTimeTable, @RequestParam("studentNo") String studentNo) {
+        stuTimeTable.setStuId(studentNo);
         List<StuTimeTable> list = iStuTimeTableService.find(stuTimeTable);
         return ResponseUtil.success(list);
     }
