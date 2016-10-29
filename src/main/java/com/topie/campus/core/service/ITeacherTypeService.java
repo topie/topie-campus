@@ -24,4 +24,6 @@ public interface ITeacherTypeService extends IService<TeacherType> {
     int insertTeacherAndTeacherTypeRelate(Integer teacherId, Integer typeId);
 
     int deleteTeacherAndTeacherTypeRelate(Integer teacherId);
+
+	List<TreeNode> selectTreeNodesByTeacherId(Integer teacherId);
 }

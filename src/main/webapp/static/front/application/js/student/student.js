@@ -70,7 +70,7 @@
     };
     App.frontStudent.timeTable = function (studentNo) {
         $("#timeTable").empty();
-        $("#timeTable").load("./tmpl/time-table.html?t=" + new Date().getTime(), function () {
+        $("#timeTable").load(App.href+"/static/front/tmpl/time-table.html?t=" + new Date().getTime(), function () {
             var url = App.href + "/api/front/student/sTimeTable";
             var that = $(this);
             that.find("#searchBtn").off("click");

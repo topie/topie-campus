@@ -51,6 +51,15 @@ public class InfoBasicController {
         return collegeTrees;
     }
     
+    
+    
+    @RequestMapping(value = "/teacherSendMsg")
+    @ResponseBody
+    public Result teacherSendMsg(String message,String reciever,String sign) {
+    	iInfoBasicService.teacherSendMsg(message,reciever,sign);
+        return ResponseUtil.success("发送成功！");
+    }
+    
     @RequestMapping(value = "/sendMsg")
     @ResponseBody
     public Result sendMsg(String message,String reciever,String sign) {

@@ -24,4 +24,6 @@ public interface TeacherTypeMapper extends Mapper<TeacherType> {
     int insertTeacherAndTeacherTypeRelate(@Param("teacherId") Integer teacherId, @Param("typeId") Integer typeId);
 
     int deleteTeacherAndTeacherTypeRelate(@Param("teacherId") Integer teacherId);
+
+	List<TreeNode> selectTreeNodesByTeacherId(@Param("teacherId") Integer teacherId);
 }

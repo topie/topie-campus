@@ -7,8 +7,12 @@ import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dao.TeacherMapper;
 import com.topie.campus.core.model.TeacherType;
+import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.core.service.ITeacherTypeService;
+import com.topie.campus.security.utils.SecurityUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,9 @@ public class InfoTeacherTypeController {
 
     @Autowired
     private ITeacherTypeService iTeacherTypeService;
+    
+    @Autowired
+    ITeacherService teacherService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -76,6 +83,15 @@ public class InfoTeacherTypeController {
     @ResponseBody
     public Object treeNodes(TeacherType teacherType) {
         List<TreeNode> treeNodes = iTeacherTypeService.selectTreeNodes(teacherType);
+        return treeNodes;
+    }
+    
+    @RequestMapping(value = "/treeNodesByTeacherId")
+    @ResponseBody
+    public List<TreeNode> collegeTeacherType() {
+    	Integer userId = SecurityUtil.getCurrentUserId();
+    	Integer teacherId = teacherService.findTeacherIdByUserId(userId);
+    	List<TreeNode> treeNodes = iTeacherTypeService.selectTreeNodesByTeacherId(teacherId);
         return treeNodes;
     }
 }

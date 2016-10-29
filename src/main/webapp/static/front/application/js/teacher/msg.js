@@ -1,26 +1,47 @@
 ;
 (function ($, window, document, undefined) {
     var mapping = {
-        "/api/info/sendMsg": "sendMsg"
+        "/api/info/teacherSendMsg": "teacherSendMsg"
     };
     App.requestMapping = $.extend({}, window.App.requestMapping, mapping);
-    App.sendMsg = {
+    App.teacherSendMsg = {
         page: function (title) {
             window.App.content.empty();
             window.App.title(title);
-            var content = $('<div class="panel-body"><div id="sendMsg"></div></div>');
+            var content = $('<div class="panel-body"><div id="teacherSendMsg"></div></div>');
             window.App.content.append(content);
-            App.sendMsg.initEvents();
+            App.teacherSendMsg.initEvents();
         }
     };
     
     
-    App.sendMsg.initEvents = function () {
+    App.teacherSendMsg.initEvents = function () {
+    	
+    	$.ajax({
+    		url:App.href+"/api/info/teacherType/treeNodesByTeacherId?topie_token="+App.token,
+    		success:function(result)
+    		{
+    			var role = "";
+    			for(var i in result)
+    				{
+    				if(i==result.length-1)
+    					{
+    					 role = role + result[i].name;
+    					}
+    				else
+    					{
+    					 role = role + result[i].name+",";
+    					}
+    				}
+    			$("#teacherSendMsg").before("<div style='text-align:center;font-size:24px;margin-bottom:20px;'>您的角色是<font color='red'>"+role+"</font>您可以给您相应角色下的学生发送短息通知。</div>");
+    		}
+    	});
+    	
     	 var formOpts = {
                  id: "student_msg",
                  name: "student_msg",
                  method: "POST",
-                 action: App.href + "/api/info/basic/sendMsg",
+                 action: App.href + "/api/info/basic/teacherSendMsg",
                  ajaxSubmit: true,
                  beforeSend: function (request) {
                      request.setRequestHeader("X-Auth-Token", App.token);
@@ -49,17 +70,31 @@
 							    id: 'reciever',
 							    label: '收件人',
 							    cls: 'input-large',
-							    url : App.href+"/api/info/basic/collegeTree?topie_token="+App.token,
+							    url : App.href+"/api/info/teacherType/treeNodesByTeacherId?topie_token="+App.token,
 								autoParam : [ "id", "name", "pId" ],
 								expandAll : false,
-								chkboxType:{"Y": "s","Y": "s"}
+								chkboxType:{"Y": "s","Y": "s"},
+								rule : {
+									required : true,
+								},
+								message : {
+									required : "请选择导师内容",
+								}
 							},
 							{
 							    type: 'textarea',
 							    name: 'message',
 							    id: 'message',
 							    label: '短信内容',
-							    cls: 'input-large'
+							    cls: 'input-large',
+							    rule : {
+									required : true,
+									maxlength : 64
+								},
+								message : {
+									required : "请输入短信内容",
+									maxlength : "最多输入64字节"
+								}
 							},
 							{
 							    type: 'select',
@@ -72,6 +107,6 @@
                      ]
              };
     	
-    	$("#sendMsg").topieForm(formOpts);
+    	$("#teacherSendMsg").topieForm(formOpts);
     }
 })(jQuery, window, document);

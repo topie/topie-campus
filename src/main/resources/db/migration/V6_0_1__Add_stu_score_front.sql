@@ -42,7 +42,8 @@ INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `
 INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('3', '生化导学系统', '生化导学系统', NULL, '3', NULL);
 INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('4', '2016-2017', '2016-2017', NULL, '1', NULL);
 INSERT INTO `topie_campus`.`t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('5', '2017-2018', '2017-2018', NULL, '1', NULL);
-
+INSERT INTO `t_dict` (`dict_id`, `dict_desc`, `dict_name`, `dict_seq`, `dict_status`, `dict_type`, `dict_code`) VALUES ('4', '毕业年份', '毕业年份', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dict_item` (`item_id`, `item_code`, `item_name`, `item_seq`, `dict_id`, `item_pid`) VALUES ('6', '2017', '2017', NULL, '4', NULL);
 
 -- ----------------------------
 -- Table structure for t_stu_score

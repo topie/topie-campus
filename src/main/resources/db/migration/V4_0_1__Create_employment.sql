@@ -40,3 +40,9 @@ VALUES ('18', '6', '就业管理', '1', '1', '', '/api/job/page', '0', '2016-10-
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('17', '6');
 INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('18', '6');
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES ('6', '6');
+INSERT INTO `sys_role` (`id`, `role_name`, `default_action`, `state`, `insert_time`, `update_time`) VALUES ('7', '领导角色', NULL, NULL, '2016-10-29 20:51:50', '2016-10-29 20:51:50');
+INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('30', '7');
+INSERT INTO `sys_role_function` (`function_id`, `role_id`) VALUES ('17', '7');
+INSERT INTO `sys_user` (`id`, `login_name`, `password`, `display_name`, `enabled`, `account_non_locked`, `account_non_expired`, `credentials_non_expired`, `last_login_ip`, `last_login_time`, `email`, `contact_phone`, `insert_time`, `update_time`, `last_password_reset`) VALUES ('10', 'leader', '$2a$10$6z4vey5rnrsUlW8lacQmduHAPnJ6UZi8uoDCwnwS9qHsxbs/xHT7G', '领导用户', '1', '1', '1', '1', '', NULL, '', '18101126231', '2016-10-29 20:50:33', '2016-10-29 20:50:33', NULL);
+INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES ('10', '7');
+

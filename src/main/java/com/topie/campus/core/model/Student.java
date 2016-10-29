@@ -179,6 +179,8 @@ public class Student extends Sortable {
 
     private String password;
     
+    
+    @Transient
     private String faculty;
 
     /**

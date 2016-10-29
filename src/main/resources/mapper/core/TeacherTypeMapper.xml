@@ -73,6 +73,12 @@
         select type_id from topie_campus.t_relate_teacher_teacher_type where teacher_id=#{teacherId}
     </select>
 
+    <select id="selectTreeNodesByTeacherId" resultMap="TreeNodeMap">
+        select r.type_id id,
+        0 parent_id,
+        type_name name from  t_relate_teacher_teacher_type r left join t_teacher_type ty on r.type_id = ty.type_id where teacher_id=#{teacherId}
+    </select>
+
     <insert id="insertTeacherAndTeacherTypeRelate">
         insert into topie_campus.t_relate_teacher_teacher_type(teacher_id, type_id) VALUES (#{teacherId},#{typeId})
     </insert>

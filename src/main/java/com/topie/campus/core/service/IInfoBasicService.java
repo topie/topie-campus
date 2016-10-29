@@ -79,5 +79,7 @@ public interface IInfoBasicService {
 
 	void insertUserFacultyRation(Integer userId, String facultyId);
 
-	UserFaculty getUserFacultyRation(Integer userId); 
+	UserFaculty getUserFacultyRation(Integer userId);
+
+	void teacherSendMsg(String message, String reciever, String sign); 
 }

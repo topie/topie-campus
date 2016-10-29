@@ -1,5 +1,7 @@
 package com.topie.campus.core.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;

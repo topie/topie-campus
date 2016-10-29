@@ -7,6 +7,8 @@ import com.topie.campus.common.TreeNode;
 import com.topie.campus.core.dao.TeacherTypeMapper;
 import com.topie.campus.core.model.TeacherType;
 import com.topie.campus.core.service.ITeacherTypeService;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,11 @@ public class TeacherTypeServiceImpl extends BaseService<TeacherType> implements 
         return teacherTypeMapper.selectOptions(teacherType);
     }
 
+    @Override
+    public List<TreeNode> selectTreeNodesByTeacherId(Integer teacherId) {
+        return teacherTypeMapper.selectTreeNodesByTeacherId(teacherId);
+    }
+    
     @Override
     public List<TreeNode> selectTreeNodes(TeacherType teacherType) {
         return teacherTypeMapper.selectTreeNodes(teacherType);

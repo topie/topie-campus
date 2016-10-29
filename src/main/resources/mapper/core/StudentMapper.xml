@@ -183,6 +183,9 @@
                 #{item}
             </foreach>
         </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
     </select>
 
     <select id="countByMajor" resultType="java.lang.Long">

@@ -4,6 +4,8 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.CollegeMapper;
 import com.topie.campus.core.dao.FacultyMapper;
 import com.topie.campus.core.dao.MajorMapper;
+import com.topie.campus.core.dao.StudentMapper;
+import com.topie.campus.core.dao.TeacherMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
 import com.topie.campus.core.dao.UserFacultyMapper;
 import com.topie.campus.core.dto.*;
@@ -14,6 +16,7 @@ import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
+import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
@@ -83,6 +86,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     
     @Autowired
     MajorMapper majorMapper;
+    
+    @Autowired
+    StudentMapper studentMapper;
+    
+    @Autowired
+    TeacherMapper teacherMapper;
     
     @Autowired
     UserFacultyMapper userFacultyMapper;
@@ -519,5 +528,35 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 		userFaculty.setFaculty(faculties);
 		userFaculty.setUserId(userId);
 		return userFaculty;
+	}
+
+	@Async
+	@Override
+	public void teacherSendMsg(String message, String reciever, String sign) {
+		// TODO Auto-generated method stub
+		Integer userId = SecurityUtil.getCurrentUserId();
+		Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
+		String typeIdsStr[] = reciever.split(",");
+		List<Integer> typeIds = new ArrayList<Integer>();
+		for(String str : typeIdsStr)
+		{
+			typeIds.add(Integer.valueOf(str));
+		}
+		List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId,typeIds);
+		String phones = "";
+		for(int i=0;i<studentIds.size();i++)
+		{
+			String phone = studentMapper.selectByPrimaryKey(studentIds.get(i)).getContactPhone();
+			if(i<studentIds.size()-1)
+			{
+			if(StringUtils.isNotEmpty(phone))
+			phones = phones + phone+",";
+			}
+			else
+			{
+			phones = phones + phone;
+			}
+		}
+		sendMsgTo(message, sign, phones);
 	}
 }
