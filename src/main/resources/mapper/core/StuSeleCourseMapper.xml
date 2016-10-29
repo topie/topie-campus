@@ -41,15 +41,19 @@
         <include refid="Base_Column_List"/>
         from t_stu_sele_course
         <where>
+          char_length(select_course_num)  &lt; 36
          <if test = "stuSeleCourse !=null">
             <if test="stuSeleCourse.stuId!=null and stuSeleCourse.stuId!=''">
-                stu_id = #{stuSeleCourse.stuId}
+              and stu_id = #{stuSeleCourse.stuId}
             </if>
              <if test="stuSeleCourse.studyYear!=null and stuSeleCourse.studyYear!=''">
                and study_year = #{stuSeleCourse.studyYear}
             </if>
              <if test="stuSeleCourse.studyYearNum!=null and stuSeleCourse.studyYearNum!=''">
                and study_year_num = #{stuSeleCourse.studyYearNum}
+            </if>
+            <if test="stuSeleCourse.examTime=='filter'">
+               and exam_time is not null
             </if>
          </if>
         </where>
@@ -63,9 +67,10 @@
         count(1)
         from t_stu_sele_course
         <where>
+         char_length(select_course_num) &lt; 36
          <if test = "stuSeleCourse!=null">
             <if test="stuSeleCourse.stuId!=null and stuSeleCourse.stuId!=''">
-                stu_id = #{stuSeleCourse.stuId}
+             and stu_id = #{stuSeleCourse.stuId}
             </if>
              <if test="stuSeleCourse.studyYear!=null and stuSeleCourse.studyYear!=''">
                and study_year = #{stuSeleCourse.studyYear}
@@ -73,9 +78,11 @@
              <if test="stuSeleCourse.studyYearNum!=null and stuSeleCourse.studyYearNum!=''">
                and study_year_num = #{stuSeleCourse.studyYearNum}
             </if>
+            <if test="stuSeleCourse.examTime=='filter'">
+               and exam_time is not null
+            </if>
          </if>
         </where>
     </select>
-  
   
 </mapper>

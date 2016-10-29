@@ -11,18 +11,18 @@ public class StaticScoreDto implements Serializable{
 	private static final long serialVersionUID = -2754336242728445015L;
 
 	
-	private String totalCredit;
+	private String avgScore;
 	
 	private String avgCredit;
 	
 	private List<ScoreCourceType> scoreCourseType;
 
-	public String getTotalCredit() {
-		return totalCredit;
+	public String getAvgScore() {
+		return avgScore;
 	}
 
-	public void setTotalCredit(String totalCredit) {
-		this.totalCredit = totalCredit;
+	public void setAvgScore(String avgScore) {
+		this.avgScore = avgScore;
 	}
 
 	public String getAvgCredit() {

@@ -34,9 +34,14 @@ public class StudentScoreServiceImpl extends BaseService<StuScore> implements IS
 	@Override
 	public StaticScoreDto findByStuScoreStatic(String studentId) {
 		// TODO Auto-generated method stub
-		List<StaticScoreDto> StaticScoreDtos =  stuScoreMapper.findByStuScoreStatic(studentId);
+		List<StaticScoreDto> StaticScoreDtos =  stuScoreMapper.findByStuScoreStaticAvgScore(studentId);
+		List<StaticScoreDto> StaticAvgCreditDtos =  stuScoreMapper.findByStuScoreStaticAvgCredit(studentId);
 		List<ScoreCourceType> scoreCourceTypes = stuScoreMapper.findByStuScoreByCourseType(studentId);
 		StaticScoreDtos.get(0).setScoreCourseType(scoreCourceTypes);
+		if(StaticAvgCreditDtos.size()>0)
+		{
+		StaticScoreDtos.get(0).setAvgCredit(StaticAvgCreditDtos.get(0).getAvgCredit());
+		}
 		StaticScoreDto dto = StaticScoreDtos.get(0);
 		return dto;
 	}

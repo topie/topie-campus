@@ -16,7 +16,9 @@ public interface StuScoreMapper extends Mapper<StuScore> {
 	List<StuScore> findByPage(@Param("stuScore") StuScore stuScore, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
 	Long count(@Param("stuScore") StuScore stuScore);
 	
-	 List<StaticScoreDto> findByStuScoreStatic(@Param("studentId") String studentId);
+	 List<StaticScoreDto> findByStuScoreStaticAvgCredit(@Param("studentId") String studentId);
+	 
+	 List<StaticScoreDto> findByStuScoreStaticAvgScore(@Param("studentId") String studentId);
 	    
-	    List<ScoreCourceType> findByStuScoreByCourseType(@Param("studentId") String studentId);
+	 List<ScoreCourceType> findByStuScoreByCourseType(@Param("studentId") String studentId);
 }

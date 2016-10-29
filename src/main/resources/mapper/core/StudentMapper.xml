@@ -131,18 +131,28 @@
             </if>
         </where>
     </select>
+    
     <select id="findStudentIdByUserId" resultType="java.lang.Integer">
         select
         id
         from topie_campus.t_student
         where user_id = #{userId}
     </select>
-    <select id="findStudentNameByUserId" resultType="java.lang.String">
+    
+    <select id="findByStuId" resultMap="BaseResultMap">
+        select
+        t.*,f.xmc as faculty
+        from topie_campus.t_student t left join t_major m on m.zydm=t.major_code left join t_faculty f on f.xdm = m.ssxdm
+        where student_no = #{studentNo}
+    </select>
+    
+     <select id="findStudentNameByUserId" resultType="java.lang.String">
         select
         name
         from topie_campus.t_student
         where user_id = #{userId}
     </select>
+    
     <select id="findStudentByUserId" resultMap="BaseResultMap">
         select
         *

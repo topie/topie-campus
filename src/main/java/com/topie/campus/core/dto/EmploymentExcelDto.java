@@ -12,69 +12,62 @@ public class EmploymentExcelDto implements Serializable{
 	 */
 	private static final long serialVersionUID = 7334040070907041634L;
 
-		@ExcelCell(index = 0)
 		private String faculty;
 		
-		@ExcelCell(index = 1)
 	    private String major;
 
-		@ExcelCell(index = 2)
 		private String classNum;
 		
-	    @ExcelCell(index = 3)
+	    @ExcelCell(index = 0)
 	    private String stuId;
 
-	    @ExcelCell(index = 4)
+	    @ExcelCell(index = 1)
 	    private String name;
 	    
-	    @ExcelCell(index = 5)
 	    private String gender;
 	    
-	    @ExcelCell(index = 6)
+	    @ExcelCell(index = 2)
 	    private String takeTable;
 
-	    @ExcelCell(index = 7)
+	    @ExcelCell(index = 3)
 	    private String employmentStatus;
 	    
-	    @ExcelCell(index = 8)
+	    @ExcelCell(index = 4)
 	    private String signStatus;
 	    
-	    @ExcelCell(index = 9)
+	    @ExcelCell(index = 5)
 	    private String poorStudent;
 	    
 
-	    @ExcelCell(index = 10)
+	    @ExcelCell(index = 6)
 	    private String homeAddress;
 
-	    @ExcelCell(index = 11)
 	    private String phone;
 
 	    /**
 	     * 所在年级
 	     */
-	    @ExcelCell(index = 12)
 	    private String education;
 
-	    @ExcelCell(index = 13)
+	    @ExcelCell(index = 7)
 	    private String tutor;
 	    
-	    @ExcelCell(index = 14)
+	    @ExcelCell(index = 8)
+	    private String teacherNo;
+	    
+	    @ExcelCell(index = 9)
 	    private String comment;
 	    
 	    private String enterDate;
 	    
-	    @ExcelCell(index = 15)
-	    private String teacherNo;
-	    
-	    @ExcelCell(index = 16)
 	    private String college;
 	    
-	    @ExcelCell(index = 17)
+	    @ExcelCell(index = 10)
 	    private String graduateDate;
 	    /**
 	     * 是否毕业班
 	     */
-	    @ExcelCell(index = 18)
+	    @ExcelCell(index = 11)
 	    private String isImport;
 
 	    private String identifyId;

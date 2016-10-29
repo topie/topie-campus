@@ -42,5 +42,7 @@ public interface StudentMapper extends Mapper<Student> {
             @Param("pageSize") Integer pageSize);
 
 	Long countByMajor(@Param("majorIds") List<String> majorIds);
+	
+    Student findByStuId(@Param("studentNo") String studentNo);
     
 }

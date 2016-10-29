@@ -3,13 +3,16 @@ package com.topie.campus.core.service.impl;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.EmploymentMapper;
+import com.topie.campus.core.dao.StudentMapper;
 import com.topie.campus.core.dto.EmploymentExcelDto;
 import com.topie.campus.core.dto.TeacherStudentRelateExcelDto;
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.core.model.StaticEmployment;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.service.IEmploymentService;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 
     @Autowired
     EmploymentMapper employmentMapper;
+    
+    @Autowired
+    StudentMapper studentMapper;
 
     @Override
     public SimplePageInfo<Employment> findByPage(int pageNum, int pageSize, Employment employMent) {
@@ -50,15 +56,22 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
             //TODO 检测教师职工号是否唯一
         	if(StringUtils.isNotEmpty(employmentExcelDto.getIsImport()) && employmentExcelDto.getIsImport().equals("1"))
         	{
-            Employment employMent = employmentExcelDto.buildEmployment(employmentExcelDto);
+        	Student student = studentMapper.findByStuId(employmentExcelDto.getStuId());
+            Employment employment = employmentExcelDto.buildEmployment(employmentExcelDto);
+            employment.setClassNum(student.getGrade());
+            employment.setCollege(student.getCollege());
+            employment.setPhone(student.getContactPhone());
+            employment.setFaculty(student.getFaculty());
+            employment.setGender(student.getGender());
+            employment.setEducation(student.getGradation());
             List<Employment> employMents = new ArrayList<Employment>();
             if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
                 employMents = employmentMapper.findByStuId(employmentExcelDto.getStuId());
             if (employMents.size() > 0) {
-                employMent.setId(employMents.get(0).getId());
-                employmentMapper.updateByPrimaryKey(employMent);
+            	employment.setId(employMents.get(0).getId());
+                employmentMapper.updateByPrimaryKey(employment);
             } else {
-                employmentMapper.insertSelective(employMent);
+                employmentMapper.insertSelective(employment);
             }
         	}
         }

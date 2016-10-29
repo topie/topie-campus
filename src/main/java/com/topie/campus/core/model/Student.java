@@ -178,6 +178,8 @@ public class Student extends Sortable {
     private String college;
 
     private String password;
+    
+    private String faculty;
 
     /**
      * ��ȡID
@@ -729,4 +731,13 @@ public class Student extends Sortable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	public String getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(String faculty) {
+		this.faculty = faculty;
+	}
+    
 }
