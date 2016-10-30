@@ -54,3 +54,6 @@ function getGraduateYear() {
     }
     return graduateDate;
 }
+function isIE() { //ie?
+    return !!(!!window.ActiveXObject || "ActiveXObject" in window);
+}
