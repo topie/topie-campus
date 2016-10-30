@@ -198,6 +198,10 @@ body {
     margin: 0;
 }
 
+.chat li .chat-body .header {
+    margin-top: 11px
+}
+
 .panel .slidedown .glyphicon,
 .chat .glyphicon {
     margin-right: 5px;

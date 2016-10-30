@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-comments fa-fw"></i> 新的留言
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <ul class="chat">
+                    {{each data.message as m _index}}
+                    <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img height="32" width="32"
+                                             src="../vendors/bootstrap-comment/img/default-avatar.jpg" alt="User Avatar"
+                                             class="img-circle">
+                                    </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                来自:<strong class="primary-font">{{m.sendUserName}}</strong>
+                                <small class="pull-right text-muted">
+                                    <span class="label label-danger">{{m.newMessageCount}}</span>
+                                </small>
+                            </div>
+                        </div>
+                    </li>
+                    {{/each}}
+                    {{if data.message.length==0}}
+                    没有新的留言
+                    {{/if}}
+                </ul>
+            </div>
+            <a href="?u=/api/front/message/receive">
+                <div class="panel-footer">
+                    <span class="pull-left">更多查看</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-comments fa-fw"></i> 新的回复
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <ul class="chat">
+                    {{each data.reply as r _index}}
+                    <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img height="32" width="32"
+                                             src="../vendors/bootstrap-comment/img/default-avatar.jpg" alt="User Avatar"
+                                             class="img-circle">
+                                    </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                来自:<strong class="primary-font">{{r.sendUserName}}</strong>
+                                <small class="pull-right text-muted">
+                                    <span class="label label-danger">{{r.newReplyCount}}</span>
+                                </small>
+                            </div>
+                        </div>
+                    </li>
+                    {{/each}}
+                    {{if data.reply.length==0}}
+                    没有新的回复
+                    {{/if}}
+                </ul>
+            </div>
+            <a href="?u=/api/front/message/send">
+                <div class="panel-footer">
+                    <span class="pull-left">更多查看</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                留言分布
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="message_pie"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                回复分布
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="reply_pie"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>

@@ -38,7 +38,7 @@ public class FrontStudentController {
     private IMessageService iMessageService;
 
     @Autowired
-    private IUserNotification iUserNotification;
+    private IUserNotificationService iUserNotificationService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -85,7 +85,7 @@ public class FrontStudentController {
         message.setMessageContent(messageContent);
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
-        iUserNotification.insertOrUpdateToIncrNewMessageCount(toUserId);
+        iUserNotificationService.insertOrUpdateToIncrNewMessageCount(toUserId, userId,teacherName);
         return ResponseUtil.success();
     }
 

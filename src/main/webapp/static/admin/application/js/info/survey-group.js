@@ -19,15 +19,6 @@
             name: 'groupId',
             id: 'groupId'
         }, {
-            type: 'tree',//类型
-            name: 'typeId',
-            id: 'typeId',//id
-            label: '导师类型',//左边label
-            url: App.href + "/api/info/teacherType/treeNodes?topie_token=" + App.token,
-            expandAll: true,
-            autoParam: ["id", "name", "pId"],
-            chkStyle: "radio"
-        }, {
             type: 'text',
             name: 'groupName',
             id: 'groupName',
@@ -75,8 +66,49 @@
             message: {
                 required: "请输入结束时间"
             }
+        }, {
+            type: 'tree',//类型
+            name: 'typeId',
+            id: 'typeId',//id
+            label: '导师类型',//左边label
+            url: App.href + "/api/info/teacherType/treeNodes?topie_token=" + App.token,
+            expandAll: true,
+            autoParam: ["id", "name", "pId"],
+            chkStyle: "radio",
+            rule: {
+                required: true
+            },
+            message: {
+                required: "请选择导师类型"
+            }
+        }, {
+            type: 'select',
+            name: 'perPoint',
+            id: 'perPoint',
+            label: '每题评分题分数',
+            cls: 'input-large',
+            items: [
+                {
+                    text: "2分",
+                    value: 2
+                }, {
+                    text: "5分",
+                    value: 5
+                }, {
+                    text: "10分",
+                    value: 10
+                }
+            ],
+            rule: {
+                required: true
+            }
+            ,
+            message: {
+                required: "请输入每题评分题分数"
+            }
         }
-    ];
+    ]
+    ;
     App.surveyGroup.columns = [
         {
             title: "问卷组名称",
@@ -138,7 +170,7 @@
             checkboxWidth: "3%",
             showIndexNum: true,
             simplePaging: true,
-            indexNumWidth: "5%",
+            indexNumWidth: "3%",
             pageSelect: [2, 15, 30, 50],
             columns: [
                 {
@@ -332,7 +364,7 @@
             pageSelect: [2, 15, 30, 50],
             columns: App.surveyGroup.columns,
             actionColumnText: "操作",
-            actionColumnWidth: "25%",
+            actionColumnWidth: "40%",
             actionColumns: [
                 {
                     text: "查看",
@@ -401,6 +433,7 @@
                         var modal = $.topieModal({
                             id: "surveyGroupForm",
                             title: "编辑问卷组",
+                            height: "550px",
                             destroy: true
                         });
                         modal.show();
@@ -493,6 +526,7 @@
                         var modal = $.topieModal({
                             id: "surveyGroup_modal",
                             title: "添加问卷组",
+                            height: "550px",
                             destroy: true
                         }).show();
                         var formOpts = {

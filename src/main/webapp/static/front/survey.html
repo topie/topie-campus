@@ -42,6 +42,7 @@
             <div class="container">
                 <a href="index.html" class="pdr32"><img src="application/img/hd_logo1.png"></a>
                 <a href="index.html"><img class="sm-pdt10" src="application/img/hd_logo2.png"></a>
+                <a href="index.html"><img class="sm-pdt10" src="application/img/hd_logo3.png"></a>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -206,7 +207,9 @@
                             }
                             var html = template('surveyTmpl', data);
                             $("#page-wrapper").append(html);
-                            $(".starrr").starrr();
+                            $(".starrr").starrr({
+                                numStars: result.data.group.perPoint
+                            });
                             $('.starrr').on('starrr:change', function (e, value) {
                                 $(this).next("span").html(value);
                                 $(this).next().next("input").val(value);

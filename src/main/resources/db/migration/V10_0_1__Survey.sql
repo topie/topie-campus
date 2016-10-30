@@ -8,6 +8,8 @@ CREATE TABLE `t_survey_group` (
   COMMENT '开始时间',
   `end`           TIMESTAMP NULL
   COMMENT '结束时间',
+  `per_point`     SMALLINT(5)        DEFAULT 2
+  COMMENT '每个评分题分数',
   `status`        SMALLINT(5)        DEFAULT 0
   COMMENT '审核状态 0:待审核 1：已发布 2：驳回',
   `online_status` TINYINT(1)         DEFAULT 0

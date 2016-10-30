@@ -21,19 +21,23 @@
             var content = $(
                 '<div class="row">' +
                 '<div class="col-md-6">' +
+                '<div class="row">' +
+                '<div class="col-md-12">' +
                 '<div class="panel panel-info" style="border-radius:0">' +
                 '<div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i>个人中心</div>' +
                 '<div class="panel-body" style="display: none" id="profile"></div>' +
                 '</div>' +
                 '</div>' +
-                '<div class="col-md-6">' +
-                '<div class="row">' +
                 '<div class="col-md-12">' +
                 '<div class="panel panel-info" style="border-radius:0">' +
                 '<div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i>通知公告</div>' +
                 '<div class="panel-body"  id="notice"></div>' +
                 '</div>' +
                 '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<div class="row">' +
                 '<div class="col-md-12">' +
                 '<div class="panel panel-info" style="border-radius:0">' +
                 '<div class="panel-heading"><i class="fa fa-bar-chart-o fa-fw"></i>留言板</div>' +
@@ -54,7 +58,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: App.href + "/api/frontIndex/profile?v="+new Date().getTime(),
+                url: App.href + "/api/frontIndex/profile?v=" + new Date().getTime(),
                 contentType: "application/json",
                 dataType: "json",
                 beforeSend: function (request) {
@@ -92,7 +96,7 @@
                 }
             }
         );
-        $("#message").load("./tmpl/message-top5.html?t=" + new Date().getTime(),
+        $("#message").load("./tmpl/message-center.html?t=" + new Date().getTime(),
             function () {
                 var that = $(this);
                 var source = $(this).html();
@@ -113,10 +117,13 @@
                                     "data": data
                                 });
                                 that.html(html).show();
+                                if (data.messageStat.length == 0) {
+                                    return;
+                                }
                                 var da = [];
                                 $.each(data.messageStat, function (i, d) {
                                     var t = {};
-                                    t.label = d.name+"["+d.message_count+"]";
+                                    t.label = d.name + "[" + d.message_count + "]";
                                     t.data = parseInt(d.message_count);
                                     da.push(t);
                                 });
@@ -142,7 +149,7 @@
                                 var da = [];
                                 $.each(data.replyStat, function (i, d) {
                                     var t = {};
-                                    t.label = d.user_name+"["+d.reply_count+"]";
+                                    t.label = d.user_name + "[" + d.reply_count + "]";
                                     t.data = parseInt(d.reply_count);
                                     da.push(t);
                                 });

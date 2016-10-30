@@ -211,6 +211,7 @@
                                 var q = parseInt($(this).attr("q"));
                                 var start = parseInt(resultArray["'" + t + "#" + q + "'"]);
                                 $(this).starrr({
+                                    numStars: result.data.group.perPoint,
                                     rating: start,
                                     readonly: true
                                 });

@@ -42,6 +42,7 @@
             <div class="container">
                 <a href="index.html" class="pdr32"><img src="application/img/hd_logo1.png"></a>
                 <a href="index.html"><img class="sm-pdt10" src="application/img/hd_logo2.png"></a>
+                <a href="index.html"><img class="sm-pdt10" src="application/img/hd_logo3.png"></a>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -201,7 +202,6 @@
                                     totalArray[d.teacherId] += d.record;
                                 });
                             }
-                            console.info(resultArray);
                             var html = template('surveyTmpl', data);
                             $("#page-wrapper").append(html);
                             $('.starrr').each(function (i, data) {
@@ -209,6 +209,7 @@
                                 var q = parseInt($(this).attr("q"));
                                 var start = parseInt(resultArray["'" + t + "#" + q + "'"]);
                                 $(this).starrr({
+                                    numStars: result.data.group.perPoint,
                                     'rating': start
                                 });
                                 $(this).next("span").html(resultArray["'" + t + "#" + q + "'"]);

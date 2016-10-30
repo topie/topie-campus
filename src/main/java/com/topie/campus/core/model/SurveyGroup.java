@@ -38,6 +38,9 @@ public class SurveyGroup {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date end;
 
+    @Column(name = "per_point")
+    private Integer perPoint;
+
     /**
      * 状态 0:待审核 1：已发布 2：驳回
      */
@@ -48,6 +51,14 @@ public class SurveyGroup {
      */
     @Column(name = "online_status")
     private Integer onlineStatus;
+
+    public Integer getPerPoint() {
+        return perPoint;
+    }
+
+    public void setPerPoint(Integer perPoint) {
+        this.perPoint = perPoint;
+    }
 
     /**
      * @return group_id

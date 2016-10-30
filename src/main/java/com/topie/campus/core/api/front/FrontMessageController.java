@@ -30,7 +30,7 @@ public class FrontMessageController {
     private IMessageReplyService iMessageReplyService;
 
     @Autowired
-    private IUserNotification iUserNotification;
+    private IUserNotificationService iUserNotificationService;
 
     @Autowired
     private ITeacherService iTeacherService;
@@ -53,7 +53,7 @@ public class FrontMessageController {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
         }
-        iUserNotification.updateToClearNewMessageCount(userId);
+        iUserNotificationService.updateToClearNewMessageCount(userId);
         return ResponseUtil.success(pageInfo);
     }
 
@@ -72,7 +72,7 @@ public class FrontMessageController {
             Long count = iMessageReplyService.countMessageReplyByMessageId(message.getMessageId());
             message.setReplayCount(count);
         }
-        iUserNotification.updateToClearNewReplyCount(userId);
+        iUserNotificationService.updateToClearNewReplyCount(userId);
         return ResponseUtil.success(pageInfo);
     }
 
@@ -112,7 +112,7 @@ public class FrontMessageController {
         Message message = iMessageService.selectByKey(messageId);
         Integer receiveUser = message.getMessageFromUserId();
         if (userId.intValue() != receiveUser.intValue()) {
-            iUserNotification.insertOrUpdateToIncrNewReplyCount(receiveUser);
+            iUserNotificationService.insertOrUpdateToIncrNewReplyCount(receiveUser,userId,name);
         }
         return ResponseUtil.success();
     }

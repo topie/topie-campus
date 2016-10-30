@@ -10,6 +10,7 @@
         <result column="type_id" jdbcType="INTEGER" property="typeId"/>
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
         <result column="end" jdbcType="TIMESTAMP" property="end"/>
+        <result column="per_point" jdbcType="INTEGER" property="perPoint"/>
         <result column="status" jdbcType="SMALLINT" property="status"/>
         <result column="online_status" jdbcType="BIT" property="onlineStatus"/>
     </resultMap>

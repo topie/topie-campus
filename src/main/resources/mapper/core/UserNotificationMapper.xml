@@ -6,20 +6,22 @@
           WARNING - @mbggenerated
         -->
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="send_user_id" property="sendUserId" jdbcType="INTEGER"/>
+        <result column="send_user_name" property="sendUserName" jdbcType="VARCHAR"/>
         <result column="new_message_count" property="newMessageCount" jdbcType="INTEGER"/>
         <result column="new_reply_count" property="newReplyCount" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="insertOrUpdateToIncrNewMessageCount">
         insert
         into
-        topie_campus.t_user_notification(user_id, new_message_count) values(#{userId},1)
-        on duplicate key update new_message_count=new_message_count+1
+        topie_campus.t_user_notification(user_id,send_user_id,send_user_name, new_message_count) values(#{userId},#{sendUserId},#{name},1)
+        on duplicate key update send_user_name=values(send_user_name), new_message_count=new_message_count+1
     </insert>
     <insert id="insertOrUpdateToIncrNewReplyCount">
         insert
         into
-        topie_campus.t_user_notification(user_id, new_reply_count) values(#{userId},1)
-        on duplicate key update new_reply_count=new_reply_count+1
+        topie_campus.t_user_notification(user_id,send_user_id,send_user_name, new_reply_count) values(#{userId},#{sendUserId},#{name},1)
+        on duplicate key update send_user_name=values(send_user_name), new_reply_count=new_reply_count+1
     </insert>
     <update id="updateToClearNewMessageCount">
         update topie_campus.t_user_notification set new_message_count=0 where user_id=#{userId}
@@ -27,4 +29,10 @@
     <update id="updateToClearNewReplyCount">
         update topie_campus.t_user_notification set new_reply_count=0 where user_id=#{userId}
     </update>
+    <select id="selectMessageTop5" resultMap="BaseResultMap">
+        select user_id,send_user_id,send_user_name,new_message_count from topie_campus.t_user_notification where new_message_count>0 and user_id=#{userId} order by new_message_count desc limit 5
+    </select>
+    <select id="selectReplyTop5" resultMap="BaseResultMap">
+        select user_id,send_user_id,send_user_name,new_reply_count from topie_campus.t_user_notification where new_reply_count>0 and user_id=#{userId} order by new_reply_count desc limit 5
+    </select>
 </mapper>

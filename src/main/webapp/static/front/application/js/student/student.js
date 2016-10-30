@@ -386,6 +386,7 @@
                                                 };
                                                 scoreGrid = $("#score").topieGrid(scoreOpts);
                                                 that.find("a[role=score]").on("click", function () {
+                                                    initStudyYear();
                                                     scoreGrid.reload();
                                                 });
 
@@ -486,6 +487,7 @@
                                                 };
                                                 cetGrid = $("#cet").topieGrid(cetScoreOpts);
                                                 that.find("a[role=cet]").on("click", function () {
+                                                    initStudyYear();
                                                     cetGrid.reload();
                                                 });
 
@@ -580,6 +582,7 @@
                                                 };
                                                 selectCourseGrid = $("#selectCourse").topieGrid(selectCourseOps);
                                                 that.find("a[role=selectCourse]").on("click", function () {
+                                                    initStudyYear();
                                                     selectCourseGrid.reload();
                                                 });
                                             }

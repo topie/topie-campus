@@ -15,6 +15,13 @@ public class UserNotification {
     private Integer userId;
 
     /**
+     * 来自用户id
+     */
+    @Id
+    @Column(name = "send_user_id")
+    private Integer sendUserId;
+
+    /**
      * 新的留言数
      */
     @Column(name = "new_message_count")
@@ -26,6 +33,9 @@ public class UserNotification {
     @Column(name = "new_reply_count")
     private Integer newReplyCount;
 
+    @Column(name = "send_user_name")
+    private String sendUserName;
+
     public UserNotification() {
     }
 
@@ -33,6 +43,22 @@ public class UserNotification {
         this.userId = userId;
         this.newMessageCount = newMessageCount;
         this.newReplyCount = newReplyCount;
+    }
+
+    public String getSendUserName() {
+        return sendUserName;
+    }
+
+    public void setSendUserName(String sendUserName) {
+        this.sendUserName = sendUserName;
+    }
+
+    public Integer getSendUserId() {
+        return sendUserId;
+    }
+
+    public void setSendUserId(Integer sendUserId) {
+        this.sendUserId = sendUserId;
     }
 
     /**

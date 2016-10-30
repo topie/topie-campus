@@ -52,7 +52,7 @@ public class FrontIndexController {
     private INoticeService iNoticeService;
 
     @Autowired
-    private IUserNotification iUserNotification;
+    private IUserNotificationService iUserNotificationService;
 
     @Autowired
     private IMessageReplyService iMessageReplyService;
@@ -104,9 +104,10 @@ public class FrontIndexController {
             return ResponseUtil.error(401, "未登录");
         }
         Map result = new HashMap<>();
-        UserNotification notification = iUserNotification.selectByKey(userId);
-        if (notification == null) notification = new UserNotification(userId, 0, 0);
-        result.put("notification", notification);
+        List<UserNotification> messageList = iUserNotificationService.selectMessageTop5(userId);
+        result.put("message", messageList);
+        List<UserNotification> replyList = iUserNotificationService.selectReplyTop5(userId);
+        result.put("reply", replyList);
         List<Map> messageStat = iMessageService.findReceiveMessageStat(userId);
         result.put("messageStat", messageStat);
         List<Map> replyStat = iMessageReplyService.findMessageReplyStat(userId);

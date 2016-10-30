@@ -921,6 +921,7 @@
                                 e.stopPropagation();
                             });
                         }
+                        button.css("margin-right","2px");
                         cltd.append(button);
                     });
                 }
