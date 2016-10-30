@@ -167,6 +167,7 @@
         select t.id,t.name,t.employee_no ,t.avatar from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
         on t.id = st.teacher_id
         where st.type_id=#{typeId}
+        group by t.id
     </select>
 
     <select id="findTeacherByStudentNo" resultMap="SimpleDtoResultMap">
