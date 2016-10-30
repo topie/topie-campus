@@ -51,4 +51,11 @@ public class StudentScoreServiceImpl extends BaseService<StuScore> implements IS
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<StuScore> findByStuNoAndCourseNum(String courseNum, String stuId) {
+		// TODO Auto-generated method stub
+		List<StuScore> stuScores = stuScoreMapper.findByStuNoAndCourseNum(courseNum,stuId);
+		return stuScores;
+	}
 }

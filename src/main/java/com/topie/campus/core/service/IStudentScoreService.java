@@ -18,4 +18,6 @@ public interface IStudentScoreService  extends IService<StuScore> {
 	 StaticScoreDto findByStuScoreStatic(String studentId);
 	    
 	 List<ScoreCourceType> findByStuScoreByCourseType( String studentId);
+
+	List<StuScore> findByStuNoAndCourseNum(String courseNum, String stuId);
 }

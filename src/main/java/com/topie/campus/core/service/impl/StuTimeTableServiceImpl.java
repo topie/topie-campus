@@ -5,6 +5,7 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.StuTimeTableMapper;
 import com.topie.campus.core.model.StuTimeTable;
 import com.topie.campus.core.service.IStuTimeTableService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +32,11 @@ public class StuTimeTableServiceImpl extends BaseService<StuTimeTable> implement
         List<StuTimeTable> stuTimeTables = stuTimeTableMapper.find(stuTimeTable);
         return stuTimeTables;
     }
+
+	@Override
+	public List<StuTimeTable> findByStuNoAndCourseNum(String courseNum,
+			String studentId) {
+		List<StuTimeTable> stuTimeTables = stuTimeTableMapper.findByStuNoAndCourseNum(courseNum, studentId);
+        return stuTimeTables;
+	}
 }

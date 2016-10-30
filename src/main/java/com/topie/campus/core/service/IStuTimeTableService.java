@@ -11,4 +11,6 @@ public interface IStuTimeTableService extends IService<StuTimeTable> {
     SimplePageInfo<StuTimeTable> findPage(int pageNum, int pageSize, StuTimeTable stuTimeTable);
 
     List<StuTimeTable> find(StuTimeTable stuTimeTable);
+    
+    List<StuTimeTable> findByStuNoAndCourseNum(String courseNum,String studentId);
 }

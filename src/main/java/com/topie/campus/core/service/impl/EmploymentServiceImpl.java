@@ -58,21 +58,25 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         	{
         	Student student = studentMapper.findByStuId(employmentExcelDto.getStuId());
             Employment employment = employmentExcelDto.buildEmployment(employmentExcelDto);
-            employment.setClassNum(student.getGrade());
-            employment.setCollege(student.getCollege());
-            employment.setPhone(student.getContactPhone());
-            employment.setFaculty(student.getFaculty());
-            employment.setGender(student.getGender());
-            employment.setEducation(student.getGradation());
-            List<Employment> employMents = new ArrayList<Employment>();
-            if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
-                employMents = employmentMapper.findByStuId(employmentExcelDto.getStuId());
-            if (employMents.size() > 0) {
-            	employment.setId(employMents.get(0).getId());
-                employmentMapper.updateByPrimaryKey(employment);
-            } else {
-                employmentMapper.insertSelective(employment);
-            }
+            if(student!=null)
+            {
+	            employment.setClassNum(student.getGrade());
+	            employment.setCollege(student.getCollege());
+	            employment.setPhone(student.getContactPhone());
+	            employment.setFaculty(student.getFaculty());
+	            employment.setGender(student.getGender());
+	            employment.setEducation(student.getGradation());
+	            employment.setMajor(student.getSubject());
+	            List<Employment> employMents = new ArrayList<Employment>();
+	            if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
+	                employMents = employmentMapper.findByStuId(employmentExcelDto.getStuId());
+	            if (employMents.size() > 0) {
+	            	employment.setId(employMents.get(0).getId());
+	                employmentMapper.updateByPrimaryKey(employment);
+	            } else {
+	                employmentMapper.insertSelective(employment);
+	            }
+	        }
         	}
         }
     }

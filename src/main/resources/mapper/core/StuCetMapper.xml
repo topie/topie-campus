@@ -63,4 +63,23 @@
          </if>
         </where>
     </select>
+    
+        <select id="findByStuNoAndStudyYear" resultMap="BaseResultMap">
+        select
+          *
+         from t_stu_cet
+        <where>
+         <if test = "stuCet!=null">
+            <if test="stuCet.stuId!=null and stuCet.stuId!=''">
+                stu_id = #{stuCet.stuId}
+            </if>
+             <if test="stuCet.studyYear!=null and stuCet.studyYear!=''">
+               and study_year = #{stuCet.studyYear}
+            </if>
+             <if test="stuCet.studyYearNum!=null and stuCet.studyYearNum!=''">
+               and study_year_num = #{stuCet.studyYearNum}
+            </if>
+         </if>
+        </where>
+    </select>
 </mapper>
