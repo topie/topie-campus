@@ -152,7 +152,7 @@
                     success: function (result) {
                         if (result.code === 200) {
                             that.parent().parent().find("#replyContent").val("");
-                            var count = parseInt($("#reply_count_" + that.parent().parent().find("#messageId").val()).text());
+                            var count = $("#reply_count_" + that.parent().parent().find("#messageId").val()).text();
                             if ($.trim(count) == "") {
                                 count = 0;
                             } else {
