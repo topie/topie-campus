@@ -94,7 +94,7 @@ public class FrontTeacherController {
         message.setMessageContent(messageContent);
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
-        iUserNotificationService.insertOrUpdateToIncrNewMessageCount(toUserId, userId, teacherName);
+        iUserNotificationService.insertOrUpdateToIncrNewMessageCount(toUserId, userId, studentName);
         return ResponseUtil.success();
     }
 
