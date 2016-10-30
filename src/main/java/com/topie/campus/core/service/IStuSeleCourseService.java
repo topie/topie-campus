@@ -9,6 +9,6 @@ public interface IStuSeleCourseService extends IService<StuSeleCourse>{
 	SimplePageInfo<StuSeleCourse> findByPage(int pageNum, int pageSize,
 			StuSeleCourse stuSeleCourse);
 
-	
+	long countByStuIdAndCourseNumAndStudyYear(StuSeleCourse stuSeleCourse);
 	
 }

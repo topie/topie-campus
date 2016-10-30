@@ -49,7 +49,7 @@
                 + '<span style="cursor: pointer" target="file" role=upload class="input-group-addon">上传</span>'
                 + '</div>'
                 + '<p class="help-block">'
-                + '没有模板? <a href="javascript:void(0);" style="cursor: pointer" role="template">点击下载模板</a>'
+                + '没有模板? <a href="../导入模板.zip" style="cursor: pointer" role="template">点击下载模板</a>'
                 + '</p>'
                 + '</div>'
                 + '</div>'
@@ -95,9 +95,9 @@
                 $("#typeDiv").hide();
             }
         });
-        window.App.content.find("a[role=template]").click(function () {
+        /*window.App.content.find("a[role=template]").click(function () {
             window.App.download(App.href + "/api/info/upload/downloadTemplate");
-        });
+        });*/
         var uploadFile = function (fileId) {
             if ($("#" + fileId).val() == "") {
                 alert("请选择上传的文件");
@@ -129,6 +129,7 @@
                     success: function (json, status) {
                         console.info(json);
                         $.unblockUI();
+                        alert(json.message);
                     },
                     error: function (data, status, e) {
                         alert(e);

@@ -100,6 +100,11 @@
         where t.stu_id = #{studentId} and t.cource_type != '通识教育选修课'
         GROUP BY stu_id;
     </select>
+    
+    <select id="findByStuNoAndCourseNum" resultMap="BaseResultMap">
+        select * from t_stu_score t
+        where t.stu_id = #{studentId} and t.course_num = #{courseNum}
+    </select>
   
    <select id="findByStuScoreByCourseType" resultMap="ScoreCourceType">
        select FORMAT(SUM(credit),2) as totalCredit,t.cource_type as courceType from t_stu_score t where t.stu_id = #{studentId}

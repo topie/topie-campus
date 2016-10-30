@@ -28,4 +28,10 @@ public class StuCetServiceImpl extends BaseService<StuCet> implements IStuCetSer
 		return pageInfo;
 	}
 
+	@Override
+	public List<StuCet> findByStuNoAndStudyYear(StuCet stuCet) {
+		// TODO Auto-generated method stub
+		return stuCetMapper.findByStuNoAndStudyYear(stuCet);
+	}
+
 }

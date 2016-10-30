@@ -80,5 +80,14 @@
             </if>
         </where>
     </select>
+    
+    <select id="findByStuNoAndCourseNum" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_stu_timetable
+        <where>
+          stu_id = #{studentId} and select_course_num = #{courseNum}
+        </where>
+    </select>
 
 </mapper>

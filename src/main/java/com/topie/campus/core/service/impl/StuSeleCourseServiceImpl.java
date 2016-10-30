@@ -29,4 +29,10 @@ public class StuSeleCourseServiceImpl extends BaseService<StuSeleCourse> impleme
 		return pageInfo;
 	}
 
+	@Override
+	public long countByStuIdAndCourseNumAndStudyYear(StuSeleCourse stuSeleCourse) {
+		// TODO Auto-generated method stub
+		return stuSeleCourseMapper.countByStuIdAndCourseNumAndStudyYear(stuSeleCourse);
+	}
+
 }

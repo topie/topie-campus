@@ -21,4 +21,6 @@ public interface StuScoreMapper extends Mapper<StuScore> {
 	 List<StaticScoreDto> findByStuScoreStaticAvgScore(@Param("studentId") String studentId);
 	    
 	 List<ScoreCourceType> findByStuScoreByCourseType(@Param("studentId") String studentId);
+	 
+	  List<StuScore> findByStuNoAndCourseNum(@Param("courseNum") String courseNum, @Param("studentId") String studentId);
 }

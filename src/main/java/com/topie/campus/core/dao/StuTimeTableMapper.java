@@ -14,4 +14,6 @@ public interface StuTimeTableMapper extends Mapper<StuTimeTable> {
     Long count(@Param("stuTimeTable") StuTimeTable stuTimeTable);
 
     List<StuTimeTable> find(@Param("stuTimeTable") StuTimeTable stuTimeTable);
+    
+    List<StuTimeTable> findByStuNoAndCourseNum(@Param("courseNum") String courseNum, @Param("studentId") String studentId);
 }

@@ -14,4 +14,6 @@ public interface StuCetMapper extends Mapper<StuCet> {
 	List<StuCet> findByPage(@Param("stuCet") StuCet stuCet, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
 	
 	Long count(@Param("stuCet") StuCet stuCet);
+	
+	List<StuCet>  findByStuNoAndStudyYear(@Param("stuCet") StuCet stuCet);
 }
