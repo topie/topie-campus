@@ -1,5 +1,9 @@
-body {
-    padding-top: 90px;
+body{
+    font-family:"Microsoft YaHei","微软雅黑";
+    color: #333;
+    min-width: 645px;
+    scrollbar-face-color: #4dd1fc;
+    background: url("../img/login_bg2.png") no-repeat right top, url("../img/login_bg1.png") no-repeat left top;
 }
 .panel-login {
     border-color: #ccc;
