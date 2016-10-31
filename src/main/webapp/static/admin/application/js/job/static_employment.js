@@ -1,5 +1,12 @@
 ;
 (function ($, window, document, undefined) {
+	
+	 if(isIE()){
+	        $.ajaxSetup({
+	            cache: false //关闭AJAX缓存
+	        });
+	    }
+	
     var mapping = {
         "/api/job/staticByCollege": "infoStatic"
     };
@@ -16,7 +23,10 @@
     
     App.infoStatic.gridChange = function(type,value)
     {
-    	console.log(value);
+         if(isIE)
+        	 {
+        	 value = encodeURI(value);
+        	 }
     	if(type==0)
     		{
     		$("#static_grid").html('');
@@ -539,7 +549,7 @@
                   var mychart = echarts.init(document.getElementById('collegeCharts')); 
                   mychart.title = "班级统计图"
                   var option = {
-                		    title:{text:data.major+"统计"},
+                		    title:{text:data.classNum+"统计"},
                 		    color: ['#3398DB','#FF3300'],
                 		    tooltip : {
                 		        trigger: 'axis',
