@@ -47,7 +47,8 @@
                 },
                 {
                     title: "导师类型",
-                    field: "typeName"
+                    field: "typeName",
+                    width: "10%"
                 }
                 /* ,{
                  title: "是否我的教师",

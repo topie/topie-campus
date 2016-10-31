@@ -58,12 +58,12 @@ public class FrontTeacherController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        Integer studentId = iStudentService.findStudentIdByUserId(userId);
-        if (studentId == null) {
+         Student stu = iStudentService.findStudentByUserId(userId);
+        if (stu == null) {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
         SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService
-                .findTeacherByStudentNo(studentId, pageNum, pageSize);
+                .findTeacherByStudentNo(stu.getId(), pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 

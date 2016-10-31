@@ -30,28 +30,39 @@
             indexNumWidth: "5%",
             pageSelect: [2, 15, 30, 50],
             columns: [
-                {
-                    title: "考试时间",
-                    field: "examTime"
-                },
-                {
-                    title: "教室名称",
-                    field: "classroomName"
-                },
-                {
-                    title: "教室编号",
-                    field: "classroomNum"
-                }, {
-                    title: "座位号",
-                    field: "seatNum"
-                },
-                {
-                    title: "备注",
-                    field: "comment"
-                }
+                      {
+                          title: "学年",
+                          field: "studyYear"
+                      },
+                      {
+                          title: "学期",
+                          field: "studyYearNum"
+                      }, {
+                          title: "课程名称",
+                          field: "courseName"
+                      },
+		                {
+		                    title: "考试时间",
+		                    field: "examTime"
+		                },
+		                {
+		                    title: "教室名称",
+		                    field: "classroomName"
+		                },/*
+		                {
+		                    title: "教室编号",
+		                    field: "classroomNum"
+		                },*/ {
+		                    title: "座位号",
+		                    field: "seatNum"
+		                },
+		                {
+		                    title: "备注",
+		                    field: "comment"
+		                }
             ],
             actionColumnText: "操作",//操作列文本
-            actionColumnWidth: "20%",
+            //actionColumnWidth: "20%",
             search: {
                 rowEleNum: 2,
                 //搜索栏元素

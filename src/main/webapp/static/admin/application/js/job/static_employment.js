@@ -20,7 +20,7 @@
             App.infoStatic.initEvents();
         }
     };
-    
+    var grid;
     App.infoStatic.gridChange = function(type,value)
     {
          if(isIE)
@@ -36,7 +36,9 @@
     		{
     		$("#static_grid").html('');
     		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+value;
+    		 console.log(grid);
     		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.facultyOptions);
+    		 console.log(grid);
     		 //grid.reload({url:App.infoStatic.facultyOptions.url +"?&college="+value});
     		}
     	else if(type==2)
@@ -64,7 +66,16 @@
         format: function(i, c) {
         	return '<a href="javascript:void(0)" onclick="javascript:App.infoStatic.gridChange(1,\''+c.college+'\')">'+c.college+'</a>';
         }
-    }, {
+    },{
+        field: 'tableRate',
+        title: '领表率',
+        width: "10%",
+        sort: true,
+        format: function(i, c) {
+        	return (c.tableRate*100).toFixed(2)+"%"
+        }
+    }, 
+    {
         field: 'signRate',
         title: '签约率',
         width: "10%",
@@ -109,7 +120,16 @@
                                   format: function(i, c) {
                                   	return '<a href="javascript:void(0)" onclick="App.infoStatic.gridChange(2,\''+c.faculty+'\')">'+c.faculty+'</a>';
                                   }
-                              }, {
+                              },{
+                                  field: 'tableRate',
+                                  title: '领表率',
+                                  width: "10%",
+                                  sort: true,
+                                  format: function(i, c) {
+                                  	return (c.tableRate*100).toFixed(2)+"%"
+                                  }
+                              },  
+                              {
                                   field: 'signRate',
                                   title: '签约率',
                                   width: "10%",
@@ -154,7 +174,16 @@
                                          format: function(i, c) {
                                          	return '<a href="javascript:void(0)" onclick="App.infoStatic.gridChange(3,\''+c.major+'\')">'+c.major+'</a>';
                                          }
-                                     }, {
+                                     },{
+                                         field: 'tableRate',
+                                         title: '领表率',
+                                         width: "10%",
+                                         sort: true,
+                                         format: function(i, c) {
+                                         	return (c.tableRate*100).toFixed(2)+"%"
+                                         }
+                                     },  
+                                     {
                                          field: 'signRate',
                                          title: '签约率',
                                          width: "10%",
@@ -496,7 +525,17 @@
                           field: 'classNum',
                           title: '班级',
                           width: "25%",
-                      }, {
+                      },
+                      {
+                          field: 'tableRate',
+                          title: '领表率',
+                          width: "10%",
+                          sort: true,
+                          format: function(i, c) {
+                          	return (c.tableRate*100).toFixed(2)+"%"
+                          }
+                      },
+                      {
                           field: 'signRate',
                           title: '签约率',
                           width: "10%",
@@ -667,7 +706,6 @@
         };
     
     App.infoStatic.initEvents = function () {
-    	var grid;
         grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.collegeOptions);
     }
 })(jQuery, window, document);

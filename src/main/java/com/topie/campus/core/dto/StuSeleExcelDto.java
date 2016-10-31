@@ -1,6 +1,9 @@
 package com.topie.campus.core.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+
+import com.github.pagehelper.StringUtil;
 import com.topie.campus.core.model.StuSeleCourse;
 import com.topie.campus.tools.excel.ExcelCell;
 
@@ -31,19 +34,7 @@ public class StuSeleExcelDto {
 	    private String isSelect;
 
 	    @ExcelCell(index=6)
-	    private String selectTimes;
-
-	    private String examTime;
-
-	    private String comment;
-
-	    private String restudyFlag;
-
-	    private String classroomNum;
-
-	    private String classroomName;
-
-	    private String couseStudyTime;
+	    private String selectTime;
 
 	    @ExcelCell(index=7)
 	    private String grade;
@@ -68,6 +59,25 @@ public class StuSeleExcelDto {
 	    
 	    @ExcelCell(index=14)
 	    private String teacherName;
+	    
+	    @ExcelCell(index=15)
+	    private String examTime;
+
+	    private String restudyFlag;
+
+	    @ExcelCell(index=16)
+	    private String classroomName;
+	    
+	    @ExcelCell(index=17)
+	    private String classroomNum;
+	    
+	    @ExcelCell(index=18)
+	    private String seatNum;
+	    
+	    @ExcelCell(index=19)
+	    private String comment;
+
+	    private String couseStudyTime;
 	    
 
 
@@ -194,8 +204,8 @@ public class StuSeleExcelDto {
 	     *
 	     * @return select_times - ѡ������
 	     */
-	    public String getSelectTimes() {
-	        return selectTimes;
+	    public String getSelectTime() {
+	        return selectTime;
 	    }
 
 	    /**
@@ -203,8 +213,8 @@ public class StuSeleExcelDto {
 	     *
 	     * @param selectTimes ѡ������
 	     */
-	    public void setSelectTimes(String selectTimes) {
-	        this.selectTimes = selectTimes;
+	    public void setSelectTime(String selectTime) {
+	        this.selectTime = selectTime;
 	    }
 
 	    /**
@@ -398,12 +408,23 @@ public class StuSeleExcelDto {
 		public void setTeacherName(String teacherName) {
 			this.teacherName = teacherName;
 		}
+		
+		public String getSeatNum() {
+			return seatNum;
+		}
+
+		public void setSeatNum(String seatNum) {
+			this.seatNum = seatNum;
+		}
 
 		public StuSeleCourse buildstuSeleCourse(StuSeleExcelDto dto) {
 			// TODO Auto-generated method stub
 			StuSeleCourse stuSelectCourse = new StuSeleCourse();
 			BeanUtils.copyProperties(dto, stuSelectCourse);
-		    stuSelectCourse.setCourseCredit(Float.valueOf(dto.getCourseCredit()));
+			if(StringUtils.isNotEmpty(dto.getCourseCredit()))
+				{
+				stuSelectCourse.setCourseCredit(Float.valueOf(dto.getCourseCredit()));
+				}
 			return stuSelectCourse;      
 		}
 
