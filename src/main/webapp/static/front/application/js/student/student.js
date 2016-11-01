@@ -70,7 +70,7 @@
     };
     App.frontStudent.timeTable = function (studentNo) {
         $("#timeTable").empty();
-        $("#timeTable").load(App.href+"/static/front/tmpl/time-table.html?t=" + new Date().getTime(), function () {
+        $("#timeTable").load(App.href + "/static/front/tmpl/time-table.html?t=" + new Date().getTime(), function () {
             var url = App.href + "/api/front/student/sTimeTable";
             var that = $(this);
             that.find("#searchBtn").off("click");
@@ -231,6 +231,94 @@
                     }
                 },
                 {
+                    cls: "btn-info btn-sm",
+                    text: "修改联系电话",
+                    handle: function (index, stData) {
+                        var modal = $.topieModal({
+                            id: "mobileModal",
+                            title: "修改联系电话",
+                            destroy: true
+                        });
+                        var formOpts = {
+                            id: "mobile_form",//表单id
+                            name: "mobile_form",//表单名
+                            method: "post",//表单method
+                            action: "",//表单action
+                            ajaxSubmit: false,//是否使用ajax提交表单
+                            rowEleNum: 1,
+                            showSubmit: false,
+                            submitText: "修改",//保存按钮的文本
+                            showReset: false,//是否显示重置按钮
+                            resetText: "重置",//重置按钮文本
+                            isValidate: true,//开启验证
+                            buttonsAlign: "center",
+                            buttons: [
+                                {
+                                    type: 'button',
+                                    cls: 'btn-primary',
+                                    text: '确认修改',
+                                    handle: function () {
+                                        var tel = $("#contactPhone").val();
+                                        var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+                                        if (!reg.test(tel)) {
+                                            alert("手机号格式有误~");
+                                            return;
+                                        }
+                                        $.ajax(
+                                            {
+                                                type: 'POST',
+                                                url: App.href + "/api/front/teacher/updateStp",
+                                                dataType: "json",
+                                                data: {
+                                                    studentId: stData.id,
+                                                    contactPhone: tel
+                                                },
+                                                beforeSend: function (request) {
+                                                    request.setRequestHeader("X-Auth-Token", App.token);
+                                                },
+                                                success: function (result) {
+                                                    if (result.code === 200) {
+                                                        modal.hide();
+                                                        grid.reload();
+                                                    } else {
+                                                        alert(result.message);
+                                                    }
+                                                }
+                                            }
+                                        );
+                                    }
+                                },
+                                {
+                                    type: 'button',
+                                    cls: 'btn-default',
+                                    text: '关闭',
+                                    handle: function () {
+                                        modal.hide();
+                                    }
+                                }
+                            ],
+                            //表单元素
+                            items: [{
+                                type: 'text',//类型
+                                name: 'contactPhone',//name
+                                id: 'contactPhone',//id
+                                label: '联系电话',//左边label
+                                cls: 'input-large',
+                                rule: {
+                                    required: true
+                                },
+                                message: {
+                                    required: "请输入联系电话"
+                                }
+                            }]
+                        };
+                        var f = modal.$body.topieForm(formOpts);
+                        f.setValue("contactPhone", stData.contactPhone);
+                        modal.show();
+
+                    }
+                },
+                {
                     visible: function (index, stData) {
                         return stData.isBind == 1;
                     },
@@ -384,10 +472,24 @@
                                                         ]
                                                     }
                                                 };
-                                                scoreGrid = $("#score").topieGrid(scoreOpts);
+                                                scoreGrid = $("#score_div").topieGrid(scoreOpts);
                                                 that.find("a[role=score]").on("click", function () {
-                                                    initStudyYear();
+                                                    scoreGrid.$searchForm.find("select").val("");
                                                     scoreGrid.reload();
+                                                    $.ajax({
+                                                        url: App.href + "/api/front/student/staticScoreForTeacher?topie_token=" + App.token,
+                                                        data: {
+                                                            studentNo: stData.studentNo
+                                                        },
+                                                        success: function (result) {
+                                                            var data = '<tr><td>平均分</td><td>' + (result.data.avgScore == null ? 0 : result.data.avgScore) + '分</td><td>平均学分绩点</td><td>' + (result.data.avgCredit == null ? 0 : parseFloat(result.data.avgCredit).toFixed(2)) + '</td>';
+                                                            for (var i in result.data.scoreCourseType) {
+                                                                data = data + '<td>' + result.data.scoreCourseType[i].courceType + '</td><td>' + result.data.scoreCourseType[i].totalCredit + '分</td>'
+                                                            }
+                                                            data = data + '</tr>'
+                                                            that.find("#score_static").html(data);
+                                                        }
+                                                    });
                                                 });
 
                                                 var cetGrid;
@@ -446,48 +548,10 @@
                                                         }
                                                     ],
                                                     actionColumnText: "操作",//操作列文本
-                                                    actionColumnWidth: "20%",
-                                                    search: {
-                                                        rowEleNum: 2,
-                                                        //搜索栏元素
-                                                        items: [
-                                                            {
-                                                                type: "select",
-                                                                label: "学年",
-                                                                name: "studyYear",
-                                                                items: [
-                                                                    {
-                                                                        text: "请选择",
-                                                                        value: ""
-                                                                    }
-                                                                ],
-                                                                itemsUrl: App.href + "/api/dict/1?topie_token=" + App.token
-                                                            },
-                                                            {
-                                                                type: "select",
-                                                                label: "学期",
-                                                                name: "studyYearNum",
-                                                                items: [
-                                                                    {
-                                                                        text: "请选择",
-                                                                        value: ""
-                                                                    },
-                                                                    {
-                                                                        text: "1",
-                                                                        value: "1"
-                                                                    },
-                                                                    {
-                                                                        text: "2",
-                                                                        value: "2"
-                                                                    }
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
+                                                    actionColumnWidth: "20%"
                                                 };
                                                 cetGrid = $("#cet").topieGrid(cetScoreOpts);
                                                 that.find("a[role=cet]").on("click", function () {
-                                                    initStudyYear();
                                                     cetGrid.reload();
                                                 });
 

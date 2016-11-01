@@ -51,39 +51,39 @@
                     field: "courceName"
                 }, {
                     title: "课程性质",
-                    field: "courceType",
+                    field: "courceType"
                 },
                 {
                     title: "课程归属",
-                    field: "courceAttr",
+                    field: "courceAttr"
                 },
                 {
                     title: "学分",
-                    field: "credit",
+                    field: "credit"
                 },
                 {
                     title: "绩点",
-                    field: "scorePoint",
+                    field: "scorePoint"
                 },
                 {
                     title: "成绩",
-                    field: "score",
+                    field: "score"
                 },
                 {
                     title: "辅修标记",
-                    field: "minorFlag",
+                    field: "minorFlag"
                 },
                 {
                     title: "补考成绩",
-                    field: "secondScore",
+                    field: "secondScore"
                 },
                 {
                     title: "重修成绩",
-                    field: "restudyScore",
+                    field: "restudyScore"
                 },
                 {
                     title: "重修标记",
-                    field: "minorFlag",
+                    field: "minorFlag"
                 }
                 ],
             actionColumnText: "操作",//操作列文本

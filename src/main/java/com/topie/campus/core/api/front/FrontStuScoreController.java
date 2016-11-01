@@ -12,11 +12,11 @@ import com.topie.campus.core.service.IStuSeleCourseService;
 import com.topie.campus.core.service.IStudentScoreService;
 import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.security.utils.SecurityUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -50,7 +50,7 @@ public class FrontStuScoreController {
         SimplePageInfo<StuScore> pageInfo = studentScoreService.findByPage(pageNum, pageSize, stuScore);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-    
+
     @RequestMapping("/staticScore")
     @ResponseBody
     public Result findStaticScoreByStudentId() {
@@ -80,6 +80,13 @@ public class FrontStuScoreController {
         stuCet.setStuId(studentNo);
         SimplePageInfo<StuCet> pageInfo = stuCetService.findByPage(pageNum, pageSize, stuCet);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+
+    @RequestMapping("/staticScoreForTeacher")
+    @ResponseBody
+    public Result staticScoreForTeacher(@RequestParam("studentNo") String studentNo) {
+        StaticScoreDto dto = studentScoreService.findByStuScoreStatic(studentNo);
+        return ResponseUtil.success(dto);
     }
 
 }

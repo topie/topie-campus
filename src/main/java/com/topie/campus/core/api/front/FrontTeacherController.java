@@ -58,7 +58,7 @@ public class FrontTeacherController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-         Student stu = iStudentService.findStudentByUserId(userId);
+        Student stu = iStudentService.findStudentByUserId(userId);
         if (stu == null) {
             return ResponseUtil.error(401, "当前用户非学生角色");
         }
@@ -149,4 +149,16 @@ public class FrontTeacherController {
         SimplePageInfo<StuSeleCourse> pageInfo = stuSeleCourseService.findByPage(pageNum, pageSize, stuSeleCourse);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
+
+    @RequestMapping("/updateStp")
+    @ResponseBody
+    public Result updateStp(@RequestParam("studentId") Integer studentId,
+            @RequestParam("contactPhone") String contactPhone) {
+        Student student = new Student();
+        student.setContactPhone(contactPhone);
+        student.setId(studentId);
+        iStudentService.updateSelective(student);
+        return ResponseUtil.success();
+    }
+
 }
