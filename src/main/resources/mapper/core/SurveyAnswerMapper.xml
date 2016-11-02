@@ -6,6 +6,7 @@
           WARNING - @mbggenerated
         -->
         <id column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <id column="group_type" property="groupType" jdbcType="INTEGER"/>
         <id column="question_id" property="questionId" jdbcType="INTEGER"/>
         <id column="teacher_id" property="teacherId" jdbcType="INTEGER"/>
         <id column="student_id" property="studentId" jdbcType="INTEGER"/>
@@ -16,9 +17,9 @@
     <insert id="insertOrUpdate">
         insert
         into
-        topie_campus.t_survey_group_question_answer(group_id, question_id, teacher_id, student_id, question_type,record,content)
+        topie_campus.t_survey_group_question_answer(group_id,group_type, question_id, teacher_id, student_id, question_type,record,content)
         VALUES (
-        #{answer.groupId},#{answer.questionId},
+        #{answer.groupId},#{answer.groupType},#{answer.questionId},
         #{answer.teacherId},#{answer.studentId},#{answer.questionType},
         #{answer.record},#{answer.content})
         ON DUPLICATE KEY UPDATE

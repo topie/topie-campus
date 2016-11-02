@@ -4,6 +4,7 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.SurveyAnswer;
 import com.topie.campus.core.model.SurveyGroup;
@@ -23,8 +24,8 @@ import java.util.Map;
  * Created by chenguojun on 2016/10/16.
  */
 @Controller
-@RequestMapping("/api/front/studentSurvey")
-public class FrontStudentSurveyController {
+@RequestMapping("/api/front/teacherSurvey")
+public class FrontTeacherSurveyController {
 
     @Autowired
     private ISurveyGroupService iSurveyGroupService;
@@ -50,16 +51,15 @@ public class FrontStudentSurveyController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        Integer studentId = iStudentService.findStudentIdByUserId(userId);
-        if (studentId == null) {
-            return ResponseUtil.error(401, "当前用户非学生角色");
+        Integer teacherId = iTeacherService.findTeacherIdByUserId(userId);
+        if (teacherId == null) {
+            return ResponseUtil.error(401, "当前用户非导师角色");
         }
         surveyGroup.setStatus(1);
         SimplePageInfo<SurveyGroup> pageInfo = iSurveyGroupService
-                .selectByPageByStudentId(surveyGroup, studentId, pageNum, pageSize);
+                .selectByPageByTeacherId(surveyGroup, teacherId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
@@ -68,9 +68,9 @@ public class FrontStudentSurveyController {
         if (userId == null) {
             return ResponseUtil.error(401, "未登录");
         }
-        Integer studentId = iStudentService.findStudentIdByUserId(userId);
-        if (studentId == null) {
-            return ResponseUtil.error(401, "当前用户非学生角色");
+        Integer teacherId = iTeacherService.findTeacherIdByUserId(userId);
+        if (teacherId == null) {
+            return ResponseUtil.error(401, "当前用户非导师角色");
         }
         SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
         if (surveyGroup == null) {
@@ -82,11 +82,11 @@ public class FrontStudentSurveyController {
         if (surveyGroup.getOnlineStatus() == 2) {
             return ResponseUtil.error(500, "问卷调查已结束");
         }
-        Boolean isComplete = iSurveyGroupService.selectCompleteByStudentId(groupId, studentId);
+        Boolean isComplete = iSurveyGroupService.selectCompleteByTeacherId(groupId, teacherId);
         if (isComplete == null) {
             return ResponseUtil.error(500, "没有权限参与该问卷");
         }
-        iSurveyAnswerService.insertStudentAnswerList(answerList, groupId, studentId);
+        iSurveyAnswerService.insertTeacherAnswerList(answerList, groupId, teacherId);
         return ResponseUtil.success();
     }
 }

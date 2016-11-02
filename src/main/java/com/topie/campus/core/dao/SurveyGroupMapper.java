@@ -1,7 +1,8 @@
 package com.topie.campus.core.dao;
 
 import com.topie.campus.core.dto.SurveyAnswerExcelDto;
-import com.topie.campus.core.model.GroupStat;
+import com.topie.campus.core.model.GroupStudentStat;
+import com.topie.campus.core.model.GroupTeacherStat;
 import com.topie.campus.core.model.SurveyGroup;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
@@ -40,15 +41,37 @@ public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
 
     int updateGroupStudentComplete(@Param("groupId") Integer groupId, @Param("studentId") Integer studentId);
 
-    Boolean selectComplete(@Param("groupId") Integer groupId, @Param("studentId") Integer studentId);
+    Boolean selectCompleteByStudentId(@Param("groupId") Integer groupId, @Param("studentId") Integer studentId);
 
-    List<GroupStat> selectStatByGroupId(@Param("groupId") Integer groupId);
+    List<GroupTeacherStat> selectTeacherStatByGroupId(@Param("groupId") Integer groupId);
 
     List<SurveyGroup> selectByCurrentForStartTask(@Param("current") String current);
 
     List<SurveyGroup> selectByCurrentForEndTask(@Param("current") String current);
 
-    List<SurveyAnswerExcelDto> selectSurveyComment(@Param("groupId") Integer groupId);
+    List<SurveyAnswerExcelDto> selectSurveyComment(@Param("groupId") Integer groupId,
+            @Param("groupType") Integer groupType);
 
     List<Map> selectStudentProcessByGroupId(@Param("groupId") Integer groupId);
+
+    int insertGroupTeacherRelate(@Param("groupId") Integer groupId, @Param("teacherId") Integer teacherId,
+            @Param("isComplete") Boolean isComplete);
+
+    List<SurveyGroup> selectByPageByTeacherId(@Param("surveyGroup") SurveyGroup surveyGroup,
+            @Param("teacherId") Integer teacherId, @Param("pageOffset") Integer pageOffset,
+            @Param("pageSize") Integer pageSize);
+
+    Long countByTeacherId(@Param("surveyGroup") SurveyGroup surveyGroup, @Param("teacherId") Integer teacherId);
+
+    int updateGroupTeacherComplete(@Param("groupId") Integer groupId, @Param("teacherId") Integer teacherId);
+
+    Boolean selectCompleteByTeacherId(@Param("groupId") Integer groupId, @Param("teacherId") Integer teacherId);
+
+    List<GroupStudentStat> selectStudentStatByGroupId(@Param("groupId") Integer groupId);
+
+    List<Map> selectTeacherProcessByGroupId(@Param("groupId") Integer groupId);
+
+    int deleteGroupStudentRelate(@Param("groupId") Integer groupId);
+
+    int deleteGroupTeacherRelate(@Param("groupId") Integer groupId);
 }

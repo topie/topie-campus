@@ -19,15 +19,18 @@
     <select id="selectStudentIdsAndTypeId" resultType="java.lang.Integer">
         select distinct student_id from topie_campus.t_relate_student_teacher where type_id=#{typeId}
     </select>
-    
+
     <select id="selectStudentByTeacherIdAndTypeId" resultType="java.lang.Integer">
         select distinct student_id from topie_campus.t_relate_student_teacher where teacher_id = #{teacherId}
         <if test="typeIds!=null">
-        and 
-        <foreach item="item" index="index" collection="typeIds" open="(" separator="or" close=")">
-              type_id= #{item}
-         </foreach>        
+            and
+            <foreach item="item" index="index" collection="typeIds" open="(" separator="or" close=")">
+                type_id= #{item}
+            </foreach>
         </if>
     </select>
-    
+    <select id="selectTeacherIdByTypeId" resultType="java.lang.Integer">
+        select distinct teacher_id from topie_campus.t_relate_student_teacher where type_id=#{typeId}
+    </select>
+
 </mapper>

@@ -20,6 +20,9 @@ public class SurveyGroup {
     @Column(name = "group_name")
     private String groupName;
 
+    @Column(name = "group_type")
+    private Integer groupType;
+
     /**
      * 老师类型id
      */
@@ -51,6 +54,14 @@ public class SurveyGroup {
      */
     @Column(name = "online_status")
     private Integer onlineStatus;
+
+    public Integer getGroupType() {
+        return groupType;
+    }
+
+    public void setGroupType(Integer groupType) {
+        this.groupType = groupType;
+    }
 
     public Integer getPerPoint() {
         return perPoint;

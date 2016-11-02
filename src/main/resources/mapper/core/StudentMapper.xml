@@ -197,5 +197,16 @@
             </foreach>
         </where>
     </select>
+    <select id="findStudentByTypeId" resultType="com.topie.campus.core.dto.StudentSimpleDto">
+        select s.id,s.name,s.student_no ,s.avatar from topie_campus.t_student s left join topie_campus.t_relate_student_teacher st
+        on s.id = st.student_id
+        where st.type_id=#{typeId}
+        group by s.id
+    </select>
+    <select id="findStudentByTeacherIdAndTypeId" resultType="com.topie.campus.core.dto.StudentSimpleDto">
+        select s.id,s.name,s.student_no studentNo,s.avatar from topie_campus.t_student s left join topie_campus.t_relate_student_teacher st
+        on s.id = st.student_id
+        where st.teacher_id=#{teacherId} and st.type_id=#{typeId}
+    </select>
 
 </mapper>

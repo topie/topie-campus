@@ -23,6 +23,16 @@ public class StudentSimpleDto implements Serializable {
 
     private Integer isBind;
 
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public Integer getUserId() {
         return userId;
     }

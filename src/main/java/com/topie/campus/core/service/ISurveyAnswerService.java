@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface ISurveyAnswerService extends IService<SurveyAnswer> {
 
-    void insertAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer studentId);
+    void insertStudentAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer studentId);
 
+    void insertTeacherAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer teacherId);
 }

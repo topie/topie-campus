@@ -7,6 +7,7 @@
         -->
         <id column="group_id" jdbcType="INTEGER" property="groupId"/>
         <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="group_type" jdbcType="INTEGER" property="groupType"/>
         <result column="type_id" jdbcType="INTEGER" property="typeId"/>
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
         <result column="end" jdbcType="TIMESTAMP" property="end"/>
@@ -24,6 +25,11 @@
         topie_campus.t_survey_group_student(group_id, student_id, is_complete)
         VALUES (#{groupId},#{studentId},#{isComplete})
     </insert>
+    <insert id="insertGroupTeacherRelate">
+        insert ignore into
+        topie_campus.t_survey_group_teacher(group_id, teacher_id, is_complete)
+        VALUES (#{groupId},#{teacherId},#{isComplete})
+    </insert>
     <update id="updateGroupQuestionSort">
         update topie_campus.t_survey_group_question set sort=#{sort} where group_id=#{groupId} and question_id=#{questionId}
     </update>
@@ -33,8 +39,17 @@
     <update id="updateGroupStudentComplete">
         update topie_campus.t_survey_group_student set is_complete=1 where group_id=#{groupId} and student_id = #{studentId}
     </update>
+    <update id="updateGroupTeacherComplete">
+        update topie_campus.t_survey_group_teacher set is_complete=1 where group_id=#{groupId} and teacher_id = #{teacherId}
+    </update>
     <delete id="deleteGroupQuestionRelate">
         delete from topie_campus.t_survey_group_question where group_id=#{groupId} and question_id=#{questionId}
+    </delete>
+    <delete id="deleteGroupStudentRelate">
+        delete from topie_campus.t_survey_group_student where group_id=#{groupId}
+    </delete>
+    <delete id="deleteGroupTeacherRelate">
+        delete from topie_campus.t_survey_group_teacher where group_id=#{groupId}
     </delete>
     <select id="selectByPage" resultMap="BaseResultMap">
         select * from topie_campus.t_survey_group
@@ -75,7 +90,7 @@
         left join topie_campus.t_survey_group_student sgs
         on sg.group_id = sgs.group_id
         <where>
-            sgs.student_id=#{studentId}
+            sg.group_type=1 and sgs.student_id=#{studentId}
             <if test="surveyGroup.groupName!=null and surveyGroup.groupName!=''">
                 and sg.group_name like concat('%',concat(#{surveyGroup.groupName},'%'))
             </if>
@@ -95,7 +110,7 @@
         left join topie_campus.t_survey_group_student sgs
         on sg.group_id = sgs.group_id
         <where>
-            sgs.student_id=#{studentId}
+            sg.group_type=1 and sgs.student_id=#{studentId}
             <if test="surveyGroup.groupName!=null and surveyGroup.groupName!=''">
                 and sg.group_name like concat('%',concat(#{surveyGroup.groupName},'%'))
             </if>
@@ -111,16 +126,19 @@
         select type_id from topie_campus.t_survey_group where group_id=#{groupId}
     </select>
 
-    <select id="selectComplete" resultType="java.lang.Boolean">
+    <select id="selectCompleteByStudentId" resultType="java.lang.Boolean">
        select is_complete from topie_campus.t_survey_group_student where group_id=#{groupId} and student_id = #{studentId}
     </select>
-    <select id="selectStatByGroupId" resultType="com.topie.campus.core.model.GroupStat">
+    <select id="selectTeacherStatByGroupId" resultType="com.topie.campus.core.model.GroupTeacherStat">
         select
         teacher_id teacherId,
         question_id questionId,
         avg(record) record
         from t_survey_group_question_answer
-        where group_id=#{groupId} and question_type=1
+        where
+        group_id=#{groupId}
+        and question_type=1
+        and group_type=1
         group by teacher_id,question_id;
     </select>
     <select id="selectByCurrentForStartTask" resultMap="BaseResultMap">
@@ -155,11 +173,70 @@
         on a.student_id = s.id
         where group_id=#{groupId}
         and question_type=2
+        and group_type = #{groupType}
     </select>
     <select id="selectStudentProcessByGroupId" resultType="java.util.Map">
         select
         student_id studentId,s.name studentName,is_complete isComplete
         from topie_campus.t_survey_group_student gs left join topie_campus.t_student s on gs.student_id=s.id
         where group_id=#{groupId}
+    </select>
+    <select id="selectByPageByTeacherId" resultMap="BaseResultMap">
+        select sg.* from topie_campus.t_survey_group sg
+        left join topie_campus.t_survey_group_teacher sgs
+        on sg.group_id = sgs.group_id
+        <where>
+            sg.group_type=2 and sgs.teacher_id=#{teacherId}
+            <if test="surveyGroup.groupName!=null and surveyGroup.groupName!=''">
+                and sg.group_name like concat('%',concat(#{surveyGroup.groupName},'%'))
+            </if>
+            <if test="surveyGroup.status!=null">
+                and sg.status = #{surveyGroup.status}
+            </if>
+            <if test="surveyGroup.onlineStatus!=null">
+                and sg.online_status = #{surveyGroup.onlineStatus}
+            </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countByTeacherId" resultType="java.lang.Long">
+        select count(1) from topie_campus.t_survey_group sg
+        left join topie_campus.t_survey_group_teacher sgs
+        on sg.group_id = sgs.group_id
+        <where>
+            sg.group_type=2 and sgs.teacher_id=#{teacherId}
+            <if test="surveyGroup.groupName!=null and surveyGroup.groupName!=''">
+                and sg.group_name like concat('%',concat(#{surveyGroup.groupName},'%'))
+            </if>
+            <if test="surveyGroup.status!=null">
+                and sg.status = #{surveyGroup.status}
+            </if>
+            <if test="surveyGroup.onlineStatus!=null">
+                and sg.online_status = #{surveyGroup.onlineStatus}
+            </if>
+        </where>
+    </select>
+    <select id="selectCompleteByTeacherId" resultType="java.lang.Boolean">
+        select is_complete from topie_campus.t_survey_group_teacher where group_id=#{groupId} and teacher_id = #{teacherId}
+    </select>
+    <select id="selectStudentStatByGroupId" resultType="com.topie.campus.core.model.GroupStudentStat">
+        select
+        student_id studentId,
+        question_id questionId,
+        avg(record) record
+        from t_survey_group_question_answer
+        where
+        group_id=#{groupId}
+        and question_type=1
+        and group_type=2
+        group by student_id,question_id;
+    </select>
+    <select id="selectTeacherProcessByGroupId" resultType="java.util.Map">
+        select
+        gt.teacher_id teacherId,t.name teacherName,gt.is_complete isComplete
+        from topie_campus.t_survey_group_teacher gt left join topie_campus.t_teacher t on gt.teacher_id=t.id
+        where gt.group_id=#{groupId}
     </select>
 </mapper>
