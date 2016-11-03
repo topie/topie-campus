@@ -197,10 +197,26 @@
                                                     ]
                                                 }
                                             };
-                                            scoreGrid = $("#score").topieGrid(scoreOpts);
+                                            scoreGrid = $("#score_div").topieGrid(scoreOpts);
                                             that.find("a[role=score]").on("click", function () {
+                                                scoreGrid.$searchForm.find("select").val("");
                                                 scoreGrid.reload();
+                                                $.ajax({
+                                                    url: App.href + "/api/front/student/staticScoreForTeacher?topie_token=" + App.token,
+                                                    data: {
+                                                        studentNo: stData.studentNo
+                                                    },
+                                                    success: function (result) {
+                                                        var data = '<tr><td>平均分</td><td>' + (result.data.avgScore == null ? 0 : result.data.avgScore) + '分</td><td>平均学分绩点</td><td>' + (result.data.avgCredit == null ? 0 : parseFloat(result.data.avgCredit).toFixed(2)) + '</td>';
+                                                        for (var i in result.data.scoreCourseType) {
+                                                            data = data + '<td>' + result.data.scoreCourseType[i].courceType + '</td><td>' + result.data.scoreCourseType[i].totalCredit + '分</td>'
+                                                        }
+                                                        data = data + '</tr>'
+                                                        that.find("#score_static").html(data);
+                                                    }
+                                                });
                                             });
+
 
                                             var cetGrid;
                                             var cetScoreOpts = {
@@ -258,8 +274,8 @@
                                                     }
                                                 ],
                                                 actionColumnText: "操作",//操作列文本
-                                                actionColumnWidth: "20%",
-                                                search: {
+                                                actionColumnWidth: "20%"
+                                                /*search: {
                                                     rowEleNum: 2,
                                                     //搜索栏元素
                                                     items: [
@@ -295,7 +311,7 @@
                                                             ]
                                                         }
                                                     ]
-                                                }
+                                                }*/
                                             };
                                             cetGrid = $("#cet").topieGrid(cetScoreOpts);
                                             that.find("a[role=cet]").on("click", function () {

@@ -43,6 +43,6 @@ public interface StudentMapper extends Mapper<Student> {
 
 	Long countByMajor(@Param("majorIds") List<String> majorIds);
 	
-    Student findByStuId(@Param("studentNo") String studentNo);
+    Student findByStuId(@Param("studentId") Integer studentId);
     
 }

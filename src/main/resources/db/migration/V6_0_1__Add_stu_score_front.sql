@@ -59,7 +59,7 @@ CREATE TABLE `t_stu_score` (
   `cource_name` varchar(100) DEFAULT NULL COMMENT '课程名称',
   `credit` varchar(20) DEFAULT NULL COMMENT '学分',
   `score` varchar(20) DEFAULT NULL COMMENT '分数',
-  `score_point` double(20,0) DEFAULT NULL COMMENT '绩点',
+  `score_point` double(20,1) DEFAULT NULL COMMENT '绩点',
   `comment` varchar(255) DEFAULT NULL COMMENT '备注',
   `re_study_flag` varchar(255) DEFAULT NULL COMMENT '\r\n重修标记（0或空，\r\nnull为不重修）为首次修读。1为跟班重修3自学重修',
   `common_score` varchar(20) DEFAULT NULL COMMENT '平时成绩',
@@ -72,5 +72,5 @@ CREATE TABLE `t_stu_score` (
   `cource_attr` varchar(255) DEFAULT NULL COMMENT '课程归属',
   `invalid` varchar(255) DEFAULT NULL COMMENT '是否作废',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2545 DEFAULT CHARSET=utf8;
 

@@ -602,6 +602,13 @@
                                                         {
                                                             title: "任课老师",
                                                             field: "teacherName"
+                                                        },{
+                                                            title: "重修标记",
+                                                            field: "restudyFlag"
+                                                        },
+                                                        {
+                                                            title: "辅修标记",
+                                                            field: "isMinor"
                                                         }
                                                     ],
                                                     actionColumnText: "操作",//操作列文本

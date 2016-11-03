@@ -50,6 +50,15 @@ public class JobController {
         return ResponseUtil.success(html);
     }
 
+    @RequestMapping(value = "/staticByTutor", method = RequestMethod.GET)
+    @ResponseBody
+    public Result staticByTutor(Employment employment,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<Employment> pageInfo = employmentService.findByPage(pageNum, pageSize, employment);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
     @RequestMapping(value = "/load/{employId}", method = RequestMethod.GET)
     @ResponseBody
     public Result load(@PathVariable("employId") Integer id) {

@@ -6,6 +6,8 @@ import com.topie.campus.core.model.Student;
 import com.topie.campus.tools.excel.ExcelCell;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -41,7 +43,7 @@ public class StudentExcelDto implements Serializable {
      * 锟斤拷锟斤拷锟斤拷锟斤拷
      */
     @ExcelCell(index=3)
-    private Date birth;
+    private String birth;
 
     /**
      * 锟斤拷锟斤拷锟斤拷貌
@@ -236,25 +238,15 @@ public class StudentExcelDto implements Serializable {
         this.gender = gender;
     }
 
-    /**
-     * 锟斤拷取锟斤拷锟斤拷锟斤拷锟斤拷
-     *
-     * @return birth - 锟斤拷锟斤拷锟斤拷锟斤拷
-     */
-    public Date getBirth() {
-        return birth;
-    }
+    public String getBirth() {
+		return birth;
+	}
 
-    /**
-     * 锟斤拷锟矫筹拷锟斤拷锟斤拷锟斤拷
-     *
-     * @param birth 锟斤拷锟斤拷锟斤拷锟斤拷
-     */
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 
-    /**
+	/**
      * 锟斤拷取锟斤拷锟斤拷锟斤拷貌
      *
      * @return political_status - 锟斤拷锟斤拷锟斤拷貌
@@ -676,6 +668,15 @@ public class StudentExcelDto implements Serializable {
 		// TODO Auto-generated method stub
 		Student stu = new Student();
 		BeanUtils.copyProperties(this, stu);
+		SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = formate.parse(this.getBirth());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		stu.setBirth(date);
 		return stu;
 	}
     

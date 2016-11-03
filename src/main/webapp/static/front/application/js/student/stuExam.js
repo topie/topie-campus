@@ -104,6 +104,6 @@
             }
         };
         grid = window.App.content.find("#score_grid").topieGrid(scoreOpts);
-        grid.reload(scoreOpts.url +'?'+getStudyYear());
+        //grid.reload(scoreOpts.url +'?'+getStudyYear());
     }
 })(jQuery, window, document);

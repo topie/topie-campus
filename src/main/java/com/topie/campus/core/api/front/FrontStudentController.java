@@ -61,7 +61,7 @@ public class FrontStudentController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @ResponseBody
     public Result profile(@RequestParam("studentId") Integer studentId) {
-        Student student = iStudentService.selectByKey(studentId);
+        Student student = iStudentService.findByStudentId(studentId);
         return ResponseUtil.success(student);
     }
 

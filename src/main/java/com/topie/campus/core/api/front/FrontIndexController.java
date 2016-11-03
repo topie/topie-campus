@@ -4,6 +4,7 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.common.TreeNode;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.enums.EthnicGroup;
 import com.topie.campus.core.model.Notice;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.Teacher;
@@ -15,6 +16,7 @@ import com.topie.campus.security.exception.AuthBusinessException;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.tools.redis.RedisCache;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -89,6 +91,7 @@ public class FrontIndexController {
             result.put("data", teacher);
         } else if (roles.contains(SecurityConstant.ROLE_STUDENT)) {
             Student student = iStudentService.findStudentByUserId(userId);
+            student = iStudentService.findByStudentId(student.getId());
             role = SecurityConstant.ROLE_STUDENT;
             result.put("data", student);
         }

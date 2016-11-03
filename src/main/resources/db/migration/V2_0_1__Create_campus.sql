@@ -112,79 +112,48 @@ CREATE TABLE `t_relate_message_attachment` (
 )
   DEFAULT CHARSET = utf8
   COMMENT '留言附件关联表';
+
+
 DROP TABLE IF EXISTS `t_teacher`;
 CREATE TABLE `t_teacher` (
-  `id`                          INT(11)     NOT NULL          AUTO_INCREMENT
-  COMMENT 'ID',
-  `avatar`                      VARCHAR(255)                  DEFAULT ''
-  COMMENT '头像',
-  `user_id`                     INT(11)     NOT NULL
-  COMMENT '平台用户id',
-  `employee_no`                 VARCHAR(32) NOT NULL
-  COMMENT '职工号',
-  `name`                        VARCHAR(64) NOT NULL          DEFAULT ''
-  COMMENT '姓名',
-  `gender`                      TINYINT(1)  NOT NULL          DEFAULT 1
-  COMMENT '性别:0 女 1 男',
-  `ethnic_group`                SMALLINT(2)                   DEFAULT 0
-  COMMENT '民族',
-  `birth`                       DATE
-  COMMENT '出生日期',
-  `political_status`            TINYINT(1)                    DEFAULT 0
-  COMMENT '政治面貌',
-  `academe`                     VARCHAR(64)                   DEFAULT ''
-  COMMENT '学院',
-  `department`                  VARCHAR(64)                   DEFAULT ''
-  COMMENT '科室',
-  `contact_phone`               VARCHAR(32)                   DEFAULT ''
-  COMMENT '联系电话',
-  `email`                       VARCHAR(64)                   DEFAULT ''
-  COMMENT '邮箱',
-  `graduated_university`        VARCHAR(64)                   DEFAULT ''
-  COMMENT '毕业院校',
-  `graduated_major`             VARCHAR(64)                   DEFAULT ''
-  COMMENT '毕业专业',
-  `education_background`        SMALLINT                      DEFAULT 0
-  COMMENT '学历',
-  `degree`                      SMALLINT                      DEFAULT 0
-  COMMENT '学位',
-  `professional_title`          VARCHAR(64)                   DEFAULT ''
-  COMMENT '职称',
-  `professional_position`       VARCHAR(64)                   DEFAULT ''
-  COMMENT '职务',
-  `subject_direction`           VARCHAR(64)                   DEFAULT ''
-  COMMENT '学科方向',
-  `teacher_certificate_no`      VARCHAR(32)                   DEFAULT ''
-  COMMENT '教师资格证号',
-  `main_teacher_certificate_no` VARCHAR(32)                   DEFAULT ''
-  COMMENT '主讲教师资格证号',
-  `staff_no`                    VARCHAR(32)                   DEFAULT ''
-  COMMENT '人事职工号',
-  `is_lab_staff`                TINYINT(1)                    DEFAULT 0
-  COMMENT '是否实验室人员 0：否 1：是',
-  `short_introduce`             VARCHAR(2000)                 DEFAULT NULL
-  COMMENT '简介',
-  `has_teacher_certificate`     TINYINT(1)                    DEFAULT 0
-  COMMENT '是否教师资格证(1是，0无）',
-  `teacher_type`                VARCHAR(64)                   DEFAULT ''
-  COMMENT '教师类型',
-  `teacher_lever`               VARCHAR(64)                   DEFAULT ''
-  COMMENT '教师级别',
-  `is_outside`                  TINYINT(1)                    DEFAULT 0
-  COMMENT '是否外聘',
-  `short_name`                  VARCHAR(64)                   DEFAULT ''
-  COMMENT '姓名简拼',
-  `password`                    VARCHAR(64)                   DEFAULT ''
-  COMMENT '密码明文',
-  `teach_major`                 VARCHAR(64)                   DEFAULT ''
-  COMMENT '所属专业（教那个系）',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `user_id` int(11) NOT NULL COMMENT '平台用户id',
+  `employee_no` varchar(32) NOT NULL COMMENT '职工号',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '姓名',
+  `gender` varchar(1) NOT NULL DEFAULT '1' COMMENT '性别:0 女 1 男',
+  `ethnic_group` smallint(2) DEFAULT '0' COMMENT '民族',
+  `birth` varchar(20) DEFAULT NULL COMMENT '出生日期',
+  `political_status` tinyint(1) DEFAULT '0' COMMENT '政治面貌',
+  `academe` varchar(64) DEFAULT '' COMMENT '学院',
+  `department` varchar(64) DEFAULT '' COMMENT '科室',
+  `contact_phone` varchar(32) DEFAULT '' COMMENT '联系电话',
+  `email` varchar(64) DEFAULT '' COMMENT '邮箱',
+  `graduated_university` varchar(64) DEFAULT '' COMMENT '毕业院校',
+  `graduated_major` varchar(64) DEFAULT '' COMMENT '毕业专业',
+  `education_background` smallint(6) DEFAULT '0' COMMENT '学历',
+  `degree` smallint(6) DEFAULT '0' COMMENT '学位',
+  `professional_title` varchar(64) DEFAULT '' COMMENT '职称',
+  `professional_position` varchar(64) DEFAULT '' COMMENT '职务',
+  `subject_direction` varchar(64) DEFAULT '' COMMENT '学科方向',
+  `teacher_certificate_no` varchar(32) DEFAULT '' COMMENT '教师资格证号',
+  `main_teacher_certificate_no` varchar(32) DEFAULT '' COMMENT '主讲教师资格证号',
+  `staff_no` varchar(32) DEFAULT '' COMMENT '人事职工号',
+  `is_lab_staff` tinyint(1) DEFAULT '0' COMMENT '是否实验室人员 0：否 1：是',
+  `short_introduce` varchar(2000) DEFAULT NULL COMMENT '简介',
+  `has_teacher_certificate` tinyint(1) DEFAULT '0' COMMENT '是否教师资格证(1是，0无）',
+  `teacher_type` varchar(64) DEFAULT '' COMMENT '教师类型',
+  `teacher_lever` varchar(64) DEFAULT '' COMMENT '教师级别',
+  `is_outside` tinyint(1) DEFAULT '0' COMMENT '是否外聘',
+  `short_name` varchar(64) DEFAULT '' COMMENT '姓名简拼',
+  `password` varchar(64) DEFAULT '' COMMENT '密码明文',
+  `teach_major` varchar(64) DEFAULT '' COMMENT '所属专业（教那个系）',
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`user_id`),
-  UNIQUE KEY (`employee_no`)
-)
-  DEFAULT CHARSET = utf8
-  COMMENT '老师信息表';
-DROP TABLE IF EXISTS `t_student`;
+  UNIQUE KEY `user_id` (`user_id`),
+  UNIQUE KEY `employee_no` (`employee_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='老师信息表';  
+  
+  
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
   `id`               INT(11)     NOT NULL AUTO_INCREMENT

@@ -4,6 +4,7 @@ import com.topie.campus.core.enums.Degree;
 import com.topie.campus.core.enums.EducationBackground;
 import com.topie.campus.core.enums.EthnicGroup;
 import com.topie.campus.core.enums.Gender;
+import com.topie.campus.core.enums.PoliticalStatus;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.tools.excel.ExcelCell;
 
@@ -27,7 +28,7 @@ public class TeacherExcelDto implements Serializable {
     private String ethnicGroup;
 
     @ExcelCell(index = 3)
-    private Date birth;
+    private String birth;
 
     @ExcelCell(index = 44)
     private String politicalStatus;
@@ -210,15 +211,15 @@ public class TeacherExcelDto implements Serializable {
         this.ethnicGroup = ethnicGroup;
     }
 
-    public Date getBirth() {
-        return birth;
-    }
+    public String getBirth() {
+		return birth;
+	}
 
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 
-    public String getPoliticalStatus() {
+	public String getPoliticalStatus() {
         return politicalStatus;
     }
 
@@ -362,6 +363,7 @@ public class TeacherExcelDto implements Serializable {
         teacher.setSubjectDirection(this.subjectDirection);
         teacher.setProfessionalTitle(this.professionalTitle);
         teacher.setGraduatedUniversity(this.graduatedUniversity);
+        teacher.setPoliticalStatus(PoliticalStatus.getCode(this.politicalStatus));
         teacher.setTeacherCertificateNo(this.teacherCertificateNo);
         teacher.setProfessionalPosition(this.professionalPosition);
         teacher.setIsLabStaff("是".equals(this.isLabStaff) ? true : false);

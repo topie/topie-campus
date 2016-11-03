@@ -33,4 +33,6 @@ public interface IStudentService extends IService<Student> {
 	SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,
 			int pageSize);
 
+	Student findByStudentId(Integer studentId);
+
 }

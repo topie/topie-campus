@@ -32,6 +32,8 @@ public class StaticEmployment implements Serializable{
 	
 	private double poorRate;
 	
+	private String teacherNo;
+	
 	
 	public int getMan() {
 		return man;
@@ -121,4 +123,13 @@ public class StaticEmployment implements Serializable{
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
+
+	public String getTeacherNo() {
+		return teacherNo;
+	}
+
+	public void setTeacherNo(String teacherNo) {
+		this.teacherNo = teacherNo;
+	}
+
 }

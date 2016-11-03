@@ -57,8 +57,7 @@ public class Teacher extends Sortable {
     /**
      * 出生日期
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birth;
+    private String birth;
 
     /**
      * 政治面貌
@@ -410,26 +409,15 @@ public class Teacher extends Sortable {
         return EthnicGroup.getName(ethnicGroup);
     }
 
-    /**
-     * 获取出生日期
-     *
-     * @return birth - 出生日期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
-    public Date getBirth() {
-        return birth;
-    }
+    public String getBirth() {
+		return birth;
+	}
 
-    /**
-     * 设置出生日期
-     *
-     * @param birth 出生日期
-     */
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 
-    /**
+	/**
      * 获取政治面貌
      *
      * @return political_status - 政治面貌

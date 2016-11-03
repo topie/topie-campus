@@ -21,11 +21,16 @@
         }
     };
     var grid;
+    var college = "";
+    var faculty = "";
+    var major = "";
+    var teacherNo = "";
     App.infoStatic.gridChange = function(type,value)
     {
-         if(isIE)
+         if(isIE())
         	 {
         	 value = encodeURI(value);
+        	 console.log(value);
         	 }
     	if(type==0)
     		{
@@ -35,8 +40,8 @@
     	if(type==1)
     		{
     		$("#static_grid").html('');
-    		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+value;
-    		 console.log(grid);
+    		college = value;
+    		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+college;
     		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.facultyOptions);
     		 console.log(grid);
     		 //grid.reload({url:App.infoStatic.facultyOptions.url +"?&college="+value});
@@ -44,18 +49,98 @@
     	else if(type==2)
     		{
     		$("#static_grid").html('');
-    		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+value;
+    		faculty = value;
+    		console.log(faculty);
+    		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+faculty;
     		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
     		//grid.reload({url:App.infoStatic.majorOptions.url +"?&faculty="+value});
     		}
     	else if(type==3)
     		{
     		$("#static_grid").html('');
-    		App.infoStatic.classNumOptions.url = App.href + "/api/job/staticByClassNum?major="+value;
-    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.classNumOptions);
+    		major = value;
+    		App.infoStatic.tutorOptions.url = App.href + "/api/job/staticTutor?major="+major;
+    		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.tutorOptions);
     		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
     		}
+    	else if(type==4)
+		{
+		$("#static_grid").html('');
+		teacheNo = value;
+		App.infoStatic.EmploymentOptions.url = App.href + "/api/job/staticByTutor?teacherNo="+teacheNo;
+		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.EmploymentOptions);
+		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
+		}
     }
+    
+    App.infoStatic.EmploymentOptions = {
+            url: App.href + "/api/job/staticByTutor",
+            beforeSend: function (request) {
+                request.setRequestHeader("X-Auth-Token", App.token);
+            },
+            pageNum: 1,
+            pageSize: 15,
+            idFiled: "id",
+            showCheckbox: true,
+            checkboxWidth: "3%",
+            showIndexNum: true,
+            indexNumWidth: "5%",
+            pageSelect: [2, 15, 30, 50],
+            columns: [{
+		        title: "学号",
+		        field: "stuId",
+		        sort: true,
+		        width: "5%"
+		    }, {
+		        title: "学生名称",
+		        field: "name",
+		        sort: true
+		    }, {
+		        title: "联系电话",
+		        field: "phone",
+		        sort: true
+		    },{
+		        title: "领表",
+		        field: "takeTable",
+		        sort: true
+		    },
+		    {
+		        title: "就业",
+		        field: "employmentStatus",
+		        sort: true
+		    },
+		    {
+		        title: "签约",
+		        field: "signStatus",
+		        sort: true
+		    }
+		    ],
+            actionColumnText: "操作",
+            actionColumnWidth: "20%",
+            tools: [
+    				{
+    				    text: " 返回",
+    				    cls: "btn btn-primary",
+    				    icon: "fa fa-cubes",
+    				    handle: function (grid) {
+    				    	App.infoStatic.gridChange(3,major);
+    				    }
+    				}],
+            search: {
+                rowEleNum: 2,
+                items: [{
+                    type: "text",
+                    label: "学生名",
+                    name: "name",
+                    placeholder: "输入要搜索的学生名"
+                }, {
+                    title: "联系电话",
+                    field: "contactPhone",
+                    sort: true
+                }]
+            }
+        };
+    
     
     App.infoStatic.columns = [ 
     {
@@ -491,7 +576,7 @@
     				    cls: "btn btn-primary",
     				    icon: "fa fa-cubes",
     				    handle: function (grid) {
-    				    	App.infoStatic.gridChange(1,'');
+    				    	App.infoStatic.gridChange(1,college);
     				    }
     				}],
             	search: {
@@ -674,6 +759,9 @@
                           field: 'tutor',
                           title: '导师',
                           width: "25%",
+                          format: function(i, c) {
+                        	  return '<a href="javascript:void(0)" onclick="javascript:App.infoStatic.gridChange(4,\''+c.teacherNo+'\')">'+c.tutor+'</a>';
+                          }
                       }, {
                           field: 'signRate',
                           title: '签约率',
@@ -690,13 +778,47 @@
                           format: function(i, c) {
                           	return (c.employmentRate*100).toFixed(2)+"%"
                           }
+                      },{
+                          field: 'poorRate',
+                          title: '困难生数',
+                          width: "10%",
+                          sort: true
+                          /*format: function(i, c) {
+                          	return (c.poorRate*100).toFixed(2)+"%"
+                          }*/
+                      },
+                      {
+                          field: 'manToWoman',
+                          title: '男/女',
+                          width: "10%",
+                          sort: true,
+                          format: function(i, c) {
+                          	return c.man+'/'+c.woman;
+                          }
                       }
                       ],
             actionColumnText: "操作",
             actionColumnWidth: "20%",
+            tools: [
+    				{
+    				    text: " 返回",
+    				    cls: "btn btn-primary",
+    				    icon: "fa fa-cubes",
+    				    handle: function (grid) {
+    				    	App.infoStatic.gridChange(2,faculty);
+    				    }
+    				}],
             search: {
                 rowEleNum: 2,
-                items: [{
+                items: [
+                        {
+                    type: "select",
+                    label: "毕业年份",
+                    name: "graduateDate",
+                    id: 'graduateDate',
+                    value:getGraduateYear(),
+                    itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
+                },{
                     type: "text",
                     label: "导师名称",
                     name: "tutor",

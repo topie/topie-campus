@@ -49,7 +49,7 @@
                 + '<span style="cursor: pointer" target="file" role=upload class="input-group-addon">上传</span>'
                 + '</div>'
                 + '<p class="help-block">'
-                + '没有模板? <a href="../导入模板.zip" style="cursor: pointer" role="template">点击下载模板</a>'
+                + '没有模板? <a href="../import.zip" style="cursor: pointer" role="template">点击下载模板</a>'
                 + '</p>'
                 + '</div>'
                 + '</div>'

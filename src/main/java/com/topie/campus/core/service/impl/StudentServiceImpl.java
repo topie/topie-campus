@@ -81,6 +81,12 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 		// TODO Auto-generated method stub
 		return studentMapper.findPhoneByMajorId(zydm);
 	}
+	
+	@Override
+	public Student findByStudentId(Integer studentId) {
+		// TODO Auto-generated method stub
+		return studentMapper.findByStuId(studentId);
+	}
 
 	@Override
 	public SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,int pageSize) {

@@ -56,7 +56,8 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
             //TODO 检测教师职工号是否唯一
         	if(StringUtils.isNotEmpty(employmentExcelDto.getIsImport()) && employmentExcelDto.getIsImport().equals("1"))
         	{
-        	Student student = studentMapper.findByStuId(employmentExcelDto.getStuId());
+        	Integer studentId = studentMapper.findIdByStudentNo(employmentExcelDto.getStuId());
+        	Student student = studentMapper.findByStuId(studentId);
             Employment employment = employmentExcelDto.buildEmployment(employmentExcelDto);
             if(student!=null)
             {

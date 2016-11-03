@@ -438,6 +438,7 @@ nullΪ�����ޣ�Ϊ�״��޶���1Ϊ��������3�
     {
     	StuScore score = new StuScore();
     	BeanUtils.copyProperties(dto, score);
+    	score.setScorePoint(Double.valueOf(dto.getScorePoint()));
 		return score;
     }
 }

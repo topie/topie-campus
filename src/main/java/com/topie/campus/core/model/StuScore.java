@@ -8,19 +8,19 @@ public class StuScore {
     private Integer id;
 
     /**
-     * Ñ§Äê
+     * Ñ§ï¿½ï¿½
      */
     @Column(name = "study_year")
     private String studyYear;
 
     /**
-     * Ñ§ÆÚ
+     * Ñ§ï¿½ï¿½
      */
     @Column(name = "study_year_num")
     private String studyYearNum;
 
     /**
-     * Ñ¡¿Î¿ÎºÅ
+     * Ñ¡ï¿½Î¿Îºï¿½
      */
     @Column(name = "course_num")
     private String courseNum;
@@ -38,26 +38,26 @@ public class StuScore {
     private String score;
 
     @Column(name = "score_point")
-    private String scorePoint;
+    private Double scorePoint;
 
     private String comment;
 
     /**
      * 
-ÖØÐÞ±ê¼Ç£¨0»ò¿Õ£¬
-nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
+ï¿½ï¿½ï¿½Þ±ï¿½Ç£ï¿½0ï¿½ï¿½Õ£ï¿½
+nullÎªï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½Îªï¿½×´ï¿½ï¿½Þ¶ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "re_study_flag")
     private String reStudyFlag;
 
     /**
-     * Æ½Ê±³É¼¨
+     * Æ½Ê±ï¿½É¼ï¿½
      */
     @Column(name = "common_score")
     private String commonScore;
 
     /**
-     * ¾íÃæ³É¼¨
+     * ï¿½ï¿½ï¿½ï¿½É¼ï¿½
      */
     @Column(name = "page_score")
     private String pageScore;
@@ -66,7 +66,7 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     private String secondScore;
 
     /**
-     * ÖØÐÞ³É¼¨
+     * ï¿½ï¿½ï¿½Þ³É¼ï¿½
      */
     @Column(name = "restudy_score")
     private String restudyScore;
@@ -78,14 +78,14 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     private String courceCode;
 
     /**
-     * ¸¨ÐÞ±ê¼Ç
-0Õý³££¬1¸¨ÐÞ
+     * ï¿½ï¿½ï¿½Þ±ï¿½ï¿½
+0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
      */
     @Column(name = "minor_flag")
     private String minorFlag;
 
     /**
-     * ¿Î³Ì¹éÊô
+     * ï¿½Î³Ì¹ï¿½ï¿½ï¿½
      */
     @Column(name = "cource_attr")
     private String courceAttr;
@@ -107,54 +107,54 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     }
 
     /**
-     * »ñÈ¡Ñ§Äê
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
      *
-     * @return study_year - Ñ§Äê
+     * @return study_year - Ñ§ï¿½ï¿½
      */
     public String getStudyYear() {
         return studyYear;
     }
 
     /**
-     * ÉèÖÃÑ§Äê
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
      *
-     * @param studyYear Ñ§Äê
+     * @param studyYear Ñ§ï¿½ï¿½
      */
     public void setStudyYear(String studyYear) {
         this.studyYear = studyYear;
     }
 
     /**
-     * »ñÈ¡Ñ§ÆÚ
+     * ï¿½ï¿½È¡Ñ§ï¿½ï¿½
      *
-     * @return study_year_num - Ñ§ÆÚ
+     * @return study_year_num - Ñ§ï¿½ï¿½
      */
     public String getStudyYearNum() {
         return studyYearNum;
     }
 
     /**
-     * ÉèÖÃÑ§ÆÚ
+     * ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½
      *
-     * @param studyYearNum Ñ§ÆÚ
+     * @param studyYearNum Ñ§ï¿½ï¿½
      */
     public void setStudyYearNum(String studyYearNum) {
         this.studyYearNum = studyYearNum;
     }
 
     /**
-     * »ñÈ¡Ñ¡¿Î¿ÎºÅ
+     * ï¿½ï¿½È¡Ñ¡ï¿½Î¿Îºï¿½
      *
-     * @return course_num - Ñ¡¿Î¿ÎºÅ
+     * @return course_num - Ñ¡ï¿½Î¿Îºï¿½
      */
     public String getCourseNum() {
         return courseNum;
     }
 
     /**
-     * ÉèÖÃÑ¡¿Î¿ÎºÅ
+     * ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Î¿Îºï¿½
      *
-     * @param courseNum Ñ¡¿Î¿ÎºÅ
+     * @param courseNum Ñ¡ï¿½Î¿Îºï¿½
      */
     public void setCourseNum(String courseNum) {
         this.courseNum = courseNum;
@@ -230,21 +230,15 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
         this.score = score;
     }
 
-    /**
-     * @return score_point
-     */
-    public String getScorePoint() {
-        return scorePoint;
-    }
+    public Double getScorePoint() {
+		return scorePoint;
+	}
 
-    /**
-     * @param scorePoint
-     */
-    public void setScorePoint(String scorePoint) {
-        this.scorePoint = scorePoint;
-    }
+	public void setScorePoint(Double scorePoint) {
+		this.scorePoint = scorePoint;
+	}
 
-    /**
+	/**
      * @return comment
      */
     public String getComment() {
@@ -259,62 +253,62 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     }
 
     /**
-     * »ñÈ¡
-ÖØÐÞ±ê¼Ç£¨0»ò¿Õ£¬
-nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
+     * ï¿½ï¿½È¡
+ï¿½ï¿½ï¿½Þ±ï¿½Ç£ï¿½0ï¿½ï¿½Õ£ï¿½
+nullÎªï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½Îªï¿½×´ï¿½ï¿½Þ¶ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      *
      * @return re_study_flag - 
-ÖØÐÞ±ê¼Ç£¨0»ò¿Õ£¬
-nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
+ï¿½ï¿½ï¿½Þ±ï¿½Ç£ï¿½0ï¿½ï¿½Õ£ï¿½
+nullÎªï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½Îªï¿½×´ï¿½ï¿½Þ¶ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     public String getReStudyFlag() {
         return reStudyFlag;
     }
 
     /**
-     * ÉèÖÃ
-ÖØÐÞ±ê¼Ç£¨0»ò¿Õ£¬
-nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
+     * ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½Þ±ï¿½Ç£ï¿½0ï¿½ï¿½Õ£ï¿½
+nullÎªï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½Îªï¿½×´ï¿½ï¿½Þ¶ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      *
      * @param reStudyFlag 
-ÖØÐÞ±ê¼Ç£¨0»ò¿Õ£¬
-nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
+ï¿½ï¿½ï¿½Þ±ï¿½Ç£ï¿½0ï¿½ï¿½Õ£ï¿½
+nullÎªï¿½ï¿½ï¿½ï¿½ï¿½Þ£ï¿½Îªï¿½×´ï¿½ï¿½Þ¶ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½
      */
     public void setReStudyFlag(String reStudyFlag) {
         this.reStudyFlag = reStudyFlag;
     }
 
     /**
-     * »ñÈ¡Æ½Ê±³É¼¨
+     * ï¿½ï¿½È¡Æ½Ê±ï¿½É¼ï¿½
      *
-     * @return common_score - Æ½Ê±³É¼¨
+     * @return common_score - Æ½Ê±ï¿½É¼ï¿½
      */
     public String getCommonScore() {
         return commonScore;
     }
 
     /**
-     * ÉèÖÃÆ½Ê±³É¼¨
+     * ï¿½ï¿½ï¿½ï¿½Æ½Ê±ï¿½É¼ï¿½
      *
-     * @param commonScore Æ½Ê±³É¼¨
+     * @param commonScore Æ½Ê±ï¿½É¼ï¿½
      */
     public void setCommonScore(String commonScore) {
         this.commonScore = commonScore;
     }
 
     /**
-     * »ñÈ¡¾íÃæ³É¼¨
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½É¼ï¿½
      *
-     * @return page_score - ¾íÃæ³É¼¨
+     * @return page_score - ï¿½ï¿½ï¿½ï¿½É¼ï¿½
      */
     public String getPageScore() {
         return pageScore;
     }
 
     /**
-     * ÉèÖÃ¾íÃæ³É¼¨
+     * ï¿½ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½É¼ï¿½
      *
-     * @param pageScore ¾íÃæ³É¼¨
+     * @param pageScore ï¿½ï¿½ï¿½ï¿½É¼ï¿½
      */
     public void setPageScore(String pageScore) {
         this.pageScore = pageScore;
@@ -335,18 +329,18 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     }
 
     /**
-     * »ñÈ¡ÖØÐÞ³É¼¨
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½Þ³É¼ï¿½
      *
-     * @return restudy_score - ÖØÐÞ³É¼¨
+     * @return restudy_score - ï¿½ï¿½ï¿½Þ³É¼ï¿½
      */
     public String getRestudyScore() {
         return restudyScore;
     }
 
     /**
-     * ÉèÖÃÖØÐÞ³É¼¨
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ³É¼ï¿½
      *
-     * @param restudyScore ÖØÐÞ³É¼¨
+     * @param restudyScore ï¿½ï¿½ï¿½Þ³É¼ï¿½
      */
     public void setRestudyScore(String restudyScore) {
         this.restudyScore = restudyScore;
@@ -381,40 +375,40 @@ nullÎª²»ÖØÐÞ£©ÎªÊ×´ÎÐÞ¶Á¡£1Îª¸ú°àÖØÐÞ3×ÔÑ§ÖØÐÞ
     }
 
     /**
-     * »ñÈ¡¸¨ÐÞ±ê¼Ç
-0Õý³££¬1¸¨ÐÞ
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½Þ±ï¿½ï¿½
+0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
      *
-     * @return minor_flag - ¸¨ÐÞ±ê¼Ç
-0Õý³££¬1¸¨ÐÞ
+     * @return minor_flag - ï¿½ï¿½ï¿½Þ±ï¿½ï¿½
+0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
      */
     public String getMinorFlag() {
         return minorFlag;
     }
 
     /**
-     * ÉèÖÃ¸¨ÐÞ±ê¼Ç
-0Õý³££¬1¸¨ÐÞ
+     * ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Þ±ï¿½ï¿½
+0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
      *
-     * @param minorFlag ¸¨ÐÞ±ê¼Ç
-0Õý³££¬1¸¨ÐÞ
+     * @param minorFlag ï¿½ï¿½ï¿½Þ±ï¿½ï¿½
+0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
      */
     public void setMinorFlag(String minorFlag) {
         this.minorFlag = minorFlag;
     }
 
     /**
-     * »ñÈ¡¿Î³Ì¹éÊô
+     * ï¿½ï¿½È¡ï¿½Î³Ì¹ï¿½ï¿½ï¿½
      *
-     * @return cource_attr - ¿Î³Ì¹éÊô
+     * @return cource_attr - ï¿½Î³Ì¹ï¿½ï¿½ï¿½
      */
     public String getCourceAttr() {
         return courceAttr;
     }
 
     /**
-     * ÉèÖÃ¿Î³Ì¹éÊô
+     * ï¿½ï¿½ï¿½Ã¿Î³Ì¹ï¿½ï¿½ï¿½
      *
-     * @param courceAttr ¿Î³Ì¹éÊô
+     * @param courceAttr ï¿½Î³Ì¹ï¿½ï¿½ï¿½
      */
     public void setCourceAttr(String courceAttr) {
         this.courceAttr = courceAttr;
