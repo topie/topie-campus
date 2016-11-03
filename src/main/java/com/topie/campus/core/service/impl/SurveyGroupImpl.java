@@ -2,10 +2,13 @@ package com.topie.campus.core.service.impl;
 
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.constants.ResultCode;
+import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.core.dao.SurveyGroupMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
 import com.topie.campus.core.dto.SurveyAnswerExcelDto;
-import com.topie.campus.core.model.GroupStat;
+import com.topie.campus.core.model.GroupStudentStat;
+import com.topie.campus.core.model.GroupTeacherStat;
 import com.topie.campus.core.model.SurveyGroup;
 import com.topie.campus.core.service.ISurveyGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +65,7 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     @Override
     public int insertInitGroupStudent(Integer groupId, Integer typeId) {
         List<Integer> studentIds = teacherStudentMapper.selectStudentIdsAndTypeId(typeId);
+        surveyGroupMapper.deleteGroupStudentRelate(groupId);
         if (studentIds.size() > 0) {
             for (Integer studentId : studentIds) {
                 surveyGroupMapper.insertGroupStudentRelate(groupId, studentId, false);
@@ -91,14 +95,14 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     }
 
     @Override
-    public Boolean selectComplete(Integer groupId, Integer studentId) {
-        Boolean result = surveyGroupMapper.selectComplete(groupId, studentId);
+    public Boolean selectCompleteByStudentId(Integer groupId, Integer studentId) {
+        Boolean result = surveyGroupMapper.selectCompleteByStudentId(groupId, studentId);
         return result;
     }
 
     @Override
-    public List<GroupStat> selectStatByGroupId(Integer groupId) {
-        return surveyGroupMapper.selectStatByGroupId(groupId);
+    public List<GroupTeacherStat> selectTeacherStatByGroupId(Integer groupId) {
+        return surveyGroupMapper.selectTeacherStatByGroupId(groupId);
     }
 
     @Override
@@ -113,13 +117,85 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
     }
 
     @Override
-    public List<SurveyAnswerExcelDto> selectSurveyComment(Integer groupId) {
-        return surveyGroupMapper.selectSurveyComment(groupId);
+    public List<SurveyAnswerExcelDto> selectSurveyComment(Integer groupId, Integer groupType) {
+        return surveyGroupMapper.selectSurveyComment(groupId, groupType);
     }
 
     @Override
     public List<Map> selectStudentProcessByGroupId(Integer groupId) {
         return surveyGroupMapper.selectStudentProcessByGroupId(groupId);
+    }
+
+    @Override
+    public int insertInitGroupTeacher(Integer groupId, Integer typeId) {
+        List<Integer> teacherIds = teacherStudentMapper.selectTeacherIdByTypeId(typeId);
+        surveyGroupMapper.deleteGroupTeacherRelate(groupId);
+        if (teacherIds.size() > 0) {
+            for (Integer teacherId : teacherIds) {
+                surveyGroupMapper.insertGroupTeacherRelate(groupId, teacherId, false);
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public SimplePageInfo<SurveyGroup> selectByPageByTeacherId(SurveyGroup surveyGroup, Integer teacherId, int pageNum,
+            int pageSize) {
+        List<SurveyGroup> list = surveyGroupMapper
+                .selectByPageByTeacherId(surveyGroup, teacherId, (pageNum - 1) * pageSize, pageSize);
+        Long total = surveyGroupMapper.countByTeacherId(surveyGroup, teacherId);
+        SimplePageInfo<SurveyGroup> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+        return pageInfo;
+    }
+
+    @Override
+    public Boolean selectCompleteByTeacherId(Integer groupId, Integer teacherId) {
+        Boolean result = surveyGroupMapper.selectCompleteByTeacherId(groupId, teacherId);
+        return result;
+    }
+
+    @Override
+    public int updateGroupTeacherComplete(Integer groupId, Integer teacherId) {
+        return surveyGroupMapper.updateGroupTeacherComplete(groupId, teacherId);
+    }
+
+    @Override
+    public List<GroupStudentStat> selectStudentStatByGroupId(Integer groupId) {
+        return surveyGroupMapper.selectStudentStatByGroupId(groupId);
+    }
+
+    @Override
+    public List<Map> selectTeacherProcessByGroupId(Integer groupId) {
+        return surveyGroupMapper.selectTeacherProcessByGroupId(groupId);
+    }
+
+    @Override
+    public int insertSelectiveSurveyGroup(SurveyGroup surveyGroup) {
+        int result = insertSelective(surveyGroup);
+        Integer groupType = surveyGroup.getGroupType();
+        if (result > 0) {
+            Integer groupId = surveyGroup.getGroupId();
+            if (groupType == 1) {
+                insertInitGroupStudent(groupId, surveyGroup.getTypeId());
+            } else {
+                insertInitGroupTeacher(groupId, surveyGroup.getTypeId());
+            }
+        }
+        return result;
+
+    }
+
+    @Override
+    public int updateSelectiveSurveyGroup(SurveyGroup surveyGroup) {
+        int result = updateSelective(surveyGroup);
+        if (result > 0) {
+            if (surveyGroup.getGroupType() == 1) {
+                insertInitGroupStudent(surveyGroup.getGroupId(), surveyGroup.getTypeId());
+            } else {
+                insertInitGroupTeacher(surveyGroup.getGroupId(), surveyGroup.getTypeId());
+            }
+        }
+        return result;
     }
 
 }

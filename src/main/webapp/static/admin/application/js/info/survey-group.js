@@ -67,6 +67,27 @@
                 required: "请输入结束时间"
             }
         }, {
+            type: 'select',
+            name: 'groupType',
+            id: 'groupType',
+            label: '评分类型',
+            cls: 'input-large',
+            items: [
+                {
+                    text: "评老师",
+                    value: 1
+                }, {
+                    text: "评学生",
+                    value: 2
+                }
+            ],
+            rule: {
+                required: true
+            },
+            message: {
+                required: "请输入评分类型"
+            }
+        }, {
             type: 'tree',//类型
             name: 'typeId',
             id: 'typeId',//id
@@ -310,26 +331,30 @@
                     text: "删除",
                     cls: "btn-danger btn-sm",
                     handle: function (i, data) {
-                        $.ajax({
-                            type: "GET",
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            dataType: "json",
-                            data: {
-                                "groupId": groupId,
-                                "questionId": data.questionId
-                            },
-                            url: App.href + "/api/info/surveyGroup/deleteGroupQuestion",
-                            success: function (data) {
-                                if (data.code === 200) {
-                                    grid2.reload();
-                                } else {
-                                    alert(data.message);
-                                }
-                            },
-                            error: function (e) {
-                                alert("请求异常。");
+                        bootbox.confirm("确定该操作吗?", function (result) {
+                            if (result) {
+                                $.ajax({
+                                    type: "GET",
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    dataType: "json",
+                                    data: {
+                                        "groupId": groupId,
+                                        "questionId": data.questionId
+                                    },
+                                    url: App.href + "/api/info/surveyGroup/deleteGroupQuestion",
+                                    success: function (data) {
+                                        if (data.code === 200) {
+                                            grid2.reload();
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    },
+                                    error: function (e) {
+                                        alert("请求异常。");
+                                    }
+                                });
                             }
                         });
                     }

@@ -108,4 +108,14 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 		return pageInfo;
 	}
 
+    @Override
+    public List<StudentSimpleDto> findStudentByTeacherIdAndTypeId(Integer teacherId, Integer typeId) {
+        return studentMapper.findStudentByTeacherIdAndTypeId(teacherId,typeId);
+    }
+
+    @Override
+    public List<StudentSimpleDto> findStudentByTypeId(Integer typeId) {
+        return studentMapper.findStudentByTypeId(typeId);
+    }
+
 }

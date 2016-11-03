@@ -14,6 +14,10 @@ public class SurveyAnswer {
     @Column(name = "group_id")
     private Integer groupId;
 
+    @Id
+    @Column(name = "group_type")
+    private Integer groupType;
+
     /**
      * 问题id
      */
@@ -41,6 +45,14 @@ public class SurveyAnswer {
     private Integer record;
 
     private String content;
+
+    public Integer getGroupType() {
+        return groupType;
+    }
+
+    public void setGroupType(Integer groupType) {
+        this.groupType = groupType;
+    }
 
     public Integer getQuestionType() {
         return questionType;

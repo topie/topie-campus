@@ -3,7 +3,8 @@ package com.topie.campus.core.service;
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.SurveyAnswerExcelDto;
-import com.topie.campus.core.model.GroupStat;
+import com.topie.campus.core.model.GroupStudentStat;
+import com.topie.campus.core.model.GroupTeacherStat;
 import com.topie.campus.core.model.SurveyGroup;
 
 import java.util.List;
@@ -35,15 +36,31 @@ public interface ISurveyGroupService extends IService<SurveyGroup> {
 
     int updateGroupStudentComplete(Integer groupId, Integer studentId);
 
-    Boolean selectComplete(Integer groupId, Integer studentId);
+    Boolean selectCompleteByStudentId(Integer groupId, Integer studentId);
 
-    List<GroupStat> selectStatByGroupId(Integer groupId);
+    List<GroupTeacherStat> selectTeacherStatByGroupId(Integer groupId);
 
     List<SurveyGroup> selectByCurrentForStartTask(String current);
 
     List<SurveyGroup> selectByCurrentForEndTask(String current);
 
-    List<SurveyAnswerExcelDto> selectSurveyComment(Integer groupId);
+    List<SurveyAnswerExcelDto> selectSurveyComment(Integer groupId, Integer groupType);
 
     List<Map> selectStudentProcessByGroupId(Integer groupId);
+
+    int insertInitGroupTeacher(Integer groupId, Integer typeId);
+
+    SimplePageInfo<SurveyGroup> selectByPageByTeacherId(SurveyGroup surveyGroup, Integer teacherId, int pageNum, int pageSize);
+
+    Boolean selectCompleteByTeacherId(Integer groupId, Integer teacherId);
+
+    int updateGroupTeacherComplete(Integer groupId, Integer teacherId);
+
+    List<GroupStudentStat> selectStudentStatByGroupId(Integer groupId);
+
+    List<Map> selectTeacherProcessByGroupId(Integer groupId);
+
+    int insertSelectiveSurveyGroup(SurveyGroup surveyGroup);
+
+    int updateSelectiveSurveyGroup(SurveyGroup surveyGroup);
 }

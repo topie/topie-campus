@@ -5,22 +5,22 @@ import java.io.Serializable;
 /**
  * Created by chenguojun on 2016/10/19.
  */
-public class GroupStat implements Serializable {
+public class GroupStudentStat implements Serializable {
 
-    private static final long serialVersionUID = 245207398468014953L;
+    private static final long serialVersionUID = 2615836599897011983L;
 
-    private Integer teacherId;
+    private Integer studentId;
 
     private Integer questionId;
 
     private Float record;
 
-    public Integer getTeacherId() {
-        return teacherId;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
     public Integer getQuestionId() {

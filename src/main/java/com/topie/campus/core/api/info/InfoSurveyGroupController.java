@@ -5,11 +5,15 @@ import com.topie.campus.common.constants.ResultCode;
 import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.SurveyAnswerExcelDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
-import com.topie.campus.core.model.GroupStat;
+import com.topie.campus.core.enums.OnlineStatus;
+import com.topie.campus.core.model.GroupStudentStat;
+import com.topie.campus.core.model.GroupTeacherStat;
 import com.topie.campus.core.model.SurveyGroup;
 import com.topie.campus.core.model.SurveyQuestion;
+import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ISurveyGroupService;
 import com.topie.campus.core.service.ISurveyQuestionService;
 import com.topie.campus.core.service.ITeacherService;
@@ -41,6 +45,9 @@ public class InfoSurveyGroupController {
     @Autowired
     private ITeacherService iTeacherService;
 
+    @Autowired
+    private IStudentService iStudentService;
+
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
     public Result page(SurveyGroup surveyGroup,
@@ -60,25 +67,28 @@ public class InfoSurveyGroupController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
     public Result surveyGroupInsert(SurveyGroup surveyGroup) {
+        Integer groupType = surveyGroup.getGroupType();
+        if (groupType != 1 && groupType != 2) return ResponseUtil.error(ResultCode.OP_FAIL);
         //todo 直接审核通过 待加入审核机制
         surveyGroup.setStatus(1);
-        int result = iSurveyGroupService.insertSelective(surveyGroup);
-        if (result > 0) {
-            Integer groupId = surveyGroup.getGroupId();
-            iSurveyGroupService.insertInitGroupStudent(groupId, surveyGroup.getTypeId());
-            return ResponseUtil.success(ResultCode.OP_SUCCESS);
-        }
-        return ResponseUtil.error(ResultCode.OP_FAIL);
+        iSurveyGroupService.insertSelectiveSurveyGroup(surveyGroup);
+        return ResponseUtil.success(ResultCode.OP_SUCCESS);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public Result surveyGroupUpdate(SurveyGroup surveyGroup) {
-        int result = iSurveyGroupService.updateSelective(surveyGroup);
-        if (result > 0) {
-            return ResponseUtil.success(ResultCode.OP_SUCCESS);
+        Integer groupType = surveyGroup.getGroupType();
+        if (groupType != 1 && groupType != 2) return ResponseUtil.error(ResultCode.OP_FAIL);
+        if (surveyGroup.getGroupId() != null) {
+            SurveyGroup s = iSurveyGroupService.selectByKey(surveyGroup.getGroupId());
+            if (s.getOnlineStatus() > OnlineStatus.PRE.getCode())
+                return ResponseUtil.error(ResultCode.OP_FAIL + ";问卷已进行不能更改");
+        } else {
+            return ResponseUtil.error(ResultCode.OP_FAIL);
         }
-        return ResponseUtil.error(ResultCode.OP_FAIL);
+        iSurveyGroupService.updateSelectiveSurveyGroup(surveyGroup);
+        return ResponseUtil.success(ResultCode.OP_SUCCESS);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
@@ -168,22 +178,38 @@ public class InfoSurveyGroupController {
         if (surveyGroup == null) {
             return ResponseUtil.error(500, "问卷调查不存在");
         }
-        List<Map> progress = iSurveyGroupService.selectStudentProcessByGroupId(groupId);
         Integer typeId = surveyGroup.getTypeId();
-        List<TeacherSimpleDto> teacherSimpleDtoList = new ArrayList<>();
-        if (typeId != null) {
-            teacherSimpleDtoList = iTeacherService.findTeacherByTypeId(typeId);
-        }
         List<SurveyQuestion> surveyQuestions = iSurveyQuestionService.selectByGroupId(groupId);
+        if (surveyGroup.getGroupType() == 1) {
+            List<TeacherSimpleDto> teacherSimpleDtoList = new ArrayList<>();
+            if (typeId != null) {
+                teacherSimpleDtoList = iTeacherService.findTeacherByTypeId(typeId);
+            }
+            List<GroupTeacherStat> list = iSurveyGroupService.selectTeacherStatByGroupId(groupId);
+            Map result = new HashMap();
+            List<Map> progress = iSurveyGroupService.selectStudentProcessByGroupId(groupId);
+            result.put("progress", progress);
+            result.put("group", surveyGroup);
+            result.put("teacher", teacherSimpleDtoList);
+            result.put("questions", surveyQuestions);
+            result.put("result", list);
+            return ResponseUtil.success(result);
+        } else {
+            List<StudentSimpleDto> studentSimpleDtos = new ArrayList<>();
+            if (typeId != null) {
+                studentSimpleDtos = iStudentService.findStudentByTypeId(typeId);
+            }
+            List<GroupStudentStat> list = iSurveyGroupService.selectStudentStatByGroupId(groupId);
+            Map result = new HashMap();
+            List<Map> progress = iSurveyGroupService.selectTeacherProcessByGroupId(groupId);
+            result.put("progress", progress);
+            result.put("group", surveyGroup);
+            result.put("student", studentSimpleDtos);
+            result.put("questions", surveyQuestions);
+            result.put("result", list);
+            return ResponseUtil.success(result);
+        }
 
-        List<GroupStat> list = iSurveyGroupService.selectStatByGroupId(groupId);
-        Map result = new HashMap();
-        result.put("progress", progress);
-        result.put("group", surveyGroup);
-        result.put("teacher", teacherSimpleDtoList);
-        result.put("questions", surveyQuestions);
-        result.put("result", list);
-        return ResponseUtil.success(result);
     }
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
@@ -193,10 +219,16 @@ public class InfoSurveyGroupController {
         if (surveyGroup == null) {
             ResponseUtil.writeJson(response, ResponseUtil.error("问卷调查不存在"));
         }
-        List<SurveyAnswerExcelDto> list = iSurveyGroupService.selectSurveyComment(groupId);
-        String[] headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "学生回答" };
-        String fileName = "问卷回答.xlsx";
         try {
+            List<SurveyAnswerExcelDto> list = iSurveyGroupService
+                    .selectSurveyComment(groupId, surveyGroup.getGroupType());
+            String[] headers = null;
+            String fileName = "问卷回答.xlsx";
+            if (surveyGroup.getGroupType() == 1) {
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "学生回答" };
+            } else {
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "导师回答" };
+            }
             ExcelFileUtil.reponseXlsx(response, fileName, headers, list);
         } catch (Exception e) {
             e.printStackTrace();

@@ -42,7 +42,7 @@
             <h3 class="page-header"></h3>
         </div>
         <div class="col-md-12">
-            <h5>学生回答进度:</h5>
+            <h5>回答进度:</h5>
             <span id="progress-text" class="pull-right"></span>
             <div class="progress">
                 <div id="progress" class="progress-bar" role="progressbar"
@@ -80,7 +80,7 @@
 <script src="application/js/app.js"></script>
 <script src="../global/js/topie-starrr.js"></script>
 
-<script id="surveyTmpl" type="text/html">
+<script id="teacherSurveyTmpl" type="text/html">
     <div class="table-responsive">
         <table id="survey_table" class="table table-striped table-bordered table-hover dataTable">
             <thead>
@@ -93,7 +93,7 @@
                             <img width="64" height="64"
                                  src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
                             {{/if}}
-                            {{if t.avatar!=""}}
+                            {{if t.avatar!=null && t.avatar!=""}}
                             <img width="64" height="64"
                                  src="{{t.avatar}}"/>
                             {{/if}}
@@ -151,10 +151,82 @@
         </table>
     </div>
 </script>
+<script id="studentSurveyTmpl" type="text/html">
+    <div class="table-responsive">
+        <table id="survey_table" class="table table-striped table-bordered table-hover dataTable">
+            <thead>
+            <tr>
+                {{each student as t}}
+                <th>
+                    <div class="user-head">
+                        <a class="inbox-avatar" href="javascript:;">
+                            {{if t.avatar==null || t.avatar==""}}
+                            <img width="64" height="64"
+                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+                            {{/if}}
+                            {{if t.avatar!=null && t.avatar!=""}}
+                            <img width="64" height="64"
+                                 src="{{t.avatar}}"/>
+                            {{/if}}
+                        </a>
+                        <div class="user-name">
+                            <h3><a style="color:black" href="javascript:void(0);">{{t.name}}</a></h3>
+                        </div>
+                    </div>
+                </th>
+                {{/each}}
+            </tr>
+            </thead>
+            <tbody>
+            {{each questions as q}}
+            <tr>
+                <td class="high" colspan="{{student.length}}">
+                    {{if q.questionType==1}}评分题{{/if}}
+                    {{if q.questionType==2}}问答题{{/if}}
+                    {{q.sort}}:{{q.questionContent}}
+                </td>
+            </tr>
+            <tr role="survey">
+                {{if q.questionType==1}}
+                {{each student as t2 _index}}
+                <td>
+
+                    <div t="{{t2.id}}" q="{{q.questionId}}" class="starrr"></div>
+                    平均评分：<span>0</span>分
+                </td>
+                {{/each}}
+                {{/if}}
+                {{if q.questionType==2}}
+                <td class="high" colspan="{{student.length}}">
+                    <a style="color:red" id="export" href="javascript:void(0);">导出老师回答</a>
+                </td>
+                {{/if}}
+            </tr>
+            {{/each}}
+            <tr role="summary">
+                {{each student as t2 _index}}
+                <td>
+                    合计:<span style="font-size: large;font-weight: 200;color: red;" t="{{t2.id}}">0</span>分
+                </td>
+                {{/each}}
+            </tr>
+            <tr>
+                <td class="high" style="text-align: center" colspan="{{student.length}}">
+                    <div>
+                        <button type="button" id="leave" class="btn btn-lg btn-default">离 开
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</script>
 <script type="text/javascript">
     bootbox.setLocale("zh_CN");
     if (window.location.href.lastIndexOf("?u=") > 0) {
         var teacherArray = [];
+        var studentArray = [];
         var resultArray = {};
         var totalArray = {};
         var token = $.cookie('tc_t');
@@ -179,11 +251,41 @@
                         if (result.code === 200) {
                             var data = result.data;
                             $("h3.page-header").html("问卷结果-" + data.group.groupName);
-                            if (data.teacher.length > 0) {
-                                $.each(data.teacher, function (i, d) {
-                                    teacherArray.push(d.id);
-                                });
+                            var tmpl = 'teacherSurveyTmpl';
+                            if (data.groupType == 1) {
+                                if (data.teacher.length > 0) {
+                                    $.each(data.teacher, function (i, d) {
+                                        teacherArray.push(d.id);
+                                    });
+                                }
+                                if (data.result.length > 0) {
+                                    $.each(data.result, function (i, d) {
+                                        resultArray["'" + d.teacherId + "#" + d.questionId + "'"] = d.record;
+                                        if (typeof(totalArray[d.teacherId]) == "undefined") {
+                                            totalArray[d.teacherId] = 0;
+                                        }
+                                        totalArray[d.teacherId] += d.record;
+                                    });
+                                }
+                                tmpl = 'teacherSurveyTmpl';
+                            } else {
+                                if (data.student.length > 0) {
+                                    $.each(data.student, function (i, d) {
+                                        studentArray.push(d.id);
+                                    });
+                                }
+                                if (data.result.length > 0) {
+                                    $.each(data.result, function (i, d) {
+                                        resultArray["'" + d.studentId + "#" + d.questionId + "'"] = d.record;
+                                        if (typeof(totalArray[d.studentId]) == "undefined") {
+                                            totalArray[d.studentId] = 0;
+                                        }
+                                        totalArray[d.studentId] += d.record;
+                                    });
+                                }
+                                tmpl = 'studentSurveyTmpl';
                             }
+
                             if (data.progress.length > 0) {
                                 var t = data.progress.length;
                                 var n = 0;
@@ -196,16 +298,8 @@
                                 $("#progress").attr("style", "width:" + p + "%;");
                                 $("#progress-text").text(p + "%");
                             }
-                            if (data.result.length > 0) {
-                                $.each(data.result, function (i, d) {
-                                    resultArray["'" + d.teacherId + "#" + d.questionId + "'"] = d.record;
-                                    if (typeof(totalArray[d.teacherId]) == "undefined") {
-                                        totalArray[d.teacherId] = 0;
-                                    }
-                                    totalArray[d.teacherId] += d.record;
-                                });
-                            }
-                            var html = template('surveyTmpl', data);
+
+                            var html = template(tmpl, data);
                             $("#survey_page").append(html);
                             $('.starrr').each(function (i, data) {
                                 var t = parseInt($(this).attr("t"));

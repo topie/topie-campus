@@ -1,12 +1,11 @@
 package com.topie.campus.core.service;
 
-import java.util.List;
-
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
-import com.topie.campus.core.dto.StaticScoreDto;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.model.Student;
+
+import java.util.List;
 
 /**
  * Created by chenguojun on 9/13/16.
@@ -28,11 +27,13 @@ public interface IStudentService extends IService<Student> {
 
     String findStudentNoByUserId(Integer userId);
 
-	List<String> findPhoneByMajorId(String zydm);
+    List<String> findPhoneByMajorId(String zydm);
 
-	SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,
-			int pageSize);
+    SimplePageInfo<Student> findByLeadRole(Integer userId, int pageNum, int pageSize);
 
 	Student findByStudentId(Integer studentId);
 
+    List<StudentSimpleDto> findStudentByTeacherIdAndTypeId(Integer teacherId, Integer typeId);
+
+    List<StudentSimpleDto> findStudentByTypeId(Integer typeId);
 }

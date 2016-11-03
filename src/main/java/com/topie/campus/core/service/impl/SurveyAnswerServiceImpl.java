@@ -23,11 +23,20 @@ public class SurveyAnswerServiceImpl extends BaseService<SurveyAnswer> implement
     private ISurveyGroupService iSurveyGroupService;
 
     @Override
-    public void insertAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer studentId) {
+    public void insertStudentAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer studentId) {
         for (SurveyAnswer surveyAnswer : answerList) {
             surveyAnswer.setStudentId(studentId);
             surveyAnswerMapper.insertOrUpdate(surveyAnswer);
         }
         iSurveyGroupService.updateGroupStudentComplete(groupId, studentId);
+    }
+
+    @Override
+    public void insertTeacherAnswerList(List<SurveyAnswer> answerList, Integer groupId, Integer teacherId) {
+        for (SurveyAnswer surveyAnswer : answerList) {
+            surveyAnswer.setTeacherId(teacherId);
+            surveyAnswerMapper.insertOrUpdate(surveyAnswer);
+        }
+        iSurveyGroupService.updateGroupTeacherComplete(groupId, teacherId);
     }
 }
