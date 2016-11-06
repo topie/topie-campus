@@ -85,6 +85,8 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
 		// TODO Auto-generated method stub
 		List<TeacherSimpleDto> list = teacherMapper.findTeacherByStudentNo(studentId,(pageNum - 1) * pageSize,pageSize);
 		Long total = teacherMapper.findCountTeacherByStudentNo(studentId);
+		if(total==null)
+			total = 0L;
 		SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
 		return pageInfo;
 	}

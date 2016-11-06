@@ -27,6 +27,7 @@
     var teacherNo = "";
     App.infoStatic.gridChange = function(type,value)
     {
+    	var sourceValue = value;
          if(isIE())
         	 {
         	 value = encodeURI(value);
@@ -40,8 +41,8 @@
     	if(type==1)
     		{
     		$("#static_grid").html('');
-    		college = value;
-    		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+college;
+    		college = sourceValue;
+    		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+value;
     		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.facultyOptions);
     		 console.log(grid);
     		 //grid.reload({url:App.infoStatic.facultyOptions.url +"?&college="+value});
@@ -49,25 +50,25 @@
     	else if(type==2)
     		{
     		$("#static_grid").html('');
-    		faculty = value;
+    		faculty = sourceValue;
     		console.log(faculty);
-    		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+faculty;
+    		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+value;
     		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
     		//grid.reload({url:App.infoStatic.majorOptions.url +"?&faculty="+value});
     		}
     	else if(type==3)
     		{
     		$("#static_grid").html('');
-    		major = value;
-    		App.infoStatic.tutorOptions.url = App.href + "/api/job/staticTutor?major="+major;
+    		major = sourceValue;
+    		App.infoStatic.tutorOptions.url = App.href + "/api/job/staticTutor?major="+value;
     		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.tutorOptions);
     		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
     		}
     	else if(type==4)
 		{
 		$("#static_grid").html('');
-		teacheNo = value;
-		App.infoStatic.EmploymentOptions.url = App.href + "/api/job/staticByTutor?teacherNo="+teacheNo;
+		teacheNo = sourceValue;
+		App.infoStatic.EmploymentOptions.url = App.href + "/api/job/staticByTutor?teacherNo="+value;
 		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.EmploymentOptions);
 		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
 		}

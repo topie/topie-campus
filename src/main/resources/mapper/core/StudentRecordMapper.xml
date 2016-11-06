@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.StudentRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.StudentRecord" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
+    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findByPage" resultMap="BaseResultMap">
+        select
+        *
+        from t_student_record
+         <where>
+        <if test="studentRecord!=null">
+            <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
+                and teacher_id = #{studentRecord.teacherId}
+            </if>
+         </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countByPage" resultType="java.lang.Long">
+        select
+        count(1)
+        from t_student_record
+        <where>
+        <if test="studentRecord!=null">
+            <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
+                and teacher_id = #{studentRecord.teacherId}
+            </if>
+         </if>
+        </where>
+    </select>
+  
+</mapper>

@@ -474,7 +474,7 @@
                                                 };
                                                 scoreGrid = $("#score_div").topieGrid(scoreOpts);
                                                 that.find("a[role=score]").on("click", function () {
-                                                    scoreGrid.$searchForm.find("select").val("");
+                                                    initStudyYear();
                                                     scoreGrid.reload();
                                                     $.ajax({
                                                         url: App.href + "/api/front/student/staticScoreForTeacher?topie_token=" + App.token,
@@ -653,8 +653,9 @@
                                                 };
                                                 selectCourseGrid = $("#selectCourse").topieGrid(selectCourseOps);
                                                 that.find("a[role=selectCourse]").on("click", function () {
-                                                    initStudyYear();
-                                                    selectCourseGrid.reload();
+                                                    //initStudyYear();
+                                                	selectCourseGrid.$searchForm.find("select").val("");
+                                                	selectCourseGrid.reload();
                                                 });
                                             }
                                         );

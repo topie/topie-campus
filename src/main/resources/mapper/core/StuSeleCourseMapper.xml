@@ -56,6 +56,7 @@
                and exam_time is not null
             </if>
          </if>
+         order by study_year desc,study_year_num desc
         </where>
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}

@@ -33,7 +33,7 @@
     					 role = role + result[i].name+",";
     					}
     				}
-    			$("#teacherSendMsg").before("<div style='text-align:center;font-size:24px;margin-bottom:40px;'>您的角色是<font color='red'>"+role+"</font>您可以给您相应角色下的学生发送短息通知。</div>");
+    			$("#teacherSendMsg").before("<div style='text-align:center;font-size:24px;margin-bottom:40px;'>您的角色是<font color='red'>"+role+"</font>;您可以给您相应角色下的学生发送短息通知。</div>");
     		}
     	});
     	

@@ -18,8 +18,14 @@
                 <article class="row" style="margin-top: 5px;">
                     <div class="col-md-2 col-sm-2 hidden-xs">
                         <figure class="thumbnail">
-                            <img class="img-responsive"
-                                 src="../vendors/bootstrap-comment/img/default-avatar.jpg"/>
+                            {{if avatar==""}}SSS
+					            <img class="img-responsive"
+					                 src="../vendors/bootstrap-comment/img/default-avatar.jpg" />
+					            {{/if}}
+					            {{if avatar!=""}}
+					            <img class="img-responsive"
+					                 src="{{avatar}}" />
+					            {{/if}}
                             <figcaption class="text-center">{{name}}</figcaption>
                         </figure>
                     </div>
