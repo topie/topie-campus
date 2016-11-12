@@ -69,6 +69,23 @@ public class UserController {
         userService.updateUser(user);
         return ResponseUtil.success();
     }
+    
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updatePassword(String oldPassword,String newPassword,Integer userId) {
+    	if(userId==null)
+    	{
+    		userId = SecurityUtil.getCurrentUserId();
+    	}
+    	User user = userService.selectByKey(userId);
+        if(!SecurityUtil.matchString(oldPassword, user.getPassword()))
+        {
+        	return ResponseUtil.error("原密码不正确！");
+        }
+    	user.setPassword(newPassword);
+        userService.updateUser(user);
+        return ResponseUtil.success();
+    }
 
     @RequestMapping(value = "/load/{userId}", method = RequestMethod.GET)
     @ResponseBody

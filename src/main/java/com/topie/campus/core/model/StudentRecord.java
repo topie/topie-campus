@@ -31,6 +31,12 @@ public class StudentRecord {
 
     @Column(name = "teacher_no")
     private String teacherNo;
+    
+    @Column(name = "student_id")
+    private Integer studentId;
+    
+    @Column(name = "student_no")
+    private Integer studentNo;
 
     /**
      * @return id
@@ -130,4 +136,20 @@ public class StudentRecord {
     public void setTeacherNo(String teacherNo) {
         this.teacherNo = teacherNo;
     }
+
+	public Integer getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
+
+	public Integer getStudentNo() {
+		return studentNo;
+	}
+
+	public void setStudentNo(Integer studentNo) {
+		this.studentNo = studentNo;
+	}
 }

@@ -2,6 +2,8 @@ package com.topie.campus.core.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.tools.excel.ExcelCell;
 
@@ -21,25 +23,24 @@ public class EmploymentExcelDto implements Serializable{
 	    @ExcelCell(index = 0)
 	    private String stuId;
 
-	    @ExcelCell(index = 1)
 	    private String name;
 	    
 	    private String gender;
 	    
-	    @ExcelCell(index = 2)
+	    @ExcelCell(index = 1)
 	    private String takeTable;
 
-	    @ExcelCell(index = 3)
+	    @ExcelCell(index = 2)
 	    private String employmentStatus;
 	    
-	    @ExcelCell(index = 4)
+	    @ExcelCell(index = 3)
 	    private String signStatus;
 	    
-	    @ExcelCell(index = 5)
+	    @ExcelCell(index = 4)
 	    private String poorStudent;
 	    
 
-	    @ExcelCell(index = 6)
+	    @ExcelCell(index = 5)
 	    private String homeAddress;
 
 	    private String phone;
@@ -49,25 +50,23 @@ public class EmploymentExcelDto implements Serializable{
 	     */
 	    private String education;
 
-	    @ExcelCell(index = 7)
 	    private String tutor;
 	    
-	    @ExcelCell(index = 8)
 	    private String teacherNo;
 	    
-	    @ExcelCell(index = 9)
+	    @ExcelCell(index = 6)
 	    private String comment;
 	    
 	    private String enterDate;
 	    
 	    private String college;
 	    
-	    @ExcelCell(index = 10)
+	    @ExcelCell(index = 7)
 	    private String graduateDate;
 	    /**
 	     * 是否毕业班
 	     */
-	    @ExcelCell(index = 11)
+	    @ExcelCell(index = 8)
 	    private String isImport;
 
 	    private String identifyId;
@@ -457,7 +456,14 @@ public class EmploymentExcelDto implements Serializable{
 	    	employment.setComment(comment);
 	    	employment.setEmploymentStatus(employmentStatus);
 	    	employment.setGender(gender);
-	    	employment.setPoorStudent(poorStudent);
+	    	if(StringUtils.isNotEmpty(poorStudent))
+	    	{
+	    	 employment.setPoorStudent("是");
+	    	}
+	    	else
+	    	{
+	    	  employment.setPoorStudent("否");
+	    	}
 	    	employment.setTakeTable(takeTable);
 	    	employment.setTutor(tutor);
 	    	employment.setSignStatus(signStatus);
