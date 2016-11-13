@@ -120,7 +120,7 @@
 			) b on b.major = t.major
 			LEFT JOIN 
 			(
-			   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.major
+			   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.major
 			) 
 			p on p.major = t.major
 			LEFT JOIN 
@@ -178,7 +178,7 @@
 					) b on b.major = t.major
 					LEFT JOIN 
 					(
-					   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.major
+					   select COUNT(poor_student) as poor_rate,t.major from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.major
 					) 
 					p on p.major = t.major
 					LEFT JOIN 
@@ -233,7 +233,7 @@
 				) b on b.faculty = t.faculty
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.faculty
+				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.faculty
 				) 
 				p on p.faculty = t.faculty
 				LEFT JOIN 
@@ -291,7 +291,7 @@
 				) b on b.faculty = t.faculty
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.faculty
+				   select COUNT(poor_student) as poor_rate,t.faculty from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.faculty
 				) 
 				p on p.faculty = t.faculty
 				LEFT JOIN 
@@ -346,7 +346,7 @@
 				) b on b.college = t.college
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.college
+				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.college
 				) 
 				p on p.college = t.college
 				LEFT JOIN 
@@ -401,7 +401,7 @@
 				) b on b.college = t.college
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.college
+				   select COUNT(poor_student) as poor_rate,t.college from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.college
 				) 
 				p on p.college = t.college
 				LEFT JOIN 
@@ -453,7 +453,7 @@
 				) b on b.class_num = t.class_num
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.class_num
+				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.class_num
 				) 
 				p on p.class_num = t.class_num
 				LEFT JOIN 
@@ -511,7 +511,7 @@
 				) b on b.class_num = t.class_num
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.class_num
+				   select COUNT(poor_student) as poor_rate,t.class_num from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.class_num
 				) 
 				p on p.class_num = t.class_num
 				LEFT JOIN 
@@ -566,7 +566,7 @@
 				) b on b.teacher_no = t.teacher_no
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.teacher_no from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.teacher_no
+				   select COUNT(poor_student) as poor_rate,t.teacher_no from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.teacher_no
 				) 
 				p on p.teacher_no = t.teacher_no
 				LEFT JOIN 
@@ -624,7 +624,7 @@
 				) b on b.teacher_no = t.teacher_no
 				LEFT JOIN 
 				(
-				   select COUNT(poor_student) as poor_rate,t.teacher_no from t_employment t where t.poor_student is not null and t.graduate_date = #{employment.graduateDate} group by t.teacher_no
+				   select COUNT(poor_student) as poor_rate,t.teacher_no from t_employment t where t.poor_student ='是' and t.graduate_date = #{employment.graduateDate} group by t.teacher_no
 				) 
 				p on p.teacher_no = t.teacher_no
 				LEFT JOIN 
@@ -654,7 +654,7 @@
     
     <select id="findOtherByPageGroupByMajor" resultMap="StaticResultMap">
       select man,woman,poor_rate,w.major from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
-      left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+      left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student ='是' GROUP BY t.major) r on w.major = r.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
              w.major = #{employment.major}
@@ -667,7 +667,7 @@
     
     <select id="countOtherByPageGroupByMajor" resultType="java.lang.Long">
          select count(w.major) from (select count(*) as man,woman,t.major  from t_employment t left join (select count(*) as woman,t.major from t_employment t where t.gender='女' GROUP BY t.major) w on w.major = t.major where t.gender='男' GROUP BY t.major) w
-        left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student is not null GROUP BY t.major) r on w.major = r.major
+        left join (select COUNT(*) as poor_rate,t.major from t_employment t left join (select COUNT(*) as total,t.major from t_employment t group by t.major) r on r.major = t.major where t.poor_student ='是' GROUP BY t.major) r on w.major = r.major
         <where>
           <if test="employment.major!=null and employment.major!=''">
              w.major = #{employment.major}
@@ -677,7 +677,7 @@
     
     <select id="findOtherByPageGroupByClassNum" resultMap="StaticResultMap">
       select man,woman,poor_rate,w.class_num from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
-      left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+      left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student ='是' GROUP BY t.class_num) r on w.class_num = r.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
              w.class_num = #{employment.classNum}
@@ -690,7 +690,7 @@
     
     <select id="countOtherByPageGroupByClassNum" resultType="java.lang.Long">
     select count(w.class_num) from (select count(*) as man,woman,t.class_num  from t_employment t left join (select count(*) as woman,t.class_num from t_employment t where t.gender='女' GROUP BY t.class_num) w on w.class_num = t.class_num where t.gender='男' GROUP BY t.class_num) w
-    left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student is not null GROUP BY t.class_num) r on w.class_num = r.class_num
+    left join (select COUNT(*) as poor_rate,t.class_num from t_employment t left join (select COUNT(*) as total,t.class_num from t_employment t group by t.class_num) r on r.class_num = t.class_num where t.poor_student ='是' GROUP BY t.class_num) r on w.class_num = r.class_num
         <where>
           <if test="employment.classNum!=null and employment.classNum!=''">
              w.class_num = #{employment.classNum}

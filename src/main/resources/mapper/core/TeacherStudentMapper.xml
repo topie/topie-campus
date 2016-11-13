@@ -32,5 +32,9 @@
     <select id="selectTeacherIdByTypeId" resultType="java.lang.Integer">
         select distinct teacher_id from topie_campus.t_relate_student_teacher where type_id=#{typeId}
     </select>
+    
+     <select id="selectTeacherRelationByTypeIdAndStudentId" resultMap="BaseResultMap">
+        select * from topie_campus.t_relate_student_teacher where type_id=#{typeId} and student_id = #{studentId}
+    </select>
 
 </mapper>

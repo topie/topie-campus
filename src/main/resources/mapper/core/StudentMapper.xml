@@ -81,7 +81,7 @@
     </select>
     <select id="findStudentSimpleDtoByTeacherIdAndPageNumAndPageSize"
             resultMap="SimpleDtoResultMap">
-        select s.id,s.user_id,s.student_no,s.name,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind
+        select s.id,s.user_id,s.student_no,s.name,s.subject,s.contact_phone,if(st.teacher_id=#{teacherId},1,0) is_bind
         from topie_campus.t_student s
         left join topie_campus.t_relate_student_teacher st on s.id=st.student_id
         and st.type_id = #{typeId} and st.teacher_id=#{teacherId}

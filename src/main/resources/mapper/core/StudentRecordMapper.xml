@@ -12,6 +12,8 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
     <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_no" property="studentNo" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="findByPage" resultMap="BaseResultMap">
@@ -21,7 +23,10 @@
          <where>
         <if test="studentRecord!=null">
             <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
-                and teacher_id = #{studentRecord.teacherId}
+                teacher_id = #{studentRecord.teacherId}
+            </if>
+            <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
+                and student_id = #{studentRecord.studentId}
             </if>
          </if>
         </where>

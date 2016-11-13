@@ -4,11 +4,15 @@ import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.EmploymentMapper;
 import com.topie.campus.core.dao.StudentMapper;
+import com.topie.campus.core.dao.TeacherMapper;
+import com.topie.campus.core.dao.TeacherStudentMapper;
 import com.topie.campus.core.dto.EmploymentExcelDto;
 import com.topie.campus.core.dto.TeacherStudentRelateExcelDto;
 import com.topie.campus.core.model.Employment;
 import com.topie.campus.core.model.StaticEmployment;
 import com.topie.campus.core.model.Student;
+import com.topie.campus.core.model.Teacher;
+import com.topie.campus.core.model.TeacherStudent;
 import com.topie.campus.core.service.IEmploymentService;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
@@ -31,6 +35,12 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
     
     @Autowired
     StudentMapper studentMapper;
+    
+    @Autowired
+    TeacherMapper teacherMapper;
+    
+    @Autowired
+    TeacherStudentMapper teacherStudentMapper;
 
     @Override
     public SimplePageInfo<Employment> findByPage(int pageNum, int pageSize, Employment employMent) {
@@ -46,11 +56,9 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         // TODO Auto-generated method stub
         Collection<EmploymentExcelDto> employmentExcelDtos;
         if (file.getOriginalFilename().toLowerCase().endsWith(".xlsx")) {
-            employmentExcelDtos = ExcelUtil
-                    .importExcelX(EmploymentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+            employmentExcelDtos = ExcelUtil.importExcelX(EmploymentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
         } else {
-            employmentExcelDtos = ExcelUtil
-                    .importExcel(EmploymentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
+            employmentExcelDtos = ExcelUtil.importExcel(EmploymentExcelDto.class, file.getInputStream(), 0, "dd/MM/yy", logs);
         }
         for (EmploymentExcelDto employmentExcelDto : employmentExcelDtos) {
             //TODO 检测教师职工号是否唯一
@@ -59,6 +67,12 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         	Integer studentId = studentMapper.findIdByStudentNo(employmentExcelDto.getStuId());
         	Student student = studentMapper.findByStuId(studentId);
             Employment employment = employmentExcelDto.buildEmployment(employmentExcelDto);
+            TeacherStudent teacherStudent = teacherStudentMapper.selectTeacherRelationByTypeIdAndStudentId(2, studentId);
+            Teacher teacher = null;
+            if(teacherStudent!=null)
+            {
+            	teacher = teacherMapper.selectByPrimaryKey(teacherStudent.getTeacherId());
+            }
             if(student!=null)
             {
 	            employment.setClassNum(student.getGrade());
@@ -68,6 +82,12 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 	            employment.setGender(student.getGender());
 	            employment.setEducation(student.getGradation());
 	            employment.setMajor(student.getSubject());
+	            employment.setName(student.getName());
+	            if(teacher!=null)
+	            {
+	            	employment.setTutor(teacher.getName());
+	                employment.setTeacherNo(teacher.getEmployeeNo());
+	            }
 	            List<Employment> employMents = new ArrayList<Employment>();
 	            if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))
 	                employMents = employmentMapper.findByStuId(employmentExcelDto.getStuId());

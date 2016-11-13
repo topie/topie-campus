@@ -16,4 +16,6 @@ public interface TeacherStudentMapper extends Mapper<TeacherStudent> {
             @Param("typeIds") List<Integer> typeIds);
 
     List<Integer> selectTeacherIdByTypeId(@Param("typeId") Integer typeId);
+    
+    TeacherStudent selectTeacherRelationByTypeIdAndStudentId(@Param("typeId") Integer typeId,@Param("studentId") Integer studentId);
 }
