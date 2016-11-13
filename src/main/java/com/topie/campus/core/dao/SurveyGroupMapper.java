@@ -74,4 +74,6 @@ public interface SurveyGroupMapper extends Mapper<SurveyGroup> {
     int deleteGroupStudentRelate(@Param("groupId") Integer groupId);
 
     int deleteGroupTeacherRelate(@Param("groupId") Integer groupId);
+
+    List<SurveyAnswerExcelDto> selectSurveyAnswer(@Param("groupId") Integer groupId, @Param("groupType") Integer groupType);
 }

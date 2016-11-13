@@ -27,7 +27,33 @@ public class SurveyAnswerExcelDto implements Serializable {
     private String studentNo;
 
     @ExcelCell(index = 5)
+    private String questionContent;
+
+    @ExcelCell(index = 6)
+    private Integer record;
+
+    @ExcelCell(index = 7)
     private String comment;
+
+    private String getRecordStr() {
+        return record == null ? "-" : String.valueOf(record);
+    }
+
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
+    }
+
+    public Integer getRecord() {
+        return record;
+    }
+
+    public void setRecord(Integer record) {
+        this.record = record;
+    }
 
     public String getGroupId() {
         return groupId;

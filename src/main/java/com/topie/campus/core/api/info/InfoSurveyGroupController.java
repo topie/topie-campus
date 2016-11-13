@@ -225,9 +225,32 @@ public class InfoSurveyGroupController {
             String[] headers = null;
             String fileName = "问卷回答.xlsx";
             if (surveyGroup.getGroupType() == 1) {
-                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "学生回答" };
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "题目", "学生评分", "学生回答" };
             } else {
-                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "导师回答" };
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "题目", "导师评分", "导师回答" };
+            }
+            ExcelFileUtil.reponseXlsx(response, fileName, headers, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/exportAll", method = RequestMethod.GET)
+    public void exportAll(@RequestParam(value = "groupId") Integer groupId, HttpServletResponse response)
+            throws Exception {
+        SurveyGroup surveyGroup = iSurveyGroupService.selectByKey(groupId);
+        if (surveyGroup == null) {
+            ResponseUtil.writeJson(response, ResponseUtil.error("问卷调查不存在"));
+        }
+        try {
+            List<SurveyAnswerExcelDto> list = iSurveyGroupService
+                    .selectSurveyAnswer(groupId, surveyGroup.getGroupType());
+            String[] headers = null;
+            String fileName = "问卷-" + surveyGroup.getGroupName() + ".xlsx";
+            if (surveyGroup.getGroupType() == 1) {
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "题目", "学生评分", "学生回答" };
+            } else {
+                headers = new String[] { "问卷组id", "导师名称", "职工号", "学生名称", "学生学号", "题目", "导师评分", "导师回答" };
             }
             ExcelFileUtil.reponseXlsx(response, fileName, headers, list);
         } catch (Exception e) {

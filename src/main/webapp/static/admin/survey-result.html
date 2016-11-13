@@ -252,7 +252,7 @@
                             var data = result.data;
                             $("h3.page-header").html("问卷结果-" + data.group.groupName);
                             var tmpl = 'teacherSurveyTmpl';
-                            if (data.groupType == 1) {
+                            if (data.group.groupType == 1) {
                                 if (data.teacher.length > 0) {
                                     $.each(data.teacher, function (i, d) {
                                         teacherArray.push(d.id);
