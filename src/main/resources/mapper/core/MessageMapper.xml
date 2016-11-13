@@ -15,6 +15,19 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="is_read" property="isRead" jdbcType="BIT"/>
     </resultMap>
+    <resultMap id="dtoMap" type="com.topie.campus.core.dto.MessageSimpleDto">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="message_id" property="messageId" jdbcType="INTEGER"/>
+        <result column="message_content" property="messageContent" jdbcType="VARCHAR"/>
+        <result column="message_to_user_name" property="messageToUserName" jdbcType="VARCHAR"/>
+        <result column="message_from_user_name" property="messageFromUserName" jdbcType="VARCHAR"/>
+        <result column="message_date_time" property="messageDateTime" jdbcType="TIMESTAMP"/>
+        <result column="reply_content" property="replyContent" jdbcType="VARCHAR"/>
+        <result column="reply_user_name" property="replyUserName" jdbcType="VARCHAR"/>
+        <result column="reply_date_time" property="replyDateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
     <update id="updateTimeByPrimaryKey">
         update topie_campus.t_message set update_time=now() where message_id = #{messageId}
     </update>
@@ -61,5 +74,77 @@
         from topie_campus.t_message
         where message_to_user_id=#{userId}
         group by message_from_user_id
+    </select>
+    <select id="findMessageDtoByPageNumAndPageSize" resultMap="dtoMap">
+        select
+        m.message_id,m.message_content,m.message_to_user_name,
+        m.message_from_user_name,m.message_date_time,
+        r.reply_content,r.reply_user_name,r.reply_date_time
+        from topie_campus.t_message m
+        left join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        <where>
+            <if test="param.messageTimeFrom!=null and param.messageTimeFrom!=''">
+                <![CDATA[  and m.message_date_time >= #{param.messageTimeFrom} ]]>
+            </if>
+            <if test="param.messageTimeTo!=null and param.messageTimeTo!=''">
+                <![CDATA[  and m.message_date_time <= #{param.messageTimeTo} ]]>
+            </if>
+            <if test="param.replyTimeFrom!=null and param.replyTimeFrom!=''">
+                <![CDATA[  and r.reply_date_time >= #{param.replyTimeFrom} ]]>
+            </if>
+            <if test="param.replyTimeTo!=null and param.replyTimeTo!=''">
+                <![CDATA[  and r.reply_date_time <= #{param.replyTimeTo} ]]>
+            </if>
+        </where>
+        order by m.message_date_time desc,r.reply_date_time desc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countMessageDto" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_message m
+        left join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        <where>
+            <if test="param.messageTimeFrom!=null and param.messageTimeFrom!=''">
+                <![CDATA[  and m.message_date_time >= #{param.messageTimeFrom} ]]>
+            </if>
+            <if test="param.messageTimeTo!=null and param.messageTimeTo!=''">
+                <![CDATA[  and m.message_date_time <= #{param.messageTimeTo} ]]>
+            </if>
+            <if test="param.replyTimeFrom!=null and param.replyTimeFrom!=''">
+                <![CDATA[  and r.reply_date_time >= #{param.replyTimeFrom} ]]>
+            </if>
+            <if test="param.replyTimeTo!=null and param.replyTimeTo!=''">
+                <![CDATA[  and r.reply_date_time <= #{param.replyTimeTo} ]]>
+            </if>
+        </where>
+    </select>
+    <select id="findMessageDtoList" resultMap="dtoMap">
+        select
+        m.message_id,m.message_content,m.message_to_user_name,
+        m.message_from_user_name,m.message_date_time,
+        r.reply_content,r.reply_user_name,r.reply_date_time
+        from topie_campus.t_message m
+        left join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        <where>
+            <if test="param.messageTimeFrom!=null and param.messageTimeFrom!=''">
+                <![CDATA[  and m.message_date_time >= #{param.messageTimeFrom} ]]>
+            </if>
+            <if test="param.messageTimeTo!=null and param.messageTimeTo!=''">
+                <![CDATA[  and m.message_date_time <= #{param.messageTimeTo} ]]>
+            </if>
+            <if test="param.replyTimeFrom!=null and param.replyTimeFrom!=''">
+                <![CDATA[  and r.reply_date_time >= #{param.replyTimeFrom} ]]>
+            </if>
+            <if test="param.replyTimeTo!=null and param.replyTimeTo!=''">
+                <![CDATA[  and r.reply_date_time <= #{param.replyTimeTo} ]]>
+            </if>
+        </where>
+        order by m.message_date_time desc,r.reply_date_time desc
     </select>
 </mapper>

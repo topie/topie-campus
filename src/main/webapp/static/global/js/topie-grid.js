@@ -1225,6 +1225,7 @@
         _doAfterInit: function () {
             if (this._afterInit != undefined)
                 this._afterInit();
+            $("[data-toggle='tooltip']").tooltip();
         },
         _uniform: function () {
             if (!$().uniform) {

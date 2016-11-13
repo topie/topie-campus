@@ -2,6 +2,8 @@ package com.topie.campus.core.service;
 
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.dto.MessageSearchParams;
+import com.topie.campus.core.dto.MessageSimpleDto;
 import com.topie.campus.core.model.Message;
 
 import java.util.List;
@@ -19,4 +21,10 @@ public interface IMessageService extends IService<Message> {
     int updateMessageUpdateTime(Integer messageId);
 
     List<Map> findReceiveMessageStat(Integer userId);
+
+    SimplePageInfo<MessageSimpleDto> findMessageByPage(MessageSearchParams messageSearchParams, int pageNum,
+            int pageSize);
+
+    List<MessageSimpleDto> findMessageList(MessageSearchParams messageSearchParams);
+
 }

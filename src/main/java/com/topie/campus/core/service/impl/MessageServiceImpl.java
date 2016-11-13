@@ -3,6 +3,8 @@ package com.topie.campus.core.service.impl;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.MessageMapper;
+import com.topie.campus.core.dto.MessageSearchParams;
+import com.topie.campus.core.dto.MessageSimpleDto;
 import com.topie.campus.core.model.Message;
 import com.topie.campus.core.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +54,22 @@ public class MessageServiceImpl extends BaseService<Message> implements IMessage
     @Override
     public List<Map> findReceiveMessageStat(Integer userId) {
         return messageMapper.findReceiveMessageStat(userId);
+    }
+
+    @Override
+    public SimplePageInfo<MessageSimpleDto> findMessageByPage(MessageSearchParams messageSearchParams, int pageNum,
+            int pageSize) {
+        List<MessageSimpleDto> list = messageMapper
+                .findMessageDtoByPageNumAndPageSize(messageSearchParams, (pageNum - 1) * pageSize, pageSize);
+        Long total = messageMapper.countMessageDto(messageSearchParams);
+        SimplePageInfo<MessageSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+        return pageInfo;
+    }
+
+    @Override
+    public List<MessageSimpleDto> findMessageList(MessageSearchParams messageSearchParams) {
+        List<MessageSimpleDto> list = messageMapper
+                .findMessageDtoList(messageSearchParams);
+        return list;
     }
 }

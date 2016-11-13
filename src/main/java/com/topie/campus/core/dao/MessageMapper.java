@@ -1,5 +1,7 @@
 package com.topie.campus.core.dao;
 
+import com.topie.campus.core.dto.MessageSearchParams;
+import com.topie.campus.core.dto.MessageSimpleDto;
 import com.topie.campus.core.model.Message;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
@@ -17,4 +19,11 @@ public interface MessageMapper extends Mapper<Message> {
     int updateTimeByPrimaryKey(@Param("messageId") Integer messageId);
 
     List<Map> findReceiveMessageStat(@Param("userId") Integer userId);
+
+    List<MessageSimpleDto> findMessageDtoByPageNumAndPageSize(@Param("param") MessageSearchParams messageSearchParams,
+            @Param("pageOffset") int pageOffset, @Param("pageSize") int pageSize);
+
+    Long countMessageDto(@Param("param") MessageSearchParams messageSearchParams);
+
+    List<MessageSimpleDto> findMessageDtoList(@Param("param") MessageSearchParams messageSearchParams);
 }
