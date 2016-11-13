@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.MsgMapper" >
+  <resultMap id="BaseResultMap" type="com.topie.campus.core.model.Msg" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="reciever" property="reciever" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="msg_content" property="msgContent" jdbcType="VARCHAR" />
+    <result column="msg_sign" property="msgSign" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findMsgByPage" resultMap="BaseResultMap">
+        select
+          *
+        from topie_campus.t_msg
+        <where>
+            <if test="msg.teacherName!=null and msg.teacherName!=''">
+                and teacher_name like concat('%',concat(#{msg.teacherName},'%'))
+            </if>
+        </where>
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    
+    <select id="countMsg" resultType="java.lang.Long">
+        select
+          count(1)
+        from topie_campus.t_msg
+        <where>
+            <if test="msg.teacherName!=null and msg.teacherName!=''">
+                and teacher_name like concat('%',concat(#{msg.teacherName},'%'))
+            </if>
+        </where>
+    </select>
+</mapper>

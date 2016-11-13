@@ -81,5 +81,5 @@ public interface IInfoBasicService {
 
 	UserFaculty getUserFacultyRation(Integer userId);
 
-	void teacherSendMsg(String message, String reciever, String sign); 
+	boolean teacherSendMsg(String message, String reciever, String sign); 
 }

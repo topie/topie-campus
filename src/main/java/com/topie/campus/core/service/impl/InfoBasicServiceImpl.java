@@ -4,9 +4,11 @@ import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.CollegeMapper;
 import com.topie.campus.core.dao.FacultyMapper;
 import com.topie.campus.core.dao.MajorMapper;
+import com.topie.campus.core.dao.MsgMapper;
 import com.topie.campus.core.dao.StudentMapper;
 import com.topie.campus.core.dao.TeacherMapper;
 import com.topie.campus.core.dao.TeacherStudentMapper;
+import com.topie.campus.core.dao.TeacherTypeMapper;
 import com.topie.campus.core.dao.UserFacultyMapper;
 import com.topie.campus.core.dto.*;
 import com.topie.campus.core.model.*;
@@ -95,6 +97,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     
     @Autowired
     UserFacultyMapper userFacultyMapper;
+    
+    @Autowired
+    TeacherTypeMapper teacherTypeMapper;
+    
+    @Autowired
+    MsgMapper msgMapper;
     
     @Value("${sendUrl}")
     private String sendUrl;
@@ -491,7 +499,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 		}
 	}
 	
-	private void sendMsgTo(String message,String sign,String phone) 
+	private boolean sendMsgTo(String message,String sign,String phone) 
 	{
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost=new HttpPost(sendUrl);
@@ -508,8 +516,10 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 			System.out.println(EntityUtils.toString(response.getEntity()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -547,8 +557,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
 	@Async
 	@Override
-	public void teacherSendMsg(String message, String reciever, String sign) {
 		// TODO Auto-generated method stub
+	public boolean teacherSendMsg(String message, String reciever, String sign) {
 		Integer userId = SecurityUtil.getCurrentUserId();
 		Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
 		String typeIdsStr[] = reciever.split(",");
@@ -557,6 +567,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 		{
 			typeIds.add(Integer.valueOf(str));
 		}
+		Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
 		List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId,typeIds);
 		String phones = "";
 		for(int i=0;i<studentIds.size();i++)
@@ -572,6 +583,25 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 			phones = phones + phone;
 			}
 		}
-		sendMsgTo(message, sign, phones);
+	   boolean status = sendMsgTo(message, sign, phones);
+	   if(status)
+	   {
+		   for(Integer typeId : typeIds)
+		   {
+			  TeacherType teacherType =  teacherTypeMapper.selectByPrimaryKey(typeId);
+			  Msg msg = new Msg();
+			  msg.setMsgContent(message);
+			  msg.setMsgSign(sign);
+			  msg.setReciever(teacherType.getTypeName());
+			  msg.setTypeId(teacherType.getTypeId());
+			  msg.setTeacherId(teacher.getId());
+			  msg.setTeacherName(teacher.getName());
+			  msg.setTeacherNo(teacher.getEmployeeNo());
+			  msgMapper.insertSelective(msg);
+		   }
+	   }
+	   if(status)
+		   return true;
+	   return false;
 	}
 }

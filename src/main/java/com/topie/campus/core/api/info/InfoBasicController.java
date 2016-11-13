@@ -56,8 +56,11 @@ public class InfoBasicController {
     @RequestMapping(value = "/teacherSendMsg")
     @ResponseBody
     public Result teacherSendMsg(String message,String reciever,String sign) {
-    	iInfoBasicService.teacherSendMsg(message,reciever,sign);
+    	boolean status = iInfoBasicService.teacherSendMsg(message,reciever,sign);
+    	if(status)
         return ResponseUtil.success("发送成功！");
+    	else
+    	return ResponseUtil.error("发送失败！网络异常！");
     }
     
     @RequestMapping(value = "/sendMsg")
