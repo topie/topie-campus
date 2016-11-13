@@ -25,11 +25,12 @@
                 <td>性别</td>
                 <td>
                     <p style='color:blue;'>
-                        {{gender}}
+                        {{if gender==1}}男{{/if}}
+                        {{if gender==0}}女{{/if}}
                     </p>
                 </td>
                 <td>民族</td>
-                <td><p style='color:blue;'>{{ethnicGroup}}</p></td>
+                <td><p style='color:blue;'>{{ethnicGroupStr}}</p></td>
             </tr>
 
             <tr>
@@ -37,7 +38,7 @@
                 <td>出生日期</td>
                 <td><p style='color:blue;'>{{birth}}</p></td>
                 <td>政治面貌</td>
-                <td><p style='color:blue;'>{{politicalStatus}}</p></td>
+                <td><p style='color:blue;'>{{politicalStatusStr}}</p></td>
             </tr>
             <tr>
                 <td>学院</td>

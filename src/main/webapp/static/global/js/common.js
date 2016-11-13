@@ -49,7 +49,6 @@ function getGraduateYear() {
     }
     else {
         graduateDate = year + 1;
-        console.log(graduateDate);
         $("#graduateDate").val(graduateDate);
     }
     return graduateDate;

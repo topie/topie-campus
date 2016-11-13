@@ -2,6 +2,8 @@ package com.topie.campus.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.topie.campus.common.Sortable;
+import com.topie.campus.core.enums.EthnicGroup;
+import com.topie.campus.core.enums.PoliticalStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -178,8 +180,7 @@ public class Student extends Sortable {
     private String college;
 
     private String password;
-    
-    
+
     @Transient
     private String faculty;
 
@@ -734,12 +735,20 @@ public class Student extends Sortable {
         this.password = password;
     }
 
-	public String getFaculty() {
-		return faculty;
-	}
+    public String getFaculty() {
+        return faculty;
+    }
 
-	public void setFaculty(String faculty) {
-		this.faculty = faculty;
-	}
-    
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getEthnicGroupStr() {
+        return EthnicGroup.getName(Integer.valueOf(ethnicGroup));
+    }
+
+    public String getPoliticalStatusStr() {
+        return PoliticalStatus.getName(Integer.valueOf(politicalStatus));
+    }
+
 }
