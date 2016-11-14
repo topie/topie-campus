@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.topie.campus.tools.excel.ExcelCell;
+
 @Table(name = "t_plan_summary")
 public class PlanSummary {
 	
@@ -13,22 +15,26 @@ public class PlanSummary {
     /**
      * 内容
      */
+	 @ExcelCell(index=4)
     private String content;
 
     /**
      * 类型0,工作计划，1工作总结
      */
-    private Byte type;
+	@ExcelCell(index=5)
+    private Integer type;
 
     /**
      * 学年
      */
+    @ExcelCell(index=0)
     @Column(name = "study_year")
     private String studyYear;
 
     /**
      * 学期
      */
+    @ExcelCell(index=1)
     @Column(name = "study_year_num")
     private String studyYearNum;
 
@@ -41,12 +47,18 @@ public class PlanSummary {
     /**
      * 职工号
      */
+    @ExcelCell(index=2)
     @Column(name = "teacher_no")
     private String teacherNo;
 
+    @ExcelCell(index=6)
     @Column(name = "create_time")
     private Date createTime;
-
+    
+    @Transient
+    @ExcelCell(index=3)
+    private String teacherName;
+    
     /**
      * @return id
      */
@@ -84,7 +96,7 @@ public class PlanSummary {
      *
      * @return type - 类型0,工作计划，1工作总结
      */
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -93,7 +105,7 @@ public class PlanSummary {
      *
      * @param type 类型0,工作计划，1工作总结
      */
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -182,4 +194,13 @@ public class PlanSummary {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+    
 }

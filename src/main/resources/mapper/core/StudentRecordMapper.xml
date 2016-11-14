@@ -16,6 +16,23 @@
     <result column="student_no" property="studentNo" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap id="RecordExcelMap" type="com.topie.campus.core.model.RecordExcel" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="study_year" property="studyYear" jdbcType="VARCHAR" />
+    <result column="study_year_num" property="studyYearNum" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="student_no" property="studentNo" jdbcType="VARCHAR" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <select id="findByPage" resultMap="BaseResultMap">
         select
         *
@@ -25,7 +42,7 @@
             <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
                 teacher_id = #{studentRecord.teacherId}
             </if>
-            <if test="studentRecord.teacherId!=null and studentRecord.teacherId!=''">
+            <if test="studentRecord.studentId!=null and studentRecord.studentId!=''">
                 and student_id = #{studentRecord.studentId}
             </if>
          </if>
@@ -33,6 +50,15 @@
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}
         </if>
+    </select>
+    
+    <select id="findByExcel" resultMap="RecordExcelMap">
+        select
+         r.study_year,r.study_year_num,r.create_time,t.employee_no as teacher_no,s.student_no,t.name as teacher_name,s.name as student_name
+        from t_student_record r left join t_teacher t
+        on r.teacher_id = t.id
+        left join t_student s 
+        on s.id = r.student_id
     </select>
     
     <select id="countByPage" resultType="java.lang.Long">

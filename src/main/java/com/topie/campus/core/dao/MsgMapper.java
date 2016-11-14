@@ -13,5 +13,5 @@ public interface MsgMapper extends Mapper<Msg> {
    List<Msg> findMsgByPage(@Param("pageOffset") Integer pageOffset,
             @Param("pageSize") Integer pageSize,@Param("msg") Msg msg);
 
-      Long countMsg(Msg msg);
+      Long countMsg(@Param("msg") Msg msg);
 }

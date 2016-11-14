@@ -63,4 +63,7 @@ public interface ISurveyGroupService extends IService<SurveyGroup> {
     int insertSelectiveSurveyGroup(SurveyGroup surveyGroup);
 
     int updateSelectiveSurveyGroup(SurveyGroup surveyGroup);
+
+    List<SurveyAnswerExcelDto> selectSurveyAnswer(Integer groupId, Integer groupType);
+
 }

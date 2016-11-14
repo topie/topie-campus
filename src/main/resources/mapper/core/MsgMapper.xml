@@ -13,6 +13,7 @@
     <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
     <result column="teacher_no" property="teacherNo" jdbcType="VARCHAR" />
     <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <select id="findMsgByPage" resultMap="BaseResultMap">

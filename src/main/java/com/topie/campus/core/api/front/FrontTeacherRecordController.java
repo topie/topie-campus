@@ -107,6 +107,13 @@ public class FrontTeacherRecordController {
 	        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
 	    }
 	    
+	    @RequestMapping("/sysRecordList")
+	    @ResponseBody
+	    public Result sysRecordList(StudentRecord studentRecord, int pageSize, int pageNum) {
+	        SimplePageInfo<StudentRecord> pageInfo = stuRecordService.findByPage(pageNum, pageSize, studentRecord);
+	        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+	    }
+	    
 	    @RequestMapping("/insertOrUpdateRecord")
 	    @ResponseBody
 	    public Result insertOrUpdateRecord(StudentRecord studentRecord) {

@@ -27,5 +27,11 @@ public class PlanSummaryService extends BaseService<PlanSummary> implements IPla
 		return pageInfo;
 	}
 
+	@Override
+	public List<PlanSummary> findByExcel()
+	{
+		List<PlanSummary> planSummarys = planSummaryMapper.findByExcel();
+		return planSummarys;
+	}
 
 }

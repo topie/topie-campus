@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.topie.campus.basedao.service.impl.BaseService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dao.StudentRecordMapper;
+import com.topie.campus.core.model.RecordExcel;
 import com.topie.campus.core.model.StudentRecord;
 import com.topie.campus.core.service.IStudentRecordService;
 
@@ -27,5 +28,11 @@ public class StudentRecordService extends BaseService<StudentRecord> implements 
 		return pageInfo;
 	}
 
+	@Override
+	public List<RecordExcel> findByExcel()
+	{
+		List<RecordExcel> recordExcels = studentRecordMapper.findByExcel();
+		return recordExcels;
+	}
 
 }

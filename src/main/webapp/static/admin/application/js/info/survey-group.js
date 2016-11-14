@@ -398,6 +398,12 @@
                         window.open(App.href + "/static/admin/survey-result.html?u=" + data.groupId);
                     }
                 }, {
+                    text: "导出",
+                    cls: "btn-primary btn-sm",
+                    handle: function (index, data) {
+                        window.open(App.href + "/api/info/surveyGroup/exportAll?topie_token=" + App.token + "&groupId=" + data.groupId);
+                    }
+                }, {
                     visible: function (i, data) {
                         return data.onlineStatus < 2;
                     },

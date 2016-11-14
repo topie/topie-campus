@@ -20,6 +20,58 @@
         console.error("data或url未定义");
         return;
     };
+    var dataDefaults = {};
+    if (typeof(moment) != "undefined") {
+        dataDefaults = {
+            showDropdowns: true,
+            linkedCalendars: false,
+            autoApply: false,
+            ranges: {
+                '今天': [moment().startOf('day'), moment()],
+                '昨天': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+                '最近七天': [moment().subtract(6, 'days'), moment()],
+                '最近三十天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            locale: {
+                "format": 'YYYY-MM-DD HH:mm:ss',
+                "separator": " 到 ",
+                "applyLabel": "确定",
+                "cancelLabel": "取消",
+                "fromLabel": "从",
+                "toLabel": "到",
+                "customRangeLabel": "自定义",
+                "daysOfWeek": [
+                    "周日",
+                    "周一",
+                    "周二",
+                    "周三",
+                    "周四",
+                    "周五",
+                    "周六"
+                ],
+                "monthNames": [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月"
+                ],
+                "firstDay": 1
+            },
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerSeconds: true
+        };
+    }
     Grid.defaults = {
         autoLoad: true,
         pageNum: 1,
@@ -402,7 +454,7 @@
                                                         "value_": (option.value == undefined ? ""
                                                             : option.value),
                                                         "text_": (option.text == undefined ? ""
-                                                            : option.text)  
+                                                            : option.text)
                                                     })
                                                 .appendTo(
                                                     ele);
@@ -429,7 +481,7 @@
                                                                         : option.value),
                                                                     "text_": (option.text == undefined ? ""
                                                                         : option.text),
-                                                                    "selected":(option.value == item.value? 'selected = "selected"':''), 
+                                                                    "selected": (option.value == item.value ? 'selected = "selected"' : ''),
                                                                 })
                                                             .appendTo(
                                                                 ele);
@@ -574,93 +626,39 @@
                                 }
                             } else if (item.type == "datepicker") {
                                 var dateTmpl = '<div class="input-group input-medium">'
-                                    + '<input type="text" role="date-input" id="${id_}" name=${name_} class="form-control">'
+                                    + '<input type="text" role="date-input" id="${id_}" name=${name_} value="${value_}" class="form-control">'
                                     + '<span role="icon" class="input-group-addon">'
-                                    + '<i class="fa fa-calendar"></i>'
-                                    + '</span></div>';
-                                var ele = $
-                                    .tmpl(
-                                        dateTmpl,
-                                        {
-                                            "id_": (item.id == undefined ? item.name
-                                                : item.id),
-                                            "name_": item.name,
-                                            "cls_": item.cls == undefined ? ""
-                                                : item.cls
-                                        });
-                                var min = '';
-                                var min = '';
-                                if (item.min != undefined) {
-                                    min = "'" + item.min + "'";
+                                    + '<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>' + '</span></div>';
+                                if (typeof(moment) == "undefined") {
+                                    return $.tmpl(dateTmpl, {
+                                        "id_": (item.id == undefined ? item.name : item.id),
+                                        "name_": item.name,
+                                        "cls_": item.cls == undefined ? "" : item.cls,
+                                        "value_": ""
+                                    });
                                 }
-                                var max = "";
-                                if (item.max != undefined) {
-                                    max = "'" + item.max + "'";
-                                }
+                                var ele = $.tmpl(dateTmpl, {
+                                    "id_": (item.id == undefined ? item.name : item.id),
+                                    "name_": item.name,
+                                    "cls_": item.cls == undefined ? "" : item.cls,
+                                    "value_": (item.value == undefined ? moment().format('YYYY-MM-DD HH:mm:ss') : item.value)
+                                });
                                 itemDiv.find(".form-group").append(ele);
-                                ele
-                                    .find('[role="date-input"]')
-                                    .on(
-                                        "click",
-                                        function () {
-                                            if (item.minDatepickerId != undefined) {
-                                                var ite = $('#' + item.minDatepickerId).val();
-                                                min = ite;
-                                            }
-                                            if (item.maxDatepickerId != undefined) {
-                                                var ite = $('#' + item.maxDatepickerId).val();
-                                                max = ite;
-                                            }
-                                            laydate({
-                                                istime: true,
-                                                format: 'YYYY-MM-DD hh:mm:ss',
-                                                elem: '#'
-                                                + (item.id == undefined ? item.name
-                                                    : item.id),
-                                                min: min,
-                                                max: max
-                                            });
-                                        });
-                                ele
-                                    .find('[role="icon"]')
-                                    .on(
-                                        "click",
-                                        function () {
-                                            laydate({
-                                                istime: true,
-                                                format: 'YYYY-MM-DD hh:mm:ss',
-                                                elem: '#date'
-                                                + (item.id == undefined ? item.name
-                                                    : item.id)
-                                            });
-                                        });
+                                var config = (item.config == undefined ? {} : item.config);
+                                var option = $.extend(true, dataDefaults, config);
+                                if (item.callback != undefined) {
+                                    ele.find('[role="date-input"]').daterangepicker(option, item.callback);
+                                } else {
+                                    ele.find('[role="date-input"]').daterangepicker(option);
+                                }
+                                ele.find('span').on("click", function () {
+                                    $(this).prev().click();
+                                });
                             }
                             searchFormRow.find(".row").append(itemDiv);
                         });
             }
             searchFormRow.append("<hr>");
-            if (buttons != undefined && buttons.length > 0) {
-                $.each(buttons, function (index, button) {
-                    var btn = $.tmpl(Grid.statics.buttonTmpl, {
-                        "class_": (button.cls == undefined ? "btn btn-default"
-                            : button.cls),
-                        "text_": (button.text == undefined ? "未定义"
-                            : button.text),
-                        "title_": (button.title == undefined ? button.text
-                            : button.title),
-                        "type_": (button.type == undefined ? "button"
-                            : button.type)
-                    });
-                    if (button.icon != undefined)
-                        btn.prepend("<i class='" + button.icon + "'><i>");
-                    if (button.handle != undefined)
-                        btn.on("click", function () {
-                            button.handle(that);
-                        });
-                    searchFormRow.find('.form-actions').append(btn);
-                    btn.after("&nbsp;");
-                });
-            }
             if (hide) {
                 showBtn = $.tmpl(Grid.statics.buttonTmpl, {
                     "class_": "btn btn-primary",
@@ -726,6 +724,28 @@
             });
             searchFormRow.find('.form-actions').append(searchbtn);
             searchbtn.after("&nbsp;");
+            if (buttons != undefined && buttons.length > 0) {
+                $.each(buttons, function (index, button) {
+                    var btn = $.tmpl(Grid.statics.buttonTmpl, {
+                        "class_": (button.cls == undefined ? "btn btn-default"
+                            : button.cls),
+                        "text_": (button.text == undefined ? "未定义"
+                            : button.text),
+                        "title_": (button.title == undefined ? button.text
+                            : button.title),
+                        "type_": (button.type == undefined ? "button"
+                            : button.type)
+                    });
+                    if (button.icon != undefined)
+                        btn.prepend("<i class='" + button.icon + "'><i>");
+                    if (button.handle != undefined)
+                        btn.on("click", function () {
+                            button.handle(that);
+                        });
+                    searchFormRow.find('.form-actions').append(btn);
+                    btn.after("&nbsp;");
+                });
+            }
             this.$element.append(searchFormRow);
             this._uniform();
             this.$searchForm = searchFormRow.find("form[ele-type='search']");
@@ -921,7 +941,7 @@
                                 e.stopPropagation();
                             });
                         }
-                        button.css("margin-right","2px");
+                        button.css("margin-right", "2px");
                         cltd.append(button);
                     });
                 }
@@ -1205,6 +1225,7 @@
         _doAfterInit: function () {
             if (this._afterInit != undefined)
                 this._afterInit();
+            $("[data-toggle='tooltip']").tooltip();
         },
         _uniform: function () {
             if (!$().uniform) {

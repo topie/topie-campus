@@ -13,4 +13,6 @@ public interface PlanSummaryMapper extends Mapper<PlanSummary> {
 	List<PlanSummary> findByPage(@Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize,@Param("planSummary") PlanSummary planSummary);
 
 	Long countByPage(@Param("planSummary") PlanSummary planSummary);
+	
+	List<PlanSummary> findByExcel();
 }

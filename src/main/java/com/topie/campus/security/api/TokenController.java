@@ -2,12 +2,11 @@ package com.topie.campus.security.api;
 
 import com.topie.campus.common.utils.HttpResponseUtil;
 import com.topie.campus.common.utils.RequestUtil;
-import com.topie.campus.common.utils.ResponseUtil;
-import com.topie.campus.common.utils.Result;
+import com.topie.campus.core.model.LoginInfo;
+import com.topie.campus.core.service.ILoginInfoService;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.security.OrangeAuthenticationRequest;
 import com.topie.campus.security.security.OrangeHttpAuthenticationDetails;
-import com.topie.campus.security.security.OrangeSideUserCache;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.utils.TokenUtils;
 import com.topie.campus.tools.redis.RedisCache;
@@ -24,9 +23,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/token")
@@ -48,6 +51,9 @@ public class TokenController {
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private ILoginInfoService iLoginInfoService;
 
     @RequestMapping(value = "/generate", method = RequestMethod.POST)
     public ResponseEntity<?> authenticationRequest(HttpServletRequest request,
@@ -77,8 +83,12 @@ public class TokenController {
             redisCache.set(SecurityConstant.USER_CACHE_PREFIX + authenticationRequest.getUsername(), userDetails);
         }
         String token = this.tokenUtils.generateToken(userDetails);
-        logger.info("登录成功;日志类型:{};用户:{};登录IP:{};", "登录", SecurityUtil.getCurrentUserName(),
-                RequestUtil.getIpAddress(request));
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setLoginIp(RequestUtil.getIpAddress(request));
+        loginInfo.setLoginName(SecurityUtil.getCurrentUserName());
+        loginInfo.setLoginUserId(SecurityUtil.getCurrentUserId());
+        loginInfo.setLoginTime(new Date());
+        iLoginInfoService.insertSelective(loginInfo);
         return ResponseEntity.ok(HttpResponseUtil.success(token));
     }
 

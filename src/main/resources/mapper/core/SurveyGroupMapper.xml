@@ -159,21 +159,25 @@
     </select>
     <select id="selectSurveyComment" resultType="com.topie.campus.core.dto.SurveyAnswerExcelDto">
         select
-        group_id groupId,
+        a.group_id groupId,
         t.name teacherName,
         t.employee_no employeeNo,
         s.name studentName,
         s.student_no studentNo,
-        content comment
+        q.question_content questionContent,
+        a.record record,
+        a.content comment
         from
         topie_campus.t_survey_group_question_answer a
+        inner join topie_campus.t_survey_question q
+        on a.question_id = q.question_id
         left join topie_campus.t_teacher t
         on a.teacher_id=t.id
         left join topie_campus.t_student s
         on a.student_id = s.id
-        where group_id=#{groupId}
-        and question_type=2
-        and group_type = #{groupType}
+        where a.group_id=#{groupId}
+        and a.question_type=2
+        and a.group_type = #{groupType}
     </select>
     <select id="selectStudentProcessByGroupId" resultType="java.util.Map">
         select
@@ -238,5 +242,26 @@
         gt.teacher_id teacherId,t.name teacherName,gt.is_complete isComplete
         from topie_campus.t_survey_group_teacher gt left join topie_campus.t_teacher t on gt.teacher_id=t.id
         where gt.group_id=#{groupId}
+    </select>
+    <select id="selectSurveyAnswer" resultType="com.topie.campus.core.dto.SurveyAnswerExcelDto">
+        select
+        a.group_id groupId,
+        t.name teacherName,
+        t.employee_no employeeNo,
+        s.name studentName,
+        s.student_no studentNo,
+        q.question_content questionContent,
+        a.record record,
+        a.content comment
+        from
+        topie_campus.t_survey_group_question_answer a
+        inner join topie_campus.t_survey_question q
+        on a.question_id = q.question_id
+        left join topie_campus.t_teacher t
+        on a.teacher_id=t.id
+        left join topie_campus.t_student s
+        on a.student_id = s.id
+        where group_id=#{groupId}
+        and group_type = #{groupType}
     </select>
 </mapper>

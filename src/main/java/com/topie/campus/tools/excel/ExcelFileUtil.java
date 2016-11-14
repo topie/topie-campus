@@ -151,7 +151,7 @@ public class ExcelFileUtil {
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
-            ExcelUtil.exportXls(headers, list, out, null);
+            ExcelUtil.exportXls(headers, list, out, "YYYY-MM-dd HH:mm:ss");
             InputStream inputStream = new FileInputStream(file);
             return inputStream;
         } catch (FileNotFoundException e) {
@@ -176,7 +176,7 @@ public class ExcelFileUtil {
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
-            ExcelUtil.exportExcelX(headers, list, out, null);
+            ExcelUtil.exportExcelX(headers, list, out, "YYYY-MM-dd HH:mm:ss");
             InputStream inputStream = new FileInputStream(file);
             return inputStream;
         } catch (FileNotFoundException e) {

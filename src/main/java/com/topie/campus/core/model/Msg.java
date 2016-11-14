@@ -1,6 +1,10 @@
 package com.topie.campus.core.model;
 
+import java.util.Date;
+
 import javax.persistence.*;
+
+import com.topie.campus.tools.excel.ExcelCell;
 
 @Table(name = "t_msg")
 public class Msg {
@@ -11,22 +15,30 @@ public class Msg {
 	@Column(name = "type_id")
 	private Integer typeId;
 
+	 @ExcelCell(index=5)
     private String reciever;
 
+    @ExcelCell(index=3)
     @Column(name = "msg_content")
     private String msgContent;
 
+    @ExcelCell(index=4)
     @Column(name = "msg_sign")
     private String msgSign;
 
     @Column(name = "teacher_id")
     private Integer teacherId;
 
+    @ExcelCell(index=1)
     @Column(name = "teacher_no")
     private String teacherNo;
 
+    @ExcelCell(index=2)
     @Column(name = "teacher_name")
     private String teacherName;
+    
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * @return id
@@ -133,5 +145,13 @@ public class Msg {
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}
-    
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
 }

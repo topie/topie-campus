@@ -7,6 +7,7 @@ import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.topie.campus.tools.excel.ExcelCell;
 
 @Table(name = "t_student_record")
 public class StudentRecord {
@@ -28,7 +29,7 @@ public class StudentRecord {
 
     @Column(name = "teacher_id")
     private Integer teacherId;
-
+   
     @Column(name = "teacher_no")
     private String teacherNo;
     

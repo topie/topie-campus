@@ -117,10 +117,10 @@ INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('1', '25');
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('3', '25');
 
 INSERT INTO `sys_function`
-VALUES ('27', '0', '问卷调查', '1', '2', NULL, '/api/front/studentSurvey/page', '9', NULL, NULL);
+VALUES ('27', '0', '问卷调查', '1', '2', NULL, '/api/front/studentSurvey/page', '2', NULL, NULL);
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '27');
 
 INSERT INTO `sys_function`
-VALUES ('34', '0', '问卷调查', '1', '2', NULL, '/api/front/teacherSurvey/page', '9', NULL, NULL);
+VALUES ('34', '0', '问卷调查', '1', '2', NULL, '/api/front/teacherSurvey/page', '2', NULL, NULL);
 INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('4', '34');
 

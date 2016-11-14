@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.topie.campus.core.dao.LoginInfoMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.LoginInfo">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login_user_id" property="loginUserId" jdbcType="INTEGER"/>
+        <result column="name" property="userName" jdbcType="VARCHAR"/>
+        <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="findStudentLoginInfoByPageNumAndPageSize" resultMap="BaseResultMap">
+        select
+        li.id,li.login_user_id,li.login_name,li.login_ip,li.login_time,s.name
+        from topie_campus.t_login_info li inner join topie_campus.t_student s
+        on li.login_user_id = s.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+        order by li.login_time desc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countStudentLoginInfo" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_login_info li inner join topie_campus.t_student s
+        on li.login_user_id = s.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+    </select>
+    <select id="findTeacherLoginInfoByPageNumAndPageSize" resultMap="BaseResultMap">
+        select
+        li.id,li.login_user_id,li.login_name,li.login_ip,li.login_time,t.name
+        from topie_campus.t_login_info li inner join topie_campus.t_teacher t
+        on li.login_user_id = t.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+        order by li.login_time desc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="countTeacherLoginInfo" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_login_info li inner join topie_campus.t_teacher t
+        on li.login_user_id = t.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+    </select>
+    <select id="findStudentLoginInfoList" resultMap="BaseResultMap">
+        select
+        li.id,li.login_user_id,li.login_name,li.login_ip,li.login_time,s.name
+        from topie_campus.t_login_info li inner join topie_campus.t_student s
+        on li.login_user_id = s.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+        order by li.login_time desc
+    </select>
+    <select id="findTeacherLoginInfoList" resultMap="BaseResultMap">
+        select
+        li.id,li.login_user_id,li.login_name,li.login_ip,li.login_time,t.name
+        from topie_campus.t_login_info li inner join topie_campus.t_teacher t
+        on li.login_user_id = t.user_id
+        <where>
+            <if test="param.loginTimeFrom!=null and param.loginTimeFrom!=''">
+                <![CDATA[  and li.login_time >= #{param.loginTimeFrom} ]]>
+            </if>
+            <if test="param.loginTimeTo!=null and param.loginTimeTo!=''">
+                <![CDATA[  and li.login_time <= #{param.loginTimeTo} ]]>
+            </if>
+        </where>
+        order by li.login_time desc
+    </select>
+</mapper>

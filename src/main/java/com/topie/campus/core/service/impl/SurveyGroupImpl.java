@@ -198,4 +198,9 @@ public class SurveyGroupImpl extends BaseService<SurveyGroup> implements ISurvey
         return result;
     }
 
+    @Override
+    public List<SurveyAnswerExcelDto> selectSurveyAnswer(Integer groupId, Integer groupType) {
+        return surveyGroupMapper.selectSurveyAnswer(groupId, groupType);
+    }
+
 }

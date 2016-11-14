@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="study_year" jdbcType="VARCHAR" property="studyYear" />
     <result column="study_year_num" jdbcType="VARCHAR" property="studyYearNum" />
     <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
@@ -29,6 +29,13 @@
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}
         </if>
+    </select>
+    
+    <select id="findByExcel" resultMap="BaseResultMap">
+        select
+        p.study_year,p.study_year_num,t.employee_no as teacher_no,p.create_time,p.content,p.type,t.name as teacherName
+        from t_plan_summary p left join t_teacher t 
+        on t.id = p.teacher_id
     </select>
     
     <select id="countByPage" resultType="java.lang.Long">

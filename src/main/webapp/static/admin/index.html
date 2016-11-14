@@ -43,7 +43,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 我的账号 <b class="caret"></b></a>
                             <ul class="dropdown-menu animated fadeInUp">
-                                <li><a id="updatePassword" href="javascript:void(0);" >修改密码</a></li>
+                                <li><a id="updatePassword" href="javascript:void(0);">修改密码</a></li>
                                 <li><a id="logout" href="javascript:void(0);">退出登录</a></li>
                             </ul>
                         </li>
@@ -161,12 +161,15 @@
 <script src="application/js/sys/role.js"></script>
 <script src="application/js/sys/function.js"></script>
 <script src="application/js/job/employment.js"></script>
-<script src="application/js/job/employment_echart.js"></script>
 <script src="application/js/job/static_employment.js"></script>
 <script src="application/js/info/survey-group.js"></script>
 <script src="application/js/info/survey-question.js"></script>
 <script src="application/js/info/msg.js"></script>
+<script src="application/js/static/msgStatic.js"></script>
+<script src="application/js/static/teacherStatic.js"></script>
 <script src="application/js/leader/student.js"></script>
+<script src="application/js/info/login-info.js"></script>
+<script src="application/js/info/message-info.js"></script>
 <script type="text/javascript">
     bootbox.setLocale("zh_CN");
     $("#logout").on("click", function () {
@@ -190,84 +193,84 @@
                 }
         );
     });
-    
-    $("#updatePassword").click(function(){
-    	var modal = $.topieModal({
+
+    $("#updatePassword").click(function () {
+        var modal = $.topieModal({
             id: "userForm",
             title: "修改密码",
             destroy: true
         });
-    	var formOpts = {
-                id: "update_password_form",
-                name: "update_password_form",
-                method: "POST",
-                action: App.href + "/api/sys/user/updatePassword?topie_token=" + App.token,//表单action
-                ajaxSubmit: true,//是否使用ajax提交表单
-                rowEleNum: 1,
-                beforeSubmit: function () {
-                },
-                beforeSend: function (request) {
-                },
-                ajaxSuccess: function () {
+        var formOpts = {
+            id: "update_password_form",
+            name: "update_password_form",
+            method: "POST",
+            action: App.href + "/api/sys/user/updatePassword?topie_token=" + App.token,//表单action
+            ajaxSubmit: true,//是否使用ajax提交表单
+            rowEleNum: 1,
+            beforeSubmit: function () {
+            },
+            beforeSend: function (request) {
+            },
+            ajaxSuccess: function () {
+                modal.hide();
+            },
+            submitText: "修改",//保存按钮的文本
+            showReset: true,//是否显示重置按钮
+            isValidate: true,//开启验证
+            buttons: [{
+                type: 'button',
+                text: '关闭',
+                handle: function () {
                     modal.hide();
+                }
+            }],
+            buttonsAlign: "center",
+            items: [{
+                type: 'password',//类型
+                name: 'oldPassword',//name
+                id: 'oldPassword',//id
+                label: '原密码',//左边label
+                cls: 'input-large',
+                rule: {
+                    required: true
                 },
-                submitText: "修改",//保存按钮的文本
-                showReset: true,//是否显示重置按钮
-                isValidate: true,//开启验证
-                buttons: [{
-                    type: 'button',
-                    text: '关闭',
-                    handle: function () {
-                        modal.hide();
-                    }
-                }],
-                buttonsAlign: "center",
-                items: [{
-                    type: 'password',//类型
-                    name: 'oldPassword',//name
-                    id: 'oldPassword',//id
-                    label: '原密码',//左边label
-                    cls: 'input-large',
-                    rule: {
-                        required: true
-                        },
-                    message: {//对应验证提示信息
-                        required: "请输入原密码"
-                    }
-                }, {
-                    type: 'password',//类型
-                    name: 'newPassword',//name
-                    id: 'newPassword',//id
-                    label: '新密码',//左边label
-                    cls: 'input-medium',
-                    rule: {
-                        required: true,
-                        minlength: 6,
-                        maxlength: 64
-                    },
-                    message: {
-                        required: "请输入密码",
-                        minlength: "至少{0}位",
-                        maxlength: "做多{0}位"
-                    }
-                }, {
-                    type: 'password',//类型
-                    name: 'newPassword1',//name
-                    id: 'newPassword1',//id
-                    label: '确认密码',//左边label
-                    cls: 'input-medium',
-                    rule: {
-                        required: true,
-                        equalTo: "#newPassword"
-                    },
-                    message: {
-                        required: "请输入确认密码",
-                        equalTo: "与密码不一致"
-                    }
-                }]
-            };
-            var form = modal.$body.topieForm(formOpts);
-            modal.show();
+                message: {//对应验证提示信息
+                    required: "请输入原密码"
+                }
+            }, {
+                type: 'password',//类型
+                name: 'newPassword',//name
+                id: 'newPassword',//id
+                label: '新密码',//左边label
+                cls: 'input-medium',
+                rule: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 64
+                },
+                message: {
+                    required: "请输入密码",
+                    minlength: "至少{0}位",
+                    maxlength: "做多{0}位"
+                }
+            }, {
+                type: 'password',//类型
+                name: 'newPassword1',//name
+                id: 'newPassword1',//id
+                label: '确认密码',//左边label
+                cls: 'input-medium',
+                rule: {
+                    required: true,
+                    equalTo: "#newPassword"
+                },
+                message: {
+                    required: "请输入确认密码",
+                    equalTo: "与密码不一致"
+                }
+            }]
+        };
+        var form = modal.$body.topieForm(formOpts);
+        modal.show();
     })
 </script>
 </body>
