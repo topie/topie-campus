@@ -743,12 +743,4 @@ public class Student extends Sortable {
         this.faculty = faculty;
     }
 
-    public String getEthnicGroupStr() {
-        return EthnicGroup.getName(Integer.valueOf(ethnicGroup));
-    }
-
-    public String getPoliticalStatusStr() {
-        return PoliticalStatus.getName(Integer.valueOf(politicalStatus));
-    }
-
 }
