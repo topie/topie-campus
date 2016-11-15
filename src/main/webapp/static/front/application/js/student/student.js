@@ -156,6 +156,30 @@
             })
         });
     };
+    App.frontStudent.teacherSurveyColumns = [
+        {
+            title: "问卷组名称",
+            field: "groupName"
+        }, {
+            title: "开始时间",
+            field: "start"
+        }, {
+            title: "结束时间",
+            field: "end"
+        }, {
+            title: "状态",
+            field: "onlineStatus",
+            format: function (i, data) {
+                if (data.onlineStatus == 0) {
+                    return '<span class="label label-default">未开始</span>';
+                } else if (data.onlineStatus == 1) {
+                    return '<span class="label label-info">进行中</span>';
+                } else {
+                    return '<span class="label label-warning">已结束</span>';
+                }
+            }
+        }
+    ];
     App.frontStudent.initEvents = function () {
         var grid;
         var studentOpt = {
@@ -227,6 +251,57 @@
                                 });
                             }
                         );
+                        modal.show();
+                    }
+                },
+                {
+                    cls: "btn-info btn-sm",
+                    text: "评论(问卷)",
+                    handle: function (index, stData) {
+                        var modal = $.topieModal({
+                            id: "commentModal",
+                            title: "学生问卷列表",
+                            destroy: true
+                        });
+                        var options = {
+                            url: App.href + "/api/front/teacherSurvey/page?typeId=" + grid.$searchForm.find("#typeId").val(),
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            pageNum: 1,
+                            pageSize: 15,
+                            idFiled: "groupId",
+                            showCheckbox: true,
+                            checkboxWidth: "3%",
+                            showIndexNum: true,
+                            indexNumWidth: "7%",
+                            pageSelect: [2, 15, 30, 50],
+                            columns: App.frontStudent.teacherSurveyColumns,
+                            actionColumnText: "操作",
+                            actionColumnWidth: "25%",
+                            actionColumns: [
+                                {
+                                    visible: function (i, data) {
+                                        return data.onlineStatus == 1;
+                                    },
+                                    text: "参与",
+                                    cls: "btn-primary btn-sm",
+                                    handle: function (index, data) {
+                                        window.open(App.href + "/static/front/survey.html?u=" + data.groupId);
+                                    }
+                                }
+                            ],
+                            search: {
+                                rowEleNum: 1,
+                                items: [{
+                                    type: "text",
+                                    label: "问卷名称",
+                                    name: "groupName",
+                                    placeholder: "问卷组名称"
+                                }]
+                            }
+                        };
+                        modal.$body.topieGrid(options);
                         modal.show();
                     }
                 },
@@ -602,7 +677,7 @@
                                                         {
                                                             title: "任课老师",
                                                             field: "teacherName"
-                                                        },{
+                                                        }, {
                                                             title: "重修标记",
                                                             field: "restudyFlag"
                                                         },
@@ -654,8 +729,8 @@
                                                 selectCourseGrid = $("#selectCourse").topieGrid(selectCourseOps);
                                                 that.find("a[role=selectCourse]").on("click", function () {
                                                     //initStudyYear();
-                                                	selectCourseGrid.$searchForm.find("select").val("");
-                                                	selectCourseGrid.reload();
+                                                    selectCourseGrid.$searchForm.find("select").val("");
+                                                    selectCourseGrid.reload();
                                                 });
                                             }
                                         );
@@ -669,218 +744,218 @@
                     }
                 },
                 {
-                	 cls: "btn-primary btn-sm",
-                     text: "指导学生的记录",
-                     handle: function (index, stData) {
-                         var modalout = $.topieModal({
-                             id: "messageModal",
-                             title: "学生记录",
-                             destroy: true
-                         	});
-                         var modal;
-                         var formOpts = {
-                         		id: "plan_form",
-                                name: "plan_form",
-                                method: "POST",
-                                action: App.href + "/api/front/teacherRecord/insertOrUpdateRecord?studentId="+stData.id,
-                                ajaxSubmit: true,
-                                beforeSend: function (request) {
-                                    request.setRequestHeader("X-Auth-Token", App.token);
-                                },
-                                ajaxSuccess: function () {
+                    cls: "btn-primary btn-sm",
+                    text: "指导学生的记录",
+                    handle: function (index, stData) {
+                        var modalout = $.topieModal({
+                            id: "messageModal",
+                            title: "学生记录",
+                            destroy: true
+                        });
+                        var modal;
+                        var formOpts = {
+                            id: "plan_form",
+                            name: "plan_form",
+                            method: "POST",
+                            action: App.href + "/api/front/teacherRecord/insertOrUpdateRecord?studentId=" + stData.id,
+                            ajaxSubmit: true,
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            ajaxSuccess: function () {
+                                modal.hide();
+                                grid.reload();
+                            },
+                            submitText: "保存",
+                            showReset: true,
+                            rowEleNum: 1,
+                            resetText: "重置",
+                            isValidate: true,
+                            buttons: [{
+                                type: 'button',
+                                text: '关闭',
+                                handle: function () {
                                     modal.hide();
-                                    grid.reload();
+                                }
+                            }],
+                            buttonsAlign: "center",
+                            items: [
+                                {
+                                    type: 'hidden',
+                                    name: 'id',
+                                    id: 'id'
                                 },
-                                submitText: "保存",
-                                showReset: true,
-                                rowEleNum: 1,
-                                resetText: "重置",
-                                isValidate: true,
-                                buttons: [{
-                                    type: 'button',
-                                    text: '关闭',
-                                    handle: function () {
-                                        modal.hide();
-                                    }
-                                }],
-                                buttonsAlign: "center",
-                                items: [
-                    				{
-                    				    type: 'hidden',
-                    				    name: 'id',
-                    				    id: 'id'
-                    				}, 
-                    				 {
-                                    id:"studyYear",
+                                {
+                                    id: "studyYear",
                                     type: "select",
                                     label: "学年",
                                     name: "studyYear",
-                                    items:[
-                                    	{
-                                        	text:"请选择",
-                                            value:""
+                                    items: [
+                                        {
+                                            text: "请选择",
+                                            value: ""
                                         }
                                     ],
-                                    itemsUrl:App.href+"/api/dict/1?topie_token=" + App.token
-                                    },  
-                                    {
-                                	    id:"studyYearNum",
-                                        type: "select",
-                                        label: "学期",
-                                        name: "studyYearNum",
-                                        items: [
-                    							{
-                    								text:"请选择",
-                    							    value:""
-                    							},
-                                                {
-                                                 text:"1",
-                                                 value:"1"
+                                    itemsUrl: App.href + "/api/dict/1?topie_token=" + App.token
+                                },
+                                {
+                                    id: "studyYearNum",
+                                    type: "select",
+                                    label: "学期",
+                                    name: "studyYearNum",
+                                    items: [
+                                        {
+                                            text: "请选择",
+                                            value: ""
+                                        },
+                                        {
+                                            text: "1",
+                                            value: "1"
+                                        },
+                                        {
+                                            text: "2",
+                                            value: "2"
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: "createTime",
+                                    type: "datepicker",
+                                    label: "时间",
+                                    name: "createTime",
+                                    config: {
+                                        timePicker: true,
+                                        singleDatePicker: true,
+                                        locale: {
+                                            format: 'YYYY-MM-DD HH:mm:ss'
+                                        }
+                                    },
+                                    rule: {
+                                        required: true
+                                    },
+                                    message: {
+                                        required: "请选择时间"
+                                    }
+                                },
+                                {
+                                    type: 'textarea',
+                                    name: 'content',
+                                    id: 'content',
+                                    label: '内容',
+                                    cls: 'input-large',
+                                    rule: {
+                                        required: true,
+                                    },
+                                    message: {
+                                        required: "请输入内容，500字以内"
+                                    }
+                                }
+                            ]
+                        };
+                        var recordOpt = {
+                            url: App.href + "/api/front/teacherRecord/recordList?studentId=" + stData.id,
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            autoLoad: true,
+                            pageNum: 1,//当前页码
+                            pageSize: 15,//每页显示条数
+                            idFiled: "id",//id域指定
+                            showCheckbox: true,//是否显示checkbox
+                            checkboxWidth: "3%",
+                            showIndexNum: false,
+                            indexNumWidth: "5%",
+                            pageSelect: [10, 15, 30, 50],
+                            columns: [
+                                {
+                                    title: "学年",
+                                    field: "studyYear"
+                                }, {
+                                    title: "学期",
+                                    field: "studyYearNum"
+                                },
+                                {
+                                    title: "日期",
+                                    field: "createTime"
+                                }, {
+                                    title: "内容",
+                                    field: "content"
+                                }
+                                /* ,{
+                                 title: "是否我的教师",
+                                 field: "isBind",
+                                 format: function (num, grid) {
+                                 if (grid.isBind == 1) {
+                                 return "是";
+                                 } else {
+                                 return "否"
+                                 }
+                                 }
+                                 }*/],
+                            actionColumnText: "操作",//操作列文本
+                            actionColumnWidth: "20%",
+                            actionColumns: [
+                                {
+                                    cls: "btn-info btn-sm",
+                                    text: "编辑",
+                                    handle: function (index, stData) {
+                                        modal = $.topieModal({
+                                            id: "planModal",
+                                            title: "留言",
+                                            destroy: true
+                                        });
+                                        var form = modal.$body.topieForm(formOpts);
+                                        form.loadRemote(App.href + "/api/front/teacherRecord/loadRecord?id=" + stData.id);
+                                        modal.show();
+                                    }
+                                },
+                                {
+                                    cls: "btn-primary btn-sm",
+                                    text: "删除",
+                                    handle: function (index, stData) {
+                                        $.ajax(
+                                            {
+                                                type: 'GET',
+                                                url: App.href + "/api/front/teacherRecord/deleteStudentRecord",
+                                                contentType: "application/json",
+                                                dataType: "json",
+                                                data: {
+                                                    id: stData.id
                                                 },
-                                                {
-                                                    text:"2",
-                                                    value:"2"
+                                                beforeSend: function (request) {
+                                                    request.setRequestHeader("X-Auth-Token", App.token);
+                                                },
+                                                success: function (result) {
+                                                    alert(result.message);
+                                                    grid.reload();
                                                 }
-                                        ]
-                                       },
-                                       {
-                                    	    id:"createTime",
-                    	                    type: "datepicker",
-                    	                    label: "时间",
-                    	                    name: "createTime",
-                    	                    config: {
-                    	                        timePicker: true,
-                    	                        singleDatePicker: true,
-                    	                        locale: {
-                    	                            format: 'YYYY-MM-DD HH:mm:ss'
-                    	                        }
-                    	                    },
-                    		                   rule: {
-                    		                       required: true
-                    		                   },
-                    		                   message: {
-                    		                       required: "请选择时间"
-                    		                   }
-                    	               },
-                                     {
-                    		            type: 'textarea',
-                    		            name: 'content',
-                    		            id: 'content',
-                    		            label: '内容',
-                    		            cls: 'input-large',
-                    		            rule: {
-                    		                required: true,
-                    		            },
-                    		            message: {
-                    		                required: "请输入内容，500字以内"
-                    		            }
-                    		        }      
-                               ]
-                          };
-                         var recordOpt = {
-                                 url: App.href + "/api/front/teacherRecord/recordList?studentId="+stData.id,
-                                 beforeSend: function (request) {
-                                     request.setRequestHeader("X-Auth-Token", App.token);
-                                 },
-                                 autoLoad: true,
-                                 pageNum: 1,//当前页码
-                                 pageSize: 15,//每页显示条数
-                                 idFiled: "id",//id域指定
-                                 showCheckbox: true,//是否显示checkbox
-                                 checkboxWidth: "3%",
-                                 showIndexNum: false,
-                                 indexNumWidth: "5%",
-                                 pageSelect: [10, 15, 30, 50],
-                                 columns: [
-                                     {
-                                         title: "学年",
-                                         field: "studyYear"
-                                     }, {
-                                         title: "学期",
-                                         field: "studyYearNum"
-                                     }, 
-                                     {
-                                         title: "日期",
-                                         field: "createTime"
-                                     },{
-                                         title: "内容",
-                                         field: "content"
-                                     }
-                                     /* ,{
-                                      title: "是否我的教师",
-                                      field: "isBind",
-                                      format: function (num, grid) {
-                                      if (grid.isBind == 1) {
-                                      return "是";
-                                      } else {
-                                      return "否"
-                                      }
-                                      }
-                                      }*/],
-                                 actionColumnText: "操作",//操作列文本
-                                 actionColumnWidth: "20%",
-                                 actionColumns: [
-                                     {
-                                         cls: "btn-info btn-sm",
-                                         text: "编辑",
-                                         handle: function (index, stData) {
-                                             modal = $.topieModal({
-                                                 id: "planModal",
-                                                 title: "留言",
-                                                 destroy: true
-                                             });
-                                             var form = modal.$body.topieForm(formOpts);
-                                             form.loadRemote(App.href + "/api/front/teacherRecord/loadRecord?id=" + stData.id);
-                                             modal.show();
-                                         }
-                                     },
-                                     {
-                                         cls: "btn-primary btn-sm",
-                                         text: "删除",
-                                         handle: function (index, stData) {
-                                             $.ajax(
-                                                 {
-                                                     type: 'GET',
-                                                     url: App.href + "/api/front/teacherRecord/deleteStudentRecord",
-                                                     contentType: "application/json",
-                                                     dataType: "json",
-                                                     data: {
-                                                         id: stData.id
-                                                     },
-                                                     beforeSend: function (request) {
-                                                         request.setRequestHeader("X-Auth-Token", App.token);
-                                                     },
-                                                     success: function (result) {
-                                                     	alert(result.message);
-                                                     	grid.reload();
-                                                     }
-                                                 }
-                                             );
-                                         }
-                                     }],
-                                     tools: [
-                                             {
-                                              text: " 添 加",
-                                              cls: "btn btn-primary",
-                                              icon: "fa fa-cubes",
-                                              handle: function () {
-                                              modal = $.topieModal({
-                                              id: "record_modal",
-                                              title: "添加",
-                                              destroy: true
-                                              });
-                                              var form = modal.$body.topieForm(formOpts,function(){
-                                             	 getStudyYear();
-                                              });
-                                              modal.show();
-                                              }
-                                              }
-                                         ]
-                             };
-                         grid = modalout.$body.topieGrid(recordOpt);
-                         modalout.show();
-                      	}
-                 }
+                                            }
+                                        );
+                                    }
+                                }],
+                            tools: [
+                                {
+                                    text: " 添 加",
+                                    cls: "btn btn-primary",
+                                    icon: "fa fa-cubes",
+                                    handle: function () {
+                                        modal = $.topieModal({
+                                            id: "record_modal",
+                                            title: "添加",
+                                            destroy: true
+                                        });
+                                        var form = modal.$body.topieForm(formOpts, function () {
+                                            getStudyYear();
+                                        });
+                                        modal.show();
+                                    }
+                                }
+                            ]
+                        };
+                        grid = modalout.$body.topieGrid(recordOpt);
+                        modalout.show();
+                    }
+                }
             ],
             search: {
                 rowEleNum: 2,
@@ -890,6 +965,7 @@
                         type: "select",
                         label: "教师类型",
                         name: "typeId",
+                        id: "typeId",
                         itemsUrl: App.href + "/api/info/teacherType/options?topie_token=" + App.token
                     }, {
                         type: "text",
