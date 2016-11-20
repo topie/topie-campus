@@ -211,12 +211,14 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             if (userService.findExistUser(user) > 0) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
             }
+            else{
             userService.insertUser(user);
             userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
             Teacher teacher = teacherDto.buildTeacher();
             teacher.setUserId(user.getId());
             teacher.setAvatar("/photos/teacher/"+teacher.getEmployeeNo()+".jpg");
             iTeacherService.insertSelective(teacher);
+            }
         }
     }
 
@@ -390,11 +392,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (StuTimeTableExcelDto dto : stuTimeTableExcelDtos) {
             StuTimeTable stuTimeTable = dto.buildStuTimeTable(dto);
-            List<StuTimeTable> stuTimeTables = stuTimeTableService.findByStuNoAndCourseNum(stuTimeTable.getSelectCourseNum(),stuTimeTable.getStuId());
-            if(stuTimeTables.size()==0)
-            {
+            //List<StuTimeTable> stuTimeTables = stuTimeTableService.findByStuNoAndCourseNum(stuTimeTable.getSelectCourseNum(),stuTimeTable.getStuId());
+            // if(stuTimeTables.size()==0)
+            //{
             	 stuTimeTableService.insert(stuTimeTable);
-            }
+            //}
            
         }
 

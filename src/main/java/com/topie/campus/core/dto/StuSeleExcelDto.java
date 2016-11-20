@@ -63,8 +63,6 @@ public class StuSeleExcelDto {
 	    @ExcelCell(index=15)
 	    private String examTime;
 
-	    private String restudyFlag;
-
 	    @ExcelCell(index=16)
 	    private String classroomName;
 	    
@@ -76,6 +74,9 @@ public class StuSeleExcelDto {
 	    
 	    @ExcelCell(index=19)
 	    private String comment;
+	    
+	    @ExcelCell(index=20)
+	    private String restudyFlag;
 
 	    private String couseStudyTime;
 	    

@@ -212,7 +212,7 @@
                     field: "subject"
                 }],
             actionColumnText: "操作",//操作列文本
-            actionColumnWidth: "30%",
+            actionColumnWidth: "40%",
             actionColumns: [
                 {
                     cls: "btn-info btn-sm",
@@ -293,6 +293,7 @@
                             ],
                             search: {
                                 rowEleNum: 1,
+                                hide:true,
                                 items: [{
                                     type: "text",
                                     label: "问卷名称",
@@ -959,6 +960,7 @@
             ],
             search: {
                 rowEleNum: 2,
+                hide:true,
                 //搜索栏元素
                 items: [
                     {

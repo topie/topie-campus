@@ -486,5 +486,5 @@ public class StuSeleCourse {
 	public void setSeatNum(String seatNum) {
 		this.seatNum = seatNum;
 	}
-    
+
 }

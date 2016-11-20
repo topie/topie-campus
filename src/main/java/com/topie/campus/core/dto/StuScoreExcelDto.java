@@ -2,6 +2,7 @@ package com.topie.campus.core.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.topie.campus.core.model.StuScore;
@@ -438,7 +439,10 @@ nullΪ�����ޣ�Ϊ�״��޶���1Ϊ��������3�
     {
     	StuScore score = new StuScore();
     	BeanUtils.copyProperties(dto, score);
-    	score.setScorePoint(Double.valueOf(dto.getScorePoint()));
+    	if(StringUtils.isNotEmpty(dto.getScorePoint()))
+    	{
+    		score.setScorePoint(Double.valueOf(dto.getScorePoint()));
+    	}
 		return score;
     }
 }

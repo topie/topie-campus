@@ -268,4 +268,5 @@ public class StuTimeTable {
     public void setIsSelected(String isSelected) {
         this.isSelected = isSelected;
     }
+
 }

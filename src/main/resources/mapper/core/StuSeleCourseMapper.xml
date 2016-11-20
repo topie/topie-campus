@@ -87,7 +87,7 @@
     
     <select id="countByStuIdAndCourseNumAndStudyYear" resultType="java.lang.Long">
         select
-        count(1)
+        count(*)
         from t_stu_sele_course
         <where>
          <if test = "stuSeleCourse!=null">

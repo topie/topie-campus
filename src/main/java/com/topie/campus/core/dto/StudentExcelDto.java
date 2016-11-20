@@ -668,7 +668,7 @@ public class StudentExcelDto implements Serializable {
 		// TODO Auto-generated method stub
 		Student stu = new Student();
 		BeanUtils.copyProperties(this, stu);
-		SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+		/*SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		try {
 			date = formate.parse(this.getBirth());
@@ -677,6 +677,7 @@ public class StudentExcelDto implements Serializable {
 			e.printStackTrace();
 		}
 		stu.setBirth(date);
+		*/
 		return stu;
 	}
     

@@ -153,75 +153,43 @@ CREATE TABLE `t_teacher` (
   UNIQUE KEY `employee_no` (`employee_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='老师信息表';  
   
-  
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
-  `id`               INT(11)     NOT NULL AUTO_INCREMENT
-  COMMENT 'ID',
-  `avatar`           VARCHAR(255)         DEFAULT ''
-  COMMENT '头像',
-  `user_id`          INT(11)     NOT NULL
-  COMMENT '平台用户id',
-  `student_no`       VARCHAR(32) NOT NULL
-  COMMENT '学号',
-  `name`             VARCHAR(64) NOT NULL DEFAULT ''
-  COMMENT '姓名',
-  `gender`           VARCHAR(10) NOT NULL DEFAULT '1'
-  COMMENT '性别:0 女 1 男',
-  `birth`            DATE                 DEFAULT NULL
-  COMMENT '出生日期',
-  `political_status` VARCHAR(100)         DEFAULT '0'
-  COMMENT '政治面貌',
-  `ethnic_group`     VARCHAR(255)         DEFAULT '0'
-  COMMENT '民族',
-  `src_region`       VARCHAR(255)         DEFAULT NULL
-  COMMENT '入取地区',
-  `academe`          VARCHAR(32)          DEFAULT ''
-  COMMENT '学院',
-  `subject`          VARCHAR(32)          DEFAULT ''
-  COMMENT '专业',
-  `grade`            VARCHAR(255)         DEFAULT NULL,
-  `shool_len`        VARCHAR(255)         DEFAULT NULL
-  COMMENT '学制',
-  `school_roll`      VARCHAR(255)         DEFAULT ''
-  COMMENT '学籍',
-  `grade_year`       VARCHAR(255)         DEFAULT ''
-  COMMENT '年级',
-  `major_direction`  VARCHAR(255)         DEFAULT ''
-  COMMENT '专业方向',
-  `enter_date`       VARCHAR(255)         DEFAULT ''
-  COMMENT '入学日期',
-  `email`            VARCHAR(64)          DEFAULT ''
-  COMMENT '邮箱',
-  `comment`          VARCHAR(255)         DEFAULT ''
-  COMMENT '备注',
-  `english_type`     VARCHAR(255)         DEFAULT ''
-  COMMENT '学生类别（英语A,英语B）',
-  `full_name`        VARCHAR(255)         DEFAULT ''
-  COMMENT '全拼',
-  `major_code`       VARCHAR(255)         DEFAULT ''
-  COMMENT '专业代码',
-  `gradation`        VARCHAR(255)         DEFAULT ''
-  COMMENT '层次（本科，高职等）',
-  `inschool`         VARCHAR(10)          DEFAULT ''
-  COMMENT '是否在校',
-  `is_register`      VARCHAR(255)         DEFAULT ''
-  COMMENT '是否注册',
-  `graduate_date`    VARCHAR(255)         DEFAULT NULL
-  COMMENT '毕业日期',
-  `contact_phone`    VARCHAR(32)          DEFAULT ''
-  COMMENT '联系电话',
-  `is_graduate`      VARCHAR(10)          DEFAULT NULL
-  COMMENT '是否毕业',
-  `college`          VARCHAR(255)         DEFAULT NULL
-  COMMENT '学院',
-  `password`         VARCHAR(255)         DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `avatar` varchar(255) DEFAULT '' COMMENT '头像',
+  `user_id` int(11) NOT NULL COMMENT '平台用户id',
+  `student_no` varchar(32) NOT NULL COMMENT '学号',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '姓名',
+  `gender` varchar(10) DEFAULT '1' COMMENT '性别:0 女 1 男',
+  `birth` varchar(100) DEFAULT NULL COMMENT '出生日期',
+  `political_status` varchar(100) DEFAULT '0' COMMENT '政治面貌',
+  `ethnic_group` varchar(255) DEFAULT '0' COMMENT '民族',
+  `src_region` varchar(255) DEFAULT NULL COMMENT '入取地区',
+  `academe` varchar(32) DEFAULT '' COMMENT '学院',
+  `subject` varchar(32) DEFAULT '' COMMENT '专业',
+  `grade` varchar(255) DEFAULT NULL,
+  `shool_len` varchar(255) DEFAULT NULL COMMENT '学制',
+  `school_roll` varchar(255) DEFAULT '' COMMENT '学籍',
+  `grade_year` varchar(255) DEFAULT '' COMMENT '年级',
+  `major_direction` varchar(255) DEFAULT '' COMMENT '专业方向',
+  `enter_date` varchar(255) DEFAULT '' COMMENT '入学日期',
+  `email` varchar(64) DEFAULT '' COMMENT '邮箱',
+  `comment` varchar(255) DEFAULT '' COMMENT '备注',
+  `english_type` varchar(255) DEFAULT '' COMMENT '学生类别（英语A,英语B）',
+  `full_name` varchar(255) DEFAULT '' COMMENT '全拼',
+  `major_code` varchar(255) DEFAULT '' COMMENT '专业代码',
+  `gradation` varchar(255) DEFAULT '' COMMENT '层次（本科，高职等）',
+  `inschool` varchar(10) DEFAULT '' COMMENT '是否在校',
+  `is_register` varchar(255) DEFAULT '' COMMENT '是否注册',
+  `graduate_date` varchar(255) DEFAULT NULL COMMENT '毕业日期',
+  `contact_phone` varchar(32) DEFAULT '' COMMENT '联系电话',
+  `is_graduate` varchar(10) DEFAULT NULL COMMENT '是否毕业',
+  `college` varchar(255) DEFAULT NULL COMMENT '学院',
+  `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COMMENT = '学生信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=2098 DEFAULT CHARSET=utf8 COMMENT='学生信息表';
+
 DROP TABLE IF EXISTS `t_relate_student_teacher`;
 CREATE TABLE `t_relate_student_teacher` (
   `type_id`     INT(11)     NOT NULL DEFAULT 0

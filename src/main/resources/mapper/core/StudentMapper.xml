@@ -11,7 +11,7 @@
         <result column="student_no" property="studentNo" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="gender" property="gender" jdbcType="VARCHAR"/>
-        <result column="birth" property="birth" jdbcType="DATE"/>
+        <result column="birth" property="birth" jdbcType="VARCHAR"/>
         <result column="political_status" property="politicalStatus" jdbcType="VARCHAR"/>
         <result column="ethnic_group" property="ethnicGroup" jdbcType="VARCHAR"/>
         <result column="src_region" property="srcRegion" jdbcType="VARCHAR"/>

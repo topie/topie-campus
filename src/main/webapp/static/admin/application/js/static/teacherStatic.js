@@ -102,7 +102,7 @@
                                         destroy: true
                                     	});
                                     var planOpt = {
-                                            url: App.href + "/api/info/exportStatic/planList",
+                                            url: App.href + "/api/info/exportStatic/planList?teacherId="+stData.id,
                                             beforeSend: function (request) {
                                                 request.setRequestHeader("X-Auth-Token", App.token);
                                             },

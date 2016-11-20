@@ -49,8 +49,8 @@ public class Student extends Sortable {
     /**
      * ��������
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birth;
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private String birth;
 
     /**
      * ������ò
@@ -297,8 +297,8 @@ public class Student extends Sortable {
      *
      * @return birth - ��������
      */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
-    public Date getBirth() {
+    //@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
+    public String getBirth() {
         return birth;
     }
 
@@ -307,7 +307,7 @@ public class Student extends Sortable {
      *
      * @param birth ��������
      */
-    public void setBirth(Date birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
