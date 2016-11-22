@@ -29,7 +29,7 @@
                 var content = "";
                 $.each(list, function (i, d) {
                     if (d['week'] == week_ && d['section'] == section_) {
-                        content = d['content'];
+                        content += (d['content'] + "<br>");
                     }
                 });
                 return content;
@@ -139,18 +139,16 @@
                 );
             });
             $.ajax({
-            	url:App.href+"/api/dict/1?topie_token=" + App.token,
-                type:"post",
-                success:function(result)
-                {
-                	 var opt ='<option value="">请选择</option>';
-                	for(var i in result)
-                		{
-                		opt = opt + '<option value="'+result[i].value+'">'+result[i].text+'</option>';
-                		}
-                   $("#studyYear").html(opt);
-                   getStudyYear();
-                   $("#searchBtn").click();
+                url: App.href + "/api/dict/1?topie_token=" + App.token,
+                type: "post",
+                success: function (result) {
+                    var opt = '<option value="">请选择</option>';
+                    for (var i in result) {
+                        opt = opt + '<option value="' + result[i].value + '">' + result[i].text + '</option>';
+                    }
+                    $("#studyYear").html(opt);
+                    getStudyYear();
+                    $("#searchBtn").click();
                 }
             })
         });
