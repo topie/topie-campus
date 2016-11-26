@@ -10,5 +10,8 @@ public interface IStuSeleCourseService extends IService<StuSeleCourse>{
 			StuSeleCourse stuSeleCourse);
 
 	long countByStuIdAndCourseNumAndStudyYear(StuSeleCourse stuSeleCourse);
+
+	Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum);
 	
 }

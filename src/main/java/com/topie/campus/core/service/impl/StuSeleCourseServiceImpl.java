@@ -35,4 +35,11 @@ public class StuSeleCourseServiceImpl extends BaseService<StuSeleCourse> impleme
 		return stuSeleCourseMapper.countByStuIdAndCourseNumAndStudyYear(stuSeleCourse);
 	}
 
+	@Override
+	public Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum) {
+		// TODO Auto-generated method stub
+		return stuSeleCourseMapper.deleteByStudyYearAndStudyYearNum(studyYear,studyYearNum);
+	}
+
 }

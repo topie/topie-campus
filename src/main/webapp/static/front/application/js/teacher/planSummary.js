@@ -114,6 +114,7 @@
 		            cls: 'input-large',
 		            rule: {
 		                required: true,
+		                length:500
 		            },
 		            message: {
 		                required: "请输入内容，500字以内"

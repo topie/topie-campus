@@ -67,7 +67,7 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
         	Integer studentId = studentMapper.findIdByStudentNo(employmentExcelDto.getStuId());
         	Student student = studentMapper.findByStuId(studentId);
             Employment employment = employmentExcelDto.buildEmployment(employmentExcelDto);
-            TeacherStudent teacherStudent = teacherStudentMapper.selectTeacherRelationByTypeIdAndStudentId(2, studentId);
+            TeacherStudent teacherStudent = teacherStudentMapper.selectTeacherRelationByTypeIdAndStudentId(1, studentId);
             Teacher teacher = null;
             if(teacherStudent!=null)
             {
@@ -87,6 +87,17 @@ public class EmploymentServiceImpl extends BaseService<Employment> implements IE
 	            {
 	            	employment.setTutor(teacher.getName());
 	                employment.setTeacherNo(teacher.getEmployeeNo());
+	            }
+	            else
+	            {
+	            	TeacherStudent teacherStudentBZR = teacherStudentMapper.selectTeacherRelationByTypeIdAndStudentId(4, studentId);
+	                Teacher teacherBZR= null;
+	                if(teacherStudentBZR!=null)
+	                {
+	                	teacherBZR = teacherMapper.selectByPrimaryKey(teacherStudentBZR.getTeacherId());
+	                	employment.setTutor(teacherBZR.getName());
+		                employment.setTeacherNo(teacherBZR.getEmployeeNo());
+	                }
 	            }
 	            List<Employment> employMents = new ArrayList<Employment>();
 	            if (StringUtils.isNotEmpty(employmentExcelDto.getStuId()))

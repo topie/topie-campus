@@ -175,16 +175,24 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             User user = UserVO
                     .buildSimpleUser(studentDto.getStudentNo(), studentDto.getPassword(), studentDto.getName(),
                             studentDto.getEmail());
-            if (userService.findExistUser(user) > 0) {
+            User exitUser =  userService.findUserByLoginName(studentDto.getStudentNo());
+            if (exitUser!=null) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-                //user.setPassword(studentDto.getPassword());
-                //userService.updateUser(user);
+            	exitUser.setPassword(studentDto.getPassword());
+            	exitUser.setDisplayName(studentDto.getName());
+            	exitUser.setEmail(studentDto.getEmail());
+                userService.updateUser(exitUser);
+                Integer stuId = iStudentService.findIdByStudentNo(studentDto.getStudentNo());
+                Student student = studentDto.buildStudent();
+                student.setId(stuId);
+                student.setAvatar("/photos/student/"+student.getStudentNo()+".jpg");
+                student.setUserId(exitUser.getId());
+                iStudentService.updateSelective(student);
             } else {
                 userService.insertUser(user);
                 userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();
                 student.setAvatar("/photos/student/"+student.getStudentNo()+".jpg");
-                System.out.println(student);
                 student.setUserId(user.getId());
                 iStudentService.insert(student);
             }
@@ -208,8 +216,20 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             User user = UserVO
                     .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getJsmm(), teacherDto.getName(),
                             teacherDto.getEmail());
-            if (userService.findExistUser(user) > 0) {
+            User exitUser = userService.findUserByLoginName(teacherDto.getEmployeeNo());
+            if (exitUser!=null) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+            	exitUser.setPassword(teacherDto.getJsmm());
+            	exitUser.setDisplayName( teacherDto.getName());
+            	exitUser.setEmail(teacherDto.getEmail());
+            	userService.updateUser(exitUser);
+            	 Teacher teacher = teacherDto.buildTeacher();
+            	 Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherDto.getEmployeeNo());
+            	 teacher.setId(teacherId);
+            	 teacher.setUserId(exitUser.getId());
+            	 teacher.setAvatar("/photos/teacher/"+teacher.getEmployeeNo()+".jpg");
+            	 iTeacherService.updateSelective(teacher);
+            	
             }
             else{
             userService.insertUser(user);
@@ -235,7 +255,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public int insertTeacher(Teacher teacher) {
         //TODO 检测教师职工号是否唯一
-        User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getContactPhone(), teacher.getName(),
+        User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getPassword(), teacher.getName(),
                 teacher.getEmail());
         if (userService.findExistUser(user) > 0) {
             throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
@@ -314,7 +334,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Override
     public void insertToBindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId) {
-        iTeacherService.insertToBindStudent(typeId, studentId, teacherId);
+    	String studentNo = iStudentService.selectByKey(studentId).getStudentNo();
+    	String teacherNo = iTeacherService.selectByKey(teacherId).getEmployeeNo();
+        iTeacherService.insertToBindStudent(typeId, studentId, teacherId,studentNo,teacherNo);
     }
 
     @Override
@@ -421,7 +443,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
             Integer studentId = iStudentService.findIdByStudentNo(teacherStudentRelateExcelDto.getStudentNo());
             if (teacherId != null && studentId != null) {
-                TeacherStudent teacherStudent = new TeacherStudent();
+            	teacherTypeMapper.insertTeacherAndTeacherTypeRelate(teacherId, typeId);
+            	TeacherStudent teacherStudent = new TeacherStudent();
                 teacherStudent.setStudentId(studentId);
                 teacherStudent.setTeacherId(teacherId);
                 teacherStudent.setEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
@@ -605,5 +628,11 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 	   if(status)
 		   return true;
 	   return false;
+	}
+
+	@Override
+	public Integer deleteByStudyYearAndStudyYearNum() {
+		// TODO Auto-generated method stub
+		return teacherStudentMapper.deleteByStudyYearAndStudyYearNum();
 	}
 }

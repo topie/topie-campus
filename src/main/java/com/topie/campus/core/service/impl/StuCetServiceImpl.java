@@ -34,4 +34,11 @@ public class StuCetServiceImpl extends BaseService<StuCet> implements IStuCetSer
 		return stuCetMapper.findByStuNoAndStudyYear(stuCet);
 	}
 
+	@Override
+	public Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum) {
+		// TODO Auto-generated method stub
+		return stuCetMapper.deleteByStudyYearAndStudyYearNum(studyYear,studyYearNum);
+	}
+
 }

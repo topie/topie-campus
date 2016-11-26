@@ -23,4 +23,6 @@ public interface StuScoreMapper extends Mapper<StuScore> {
 	 List<ScoreCourceType> findByStuScoreByCourseType(@Param("studentId") String studentId);
 	 
 	  List<StuScore> findByStuNoAndCourseNum(@Param("courseNum") String courseNum, @Param("studentId") String studentId);
+	  
+	Integer deleteByStudyYearAndStudyYearNum(@Param("studyYear") String studyYear, @Param("studyYearNum") String studyYearNum);
 }

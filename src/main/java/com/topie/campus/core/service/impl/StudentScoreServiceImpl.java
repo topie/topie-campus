@@ -7,6 +7,7 @@ import com.topie.campus.core.dto.ScoreCourceType;
 import com.topie.campus.core.dto.StaticScoreDto;
 import com.topie.campus.core.model.StuScore;
 import com.topie.campus.core.service.IStudentScoreService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,4 +57,11 @@ public class StudentScoreServiceImpl extends BaseService<StuScore> implements IS
         List<StuScore> stuScores = stuScoreMapper.findByStuNoAndCourseNum(courseNum, stuId);
         return stuScores;
     }
+
+	@Override
+	public Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum) {
+		// TODO Auto-generated method stub
+		return stuScoreMapper.deleteByStudyYearAndStudyYearNum(studyYear,studyYearNum);
+	}
 }

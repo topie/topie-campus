@@ -13,4 +13,7 @@ public interface IStuCetService  extends IService<StuCet>{
 
 	List<StuCet> findByStuNoAndStudyYear(StuCet stuCet);
 
+	Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum);
+
 }

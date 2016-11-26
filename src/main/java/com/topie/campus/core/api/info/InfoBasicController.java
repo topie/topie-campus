@@ -8,6 +8,10 @@ import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dto.TreeDto;
 import com.topie.campus.core.model.UserFaculty;
 import com.topie.campus.core.service.IInfoBasicService;
+import com.topie.campus.core.service.IStuCetService;
+import com.topie.campus.core.service.IStuSeleCourseService;
+import com.topie.campus.core.service.IStuTimeTableService;
+import com.topie.campus.core.service.IStudentScoreService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,19 @@ public class InfoBasicController {
 
     @Autowired
     private IInfoBasicService iInfoBasicService;
+    
+    @Autowired
+    private IStudentScoreService  studentScoreService;
+    
+    @Autowired
+    IStuTimeTableService   stuTimeTableService;
+    
+    @Autowired
+    IStuCetService  stuCetService;
+    
+    @Autowired
+    IStuSeleCourseService stuSeleCourseService;
+
 
     @RequestMapping(value = "/bind", method = RequestMethod.GET)
     @ResponseBody
@@ -34,6 +51,38 @@ public class InfoBasicController {
         iInfoBasicService.insertToBindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
     }
+    
+    @RequestMapping(value = "/deleteData")
+    @ResponseBody
+    public Result deleteData(@RequestParam(value = "clearType") Integer clearType,
+    		String studyYear,
+            String studyYearNum) {
+    	Integer num = null ;
+    	if(clearType==1)
+    	{
+    		num = studentScoreService.deleteByStudyYearAndStudyYearNum(studyYear, studyYearNum);
+    	}
+    	else if(clearType==2)
+    	{
+    		num = stuTimeTableService.deleteByStudyYearAndStudyYearNum(studyYear, studyYearNum);
+    	}
+    	else if(clearType==3)
+    	{
+    		num = stuCetService.deleteByStudyYearAndStudyYearNum(studyYear, studyYearNum);
+    	}
+    	else if(clearType==4)
+    	{
+    		num = stuSeleCourseService.deleteByStudyYearAndStudyYearNum(studyYear, studyYearNum);
+    	}
+    	else if(clearType==5)
+    	{
+    		num = iInfoBasicService.deleteByStudyYearAndStudyYearNum();
+    	}
+    	if(num==null)
+    		num=0;
+        return ResponseUtil.success("清除成功!");
+    }
+
 
     @RequestMapping(value = "/unbind", method = RequestMethod.GET)
     @ResponseBody

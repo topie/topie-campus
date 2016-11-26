@@ -30,8 +30,8 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     }
 
     @Override
-    public void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId) {
-        teacherMapper.insertRelate(typeId, studentId, teacherId);
+    public void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId,String studentNo, String teacherNo) {
+        teacherMapper.insertRelate(typeId, studentId, teacherId,studentNo,teacherNo);
     }
 
     @Override

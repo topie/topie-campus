@@ -1,7 +1,9 @@
 package com.topie.campus.core.dao;
 
 import com.topie.campus.core.model.TeacherStudent;
+
 import org.apache.ibatis.annotations.Param;
+
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface TeacherStudentMapper extends Mapper<TeacherStudent> {
     List<Integer> selectTeacherIdByTypeId(@Param("typeId") Integer typeId);
     
     TeacherStudent selectTeacherRelationByTypeIdAndStudentId(@Param("typeId") Integer typeId,@Param("studentId") Integer studentId);
+
+	Integer deleteByStudyYearAndStudyYearNum();
 }

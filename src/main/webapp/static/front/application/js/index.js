@@ -71,11 +71,15 @@
                         if (data == null) {
                             return;
                         }
+                        console.log(role);
                         var temp = "";
                         if (role == 4) {
                             temp = "./tmpl/profile-teacher.html";
                         } else if (role == 5) {
                             temp = "./tmpl/profile-student.html";
+                        }
+                        else if (role == 7) {
+                            temp = "./tmpl/profile-leader.html";
                         }
                         if (temp == "") {
                             return;
@@ -93,9 +97,12 @@
                     } else {
                         alert(result.message);
                     }
-                }
-            }
-        );
+                    
+                   
+             if(role!=7)
+            	 {
+            	 console.log(1111);
+            	 
         $("#message").load("./tmpl/message-center.html?t=" + new Date().getTime(),
             function () {
                 var that = $(this);
@@ -215,6 +222,16 @@
                         }
                     }
                 );
+            }
+        );
+        
+            	 }else
+            		 {
+            		 App.content.empty();
+            		 App.content.append('欢迎进入教师导学辅助系统！<font color="red">点击菜单进行查看</font>');
+            		 }
+        /**ajax结束***/
+                }
             }
         );
     };

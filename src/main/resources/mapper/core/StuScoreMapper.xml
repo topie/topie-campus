@@ -112,4 +112,8 @@
        GROUP BY t.cource_type;
     </select>
   
+    <select id="deleteByStudyYearAndStudyYearNum">
+        delete t from t_stu_score t where t.study_year = #{studyYear} and t.study_year_num = #{studyYearNum}
+    </select>
+  
 </mapper>

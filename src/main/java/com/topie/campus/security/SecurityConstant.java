@@ -20,4 +20,6 @@ public class SecurityConstant {
     public static Integer ROLE_TEACHER = 4;
 
     public static Integer ROLE_STUDENT = 5;
+    
+    public static Integer ROLE_LEADER = 7;
 }

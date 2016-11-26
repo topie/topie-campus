@@ -20,4 +20,6 @@ public interface IStudentScoreService  extends IService<StuScore> {
 	 List<ScoreCourceType> findByStuScoreByCourseType( String studentId);
 
 	List<StuScore> findByStuNoAndCourseNum(String courseNum, String stuId);
+	
+	Integer deleteByStudyYearAndStudyYearNum(String studyYear,String studyYearNum);
 }

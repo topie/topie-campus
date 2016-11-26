@@ -16,4 +16,7 @@ public interface StuCetMapper extends Mapper<StuCet> {
 	Long count(@Param("stuCet") StuCet stuCet);
 	
 	List<StuCet>  findByStuNoAndStudyYear(@Param("stuCet") StuCet stuCet);
+
+	Integer deleteByStudyYearAndStudyYearNum(@Param("studyYear")String studyYear,
+			@Param("studyYearNum") String studyYearNum);
 }

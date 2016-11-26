@@ -64,7 +64,7 @@
         </where>
     </select>
     
-        <select id="findByStuNoAndStudyYear" resultMap="BaseResultMap">
+      <select id="findByStuNoAndStudyYear" resultMap="BaseResultMap">
         select
           *
          from t_stu_cet
@@ -82,4 +82,13 @@
          </if>
         </where>
     </select>
+    
+    <delete id="deleteByStudyYearAndStudyYearNum">
+        delete
+          t
+         from t_stu_cet t
+        <where>
+           study_year = #{studyYear} and study_year_num = #{studyYearNum}
+        </where>
+    </delete>
 </mapper>

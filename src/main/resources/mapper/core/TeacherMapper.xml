@@ -56,8 +56,8 @@
     </sql>
     <insert id="insertRelate">
         insert ignore into
-        topie_campus.t_relate_student_teacher(type_id,student_id,teacher_id)
-        values(#{typeId},#{studentId},#{teacherId})
+        topie_campus.t_relate_student_teacher(type_id,student_id,teacher_id,student_no,employee_no)
+        values(#{typeId},#{studentId},#{teacherId},#{studentNo},#{teacherNo})
     </insert>
     <delete id="deleteRelate">
         delete from topie_campus.t_relate_student_teacher where type_id=#{typeId} and student_id=#{studentId} and teacher_id=#{teacherId}
@@ -172,11 +172,9 @@
 
     <select id="findTeacherByStudentNo" resultMap="SimpleDtoResultMap">
         select
-        t.id,t.user_id,t.name,t.employee_no,t.avatar,t.email,GROUP_CONCAT(DISTINCT ttpn.type_name) as type_name
-        from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
-        on t.id = st.teacher_id
-        left join topie_campus.t_relate_teacher_teacher_type ttp
-        on t.id=ttp.teacher_id left join t_teacher_type ttpn on ttpn.type_id = ttp.type_id
+        t.id,t.user_id,t.name,t.employee_no,t.avatar,t.contact_phone,t.email,GROUP_CONCAT(DISTINCT ttpn.type_name) as type_name
+        from t_teacher t left join topie_campus.t_relate_student_teacher st
+        on t.id = st.teacher_id left join t_teacher_type ttpn on ttpn.type_id = st.type_id
         where st.student_id=#{studentId}
            group by t.id
         <if test="pageOffset!=null and pageSize!=null">
@@ -185,12 +183,12 @@
     </select>
 
     <select id="findCountTeacherByStudentNo" resultType="java.lang.Long">
-         select
+ select count(*) from (select
         count(t.id) from topie_campus.t_teacher t left join topie_campus.t_relate_student_teacher st
         on t.id = st.teacher_id
         left join topie_campus.t_relate_teacher_teacher_type ttp
         on t.id=ttp.teacher_id left join t_teacher_type ttpn on ttpn.type_id = ttp.type_id
         where st.student_id=#{studentId}
-           group by t.id
+           group by t.id) t
     </select>
 </mapper>

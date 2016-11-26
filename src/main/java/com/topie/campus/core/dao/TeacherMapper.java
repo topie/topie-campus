@@ -2,7 +2,9 @@ package com.topie.campus.core.dao;
 
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
+
 import org.apache.ibatis.annotations.Param;
+
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface TeacherMapper extends Mapper<Teacher> {
     long countTeacher(@Param("teacher") Teacher param);
 
     void insertRelate(@Param("typeId") Integer typeId, @Param("studentId") Integer studentId,
-            @Param("teacherId") Integer teacherId);
+            @Param("teacherId") Integer teacherId, @Param("studentNo") String studentNo, @Param("teacherNo") String teacherNo);
 
     void deleteRelate(@Param("typeId") Integer typeId, @Param("studentId") Integer studentId,
             @Param("teacherId") Integer teacherId);

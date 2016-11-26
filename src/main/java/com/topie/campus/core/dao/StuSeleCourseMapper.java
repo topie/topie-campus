@@ -14,4 +14,7 @@ public interface StuSeleCourseMapper extends Mapper<StuSeleCourse> {
 	List<StuSeleCourse> findByPage(@Param("stuSeleCourse") StuSeleCourse stuSeleCourse, @Param("pageOffset") int pageOffset,@Param("pageSize") int pageSize);
 	Long count(@Param("stuSeleCourse") StuSeleCourse stuSeleCourse);
 	Long  countByStuIdAndCourseNumAndStudyYear(@Param("stuSeleCourse") StuSeleCourse stuSeleCourse);
+	
+	Integer deleteByStudyYearAndStudyYearNum(@Param("studyYear") String studyYear,
+			@Param("studyYearNum") String studyYearNum);
 }

@@ -36,5 +36,10 @@
      <select id="selectTeacherRelationByTypeIdAndStudentId" resultMap="BaseResultMap">
         select * from topie_campus.t_relate_student_teacher where type_id=#{typeId} and student_id = #{studentId}
     </select>
+    
+    
+     <delete id="deleteByStudyYearAndStudyYearNum">
+        delete from t_relate_student_teacher
+    </delete>
 
 </mapper>

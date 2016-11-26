@@ -39,4 +39,11 @@ public class StuTimeTableServiceImpl extends BaseService<StuTimeTable> implement
 		List<StuTimeTable> stuTimeTables = stuTimeTableMapper.findByStuNoAndCourseNum(courseNum, studentId);
         return stuTimeTables;
 	}
+
+	@Override
+	public Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum) {
+		// TODO Auto-generated method stub
+		return stuTimeTableMapper.deleteByStudyYearAndStudyYearNum(studyYear,studyYearNum);
+	}
 }

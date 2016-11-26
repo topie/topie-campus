@@ -14,7 +14,7 @@ public interface ITeacherService extends IService<Teacher> {
 
     SimplePageInfo<Teacher> findTeacherList(Teacher teacher, Integer pageNum, Integer pageSize);
 
-    void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId);
+    void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId, String studentNo, String teacherNo);
 
     void deleteToUnBindStudent(Integer typeId, Integer studentId, Integer teacherId);
 

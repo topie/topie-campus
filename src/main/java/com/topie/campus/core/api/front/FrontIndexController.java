@@ -13,6 +13,7 @@ import com.topie.campus.core.service.*;
 import com.topie.campus.security.SecurityConstant;
 import com.topie.campus.security.exception.AuBzConstant;
 import com.topie.campus.security.exception.AuthBusinessException;
+import com.topie.campus.security.model.User;
 import com.topie.campus.security.service.UserService;
 import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.tools.redis.RedisCache;
@@ -94,6 +95,10 @@ public class FrontIndexController {
             student = iStudentService.findByStudentId(student.getId());
             role = SecurityConstant.ROLE_STUDENT;
             result.put("data", student);
+        }else if (roles.contains(SecurityConstant.ROLE_LEADER)) {
+            role = SecurityConstant.ROLE_LEADER;
+            User user = userService.findUserById(userId);
+            result.put("data", user);
         }
         result.put("role", role);
         return ResponseUtil.success(result);

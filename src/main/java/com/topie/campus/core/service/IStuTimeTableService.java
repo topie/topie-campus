@@ -13,4 +13,7 @@ public interface IStuTimeTableService extends IService<StuTimeTable> {
     List<StuTimeTable> find(StuTimeTable stuTimeTable);
     
     List<StuTimeTable> findByStuNoAndCourseNum(String courseNum,String studentId);
+
+	Integer deleteByStudyYearAndStudyYearNum(String studyYear,
+			String studyYearNum);
 }

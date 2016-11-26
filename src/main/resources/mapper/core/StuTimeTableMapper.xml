@@ -89,5 +89,14 @@
           stu_id = #{studentId} and select_course_num = #{courseNum}
         </where>
     </select>
+    
+    <delete id="deleteByStudyYearAndStudyYearNum">
+        delete
+        t
+        from t_stu_timetable t
+        <where>
+          t.study_year = #{studyYear} and t.study_year_num = #{studyYearNum}
+        </where>
+    </delete>
 
 </mapper>

@@ -181,6 +181,28 @@
         }
     ];
     App.frontStudent.initEvents = function () {
+    	
+    	$.ajax({
+    		url:App.href+"/api/info/teacherType/treeNodesByTeacherId?topie_token="+App.token,
+    		success:function(result)
+    		{
+    			var role = "";
+    			for(var i in result)
+    				{
+    				if(i==result.length-1)
+    					{
+    					 role = role + result[i].name;
+    					}
+    				else
+    					{
+    					 role = role + result[i].name+",";
+    					}
+    				}
+    			$("#student_grid").before("<div style='text-align:center;font-size:24px;margin-bottom:40px;'>您的角色是<font color='red'>"+role+"</font>;您可以在搜索栏里查询您不同角色下的学生。</div>");
+    		}
+    	});
+    	
+    	
         var grid;
         var studentOpt = {
             url: App.href + "/api/front/student/page?isBind=1",
@@ -254,6 +276,7 @@
                         modal.show();
                     }
                 },
+                /*
                 {
                     cls: "btn-info btn-sm",
                     text: "评论(问卷)",
@@ -305,7 +328,7 @@
                         modal.$body.topieGrid(options);
                         modal.show();
                     }
-                },
+                },*/
                 {
                     cls: "btn-info btn-sm",
                     text: "修改联系电话",
@@ -750,7 +773,7 @@
                     handle: function (index, stData) {
                         var modalout = $.topieModal({
                             id: "messageModal",
-                            title: "学生记录",
+                            title: stData.name+"的相关记录",
                             destroy: true
                         });
                         var modal;
@@ -846,9 +869,11 @@
                                     cls: 'input-large',
                                     rule: {
                                         required: true,
+                                        range:[1,500]
                                     },
                                     message: {
-                                        required: "请输入内容，500字以内"
+                                        required: "请输入内容，500字以内",
+                                        range:"字符在1-500之间"
                                     }
                                 }
                             ]
@@ -960,7 +985,7 @@
             ],
             search: {
                 rowEleNum: 2,
-                hide:true,
+                //hide:true,
                 //搜索栏元素
                 items: [
                     {

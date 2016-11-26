@@ -11,7 +11,35 @@
     App.requestMapping = $.extend({}, window.App.requestMapping, uploadMapping);
     App.upload = {
         page: function (title) {
-            var html = '<form class="form-horizontal" action="">'
+            var html = '<form class="form-horizontal" id="clearForm" action="">'
+            	+ '<legend>清除表数据</legend>'
+            	+ '<div class="form-group">'
+            	+ '<div class="col-md-3">'
+            	+ '<select class="btn btn-default" name="clearType">'
+                + '<option>请选择需要清除的表</option>'
+                + '<option value=1>学生成绩信息表</option>'
+                + '<option value=2>学生课程信息表</option>'
+                + '<option value=3>等级考试信息表</option>'
+                + '<option value=4>学生选课信息表</option>'
+                + '<option value=5>教师学生关联信息表</option>'
+                + '</select>'
+                + '</div>'
+                + '<div class="col-md-3" id="studyYear">'
+                + '<label class="col-md-4 control-label">学年</label>'
+                + '<select class="btn btn-default" name="studyYear">'
+                + '</select>'
+                + '</div>'
+                + '<div class="col-md-3" id="studyYearNum" >'
+                + '<label class="col-md-4 control-label">学期</label>'
+                + '<select class="btn btn-default" name="studyYearNum">'
+                + '<option value=1>1</option>'
+                + '<option value=2>2</option>'
+                + '</select>'
+                + '</div>'
+                + '<button type="button" class="btn" id="clearBtn">清除</button>'
+                + '</div>'
+            	+ '</form>'
+            	+ '<form class="form-horizontal" action="">'
                 + '<fieldset>'
                 + '<legend>上传用户信息(excel文件)</legend>'
                 + '<div class="form-group">'
@@ -66,6 +94,33 @@
         $.ajax({
                 type: "GET",
                 dataType: "json",
+                url: App.href+"/api/dict/1?topie_token=" + App.token,
+                success: function (data) {
+                    $.each(
+                        data,
+                        function (index, option) {
+                            $.tmpl(
+                                optionTmpl,
+                                {
+                                    "value_": (option.value == undefined ? ""
+                                        : option.value),
+                                    "text_": (option.text == undefined ? ""
+                                        : option.text)
+                                }
+                            ).appendTo(window.App.content.find("select[name=studyYear]"));
+                        }
+                    );
+                },
+                error: function (err) {
+                    console.error("请求错误");
+                }
+            }
+        );
+        
+        var optionTmpl = '<option value="${value_}" ${selected}>${text_}</option>';
+        $.ajax({
+                type: "GET",
+                dataType: "json",
                 url: App.href + "/api/info/teacherType/options?topie_token=" + App.token,
                 success: function (data) {
                     $.each(
@@ -88,6 +143,41 @@
                 }
             }
         );
+        
+        window.App.content.find("select[name=clearType]").change(function () {
+            if ($(this).val() != 5) {
+                $("#studyYearNum").show();
+                $("#studyYear").show();
+            } else {
+                $("#studyYearNum").hide();
+                $("#studyYear").hide();
+            }
+        });
+        
+        $("#clearBtn").click(function(){
+        	$.blockUI({
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .5,
+                    color: '#fff'
+                }
+            });
+        	  $.ajax({
+        		  url: App.href + "/api/info/basic/deleteData?topie_token=" + App.token,
+        		  data:$("#clearForm").serialize(),
+        	      success:function(data)
+        	      {
+        	    	  $.unblockUI();
+        	    	  alert(data.message);
+        	      }
+        		  
+        	  })
+        })
+        
         window.App.content.find("select[name=excelType]").change(function () {
             if ($(this).val() == 8) {
                 $("#typeDiv").show();
