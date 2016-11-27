@@ -8,14 +8,14 @@ import com.topie.campus.security.model.User;
  */
 public class UserVO extends User {
     @JsonIgnore
-    public static User buildSimpleUser(String mobile, String name, String email) {
+    public static User buildSimpleUser(String employeeNo, String contactPhone, String password, String name, String email) {
         User user = new User();
-        user.setLoginName(mobile);
-        user.setPassword(mobile);
+        user.setLoginName(employeeNo);
+        user.setPassword(password);
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
-        user.setContactPhone(mobile);
+        user.setContactPhone(contactPhone);
         user.setEmail(email);
         user.setDisplayName(name);
         user.setCredentialsNonExpired(true);

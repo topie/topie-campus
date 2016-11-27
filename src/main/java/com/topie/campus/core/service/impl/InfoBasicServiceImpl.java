@@ -1,15 +1,7 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
-import com.topie.campus.core.dao.CollegeMapper;
-import com.topie.campus.core.dao.FacultyMapper;
-import com.topie.campus.core.dao.MajorMapper;
-import com.topie.campus.core.dao.MsgMapper;
-import com.topie.campus.core.dao.StudentMapper;
-import com.topie.campus.core.dao.TeacherMapper;
-import com.topie.campus.core.dao.TeacherStudentMapper;
-import com.topie.campus.core.dao.TeacherTypeMapper;
-import com.topie.campus.core.dao.UserFacultyMapper;
+import com.topie.campus.core.dao.*;
 import com.topie.campus.core.dto.*;
 import com.topie.campus.core.model.*;
 import com.topie.campus.core.service.*;
@@ -22,7 +14,6 @@ import com.topie.campus.security.utils.SecurityUtil;
 import com.topie.campus.security.vo.UserVO;
 import com.topie.campus.tools.excel.ExcelLogs;
 import com.topie.campus.tools.excel.ExcelUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -32,23 +23,18 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by chenguojun on 8/10/16.
@@ -66,6 +52,30 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     IStuTimeTableService stuTimeTableService;
 
     @Autowired
+    CollegeMapper collegeMapper;
+
+    @Autowired
+    FacultyMapper facultyMapper;
+
+    @Autowired
+    MajorMapper majorMapper;
+
+    @Autowired
+    StudentMapper studentMapper;
+
+    @Autowired
+    TeacherMapper teacherMapper;
+
+    @Autowired
+    UserFacultyMapper userFacultyMapper;
+
+    @Autowired
+    TeacherTypeMapper teacherTypeMapper;
+
+    @Autowired
+    MsgMapper msgMapper;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -79,37 +89,13 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Autowired
     private TeacherStudentMapper teacherStudentMapper;
-    
-    @Autowired
-    CollegeMapper collegeMapper;
-    
-    @Autowired
-    FacultyMapper facultyMapper;
-    
-    @Autowired
-    MajorMapper majorMapper;
-    
-    @Autowired
-    StudentMapper studentMapper;
-    
-    @Autowired
-    TeacherMapper teacherMapper;
-    
-    @Autowired
-    UserFacultyMapper userFacultyMapper;
-    
-    @Autowired
-    TeacherTypeMapper teacherTypeMapper;
-    
-    @Autowired
-    MsgMapper msgMapper;
-    
+
     @Value("${sendUrl}")
     private String sendUrl;
-    
+
     @Value("${msgusername}")
     private String username;
-    
+
     @Value("${password}")
     private String password;
 
@@ -169,30 +155,30 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (StudentExcelDto studentDto : studentList) {
             //TODO 检测学号是否唯一
-        	 if (StringUtils.isEmpty(studentDto.getPassword())) {
-        		 studentDto.setPassword(studentDto.getStudentNo());
-             } 
+            if (StringUtils.isEmpty(studentDto.getPassword())) {
+                studentDto.setPassword(studentDto.getStudentNo());
+            }
             User user = UserVO
                     .buildSimpleUser(studentDto.getStudentNo(), studentDto.getPassword(), studentDto.getName(),
                             studentDto.getEmail());
-            User exitUser =  userService.findUserByLoginName(studentDto.getStudentNo());
-            if (exitUser!=null) {
+            User exitUser = userService.findUserByLoginName(studentDto.getStudentNo());
+            if (exitUser != null) {
                 //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-            	exitUser.setPassword(studentDto.getPassword());
-            	exitUser.setDisplayName(studentDto.getName());
-            	exitUser.setEmail(studentDto.getEmail());
+                exitUser.setPassword(studentDto.getPassword());
+                exitUser.setDisplayName(studentDto.getName());
+                exitUser.setEmail(studentDto.getEmail());
                 userService.updateUser(exitUser);
                 Integer stuId = iStudentService.findIdByStudentNo(studentDto.getStudentNo());
                 Student student = studentDto.buildStudent();
                 student.setId(stuId);
-                student.setAvatar("/photos/student/"+student.getStudentNo()+".jpg");
+                student.setAvatar("/photos/student/" + student.getStudentNo() + ".jpg");
                 student.setUserId(exitUser.getId());
                 iStudentService.updateSelective(student);
             } else {
                 userService.insertUser(user);
                 userService.insertUserRole(user.getId(), SecurityConstant.ROLE_STUDENT);
                 Student student = studentDto.buildStudent();
-                student.setAvatar("/photos/student/"+student.getStudentNo()+".jpg");
+                student.setAvatar("/photos/student/" + student.getStudentNo() + ".jpg");
                 student.setUserId(user.getId());
                 iStudentService.insert(student);
             }
@@ -210,34 +196,32 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (TeacherExcelDto teacherDto : teacherList) {
             //TODO 检测教师职工号是否唯一
-        	 if (StringUtils.isEmpty(teacherDto.getJsmm())) {
-        		 teacherDto.setJsmm(teacherDto.getEmployeeNo());
-             }
-            User user = UserVO
-                    .buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getJsmm(), teacherDto.getName(),
-                            teacherDto.getEmail());
-            User exitUser = userService.findUserByLoginName(teacherDto.getEmployeeNo());
-            if (exitUser!=null) {
-                //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
-            	exitUser.setPassword(teacherDto.getJsmm());
-            	exitUser.setDisplayName( teacherDto.getName());
-            	exitUser.setEmail(teacherDto.getEmail());
-            	userService.updateUser(exitUser);
-            	 Teacher teacher = teacherDto.buildTeacher();
-            	 Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherDto.getEmployeeNo());
-            	 teacher.setId(teacherId);
-            	 teacher.setUserId(exitUser.getId());
-            	 teacher.setAvatar("/photos/teacher/"+teacher.getEmployeeNo()+".jpg");
-            	 iTeacherService.updateSelective(teacher);
-            	
+            if (StringUtils.isEmpty(teacherDto.getJsmm())) {
+                teacherDto.setJsmm(teacherDto.getEmployeeNo());
             }
-            else{
-            userService.insertUser(user);
-            userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
-            Teacher teacher = teacherDto.buildTeacher();
-            teacher.setUserId(user.getId());
-            teacher.setAvatar("/photos/teacher/"+teacher.getEmployeeNo()+".jpg");
-            iTeacherService.insertSelective(teacher);
+            User user = UserVO.buildSimpleUser(teacherDto.getEmployeeNo(), teacherDto.getJsmm(), teacherDto.getName(),
+                    teacherDto.getEmail());
+            User exitUser = userService.findUserByLoginName(teacherDto.getEmployeeNo());
+            if (exitUser != null) {
+                //throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
+                exitUser.setPassword(teacherDto.getJsmm());
+                exitUser.setDisplayName(teacherDto.getName());
+                exitUser.setEmail(teacherDto.getEmail());
+                userService.updateUser(exitUser);
+                Teacher teacher = teacherDto.buildTeacher();
+                Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherDto.getEmployeeNo());
+                teacher.setId(teacherId);
+                teacher.setUserId(exitUser.getId());
+                teacher.setAvatar("/photos/teacher/" + teacher.getEmployeeNo() + ".jpg");
+                iTeacherService.updateSelective(teacher);
+
+            } else {
+                userService.insertUser(user);
+                userService.insertUserRole(user.getId(), SecurityConstant.ROLE_TEACHER);
+                Teacher teacher = teacherDto.buildTeacher();
+                teacher.setUserId(user.getId());
+                teacher.setAvatar("/photos/teacher/" + teacher.getEmployeeNo() + ".jpg");
+                iTeacherService.insertSelective(teacher);
             }
         }
     }
@@ -255,12 +239,13 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public int insertTeacher(Teacher teacher) {
         //TODO 检测教师职工号是否唯一
-        User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getPassword(), teacher.getName(),
-                teacher.getEmail());
+        User user = UserVO.buildSimpleUser(teacher.getEmployeeNo(), teacher.getContactPhone(), teacher.getPassword(),
+                teacher.getName(), teacher.getEmail());
         if (userService.findExistUser(user) > 0) {
             throw new AuthBusinessException(user.getLoginName() + AuBzConstant.LOGIN_NAME_EXIST);
         }
         userService.insertUser(user);
+        userService.insertUserRole(user.getId(), 4);
         teacher.setUserId(user.getId());
         return iTeacherService.insertSelective(teacher);
     }
@@ -334,9 +319,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Override
     public void insertToBindStudentTeacher(Integer typeId, Integer studentId, Integer teacherId) {
-    	String studentNo = iStudentService.selectByKey(studentId).getStudentNo();
-    	String teacherNo = iTeacherService.selectByKey(teacherId).getEmployeeNo();
-        iTeacherService.insertToBindStudent(typeId, studentId, teacherId,studentNo,teacherNo);
+        String studentNo = iStudentService.selectByKey(studentId).getStudentNo();
+        String teacherNo = iTeacherService.selectByKey(teacherId).getEmployeeNo();
+        iTeacherService.insertToBindStudent(typeId, studentId, teacherId, studentNo, teacherNo);
     }
 
     @Override
@@ -354,10 +339,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         for (StuScoreExcelDto dto : stuScoreList) {
             StuScore stuScore = dto.buildStuScore(dto);
-            List<StuScore> stuScores = stuScoreService.findByStuNoAndCourseNum(dto.getCourseNum(),dto.getStuId());
-            if(stuScores.size()==0)
-            {
-            	stuScoreService.insert(stuScore);
+            List<StuScore> stuScores = stuScoreService.findByStuNoAndCourseNum(dto.getCourseNum(), dto.getStuId());
+            if (stuScores.size() == 0) {
+                stuScoreService.insert(stuScore);
             }
         }
     }
@@ -393,9 +377,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         for (StuSeleExcelDto dto : stuSeleExcelDtos) {
             StuSeleCourse stuSeleCourse = dto.buildstuSeleCourse(dto);
             long num = stuSeleCourseService.countByStuIdAndCourseNumAndStudyYear(stuSeleCourse);
-            if(num==0)
-            {
-            stuSeleCourseService.insert(stuSeleCourse);
+            if (num == 0) {
+                stuSeleCourseService.insert(stuSeleCourse);
             }
         }
     }
@@ -417,9 +400,9 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             //List<StuTimeTable> stuTimeTables = stuTimeTableService.findByStuNoAndCourseNum(stuTimeTable.getSelectCourseNum(),stuTimeTable.getStuId());
             // if(stuTimeTables.size()==0)
             //{
-            	 stuTimeTableService.insert(stuTimeTable);
+            stuTimeTableService.insert(stuTimeTable);
             //}
-           
+
         }
 
     }
@@ -443,8 +426,8 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             Integer teacherId = iTeacherService.findIdByEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
             Integer studentId = iStudentService.findIdByStudentNo(teacherStudentRelateExcelDto.getStudentNo());
             if (teacherId != null && studentId != null) {
-            	teacherTypeMapper.insertTeacherAndTeacherTypeRelate(teacherId, typeId);
-            	TeacherStudent teacherStudent = new TeacherStudent();
+                teacherTypeMapper.insertTeacherAndTeacherTypeRelate(teacherId, typeId);
+                TeacherStudent teacherStudent = new TeacherStudent();
                 teacherStudent.setStudentId(studentId);
                 teacherStudent.setTeacherId(teacherId);
                 teacherStudent.setEmployeeNo(teacherStudentRelateExcelDto.getEmployeeNo());
@@ -455,184 +438,163 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
     }
 
-	@Override
-	public boolean sendOneMsg(String sign, String message,String phone) throws ClientProtocolException, IOException {
-		// TODO Auto-generated method stub
-		if(StringUtils.isEmpty(phone))
-		{
-			return false;
-		}
-		else{
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost=new HttpPost(sendUrl);
-		//httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk"); 
-		List<NameValuePair> params=new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("username",username));
-		params.add(new BasicNameValuePair("password",password));
-		params.add(new BasicNameValuePair("mobile",phone));
-		message = new String("【"+sign+"】"+message);
-		params.add(new BasicNameValuePair("message",message));
-		httppost.setEntity(new UrlEncodedFormEntity(params,"GBK"));
-		HttpResponse response=httpclient.execute(httppost);
-		System.out.println(EntityUtils.toString(response.getEntity()));
-		if(response.getStatusLine().getStatusCode()==200){//如果状态码为200,就是正常返回
-			return true;
-		}
-		return false;
-		}
-	}
+    @Override
+    public boolean sendOneMsg(String sign, String message, String phone) throws ClientProtocolException, IOException {
+        // TODO Auto-generated method stub
+        if (StringUtils.isEmpty(phone)) {
+            return false;
+        } else {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(sendUrl);
+            //httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk");
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("password", password));
+            params.add(new BasicNameValuePair("mobile", phone));
+            message = new String("【" + sign + "】" + message);
+            params.add(new BasicNameValuePair("message", message));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "GBK"));
+            HttpResponse response = httpclient.execute(httppost);
+            System.out.println(EntityUtils.toString(response.getEntity()));
+            if (response.getStatusLine().getStatusCode() == 200) {//如果状态码为200,就是正常返回
+                return true;
+            }
+            return false;
+        }
+    }
 
-	@Override
-	public List<TreeDto> collegeTree() {
-		// TODO Auto-generated method stub
-		List<College> colleges = collegeMapper.selectAll();
-		List<TreeDto> dtos = new ArrayList<TreeDto>();
-		for(College c:colleges)
-		{
-			dtos.add(new TreeDto(c));
-			List<Faculty> faculties = facultyMapper.selectAll();
-			for(Faculty f:faculties)
-			{
-				dtos.add(new TreeDto(f));
-			}
-		}
-		return dtos;
-	}
+    @Override
+    public List<TreeDto> collegeTree() {
+        // TODO Auto-generated method stub
+        List<College> colleges = collegeMapper.selectAll();
+        List<TreeDto> dtos = new ArrayList<TreeDto>();
+        for (College c : colleges) {
+            dtos.add(new TreeDto(c));
+            List<Faculty> faculties = facultyMapper.selectAll();
+            for (Faculty f : faculties) {
+                dtos.add(new TreeDto(f));
+            }
+        }
+        return dtos;
+    }
 
-	@Async
-	@Override
-	public void sendMsg(String message, String reciever, String sign) {
-		// TODO Auto-generated method stub
-		String cx[] = reciever.split(",");
-		List<String> facultyIds = facultyIds = Arrays.asList(cx);
-		for(String f:facultyIds)
-		{
-			List<String> majorIds = majorMapper.selectByFacultyId(f);
-			for(String m:majorIds)
-			{
-				List<String> phones = iStudentService.findPhoneByMajorId(m);
-				StringBuffer stringBuffer = new StringBuffer();
-				for(int i=0;i<phones.size();i++)
-				{
-					stringBuffer.append(phones.get(i));
-					if(i<phones.size()-1)
-					stringBuffer.append(",");
-				}
-				System.out.println(stringBuffer.toString());
-				sendMsgTo(message, sign, stringBuffer.toString());
-			}
-		}
-	}
-	
-	private boolean sendMsgTo(String message,String sign,String phone) 
-	{
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost=new HttpPost(sendUrl);
-		//httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk"); 
-		List<NameValuePair> params=new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("username",username));
-		params.add(new BasicNameValuePair("password",password));
-		params.add(new BasicNameValuePair("mobile",phone));
-		message = new String("【"+sign+"】"+message);
-		params.add(new BasicNameValuePair("message",message));
-		try {
-			httppost.setEntity(new UrlEncodedFormEntity(params,"GBK"));
-			HttpResponse response=httpclient.execute(httppost);
-			System.out.println(EntityUtils.toString(response.getEntity()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
+    @Async
+    @Override
+    public void sendMsg(String message, String reciever, String sign) {
+        // TODO Auto-generated method stub
+        String cx[] = reciever.split(",");
+        List<String> facultyIds = facultyIds = Arrays.asList(cx);
+        for (String f : facultyIds) {
+            List<String> majorIds = majorMapper.selectByFacultyId(f);
+            for (String m : majorIds) {
+                List<String> phones = iStudentService.findPhoneByMajorId(m);
+                StringBuffer stringBuffer = new StringBuffer();
+                for (int i = 0; i < phones.size(); i++) {
+                    stringBuffer.append(phones.get(i));
+                    if (i < phones.size() - 1) stringBuffer.append(",");
+                }
+                System.out.println(stringBuffer.toString());
+                sendMsgTo(message, sign, stringBuffer.toString());
+            }
+        }
+    }
 
-	@Override
-	public void insertUserFacultyRation(Integer userId, String facultyId) {
-		// TODO Auto-generated method stub
-		String facultyIdArray[] = facultyId.split(",");
-		userFacultyMapper.deleteByUserId(userId);
-		for(String fa:facultyIdArray)
-		{
-			UserFaculty record = new UserFaculty();
-			record.setUserId(userId);
-			record.setFaculty(fa);
-			userFacultyMapper.insert(record);
-		}
-	}
-	
-	@Override
-	public UserFaculty getUserFacultyRation(Integer userId) {
-		// TODO Auto-generated method stub
-		List<UserFaculty> userFaculties =  userFacultyMapper.findByUserId(userId);
-		String faculties = "";
-		for(int i=0;i<userFaculties.size();i++)
-		{
-			faculties = faculties+userFaculties.get(i).getFaculty();
-			if(i<userFaculties.size()-1)
-			{
-				faculties = faculties+",";
-			}
-		}
-		UserFaculty userFaculty = new UserFaculty();
-		userFaculty.setFaculty(faculties);
-		userFaculty.setUserId(userId);
-		return userFaculty;
-	}
+    private boolean sendMsgTo(String message, String sign, String phone) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(sendUrl);
+        //httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk");
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("username", username));
+        params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("mobile", phone));
+        message = new String("【" + sign + "】" + message);
+        params.add(new BasicNameValuePair("message", message));
+        try {
+            httppost.setEntity(new UrlEncodedFormEntity(params, "GBK"));
+            HttpResponse response = httpclient.execute(httppost);
+            System.out.println(EntityUtils.toString(response.getEntity()));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
-	@Async
-	@Override
-		// TODO Auto-generated method stub
-	public boolean teacherSendMsg(String message, String reciever, String sign) {
-		Integer userId = SecurityUtil.getCurrentUserId();
-		Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
-		String typeIdsStr[] = reciever.split(",");
-		List<Integer> typeIds = new ArrayList<Integer>();
-		for(String str : typeIdsStr)
-		{
-			typeIds.add(Integer.valueOf(str));
-		}
-		Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
-		List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId,typeIds);
-		String phones = "";
-		for(int i=0;i<studentIds.size();i++)
-		{
-			String phone = studentMapper.selectByPrimaryKey(studentIds.get(i)).getContactPhone();
-			if(i<studentIds.size()-1)
-			{
-			if(StringUtils.isNotEmpty(phone))
-			phones = phones + phone+",";
-			}
-			else
-			{
-			phones = phones + phone;
-			}
-		}
-	   boolean status = sendMsgTo(message, sign, phones);
-	   if(status)
-	   {
-		   for(Integer typeId : typeIds)
-		   {
-			  TeacherType teacherType =  teacherTypeMapper.selectByPrimaryKey(typeId);
-			  Msg msg = new Msg();
-			  msg.setMsgContent(message);
-			  msg.setMsgSign(sign);
-			  msg.setReciever(teacherType.getTypeName());
-			  msg.setTypeId(teacherType.getTypeId());
-			  msg.setTeacherId(teacher.getId());
-			  msg.setTeacherName(teacher.getName());
-			  msg.setTeacherNo(teacher.getEmployeeNo());
-			  msgMapper.insertSelective(msg);
-		   }
-	   }
-	   if(status)
-		   return true;
-	   return false;
-	}
+    @Override
+    public void insertUserFacultyRation(Integer userId, String facultyId) {
+        // TODO Auto-generated method stub
+        String facultyIdArray[] = facultyId.split(",");
+        userFacultyMapper.deleteByUserId(userId);
+        for (String fa : facultyIdArray) {
+            UserFaculty record = new UserFaculty();
+            record.setUserId(userId);
+            record.setFaculty(fa);
+            userFacultyMapper.insert(record);
+        }
+    }
 
-	@Override
-	public Integer deleteByStudyYearAndStudyYearNum() {
-		// TODO Auto-generated method stub
-		return teacherStudentMapper.deleteByStudyYearAndStudyYearNum();
-	}
+    @Override
+    public UserFaculty getUserFacultyRation(Integer userId) {
+        // TODO Auto-generated method stub
+        List<UserFaculty> userFaculties = userFacultyMapper.findByUserId(userId);
+        String faculties = "";
+        for (int i = 0; i < userFaculties.size(); i++) {
+            faculties = faculties + userFaculties.get(i).getFaculty();
+            if (i < userFaculties.size() - 1) {
+                faculties = faculties + ",";
+            }
+        }
+        UserFaculty userFaculty = new UserFaculty();
+        userFaculty.setFaculty(faculties);
+        userFaculty.setUserId(userId);
+        return userFaculty;
+    }
+
+    @Async
+    @Override
+    // TODO Auto-generated method stub
+    public boolean teacherSendMsg(String message, String reciever, String sign) {
+        Integer userId = SecurityUtil.getCurrentUserId();
+        Integer teacherId = teacherMapper.selectTeacherIdByUserId(userId);
+        String typeIdsStr[] = reciever.split(",");
+        List<Integer> typeIds = new ArrayList<Integer>();
+        for (String str : typeIdsStr) {
+            typeIds.add(Integer.valueOf(str));
+        }
+        Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
+        List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId, typeIds);
+        String phones = "";
+        for (int i = 0; i < studentIds.size(); i++) {
+            String phone = studentMapper.selectByPrimaryKey(studentIds.get(i)).getContactPhone();
+            if (i < studentIds.size() - 1) {
+                if (StringUtils.isNotEmpty(phone)) phones = phones + phone + ",";
+            } else {
+                phones = phones + phone;
+            }
+        }
+        boolean status = sendMsgTo(message, sign, phones);
+        if (status) {
+            for (Integer typeId : typeIds) {
+                TeacherType teacherType = teacherTypeMapper.selectByPrimaryKey(typeId);
+                Msg msg = new Msg();
+                msg.setMsgContent(message);
+                msg.setMsgSign(sign);
+                msg.setReciever(teacherType.getTypeName());
+                msg.setTypeId(teacherType.getTypeId());
+                msg.setTeacherId(teacher.getId());
+                msg.setTeacherName(teacher.getName());
+                msg.setTeacherNo(teacher.getEmployeeNo());
+                msgMapper.insertSelective(msg);
+            }
+        }
+        if (status) return true;
+        return false;
+    }
+
+    @Override
+    public Integer deleteByStudyYearAndStudyYearNum() {
+        // TODO Auto-generated method stub
+        return teacherStudentMapper.deleteByStudyYearAndStudyYearNum();
+    }
 }
