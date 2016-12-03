@@ -422,6 +422,107 @@
                         }
                     );
                 }
+            },
+            {
+            	cls: "btn-primary btn-sm",
+                text: "该生的导师",
+                handle: function (index, stData) {
+                    var modal = $.topieModal({
+                        id: "messageModal",
+                        title: "查看",
+                        destroy: true
+                    });
+            var grid;
+            var teacherOpt = {
+                url: App.href + "/api/front/teacher/leaderPage?isBind=1&studentId="+stData.id,
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-Auth-Token", App.token);
+                },
+                autoLoad: true,
+                pageNum: 1,//当前页码
+                pageSize: 15,//每页显示条数
+                idFiled: "id",//id域指定
+                showCheckbox: true,//是否显示checkbox
+                checkboxWidth: "3%",
+                showIndexNum: false,
+                indexNumWidth: "5%",
+                pageSelect: [10, 15, 30, 50],
+                columns: [
+                    {
+                        title: "教师名称",
+                        field: "name"
+                    }, {
+                        title: "职工号",
+                        field: "employeeNo"
+                    }, {
+                        title: "联系电话",
+                        field: "contactPhone"
+                    },
+                    {
+                        title: "email",
+                        field: "email"
+                    },
+                    {
+                        title: "类型",
+                        field: "typeName",
+                        width: "10%"
+                    }
+                    ],
+                actionColumnText: "操作",//操作列文本
+                actionColumnWidth: "20%",
+                actionColumns: [
+                        {
+                        cls: "btn-primary btn-sm",
+                        text: "查看",
+                        handle: function (index, stData) {
+                            var modal = $.topieModal({
+                                id: "viewModal",
+                                title: "查看",
+                                destroy: true
+                            });
+                            $.ajax(
+                                {
+                                    type: 'GET',
+                                    url: App.href + "/api/front/teacher/profile",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    data: {
+                                        teacherId: stData.id
+                                    },
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("X-Auth-Token", App.token);
+                                    },
+                                    success: function (result) {
+                                        if (result.code === 200) {
+                                            var data = result.data;
+                                            if (data == null) {
+                                                return;
+                                            }
+                                            modal.$body.load("./tmpl/view-teacher.html?t=" + new Date().getTime(),
+                                                function () {
+                                                    var that = $(this);
+                                                    var source = $(this).html();
+                                                    that.empty();
+                                                    var render = template.compile(source);
+                                                    var html = render(data);
+                                                    that.html(html).show();
+                                                }
+                                            );
+                                            modal.show();
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    }
+                ]
+            };
+            //grid = window.App.content.find("#teacher_grid").topieGrid(teacherOpt);
+            modal.$body.topieGrid(teacherOpt);
+            modal.show();
+              }
             }
             ],
             search: {

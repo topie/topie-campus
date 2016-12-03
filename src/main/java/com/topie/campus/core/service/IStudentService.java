@@ -29,7 +29,7 @@ public interface IStudentService extends IService<Student> {
 
     List<String> findPhoneByMajorId(String zydm);
 
-    SimplePageInfo<Student> findByLeadRole(Integer userId, int pageNum, int pageSize);
+    SimplePageInfo<Student> findByLeadRole(Integer userId, int pageNum, int pageSize, Student student);
 
 	Student findByStudentId(Integer studentId);
 

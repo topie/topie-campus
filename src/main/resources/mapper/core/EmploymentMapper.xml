@@ -64,6 +64,9 @@
             <if test="employment.teacherNo!=null and employment.teacherNo!=''">
               and teacher_no = #{employment.teacherNo}
             </if>
+             <if test="employment.major!=null and employment.major!=''">
+              and major = #{employment.major}
+            </if>
          </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
@@ -78,6 +81,12 @@
         <where>
             <if test="employment.name!=null and employment.name!=''">
                `name` like concat('%',concat(#{employment.name},'%'))
+            </if>
+            <if test="employment.teacherNo!=null and employment.teacherNo!=''">
+              and teacher_no = #{employment.teacherNo}
+            </if>
+             <if test="employment.major!=null and employment.major!=''">
+              and major = #{employment.major}
             </if>
         </where>
     </select>

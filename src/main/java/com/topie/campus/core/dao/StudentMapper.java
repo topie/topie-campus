@@ -35,9 +35,9 @@ public interface StudentMapper extends Mapper<Student> {
     List<String> findPhoneByMajorId(@Param("facultyId") String facultyId);
 
     List<Student> findByMajor(@Param("majorIds") List<String> majorIds, @Param("pageOffset") Integer pageOffset,
-            @Param("pageSize") Integer pageSize);
+            @Param("pageSize") Integer pageSize, @Param("student") Student student);
 
-	Long countByMajor(@Param("majorIds") List<String> majorIds);
+	Long countByMajor(@Param("majorIds") List<String> majorIds,@Param("student") Student student);
 	
     Student findByStuId(@Param("studentId") Integer studentId);
 

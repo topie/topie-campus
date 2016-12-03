@@ -176,12 +176,20 @@
     </select>
 
     <select id="findByMajor" resultMap="BaseResultMap">
-        select * from t_student
+        select * from t_student t
         <where>
             binary major_code in
             <foreach item="item" index="index" collection="majorIds" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            <if test="student!=null"> 
+	             <if test="student.name!=null and student.name!=''">
+	                and t.name like concat('%',concat(#{student.name}, '%'))
+	            </if>
+	            <if test="student.studentNo!= null and student.studentNo!= ''">
+	                and t.student_no=#{student.studentNo}
+	            </if>
+            </if>
         </where>
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}

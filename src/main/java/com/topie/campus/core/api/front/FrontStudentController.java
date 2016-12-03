@@ -57,6 +57,19 @@ public class FrontStudentController {
                 .findStudentSimpleDtoListWithBindInfo(studentSimpleDto, typeId, teacherId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
+    
+    @RequestMapping(value = "/leaderPage", method = RequestMethod.GET)
+    @ResponseBody
+    public Result leaderPage(StudentSimpleDto studentSimpleDto,Integer teacherId,@RequestParam(value = "typeId") Integer typeId,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        if (teacherId == null) {
+            return ResponseUtil.error(401, "当前用户无此权限角色");
+        }
+        SimplePageInfo<StudentSimpleDto> pageInfo = iInfoBasicService
+                .findStudentSimpleDtoListWithBindInfo(studentSimpleDto, typeId, teacherId, pageNum, pageSize);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @ResponseBody

@@ -27,10 +27,19 @@ public class InfoTeacherController {
 
     @Autowired
     private ITeacherTypeService iTeacherTypeService;
-
+    
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
     public Result page(Teacher teacher,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        SimplePageInfo<Teacher> pageInfo = iInfoBasicService.findTeacherList(teacher, pageNum, pageSize);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
+    @RequestMapping(value = "/leaderPage", method = RequestMethod.GET)
+    @ResponseBody
+    public Result leaderPage(Teacher teacher,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         SimplePageInfo<Teacher> pageInfo = iInfoBasicService.findTeacherList(teacher, pageNum, pageSize);

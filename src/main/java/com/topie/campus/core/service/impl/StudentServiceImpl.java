@@ -89,7 +89,7 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 	}
 
 	@Override
-	public SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,int pageSize) {
+	public SimplePageInfo<Student> findByLeadRole(Integer userId,int pageNum,int pageSize,Student student) {
 		// TODO Auto-generated method stub
 		List<UserFaculty> userFaculties =  userFacultyMapper.findByUserId(userId);
 		SimplePageInfo<Student> pageInfo = null;
@@ -102,8 +102,8 @@ public class StudentServiceImpl extends BaseService<Student> implements IStudent
 			{
 			 return	new SimplePageInfo<>(pageNum,pageSize,0,new ArrayList<Student>());
 			}
-			List<Student> students = studentMapper.findByMajor(majorIds,(pageNum-1)*pageSize,pageSize);
-			Long total = studentMapper.countByMajor(majorIds);
+			List<Student> students = studentMapper.findByMajor(majorIds,(pageNum-1)*pageSize,pageSize,student);
+			Long total = studentMapper.countByMajor(majorIds,student);
 			pageInfo = new SimplePageInfo<>(pageNum,pageSize,total,students);
 		return pageInfo;
 	}

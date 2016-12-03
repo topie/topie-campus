@@ -22,10 +22,10 @@ public class LeaderController {
 	
 	@RequestMapping("/page")
 	@ResponseBody
-	public Result page(Integer pageNum,Integer pageSize)
+	public Result page(Integer pageNum,Integer pageSize,Student student)
 	{
 		Integer userId = SecurityUtil.getCurrentUserId();
-		SimplePageInfo<Student> students = studentService.findByLeadRole(userId,pageNum,pageSize);
+		SimplePageInfo<Student> students = studentService.findByLeadRole(userId,pageNum,pageSize,student);
 		return ResponseUtil.success(PageConvertUtil.grid(students));
 	}
 }

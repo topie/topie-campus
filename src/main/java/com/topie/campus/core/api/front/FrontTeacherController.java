@@ -55,18 +55,29 @@ public class FrontTeacherController {
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Integer userId = SecurityUtil.getCurrentUserId();
-        if (userId == null) {
-            return ResponseUtil.error(401, "未登录");
-        }
-        Student stu = iStudentService.findStudentByUserId(userId);
-        if (stu == null) {
-            return ResponseUtil.error(401, "当前用户非学生角色");
+        Integer studentId = iStudentService.findStudentIdByUserId(userId);
+    	if (studentId == null) {
+            return ResponseUtil.error(401, "当前用户无权查看");
         }
         SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService
-                .findTeacherByStudentNo(stu.getId(), pageNum, pageSize);
+                .findTeacherByStudentNo(studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-
+    
+    @RequestMapping(value = "/leaderPage", method = RequestMethod.GET)
+    @ResponseBody
+    public Result leaderPage(TeacherSimpleDto teacherSimpleDto,
+            @RequestParam(value = "typeId", required = false) Integer typeId,Integer studentId,
+            @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
+        if (studentId == null) {
+            return ResponseUtil.error(401, "当前用户无权查看");
+        }
+        SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService
+                .findTeacherByStudentNo(studentId, pageNum, pageSize);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
+    }
+    
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @ResponseBody
     public Result profile(@RequestParam("teacherId") Integer teacherId) {

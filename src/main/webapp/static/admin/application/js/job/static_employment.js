@@ -27,11 +27,10 @@
     var teacherNo = "";
     App.infoStatic.gridChange = function(type,value)
     {
-    	var sourceValue = value;
+    	 var sourceValue = value;
          if(isIE())
         	 {
         	 value = encodeURI(value);
-        	 console.log(value);
         	 }
     	if(type==0)
     		{
@@ -44,14 +43,12 @@
     		college = sourceValue;
     		 App.infoStatic.facultyOptions.url = App.href + "/api/job/staticByFaculty?college="+value;
     		 grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.facultyOptions);
-    		 console.log(grid);
     		 //grid.reload({url:App.infoStatic.facultyOptions.url +"?&college="+value});
     		}
     	else if(type==2)
     		{
     		$("#static_grid").html('');
     		faculty = sourceValue;
-    		console.log(faculty);
     		App.infoStatic.majorOptions.url = App.href + "/api/job/staticByMajor?faculty="+value;
     		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.majorOptions);
     		//grid.reload({url:App.infoStatic.majorOptions.url +"?&faculty="+value});
@@ -68,10 +65,16 @@
 		{
 		$("#static_grid").html('');
 		teacheNo = sourceValue;
-		App.infoStatic.EmploymentOptions.url = App.href + "/api/job/staticByTutor?teacherNo="+value;
+		var newMajor = major;
+		if(isIE())
+	   	 {
+			newMajor = encodeURI(major);
+	   	 }
+		App.infoStatic.EmploymentOptions.url = App.href + "/api/job/staticByTutor?teacherNo="+value+"&major="+newMajor;
 		grid = window.App.content.find("#static_grid").topieGrid(App.infoStatic.EmploymentOptions);
 		//grid.reload({url:App.infoStatic.classNumOptions.url +"?&major="+value});
 		}
+    	console.log(value);
     }
     
     App.infoStatic.EmploymentOptions = {
@@ -101,6 +104,16 @@
 		        field: "phone",
 		        sort: true
 		    },{
+		        title: "性别",
+		        field: "gender",
+		        sort: true
+		    },
+		    {
+		        title: "困难生",
+		        field: "poorStudent",
+		        sort: true
+		    },
+		    {
 		        title: "领表",
 		        field: "takeTable",
 		        sort: true
@@ -324,7 +337,6 @@
                             text: "统计图",
                             cls: "btn-primary btn-sm",
                             handle: function (index, data) {
-                            	console.log(data);
                                 var modal = $.topieModal({
                                     id: "studentForm",
                                     title: "学院统计",
@@ -414,7 +426,6 @@
                 text: "统计图",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
-                	console.log(data);
                     var modal = $.topieModal({
                         id: "studentForm",
                         title: "院系统计",
@@ -513,7 +524,6 @@
                 text: "统计图",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
-                	console.log(data);
                     var modal = $.topieModal({
                         id: "studentForm",
                         title: "院系统计",
@@ -662,7 +672,6 @@
                 text: "统计图",
                 cls: "btn-primary btn-sm",
                 handle: function (index, data) {
-                	console.log(data);
                     var modal = $.topieModal({
                         id: "studentForm",
                         title: "院系统计",
@@ -808,8 +817,8 @@
     				    handle: function (grid) {
     				    	App.infoStatic.gridChange(2,faculty);
     				    }
-    				}],
-            search: {
+    				}]
+            /*search: {
                 rowEleNum: 2,
                 items: [
                         {
@@ -825,7 +834,7 @@
                     name: "tutor",
                     placeholder: "输入要搜索的导师名"
                 }]
-            }
+            }*/
         };
     
     App.infoStatic.initEvents = function () {

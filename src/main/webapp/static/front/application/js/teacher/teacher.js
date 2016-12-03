@@ -46,7 +46,7 @@
                     field: "email"
                 },
                 {
-                    title: "导师类型",
+                    title: "类型",
                     field: "typeName",
                     width: "10%"
                 }
