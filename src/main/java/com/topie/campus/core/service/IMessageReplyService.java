@@ -2,6 +2,7 @@ package com.topie.campus.core.service;
 
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.core.model.AtMe;
 import com.topie.campus.core.model.MessageReply;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IMessageReplyService extends IService<MessageReply> {
     Long countMessageReplyByMessageId(Integer messageId);
 
     List<Map> findMessageReplyStat(Integer userId);
+
+    int insertByAtMe(AtMe atMe, String replyContent, Integer userId, String userName);
 }

@@ -46,6 +46,9 @@ public class FrontTeacherController {
     private IMessageService iMessageService;
 
     @Autowired
+    private IAtMeService iAtMeService;
+
+    @Autowired
     private IUserNotificationService iUserNotificationService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
@@ -56,18 +59,18 @@ public class FrontTeacherController {
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         Integer userId = SecurityUtil.getCurrentUserId();
         Integer studentId = iStudentService.findStudentIdByUserId(userId);
-    	if (studentId == null) {
+        if (studentId == null) {
             return ResponseUtil.error(401, "当前用户无权查看");
         }
         SimplePageInfo<TeacherSimpleDto> pageInfo = iTeacherService
                 .findTeacherByStudentNo(studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-    
+
     @RequestMapping(value = "/leaderPage", method = RequestMethod.GET)
     @ResponseBody
     public Result leaderPage(TeacherSimpleDto teacherSimpleDto,
-            @RequestParam(value = "typeId", required = false) Integer typeId,Integer studentId,
+            @RequestParam(value = "typeId", required = false) Integer typeId, Integer studentId,
             @RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
             @RequestParam(value = "pageSize", required = false, defaultValue = "15") int pageSize) {
         if (studentId == null) {
@@ -77,7 +80,7 @@ public class FrontTeacherController {
                 .findTeacherByStudentNo(studentId, pageNum, pageSize);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
-    
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     @ResponseBody
     public Result profile(@RequestParam("teacherId") Integer teacherId) {
@@ -105,6 +108,7 @@ public class FrontTeacherController {
         message.setMessageContent(messageContent);
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
+        iAtMeService.insertByMessage(message);
         iUserNotificationService.insertOrUpdateToIncrNewMessageCount(toUserId, userId, studentName);
         return ResponseUtil.success();
     }

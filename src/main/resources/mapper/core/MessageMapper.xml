@@ -147,4 +147,28 @@
         </where>
         order by m.message_date_time desc,r.reply_date_time desc
     </select>
+    <select id="selectContentByReplyId" resultType="java.lang.String">
+        select
+        m.message_content
+        from topie_campus.t_message m
+        inner join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        where r.reply_id=#{contentId}
+    </select>
+    <select id="selectIdByReplyId" resultType="java.lang.Integer">
+        select
+        m.message_id
+        from topie_campus.t_message m
+        inner join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        where r.reply_id=#{contentId}
+    </select>
+    <select id="selectByReplyId" resultMap="BaseResultMap">
+        select
+        m.*
+        from topie_campus.t_message m
+        inner join topie_campus.t_message_reply r
+        on m.message_id = r.message_id
+        where r.reply_id=#{contentId}
+    </select>
 </mapper>

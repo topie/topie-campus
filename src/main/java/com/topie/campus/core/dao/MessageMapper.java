@@ -26,4 +26,11 @@ public interface MessageMapper extends Mapper<Message> {
     Long countMessageDto(@Param("param") MessageSearchParams messageSearchParams);
 
     List<MessageSimpleDto> findMessageDtoList(@Param("param") MessageSearchParams messageSearchParams);
+
+    String selectContentByReplyId(@Param("contentId") Integer contentId);
+
+    Integer selectIdByReplyId(@Param("contentId") Integer contentId);
+
+    Message selectByReplyId(@Param("contentId") Integer contentId);
+
 }

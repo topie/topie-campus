@@ -20,7 +20,7 @@
     <!-- Custom CSS -->
     <link href="application/css/sb-admin-2.css" rel="stylesheet">
     <link href="application/css/index.css" rel="stylesheet">
- <link href="../vendors/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendors/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css">
     <!-- Custom Fonts -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -152,14 +152,15 @@
 <script src="../vendors/flot/jquery.flot.time.js"></script>
 <script src="../vendors/flot-tooltip/jquery.flot.tooltip.min.js"></script>
 <script src="../global/js/topie-modal.js"></script>
-<script src="../global/js/topie-form.js"></script>
-<script src="../global/js/topie-grid.js"></script>
+<script src="../global/js/topie-form.js?v=1.0"></script>
+<script src="../global/js/topie-grid.js?v=1.0"></script>
 <script src="../global/js/echarts.js"></script>
 <script src="application/js/app.js"></script>
 <script src="application/js/menu.js"></script>
 <script src="application/js/index.js"></script>
 <script src="application/js/message/receive.js"></script>
 <script src="application/js/message/send.js"></script>
+<script src="application/js/message/atMe.js"></script>
 <script src="application/js/student/student.js"></script>
 <script src="application/js/teacher/teacher.js"></script>
 <script src="application/js/teacher/survey.js"></script>
@@ -179,23 +180,23 @@
     bootbox.setLocale("zh_CN");
     $("#logout").on("click", function () {
         $.ajax(
-                {
-                    type: 'GET',
-                    url: App.href + "/api/logout",
-                    contentType: "application/json",
-                    beforeSend: function (request) {
-                        request.setRequestHeader("X-Auth-Token", App.token);
-                    },
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.code == 200) {
-                            $.cookie('tc_t', null);
-                            window.location.href = App.href + "/static/front/login.html";
-                        } else {
-                            alert(result.message);
-                        }
+            {
+                type: 'GET',
+                url: App.href + "/api/logout",
+                contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("X-Auth-Token", App.token);
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 200) {
+                        $.cookie('tc_t', null);
+                        window.location.href = App.href + "/static/front/login.html";
+                    } else {
+                        alert(result.message);
                     }
                 }
+            }
         );
     });
     $("#updatePassword").click(function () {

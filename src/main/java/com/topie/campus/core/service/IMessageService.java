@@ -1,9 +1,11 @@
 package com.topie.campus.core.service;
 
+import com.sun.corba.se.spi.presentation.rmi.IDLNameTranslator;
 import com.topie.campus.basedao.service.IService;
 import com.topie.campus.common.SimplePageInfo;
 import com.topie.campus.core.dto.MessageSearchParams;
 import com.topie.campus.core.dto.MessageSimpleDto;
+import com.topie.campus.core.model.AtMe;
 import com.topie.campus.core.model.Message;
 
 import java.util.List;
@@ -27,4 +29,9 @@ public interface IMessageService extends IService<Message> {
 
     List<MessageSimpleDto> findMessageList(MessageSearchParams messageSearchParams);
 
+    String selectContentByReplyId(Integer contentId);
+
+    Integer selectIdByReplyId(Integer contentId);
+
+    Message selectByReplyId(Integer contentId);
 }

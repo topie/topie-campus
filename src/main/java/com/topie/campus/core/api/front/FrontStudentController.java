@@ -38,6 +38,9 @@ public class FrontStudentController {
     private IMessageService iMessageService;
 
     @Autowired
+    private IAtMeService iAtMeService;
+
+    @Autowired
     private IUserNotificationService iUserNotificationService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
@@ -99,6 +102,7 @@ public class FrontStudentController {
         message.setUpdateTime(new Date());
         iMessageService.insertSelective(message);
         iUserNotificationService.insertOrUpdateToIncrNewMessageCount(toUserId, userId,teacherName);
+        iAtMeService.insertByMessage(message);
         return ResponseUtil.success();
     }
 
