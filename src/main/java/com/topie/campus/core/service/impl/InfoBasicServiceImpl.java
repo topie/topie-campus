@@ -1,6 +1,7 @@
 package com.topie.campus.core.service.impl;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.core.dao.*;
 import com.topie.campus.core.dto.*;
 import com.topie.campus.core.model.*;
@@ -563,7 +564,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
             typeIds.add(Integer.valueOf(str));
         }
         Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
-        List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId, typeIds);
+        List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeIds(teacherId, typeIds);
         String phones = "";
         for (int i = 0; i < studentIds.size(); i++) {
             String phone = studentMapper.selectByPrimaryKey(studentIds.get(i)).getContactPhone();
@@ -596,5 +597,10 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     public Integer deleteByStudyYearAndStudyYearNum() {
         // TODO Auto-generated method stub
         return teacherStudentMapper.deleteByStudyYearAndStudyYearNum();
+    }
+
+    @Override
+    public List<TreeNode> getStudentTreeNodes(Integer typeId, Integer teacherId) {
+        return teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId, typeId);
     }
 }

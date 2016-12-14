@@ -561,6 +561,13 @@
                         }
                     });
                 }
+                if (data.events != undefined) {
+                    $.each(data.events, function (i, d) {
+                        ele.on(d.name, function (e) {
+                            d.action(e, $(this));
+                        })
+                    });
+                }
                 return ele;
             },
             'checkboxGroup': function (data, form) {
@@ -984,7 +991,7 @@
                 });
                 var chkboxType = data.chkboxType == undefined ? {"Y": "p", "N": "p"} : data.chkboxType;
                 var beforeCheck = data.beforeCheck == undefined ? function () {
-                } : data.beforeCheck;
+                    } : data.beforeCheck;
                 var setting = {
                     check: {
                         enable: (data.checkable == undefined ? true : data.checkable),

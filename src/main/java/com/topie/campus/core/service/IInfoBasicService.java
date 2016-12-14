@@ -1,6 +1,7 @@
 package com.topie.campus.core.service;
 
 import com.topie.campus.common.SimplePageInfo;
+import com.topie.campus.common.TreeNode;
 import com.topie.campus.core.dto.StudentSimpleDto;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.dto.TreeDto;
@@ -13,9 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 工程：os-app 创建人 : ChenGJ 创建时间： 2015/9/2 说明：
@@ -83,5 +82,7 @@ public interface IInfoBasicService {
 
 	boolean teacherSendMsg(String message, String reciever, String sign);
 
-	Integer deleteByStudyYearAndStudyYearNum(); 
+	Integer deleteByStudyYearAndStudyYearNum();
+
+    List<TreeNode> getStudentTreeNodes(Integer typeId, Integer teacherId);
 }
