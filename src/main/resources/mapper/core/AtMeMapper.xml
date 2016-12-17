@@ -22,6 +22,9 @@
             <if test="param.toUserId!=null">
                 and to_user_id = #{param.toUserId}
             </if>
+            <if test="param.fromUserId!=null">
+                and from_user_id = #{param.fromUserId}
+            </if>
             <if test="param.contentType!=null">
                 and content_type = #{param.contentType}
             </if>

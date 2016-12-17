@@ -8,7 +8,10 @@ import com.topie.campus.common.utils.PageConvertUtil;
 import com.topie.campus.common.utils.ResponseUtil;
 import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dao.TeacherMapper;
+import com.topie.campus.core.dto.StudentSimpleDto;
+import com.topie.campus.core.model.Student;
 import com.topie.campus.core.model.TeacherType;
+import com.topie.campus.core.service.IStudentService;
 import com.topie.campus.core.service.ITeacherService;
 import com.topie.campus.core.service.ITeacherTypeService;
 import com.topie.campus.security.utils.SecurityUtil;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +35,9 @@ public class InfoTeacherTypeController {
     
     @Autowired
     ITeacherService teacherService;
+    
+    @Autowired
+    IStudentService studentService;
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -92,6 +99,30 @@ public class InfoTeacherTypeController {
     	Integer userId = SecurityUtil.getCurrentUserId();
     	Integer teacherId = teacherService.findTeacherIdByUserId(userId);
     	List<TreeNode> treeNodes = iTeacherTypeService.selectTreeNodesByTeacherId(teacherId);
+        return treeNodes;
+    }
+    
+    @RequestMapping(value = "/treeNodesAndStudentIdByTeacherId")
+    @ResponseBody
+    public List<TreeNode> TreeTeacherType() {
+    	Integer userId = SecurityUtil.getCurrentUserId();
+    	Integer teacherId = teacherService.findTeacherIdByUserId(userId);
+    	List<TreeNode> treeNodes = iTeacherTypeService.selectTreeNodesByTeacherId(teacherId);
+    	List<TreeNode> studentNodes = new ArrayList<>();
+    	for(TreeNode t:treeNodes)
+    	{
+    		List<StudentSimpleDto> students = studentService.findStudentByTeacherIdAndTypeId(teacherId, t.getId());
+    		t.setId(-t.getId());
+    		for(StudentSimpleDto dto:students)
+    		{
+    			TreeNode node = new TreeNode();
+    			node.setId(dto.getId());
+    			node.setpId(t.getId());
+    			node.setName(dto.getName());
+    			studentNodes.add(node);
+    		}
+    	}
+    	treeNodes.addAll(studentNodes);
         return treeNodes;
     }
 }

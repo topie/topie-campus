@@ -561,10 +561,15 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         String typeIdsStr[] = reciever.split(",");
         List<Integer> typeIds = new ArrayList<Integer>();
         for (String str : typeIdsStr) {
-            typeIds.add(Integer.valueOf(str));
+        	Integer value = Integer.valueOf(str);
+        	if(value>0)
+        	{
+            typeIds.add(value);
+        	}
         }
         Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
-        List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeIds(teacherId, typeIds);
+        /*List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeIds(teacherId, typeIds);*/
+        List<Integer> studentIds = typeIds;
         String phones = "";
         for (int i = 0; i < studentIds.size(); i++) {
             String phone = studentMapper.selectByPrimaryKey(studentIds.get(i)).getContactPhone();
@@ -576,13 +581,13 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         }
         boolean status = sendMsgTo(message, sign, phones);
         if (status) {
-            for (Integer typeId : typeIds) {
-                TeacherType teacherType = teacherTypeMapper.selectByPrimaryKey(typeId);
+            for (Integer stuId : studentIds) {
+                Student student = studentMapper.selectByPrimaryKey(stuId);
                 Msg msg = new Msg();
                 msg.setMsgContent(message);
                 msg.setMsgSign(sign);
-                msg.setReciever(teacherType.getTypeName());
-                msg.setTypeId(teacherType.getTypeId());
+                msg.setReciever(student.getName());
+                //msg.setTypeId(teacherType.getTypeId());
                 msg.setTeacherId(teacher.getId());
                 msg.setTeacherName(teacher.getName());
                 msg.setTeacherNo(teacher.getEmployeeNo());

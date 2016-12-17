@@ -34,7 +34,7 @@
                 sort: true
             },
             {
-                title: "姓名",
+                title: "发送人",
                 field: "teacherName"
             }, {
                 title: "短信内容",
@@ -44,7 +44,7 @@
                 field: "msgSign"
             },
             {
-                title: "导师类型",
+                title: "收件人",
                 field: "reciever"
             }],
             actionColumnText: "操作",

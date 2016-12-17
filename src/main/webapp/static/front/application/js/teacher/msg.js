@@ -70,7 +70,7 @@
 							    id: 'reciever',
 							    label: '收件人',
 							    cls: 'input-large',
-							    url : App.href+"/api/info/teacherType/treeNodesByTeacherId?topie_token="+App.token,
+							    url : App.href+"/api/info/teacherType/treeNodesAndStudentIdByTeacherId?topie_token="+App.token,
 								autoParam : [ "id", "name", "pId" ],
 								expandAll : false,
 								chkboxType:{"Y": "s","Y": "s"},

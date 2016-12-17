@@ -53,10 +53,15 @@ public class FrontAtMeController {
             atMe.setBegin(arr[0]);
             atMe.setEnd(arr[1]);
         }
-        if (type != null && type > 0) {
-            atMe.setContentType(type);
+        if (type != null && type == 1) {
+        	atMe.setContentType(type);
+            atMe.setFromUserId(SecurityUtil.getCurrentUserId());
         }
-        atMe.setToUserId(SecurityUtil.getCurrentUserId());
+        else if(type!=null && type==2)
+        {
+        	atMe.setContentType(type);
+        	atMe.setToUserId(SecurityUtil.getCurrentUserId());
+        }
         SimplePageInfo<AtMe> pageInfo = iAtMeService.selectRecordByPage(atMe, pageNum, pageSize);
         iUserNotificationService.updateToClearNewMessageCount(userId);
         iUserNotificationService.updateToClearNewReplyCount(userId);

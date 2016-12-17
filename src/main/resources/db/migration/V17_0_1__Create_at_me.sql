@@ -23,6 +23,6 @@ CREATE TABLE `t_at_me` (
   DEFAULT CHARSET = utf8
   COMMENT '动态信息';
 
-INSERT INTO `sys_function` VALUES ('42', '0', '动态中心', '1', '2', NULL, '/api/front/atMe/page', '4', NULL, NULL);
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('4', '42');
-INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '42');
+INSERT INTO `sys_function` VALUES ('43', '0', '动态中心', '1', '2', NULL, '/api/front/atMe/page', '4', NULL, NULL);
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('4', '43');
+INSERT INTO `sys_role_function` (role_id, function_id) VALUES ('5', '43');
