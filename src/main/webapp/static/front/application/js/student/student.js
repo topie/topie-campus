@@ -181,28 +181,24 @@
         }
     ];
     App.frontStudent.initEvents = function () {
-    	
-    	$.ajax({
-    		url:App.href+"/api/info/teacherType/treeNodesByTeacherId?topie_token="+App.token,
-    		success:function(result)
-    		{
-    			var role = "";
-    			for(var i in result)
-    				{
-    				if(i==result.length-1)
-    					{
-    					 role = role + result[i].name;
-    					}
-    				else
-    					{
-    					 role = role + result[i].name+",";
-    					}
-    				}
-    			$("#student_grid").before("<div style='text-align:center;font-size:24px;margin-bottom:40px;'>您的角色是<font color='red'>"+role+"</font>;您可以在搜索栏里查询您不同角色下的学生。</div>");
-    		}
-    	});
-    	
-    	
+
+        $.ajax({
+            url: App.href + "/api/info/teacherType/treeNodesByTeacherId?topie_token=" + App.token,
+            success: function (result) {
+                var role = "";
+                for (var i in result) {
+                    if (i == result.length - 1) {
+                        role = role + result[i].name;
+                    }
+                    else {
+                        role = role + result[i].name + ",";
+                    }
+                }
+                $("#student_grid").before("<div style='text-align:center;font-size:24px;margin-bottom:40px;'>您的角色是<font color='red'>" + role + "</font>;您可以在搜索栏里查询您不同角色下的学生。</div>");
+            }
+        });
+
+
         var grid;
         var studentOpt = {
             url: App.href + "/api/front/student/page?isBind=1",
@@ -233,6 +229,97 @@
                     title: "专业",
                     field: "subject"
                 }],
+            tools: [
+                {
+                    text: "批量留言",
+                    cls: "btn btn-primary",
+                    icon: "fa fa-list",
+                    handle: function (grid) {
+                        var modal = $.topieModal({
+                            id: "batch_message_modal",
+                            title: "批量留言",
+                            destroy: true
+                        });
+                        var form;
+                        var formOpts = {
+                            id: "batch_message_form",
+                            name: "batch_message_form",
+                            method: "POST",
+                            action: App.href + "/api/front/student/postGroupMessage",
+                            ajaxSubmit: true,
+                            rowEleNum: 1,
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            ajaxSuccess: function () {
+                                bootbox.alert("留言成功~请到发出的留言查看相关动态！");
+                                modal.hide();
+                            },
+                            submitText: "提交",
+                            showReset: true,
+                            resetText: "重置",
+                            isValidate: true,
+                            buttons: [{
+                                type: 'button',
+                                text: '关闭',
+                                handle: function () {
+                                    modal.hide();
+                                }
+                            }],
+                            buttonsAlign: "center",
+                            items: [
+                                {
+                                    type: "select",
+                                    label: "导师类型",
+                                    name: "typeId",
+                                    id: "typeId",
+                                    async: false,
+                                    itemsUrl: App.href + "/api/info/teacherType/options?topie_token=" + App.token,
+                                    events: [{
+                                        name: "change",
+                                        action: function (e, ele) {
+                                            var zTree = $.fn.zTree.getZTreeObj("tree_toUserIds");
+                                            zTree.setting.async.url = App.href + "/api/front/student/treeNodes?topie_token=" + App.token + "&typeId=" + ele.val();
+                                            zTree.reAsyncChildNodes(null, "refresh");
+                                        }
+                                    }]
+                                }, {
+                                    type: 'tree',//类型
+                                    name: 'toUserIds',
+                                    id: 'toUserIds',//id
+                                    label: '学生',//左边label
+                                    url: App.href + "/api/front/student/treeNodes?topie_token=" + App.token + "&typeId=" + $("#typeId").val(),
+                                    expandAll: true,
+                                    autoParam: ["id", "name", "pId"],
+                                    chkStyle: "checkbox",
+                                    rule: {
+                                        required: true
+                                    },
+                                    message: {
+                                        required: "请选择至少一个学生"
+                                    }
+                                }, {
+                                    type: 'textarea',
+                                    name: 'messageContent',
+                                    id: 'messageContent',
+                                    label: '留言内容',
+                                    cls: 'input-large',
+                                    rule: {
+                                        required: true,
+                                        maxlength: 140
+                                    },
+                                    message: {
+                                        required: "留言内容，140字以内",
+                                        maxlength: "字符在1-140之间"
+                                    }
+                                }
+                            ]
+                        };
+                        form = modal.$body.topieForm(formOpts);
+                        modal.show();
+                    }
+                }
+            ],
             actionColumnText: "操作",//操作列文本
             actionColumnWidth: "40%",
             actionColumns: [
@@ -277,58 +364,58 @@
                     }
                 },
                 /*
-                {
-                    cls: "btn-info btn-sm",
-                    text: "评论(问卷)",
-                    handle: function (index, stData) {
-                        var modal = $.topieModal({
-                            id: "commentModal",
-                            title: "学生问卷列表",
-                            destroy: true
-                        });
-                        var options = {
-                            url: App.href + "/api/front/teacherSurvey/page?typeId=" + grid.$searchForm.find("#typeId").val(),
-                            beforeSend: function (request) {
-                                request.setRequestHeader("X-Auth-Token", App.token);
-                            },
-                            pageNum: 1,
-                            pageSize: 15,
-                            idFiled: "groupId",
-                            showCheckbox: true,
-                            checkboxWidth: "3%",
-                            showIndexNum: true,
-                            indexNumWidth: "7%",
-                            pageSelect: [2, 15, 30, 50],
-                            columns: App.frontStudent.teacherSurveyColumns,
-                            actionColumnText: "操作",
-                            actionColumnWidth: "25%",
-                            actionColumns: [
-                                {
-                                    visible: function (i, data) {
-                                        return data.onlineStatus == 1;
-                                    },
-                                    text: "参与",
-                                    cls: "btn-primary btn-sm",
-                                    handle: function (index, data) {
-                                        window.open(App.href + "/static/front/survey.html?u=" + data.groupId);
-                                    }
-                                }
-                            ],
-                            search: {
-                                rowEleNum: 1,
-                                hide:true,
-                                items: [{
-                                    type: "text",
-                                    label: "问卷名称",
-                                    name: "groupName",
-                                    placeholder: "问卷组名称"
-                                }]
-                            }
-                        };
-                        modal.$body.topieGrid(options);
-                        modal.show();
-                    }
-                },*/
+                 {
+                 cls: "btn-info btn-sm",
+                 text: "评论(问卷)",
+                 handle: function (index, stData) {
+                 var modal = $.topieModal({
+                 id: "commentModal",
+                 title: "学生问卷列表",
+                 destroy: true
+                 });
+                 var options = {
+                 url: App.href + "/api/front/teacherSurvey/page?typeId=" + grid.$searchForm.find("#typeId").val(),
+                 beforeSend: function (request) {
+                 request.setRequestHeader("X-Auth-Token", App.token);
+                 },
+                 pageNum: 1,
+                 pageSize: 15,
+                 idFiled: "groupId",
+                 showCheckbox: true,
+                 checkboxWidth: "3%",
+                 showIndexNum: true,
+                 indexNumWidth: "7%",
+                 pageSelect: [2, 15, 30, 50],
+                 columns: App.frontStudent.teacherSurveyColumns,
+                 actionColumnText: "操作",
+                 actionColumnWidth: "25%",
+                 actionColumns: [
+                 {
+                 visible: function (i, data) {
+                 return data.onlineStatus == 1;
+                 },
+                 text: "参与",
+                 cls: "btn-primary btn-sm",
+                 handle: function (index, data) {
+                 window.open(App.href + "/static/front/survey.html?u=" + data.groupId);
+                 }
+                 }
+                 ],
+                 search: {
+                 rowEleNum: 1,
+                 hide:true,
+                 items: [{
+                 type: "text",
+                 label: "问卷名称",
+                 name: "groupName",
+                 placeholder: "问卷组名称"
+                 }]
+                 }
+                 };
+                 modal.$body.topieGrid(options);
+                 modal.show();
+                 }
+                 },*/
                 {
                     cls: "btn-info btn-sm",
                     text: "修改联系电话",
@@ -773,7 +860,7 @@
                     handle: function (index, stData) {
                         var modalout = $.topieModal({
                             id: "messageModal",
-                            title: stData.name+"的相关记录",
+                            title: stData.name + "的相关记录",
                             destroy: true
                         });
                         var modal;
@@ -908,7 +995,7 @@
                                     field: "content"
                                 }
                                 /* ,{
-                                 title: "是否我的教师",
+                                 title: "是否我的导师",
                                  field: "isBind",
                                  format: function (num, grid) {
                                  if (grid.isBind == 1) {
@@ -990,7 +1077,7 @@
                 items: [
                     {
                         type: "select",
-                        label: "教师类型",
+                        label: "导师类型",
                         name: "typeId",
                         id: "typeId",
                         itemsUrl: App.href + "/api/info/teacherType/options?topie_token=" + App.token

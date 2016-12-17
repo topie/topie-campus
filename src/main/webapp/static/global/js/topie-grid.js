@@ -27,7 +27,7 @@
             linkedCalendars: false,
             autoApply: false,
             ranges: {
-                '今天': [moment().startOf('day'), moment()],
+                '今天': [moment().startOf('day'), moment().startOf('day')],
                 '昨天': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
                 '最近七天': [moment().subtract(6, 'days'), moment()],
                 '最近三十天': [moment().subtract(29, 'days'), moment()],

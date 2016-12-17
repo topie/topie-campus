@@ -124,7 +124,7 @@
                                     "data": data
                                 });
                                 that.html(html).show();
-                                if (data.messageStat.length == 0) {
+                                /*if (data.messageStat.length == 0) {
                                     return;
                                 }
                                 var da = [];
@@ -178,7 +178,7 @@
                                         },
                                         defaultTheme: false
                                     }
-                                });
+                                });*/
 
                             } else {
                                 alert(result.message);

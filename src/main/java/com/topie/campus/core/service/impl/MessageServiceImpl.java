@@ -72,4 +72,20 @@ public class MessageServiceImpl extends BaseService<Message> implements IMessage
                 .findMessageDtoList(messageSearchParams);
         return list;
     }
+
+    @Override
+    public String selectContentByReplyId(Integer contentId) {
+        return messageMapper.selectContentByReplyId(contentId);
+    }
+
+    @Override
+    public Integer selectIdByReplyId(Integer contentId) {
+        return messageMapper.selectIdByReplyId(contentId);
+    }
+
+    @Override
+    public Message selectByReplyId(Integer contentId) {
+        return messageMapper.selectByReplyId(contentId);
+    }
+
 }

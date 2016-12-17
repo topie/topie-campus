@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.topie.campus.core.dao.AtMeMapper">
+    <resultMap id="BaseResultMap" type="com.topie.campus.core.model.AtMe">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="from_user_id" jdbcType="INTEGER" property="fromUserId"/>
+        <result column="from_user_name" jdbcType="VARCHAR" property="fromUserName"/>
+        <result column="to_user_id" jdbcType="INTEGER" property="toUserId"/>
+        <result column="at_time" jdbcType="TIMESTAMP" property="atTime"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="content_type" jdbcType="SMALLINT" property="contentType"/>
+        <result column="content_id" jdbcType="INTEGER" property="contentId"/>
+    </resultMap>
+    <select id="selectRecordByLimitOffset" resultMap="BaseResultMap">
+        select
+        id,from_user_id,from_user_name,to_user_id,at_time,content,content_type,content_id
+        from topie_campus.t_at_me
+        <where>
+            <if test="param.toUserId!=null">
+                and to_user_id = #{param.toUserId}
+            </if>
+            <if test="param.contentType!=null">
+                and content_type = #{param.contentType}
+            </if>
+            <if test="param.begin!=null and param.begin!=''">
+                <![CDATA[  and at_time >= #{param.begin} ]]>
+            </if>
+            <if test="param.end!=null and param.end!=''">
+                <![CDATA[  and at_time <= #{param.end} ]]>
+            </if>
+        </where>
+        order by at_time desc
+        <if test="pageOffset!=null and pageSize!=null">
+            limit #{pageOffset},#{pageSize}
+        </if>
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(1)
+        from topie_campus.t_at_me
+        <where>
+            <if test="param.toUserId!=null">
+                and to_user_id = #{param.toUserId}
+            </if>
+            <if test="param.contentType!=null">
+                and content_type = #{param.contentType}
+            </if>
+            <if test="param.begin!=null and param.begin!=''">
+                <![CDATA[  and at_time >= #{param.begin} ]]>
+            </if>
+            <if test="param.end!=null and param.end!=''">
+                <![CDATA[  and at_time <= #{param.end} ]]>
+            </if>
+        </where>
+    </select>
+</mapper>

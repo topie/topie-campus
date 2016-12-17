@@ -72,7 +72,7 @@ public class InfoTeacherTypeController {
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
-    @RequestMapping(value = "/options", method = RequestMethod.GET)
+    @RequestMapping(value = "/options", method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public List<Option> options(TeacherType teacherType) {
         List<Option> optionList = iTeacherTypeService.selectOptions(teacherType);

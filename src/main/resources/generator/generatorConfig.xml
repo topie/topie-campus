@@ -53,7 +53,7 @@
         <javaClientGenerator targetPackage="com.topie.campus.core.dao"
                              targetProject="${targetBasedir}/src/main/java" type="XMLMAPPER"/>
 
-        <table tableName="t_msg" domainObjectName="Msg">
+        <table tableName="t_at_me" domainObjectName="AtMe">
         </table>
     </context>
 </generatorConfiguration>
