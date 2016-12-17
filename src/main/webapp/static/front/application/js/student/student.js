@@ -868,12 +868,12 @@
                                     label: '内容',
                                     cls: 'input-large',
                                     rule: {
-                                        required: true,
-                                        range:[1,500]
+		                                 required: true,
+		                                 maxlength:500
                                     },
                                     message: {
                                         required: "请输入内容，500字以内",
-                                        range:"字符在1-500之间"
+                                        maxlength:"500字以内"
                                     }
                                 }
                             ]

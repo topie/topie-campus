@@ -817,8 +817,8 @@
     				    handle: function (grid) {
     				    	App.infoStatic.gridChange(2,faculty);
     				    }
-    				}]
-            /*search: {
+    				}],
+            search: {
                 rowEleNum: 2,
                 items: [
                         {
@@ -828,13 +828,13 @@
                     id: 'graduateDate',
                     value:getGraduateYear(),
                     itemsUrl:App.href+"/api/dict/4?topie_token=" + App.token
-                },{
+                }]/*,{
                     type: "text",
                     label: "导师名称",
                     name: "tutor",
                     placeholder: "输入要搜索的导师名"
-                }]
-            }*/
+                }]*/
+            }
         };
     
     App.infoStatic.initEvents = function () {
