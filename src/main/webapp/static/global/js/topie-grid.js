@@ -8,21 +8,20 @@
         this._setOptions(this._options);
         this._initEmpty();
         if (!this._autoLoad)
-            return;
+            return
         if (this._url != undefined) {
             this._load();
-            return;
+            return
         }
         if (this._data != undefined) {
             this._init();
-            return;
+            return
         }
         console.error("data或url未定义");
-        return;
     };
-    var dataDefaults = {};
+    var dateDefaults = {};
     if (typeof(moment) != "undefined") {
-        dataDefaults = {
+        dateDefaults = {
             showDropdowns: true,
             linkedCalendars: false,
             autoApply: false,
@@ -81,6 +80,7 @@
         showIndexNum: true,
         indexNumWidth: "2%",
         indexNumText: "序号",
+        contentType: "table",
         showSearch: true,
         showPaging: true,
         simplePaging: false,
@@ -104,7 +104,9 @@
         searchElementTmpl: '<div class="col-md-${span_}"><div class="form-group">'
         + '</div></div>',
         gridWrapperTmpl: '<div id="${id_}_wrapper" class="dataTables_wrapper no-footer"></div>',
-        tableRowTmpl: '<div class="table-scrollable"></div>',
+        tableRowTmpl: '<div role="content" class="table-scrollable"></div>',
+        cardRowTmpl: '<div role="content" class="table-scrollable" style="margin-top: 10px;margin-bottom: 0px;"></div>',
+        listRowTmpl: '<div role="content" class="table-scrollable" style="margin-top: 10px;margin-bottom: 0px;"></div>',
         pagingRowTmpl: '<div class="row"><div role="select" class="col-md-2 col-sm-6"></div><div role="info" class="col-md-3 col-sm-6"></div><div role="goPage" class="col-md-2 col-sm-6" style="text-align: right;"></div><div role="page" class="col-md-5 col-sm-6"></div></div>',
         labelTmpl: '<label>${label_}</label>',
         textTmpl: '<input type="text" name="${name_}" id="${id_}" class="form-control ${span_}" placeholder="${placeholder_}" value="${value_}">',
@@ -213,7 +215,14 @@
                 console.error("idFiled属性未定义");
                 return;
             }
-            this._showCheck = options.showCheck;
+            if (options.headField != undefined) {
+                this._headField = options.headField;
+            }
+            if (options.imgField != undefined) {
+                this._imgField = options.imgField;
+            }
+            this._contentType = options.contentType;
+            this._showCheck = options.showCheckbox;
             this._checkboxWidth = options.checkboxWidth;
             this._showIndexNum = options.showIndexNum;
             this._indexNumWidth = options.indexNumWidth;
@@ -274,7 +283,7 @@
                 type: that._type,
                 dataType: "json",
                 data: that.$searchForm == undefined ? {} : that.$searchForm
-                    .serialize(),
+                        .serialize(),
                 beforeSend: function (request) {
                     if (that._beforeSend != undefined) {
                         that._beforeSend(request);
@@ -480,8 +489,7 @@
                                                                     "value_": (option.value == undefined ? ""
                                                                         : option.value),
                                                                     "text_": (option.text == undefined ? ""
-                                                                        : option.text),
-                                                                    "selected": (option.value == item.value ? 'selected = "selected"' : ''),
+                                                                        : option.text)
                                                                 })
                                                             .appendTo(
                                                                 ele);
@@ -645,7 +653,7 @@
                                 });
                                 itemDiv.find(".form-group").append(ele);
                                 var config = (item.config == undefined ? {} : item.config);
-                                var option = $.extend(true, dataDefaults, config);
+                                var option = $.extend(true, dateDefaults, config);
                                 if (item.callback != undefined) {
                                     ele.find('[role="date-input"]').daterangepicker(option, item.callback);
                                 } else {
@@ -659,6 +667,28 @@
                         });
             }
             searchFormRow.append("<hr>");
+            if (buttons != undefined && buttons.length > 0) {
+                $.each(buttons, function (index, button) {
+                    var btn = $.tmpl(Grid.statics.buttonTmpl, {
+                        "class_": (button.cls == undefined ? "btn btn-default"
+                            : button.cls),
+                        "text_": (button.text == undefined ? "未定义"
+                            : button.text),
+                        "title_": (button.title == undefined ? button.text
+                            : button.title),
+                        "type_": (button.type == undefined ? "button"
+                            : button.type)
+                    });
+                    if (button.icon != undefined)
+                        btn.prepend("<i class='" + button.icon + "'><i>");
+                    if (button.handle != undefined)
+                        btn.on("click", function () {
+                            button.handle(that);
+                        });
+                    searchFormRow.find('.form-actions').append(btn);
+                    btn.after("&nbsp;");
+                });
+            }
             if (hide) {
                 showBtn = $.tmpl(Grid.statics.buttonTmpl, {
                     "class_": "btn btn-primary",
@@ -724,28 +754,6 @@
             });
             searchFormRow.find('.form-actions').append(searchbtn);
             searchbtn.after("&nbsp;");
-            if (buttons != undefined && buttons.length > 0) {
-                $.each(buttons, function (index, button) {
-                    var btn = $.tmpl(Grid.statics.buttonTmpl, {
-                        "class_": (button.cls == undefined ? "btn btn-default"
-                            : button.cls),
-                        "text_": (button.text == undefined ? "未定义"
-                            : button.text),
-                        "title_": (button.title == undefined ? button.text
-                            : button.title),
-                        "type_": (button.type == undefined ? "button"
-                            : button.type)
-                    });
-                    if (button.icon != undefined)
-                        btn.prepend("<i class='" + button.icon + "'><i>");
-                    if (button.handle != undefined)
-                        btn.on("click", function () {
-                            button.handle(that);
-                        });
-                    searchFormRow.find('.form-actions').append(btn);
-                    btn.after("&nbsp;");
-                });
-            }
             this.$element.append(searchFormRow);
             this._uniform();
             this.$searchForm = searchFormRow.find("form[ele-type='search']");
@@ -760,10 +768,218 @@
             });
             this.$element.append(gridWrapper);
             this.$gridWrapper = gridWrapper;
-            this._renderTable();
+            var contentTypeBtn = $('<div class="row"><div class="col-lg-12">' +
+                '<div id="tab" class="btn-group pull-right">' +
+                '<a role="table" class="btn btn-large btn-info" title="表格" ><i class="fa fa-table"></i></a>' +
+                '<a role="card" class="btn btn-large btn-info" title="卡片"><i class="fa fa-th"></i></a>' +
+                '<a role="list" class="btn btn-large btn-info" title="列表"><i class="fa fa-list"></i></a>' +
+                '</div>' +
+                '</div></div>');
+            gridWrapper.append(contentTypeBtn);
+            this.$contentTypeBtn = contentTypeBtn;
+            if (this._contentType === "table") {
+                this.$contentTypeBtn.find("a[role=table]").addClass("active");
+                this.$contentTypeBtn.find("a[role=card]").removeClass("active");
+                this.$contentTypeBtn.find("a[role=list]").removeClass("active");
+                this._renderTable();
+            } else if (this._contentType === "card") {
+                this.$contentTypeBtn.find("a[role=table]").removeClass("active");
+                this.$contentTypeBtn.find("a[role=card]").addClass("active");
+                this.$contentTypeBtn.find("a[role=list]").removeClass("active");
+                this._renderCard();
+            } else if (this._contentType === "list") {
+                this.$contentTypeBtn.find("a[role=table]").removeClass("active");
+                this.$contentTypeBtn.find("a[role=card]").removeClass("active");
+                this.$contentTypeBtn.find("a[role=list]").addClass("active");
+                this._renderList();
+            }
             if (this._showPaging) {
                 this._renderPaging();
             }
+            this.$contentTypeBtn.find("a").off("click");
+            this.$contentTypeBtn.find("a").on("click", function () {
+                var role = $(this).attr("role");
+                that._reload({
+                    contentType: role
+                });
+            });
+        },
+        _renderList: function () {
+            var that = this;
+            var head_array = [];
+            var head_index = [];
+            var format_array = [];
+            $.each(that._columns, function (index, column) {
+                head_array.push(column.field);
+                head_index.push(index);
+                format_array.push(column.format);
+            });
+            var listRow = $.tmpl(Grid.statics.listRowTmpl, {});
+            var div = $('<div class="catlist"></div>');
+            if (that._grids != undefined && that._grids != null) {
+                if (that._grids.length == 0) {
+                    div.append('<dl><dd><p style="text-align: center;">暂无数据!</p></dd></dl>');
+                }
+            }
+            $.each(that._grids, function (i, grid) {
+                var num = (that._pageNum - 1) * that._pageSize + i + 1;
+                var ele = $('<dl>' +
+                    '<dt>' +
+                    '<img role="img" src="../global/img/128.png" alt="头像" width="128" height="128" />' +
+                    '<strong><span role="cb"></span></strong>' +
+                    '<a href="javacript:void(0);" role="hd"></a>' +
+                    '</dt>' +
+                    '<dd role="data">' +
+                    '</dd>' +
+                    '<dd><div class="pull-right" role="btn-g"></div>' +
+                    '</dd>' +
+                    '</dl>');
+                if (that._showCheck) {
+                    var checkbox = $('<input type="checkbox" class="checkboxes" style="height: 18px;" value="'
+                        + grid[that._idFiled] + '"/>');
+                    ele.find("span[role=cb]").append(checkbox);
+                }
+                $.each(that._columns, function (j, column) {
+                    var title = column.title;
+                    var field = column.field;
+                    var html = grid[field];
+                    if (column.format != undefined) {
+                        html = column.format(num, grid);
+                    }
+                    if (that._headField == undefined) {
+                        ele.find("a[role=hd]").text(grid[that._idFiled]);
+                    }
+                    if (that._imgField != undefined &&that._imgField != null && grid[that._imgField] != undefined) {
+                        ele.find("img[role=img]").attr("src", html);
+                    }
+                    if (column.field == that._headField) {
+                        ele.find("a[role=hd]").text(html);
+                    }
+                    var p = $('<p><label>' + title + '</label>  ' + html + '</p>   ');
+                    ele.find("dd[role=data]").append(p);
+                });
+                if (that._actionColumns != undefined) {
+                    var _index = i;
+                    var current_data = grid;
+                    $.each(that._actionColumns, function (k, colum) {
+                        var visible = true;
+                        if (colum.visible != undefined) {
+                            visible = colum.visible(_index, current_data);
+                        }
+                        if (visible == false) {
+                            return;
+                        }
+                        var text = colum.text;
+                        if (colum.textHandle != undefined) {
+                            text = colum.textHandle(num, current_data);
+                        }
+                        if (colum.clsHandle != undefined) {
+                            colum.cls = colum.clsHandle(num, current_data);
+                        }
+                        var button = $('<button type="button" class="btn ' + colum.cls + '">' + text + '</button>');
+                        if (colum.handle != undefined) {
+                            button.click(function (e) {
+                                colum.handle(num, current_data);
+                                e.stopPropagation();
+                            });
+                        }
+                        ele.find("div[role=btn-g]").append(button);
+                    });
+                }
+                div.append(ele);
+            });
+            listRow.append(div);
+            this.$gridWrapper.append(listRow);
+        },
+        _renderCard: function () {
+            var that = this;
+            var head_array = [];
+            var head_index = [];
+            var format_array = [];
+            $.each(that._columns, function (index, column) {
+                head_array.push(column.field);
+                head_index.push(index);
+                format_array.push(column.format);
+            });
+            var cardRow = $.tmpl(Grid.statics.cardRowTmpl, {});
+            var row = $('<div class="row"></div>');
+            if (that._grids != undefined && that._grids != null) {
+                if (that._grids.length == 0) {
+                    row.append('<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><div style="text-align: center;" class="thumbnail">暂无数据!</div></div>');
+                }
+            }
+            $.each(that._grids, function (i, grid) {
+                var num = (that._pageNum - 1) * that._pageSize + i + 1;
+                var ele = $('<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">' +
+                    '<div class="thumbnail">' +
+                    '<div class="caption">' +
+                    '<div class="col-lg-12">' +
+                    '<span class="puu-left">' + num + '</span>' +
+                    '<span class="pull-right" role="cb"></span>' +
+                    '</div>' +
+                    '<div class="col-lg-12 well well-add-card">' +
+                    '<h4 role="hd"></h4>' +
+                    '</div>' +
+                    '<div role="data" class="col-lg-12">' +
+                    '</div>' +
+                    '<div role="btn-g">' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+                if (that._showCheck) {
+                    var checkbox = $('<input type="checkbox" class="checkboxes" style="height: 18px;" value="'
+                        + grid[that._idFiled] + '"/>');
+                    ele.find("span[role=cb]").append(checkbox);
+                }
+                $.each(that._columns, function (j, column) {
+                    var title = column.title;
+                    var field = column.field;
+                    var html = grid[field];
+                    if (column.format != undefined) {
+                        html = column.format(num, grid);
+                    }
+                    if (that._headField == undefined) {
+                        ele.find("h4[role=hd]").text(grid[that._idFiled]);
+                    }
+                    if (column.field == that._headField) {
+                        ele.find("h4[role=hd]").text(html);
+                    }
+                    var p = $('<div><label>' + title + '</label>  ' + html + '</div>');
+                    ele.find("div[role=data]").append(p);
+                });
+                if (that._actionColumns != undefined) {
+                    var _index = i;
+                    var current_data = grid;
+                    $.each(that._actionColumns, function (k, colum) {
+                        var visible = true;
+                        if (colum.visible != undefined) {
+                            visible = colum.visible(_index, current_data);
+                        }
+                        if (visible == false) {
+                            return;
+                        }
+                        var text = colum.text;
+                        if (colum.textHandle != undefined) {
+                            text = colum.textHandle(num, current_data);
+                        }
+                        if (colum.clsHandle != undefined) {
+                            colum.cls = colum.clsHandle(num, current_data);
+                        }
+                        var button = $('<button type="button" class="btn btn-update btn-add-card ' + colum.cls + '">' + text + '</button>');
+                        if (colum.handle != undefined) {
+                            button.click(function (e) {
+                                colum.handle(num, current_data);
+                                e.stopPropagation();
+                            });
+                        }
+                        ele.find("div[role=btn-g]").append(button);
+                    });
+                }
+                row.append(ele);
+            });
+            cardRow.append(row);
+            this.$gridWrapper.append(cardRow);
         },
         // 渲染表格
         _renderTable: function () {
@@ -771,7 +987,6 @@
             var head_array = [];
             var head_index = [];
             var format_array = [];
-            var idFiled = that._idFiled;
             $.each(that._columns, function (index, column) {
                 head_array.push(column.field);
                 head_index.push(index);
@@ -826,7 +1041,7 @@
                     }
                 }
                 var tr = $.tmpl(trTmpl, {});
-                if (that._showCheck == true) {
+                if (that._showCheck) {
                     var checkboxTh = $.tmpl(thTmpl, {
                         "class_": "table-checkbox",
                         "sorting_": "sorting_disabled"
@@ -836,7 +1051,7 @@
                     checkboxTh.append(checkbox);
                     tr.append(checkboxTh);
                 }
-                if (that._showIndexNum == true) {
+                if (that._showIndexNum) {
                     var indexTh = $.tmpl(thTmpl, {
                         "sorting_": "sorting_disabled"
                     });
@@ -941,7 +1156,6 @@
                                 e.stopPropagation();
                             });
                         }
-                        button.css("margin-right", "2px");
                         cltd.append(button);
                     });
                 }
@@ -984,7 +1198,6 @@
                 renderLoadingTbody(tbody);
             }
             table.append(tbody);
-
             tableRow.append(table);
             this.$gridWrapper.append(tableRow);
         },
@@ -1015,13 +1228,12 @@
             }
             if (!this._simplePaging)
                 pagingRow.find("[role='select']").append(select);
-
             // info
             var info = $('<div class="dataTables_info" id="' + this._elementId
                 + '_info" role="status" aria-live="polite"></div>');
             var text = "<label style='font-size: initial;'>当前 "
                 + (this._total == 0 ? "0" : ((this._pageNum - 1)
-                * this._pageSize + 1))
+                    * this._pageSize + 1))
                 + " 到 "
                 + ((this._pageNum * this._pageSize) > this._total ? this._total
                     : (this._pageNum * this._pageSize)) + " 共 "
@@ -1109,8 +1321,6 @@
             var totalP = this._getTotalPage();
             renderPageEle(ul, this._pageNum, totalP);
             pagingRow.find("[role='page']").append(page);
-
-
             var goPage = $('<div class="dataTables_paginate input-group">'
                 + '			<input type="text" id="goInput" class="form-control input-xs input-inline" style="width: 112px;" placeholder="输入跳转页...">'
                 + '			<span class="input-group-btn">'
@@ -1225,7 +1435,6 @@
         _doAfterInit: function () {
             if (this._afterInit != undefined)
                 this._afterInit();
-            $("[data-toggle='tooltip']").tooltip();
         },
         _uniform: function () {
             if (!$().uniform) {
