@@ -66,6 +66,18 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
     @Override
+    public int updateUserWithOnlyUserCache(User user) {
+        if (StringUtils.isNotEmpty(user.getPassword())) {
+            user.setPassword(SecurityUtil.encodeString(user.getPassword()));
+        }
+        int result = getMapper().updateByPrimaryKeySelective(user);
+        if (result > 0) {
+            OrangeSecurityMetadataSourceImpl.refreshResourceMap();
+        }
+        return result;
+    }
+
+    @Override
     public User findUserById(Integer id) {
         return getMapper().selectByPrimaryKey(id);
     }

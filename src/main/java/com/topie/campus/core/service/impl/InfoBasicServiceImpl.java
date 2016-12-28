@@ -253,6 +253,12 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
 
     @Override
     public int updateTeacher(Teacher teacher) {
+        Teacher t = iTeacherService.findTeacherById(teacher.getId());
+        User user = userService.findUserById(t.getUserId());
+        if (!user.getPassword().equals(SecurityUtil.encodeString(teacher.getPassword()))) {
+            user.setPassword(teacher.getPassword());
+            userService.updateUserWithOnlyUserCache(user);
+        }
         return iTeacherService.updateSelective(teacher);
     }
 
@@ -561,11 +567,10 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         String typeIdsStr[] = reciever.split(",");
         List<Integer> typeIds = new ArrayList<Integer>();
         for (String str : typeIdsStr) {
-        	Integer value = Integer.valueOf(str);
-        	if(value>0)
-        	{
-            typeIds.add(value);
-        	}
+            Integer value = Integer.valueOf(str);
+            if (value > 0) {
+                typeIds.add(value);
+            }
         }
         Teacher teacher = teacherMapper.selectOneByUserId(SecurityUtil.getCurrentUserId());
         /*List<Integer> studentIds = teacherStudentMapper.selectStudentByTeacherIdAndTypeIds(teacherId, typeIds);*/
@@ -607,5 +612,15 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
     @Override
     public List<TreeNode> getStudentTreeNodes(Integer typeId, Integer teacherId) {
         return teacherStudentMapper.selectStudentByTeacherIdAndTypeId(teacherId, typeId);
+    }
+
+    @Override
+    public int updateToResetPassword(Integer teacherId) {
+        Teacher t = iTeacherService.findTeacherById(teacherId);
+        t.setPassword("000000");
+        User user = userService.findUserById(t.getUserId());
+        user.setPassword("000000");
+        userService.updateUserWithOnlyUserCache(user);
+        return iTeacherService.updateSelective(t);
     }
 }

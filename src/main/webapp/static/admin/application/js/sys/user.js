@@ -533,9 +533,9 @@
                         itemsUrl: App.href + "/api/sys/role/options?topie_token=" + App.token
                     }, {
                         type: "text",
-                        label: "登录名",
+                        label: "登录名(学号或职工号)",
                         name: "loginName",
-                        placeholder: "输入要搜索的登录名"
+                        placeholder: "输入要搜索的登录名(学号或职工号)"
                     }, {
                         type: "text",
                         label: "昵称",

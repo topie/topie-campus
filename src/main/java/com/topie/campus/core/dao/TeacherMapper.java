@@ -28,7 +28,7 @@ public interface TeacherMapper extends Mapper<Teacher> {
 
     String selectTeacherNameByUserId(@Param("userId") Integer userId);
 
-    List<TeacherSimpleDto> findTeacherSimpleDtoByTeacherIdAndPageNumAndPageSize(
+    List<TeacherSimpleDto> findTeacherSimpleDtoByStudentIdAndTypeIdAndPageNumAndPageSize(
             @Param("teacher") TeacherSimpleDto teacherSimpleDto, @Param("typeId") Integer typeId,
             @Param("studentId") Integer studentId, @Param("pageOffset") Integer pageOffset,
             @Param("pageSize") Integer pageSize);

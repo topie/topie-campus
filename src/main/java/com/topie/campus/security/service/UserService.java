@@ -16,6 +16,8 @@ public interface UserService extends IService<User> {
 
     int updateUser(User user);
 
+    int updateUserWithOnlyUserCache(User user);
+
     User findUserById(Integer id);
 
     User findUserByLoginName(String loginName);

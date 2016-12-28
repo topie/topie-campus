@@ -37,4 +37,6 @@ public interface ITeacherService extends IService<Teacher> {
 
     SimplePageInfo<TeacherSimpleDto> findTeacherByStudentNo(Integer studentId,
 			Integer pageNum, Integer pageSize);
+
+    Teacher findTeacherById(Integer id);
 }

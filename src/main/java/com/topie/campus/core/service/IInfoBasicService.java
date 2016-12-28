@@ -85,4 +85,6 @@ public interface IInfoBasicService {
 	Integer deleteByStudyYearAndStudyYearNum();
 
     List<TreeNode> getStudentTreeNodes(Integer typeId, Integer teacherId);
+
+    int updateToResetPassword(Integer teacherId);
 }

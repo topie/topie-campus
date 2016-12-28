@@ -82,9 +82,16 @@ public class InfoTeacherController {
         return ResponseUtil.error(ResultCode.OP_FAIL);
     }
 
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+    @ResponseBody
+    public Result resetPassword(@RequestParam(value ="teacherId") Integer teacherId) {
+        iInfoBasicService.updateToResetPassword(teacherId);
+        return ResponseUtil.success(ResultCode.OP_SUCCESS);
+    }
+
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
     @ResponseBody
-    public Result teacherDelete(@RequestParam("id") Integer teacherId) {
+    public Result teacherDelete(@RequestParam("teacherId") Integer teacherId) {
         int result = iInfoBasicService.deleteTeacher(teacherId);
         if (result > 0) return ResponseUtil.success(ResultCode.OP_SUCCESS);
         return ResponseUtil.error(ResultCode.OP_FAIL);

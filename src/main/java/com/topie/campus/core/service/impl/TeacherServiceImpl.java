@@ -6,7 +6,6 @@ import com.topie.campus.core.dao.TeacherMapper;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Teacher;
 import com.topie.campus.core.service.ITeacherService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +29,9 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     }
 
     @Override
-    public void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId,String studentNo, String teacherNo) {
-        teacherMapper.insertRelate(typeId, studentId, teacherId,studentNo,teacherNo);
+    public void insertToBindStudent(Integer typeId, Integer studentId, Integer teacherId, String studentNo,
+            String teacherNo) {
+        teacherMapper.insertRelate(typeId, studentId, teacherId, studentNo, teacherNo);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
     public SimplePageInfo<TeacherSimpleDto> findTeacherSimpleDtoListWithBindInfo(TeacherSimpleDto teacherSimpleDto,
             Integer typeId, Integer studentId, Integer pageNum, Integer pageSize) {
         List<TeacherSimpleDto> list = teacherMapper
-                .findTeacherSimpleDtoByTeacherIdAndPageNumAndPageSize(teacherSimpleDto, typeId, studentId,
+                .findTeacherSimpleDtoByStudentIdAndTypeIdAndPageNumAndPageSize(teacherSimpleDto, typeId, studentId,
                         (pageNum - 1) * pageSize, pageSize);
         Long total = teacherMapper.countTeacherSimpleDtoListByTeacherId(teacherSimpleDto, typeId, studentId);
         SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
@@ -72,7 +72,7 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
 
     @Override
     public List<TeacherSimpleDto> findTeacherByStudentIdAndTypeId(Integer studentId, Integer typeId) {
-        return teacherMapper.findTeacherByStudentIdAndTypeId(studentId,typeId);
+        return teacherMapper.findTeacherByStudentIdAndTypeId(studentId, typeId);
     }
 
     @Override
@@ -80,21 +80,27 @@ public class TeacherServiceImpl extends BaseService<Teacher> implements ITeacher
         return teacherMapper.findTeacherByAndTypeId(typeId);
     }
 
-	@Override
-	public SimplePageInfo<TeacherSimpleDto> findTeacherByStudentNo(Integer studentId,Integer pageNum,Integer pageSize) {
-		// TODO Auto-generated method stub
-		List<TeacherSimpleDto> list = teacherMapper.findTeacherByStudentNo(studentId,(pageNum - 1) * pageSize,pageSize);
-		Long total = teacherMapper.findCountTeacherByStudentNo(studentId);
-		if(total==null)
-			total = 0L;
-		SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
-		return pageInfo;
-	}
+    @Override
+    public SimplePageInfo<TeacherSimpleDto> findTeacherByStudentNo(Integer studentId, Integer pageNum,
+            Integer pageSize) {
+        // TODO Auto-generated method stub
+        List<TeacherSimpleDto> list = teacherMapper
+                .findTeacherByStudentNo(studentId, (pageNum - 1) * pageSize, pageSize);
+        Long total = teacherMapper.findCountTeacherByStudentNo(studentId);
+        if (total == null) total = 0L;
+        SimplePageInfo<TeacherSimpleDto> pageInfo = new SimplePageInfo<>(pageNum, pageSize, total, list);
+        return pageInfo;
+    }
 
-	@Override
-	public Long findCountTeacherByStudentNo(Integer studentId) {
-		// TODO Auto-generated method stub
-		return teacherMapper.findCountTeacherByStudentNo(studentId);
-	}
+    @Override
+    public Teacher findTeacherById(Integer id) {
+        return getMapper().selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Long findCountTeacherByStudentNo(Integer studentId) {
+        // TODO Auto-generated method stub
+        return teacherMapper.findCountTeacherByStudentNo(studentId);
+    }
 
 }
