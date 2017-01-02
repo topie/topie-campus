@@ -81,6 +81,7 @@
         indexNumWidth: "2%",
         indexNumText: "序号",
         contentType: "table",
+        showContentType: false,
         showSearch: true,
         showPaging: true,
         simplePaging: false,
@@ -227,6 +228,7 @@
             this._showIndexNum = options.showIndexNum;
             this._indexNumWidth = options.indexNumWidth;
             this._indexNumText = options.indexNumText;
+            this._showContentType = options.showContentType;
             this._showSearch = options.showSearch;
             this._showPaging = options.showPaging;
             this._simplePaging = options.simplePaging;
@@ -793,6 +795,9 @@
                 this.$contentTypeBtn.find("a[role=list]").addClass("active");
                 this._renderList();
             }
+            if (!this._showContentType) {
+                this.$contentTypeBtn.hide();
+            }
             if (this._showPaging) {
                 this._renderPaging();
             }
@@ -849,7 +854,7 @@
                     if (that._headField == undefined) {
                         ele.find("a[role=hd]").text(grid[that._idFiled]);
                     }
-                    if (that._imgField != undefined &&that._imgField != null && grid[that._imgField] != undefined) {
+                    if (that._imgField != undefined && that._imgField != null && grid[that._imgField] != undefined) {
                         ele.find("img[role=img]").attr("src", html);
                     }
                     if (column.field == that._headField) {
@@ -1157,6 +1162,7 @@
                             });
                         }
                         cltd.append(button);
+                        cltd.append("&nbsp;");
                     });
                 }
                 tr.append(cltd);
