@@ -97,7 +97,7 @@
             pageNum: 1,
             pageSize: 15,
             idFiled: "atMeId",
-            contentType : "list",
+            contentType : "table",
             headField : "fromUserName",
             showCheck: false,
             checkboxWidth: "3%",
