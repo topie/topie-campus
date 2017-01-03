@@ -103,10 +103,9 @@
     <select id="findTeacherSimpleDtoByStudentIdAndTypeIdAndPageNumAndPageSize" resultMap="SimpleDtoResultMap">
         select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind
         from topie_campus.t_teacher t
-        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId}
-        left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId} and st.student_id=#{studentId}
+        inner join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id and ttp.type_id = #{typeId}
         <where>
-            ttp.type_id = #{typeId}
             <if test="teacher.name != null and teacher.name != ''">
                 and t.name like concat('%',concat(#{teacher.name}, '%'))
             </if>
@@ -131,8 +130,8 @@
     <select id="countTeacherSimpleDtoListByTeacherId" resultType="java.lang.Long">
         select count(1)
         from topie_campus.t_teacher t
-        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId}
-        left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id and st.type_id = #{typeId} and st.student_id=#{studentId}
+        inner join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id and ttp.type_id = #{typeId}
         <where>
             ttp.type_id = #{typeId}
             <if test="teacher.name != null and teacher.name != ''">
@@ -149,9 +148,6 @@
             </if>
             <if test="teacher.isBind != null and teacher.isBind == 1">
                 and st.student_id is not null
-            </if>
-            <if test="studentId != null and studentId !=''">
-                and st.student_id = #{studentId}
             </if>
         </where>
     </select>
@@ -172,11 +168,12 @@
 
     <select id="findTeacherByStudentNo" resultMap="SimpleDtoResultMap">
         select
-        t.id,t.user_id,t.name,t.employee_no,t.avatar,t.contact_phone,t.email,GROUP_CONCAT(DISTINCT ttpn.type_name) as type_name
+        t.id,t.user_id,t.name,t.employee_no,t.avatar,t.contact_phone,t.email,GROUP_CONCAT(DISTINCT ttpn.type_name) as
+        type_name
         from t_teacher t left join topie_campus.t_relate_student_teacher st
         on t.id = st.teacher_id left join t_teacher_type ttpn on ttpn.type_id = st.type_id
         where st.student_id=#{studentId}
-           group by t.id
+        group by t.id
         <if test="pageOffset!=null and pageSize!=null">
             limit #{pageOffset},#{pageSize}
         </if>
