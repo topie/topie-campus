@@ -90,14 +90,14 @@
     </select>
   
   <select id="findByStuScoreStaticAvgCredit" resultMap="StaticScoreMap">
-        select FORMAT(sum(credit*score_point)/SUM(credit),2) as avgCredit from t_stu_score t
-        where t.stu_id = #{studentId} and t.cource_type != '通识教育选修课'
+        select FORMAT(sum(credit*(score-50)/10)/SUM(credit),2) as avgCredit from t_stu_score t
+        where t.stu_id =  #{studentId}  and t.cource_type != '通识教育选修课' and t.cource_type!='校选'
         GROUP BY stu_id;
     </select>
   
   <select id="findByStuScoreStaticAvgScore" resultMap="StaticScoreMap">
         select FORMAT(AVG(score),2) as avgScore from t_stu_score t
-        where t.stu_id = #{studentId} and t.cource_type != '通识教育选修课'
+        where t.stu_id = #{studentId} 
         GROUP BY stu_id;
     </select>
     
@@ -108,7 +108,6 @@
   
    <select id="findByStuScoreByCourseType" resultMap="ScoreCourceType">
        select FORMAT(SUM(credit),2) as totalCredit,t.cource_type as courceType from t_stu_score t where t.stu_id = #{studentId}
-       and t.score_point != 0
        GROUP BY t.cource_type;
     </select>
   

@@ -444,6 +444,34 @@
                             }
                         });
                     }
+                }, {
+                    text: "重置密码",
+                    cls: "btn-info btn-sm",
+                    handle: function (index, data) {
+                        var requestUrl = App.href + "/api/info/student/resetPassword";
+                        $.ajax({
+                            type: "GET",
+                            beforeSend: function (request) {
+                                request.setRequestHeader("X-Auth-Token", App.token);
+                            },
+                            dataType: "json",
+                            data: {
+                                studentId: data.id
+                            },
+                            url: requestUrl,
+                            success: function (data) {
+                                if (data.code === 200) {
+                                    alert("重置密码[000000]成功!");
+                                    grid.reload();
+                                } else {
+                                    alert(data.message);
+                                }
+                            },
+                            error: function (e) {
+                                alert("请求异常。");
+                            }
+                        });
+                    }
                 }],
             tools: [
                 /*{

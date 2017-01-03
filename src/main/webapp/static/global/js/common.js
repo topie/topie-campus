@@ -4,7 +4,7 @@ function getStudyYear() {
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
-    if (month < 8) {
+    if (1<month < 8) {
         studyYear = (year - 1) + "-" + year;
         studyYearNum = 2;
         $("#studyYear").val(studyYear);
@@ -24,7 +24,7 @@ function initStudyYear() {
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
-    if (month < 8) {
+    if (1<month < 8) {
         studyYear = (year - 1) + "-" + year;
         var studyYearNum = 2;
         $("select[name=studyYear]").val(studyYear);
@@ -43,7 +43,7 @@ function getGraduateYear() {
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
-    if (month < 8) {
+    if (1<month < 8) {
         graduateDate = year;
         $("#graduateDate").val(graduateDate);
     }

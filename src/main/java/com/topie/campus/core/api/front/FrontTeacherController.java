@@ -8,6 +8,7 @@ import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.*;
 import com.topie.campus.core.service.*;
 import com.topie.campus.security.utils.SecurityUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -124,6 +125,16 @@ public class FrontTeacherController {
         Integer studentId = iStudentService.findStudentIdByUserId(userId);
         iInfoBasicService.insertToBindStudentTeacher(typeId, studentId, teacherId);
         return ResponseUtil.success();
+    }
+    
+    @RequestMapping("/examCourse")
+    @ResponseBody
+    public Result examCourse(StuSeleCourse stuSeleCourse, int pageSize, int pageNum) {
+        String loginName = SecurityUtil.getCurrentUserName();
+        stuSeleCourse.setStuId(loginName);
+        stuSeleCourse.setExamTime("filter");
+        SimplePageInfo<StuSeleCourse> pageInfo = stuSeleCourseService.findByPage(pageNum, pageSize, stuSeleCourse);
+        return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
     }
 
     @RequestMapping(value = "/unbindTeacher", method = RequestMethod.GET)
