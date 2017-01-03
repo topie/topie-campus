@@ -103,10 +103,10 @@
     <select id="findTeacherSimpleDtoByStudentIdAndTypeIdAndPageNumAndPageSize" resultMap="SimpleDtoResultMap">
         select t.id,t.employee_no,t.name,t.contact_phone,if(st.student_id=#{studentId},1,0) is_bind
         from topie_campus.t_teacher t
-        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id
-        left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id and ttp.type_id = #{typeId}
+        left join topie_campus.t_relate_student_teacher st on t.id=st.teacher_id  and st.type_id = #{typeId}
+        <!-- left join topie_campus.t_relate_teacher_teacher_type ttp on t.id=ttp.teacher_id and ttp.type_id = #{typeId} -->
         <where>
-            ttp.type_id = #{typeId}
+            <!-- ttp.type_id = #{typeId}  -->
             <if test="teacher.name != null and teacher.name != ''">
                 and t.name like concat('%',concat(#{teacher.name}, '%'))
             </if>

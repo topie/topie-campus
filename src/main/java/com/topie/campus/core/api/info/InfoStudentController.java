@@ -8,6 +8,7 @@ import com.topie.campus.common.utils.Result;
 import com.topie.campus.core.dto.TeacherSimpleDto;
 import com.topie.campus.core.model.Student;
 import com.topie.campus.core.service.IInfoBasicService;
+
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,6 +84,13 @@ public class InfoStudentController {
             throws ClientProtocolException, IOException {
         iInfoBasicService.sendOneMsg(sign, message, phone);
         return ResponseUtil.success("发送成功！");
+    }
+    
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+    @ResponseBody
+    public Result resetPassword(@RequestParam(value ="studentId") Integer studentId) {
+        iInfoBasicService.updateStudentToResetPassword(studentId);
+        return ResponseUtil.success(ResultCode.OP_SUCCESS);
     }
 
 }

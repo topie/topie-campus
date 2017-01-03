@@ -514,6 +514,7 @@
                         var modal = $.topieModal({
                             id: "messageModal",
                             title: "查看",
+                            width:"1100px",
                             destroy: true
                         });
                         $.ajax(

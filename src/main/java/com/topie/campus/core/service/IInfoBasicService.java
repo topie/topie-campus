@@ -87,4 +87,6 @@ public interface IInfoBasicService {
     List<TreeNode> getStudentTreeNodes(Integer typeId, Integer teacherId);
 
     int updateToResetPassword(Integer teacherId);
+
+	int updateStudentToResetPassword(Integer studentId);
 }

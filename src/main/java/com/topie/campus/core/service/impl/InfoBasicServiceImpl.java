@@ -623,4 +623,14 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         userService.updateUserWithOnlyUserCache(user);
         return iTeacherService.updateSelective(t);
     }
+    
+    @Override
+    public int updateStudentToResetPassword(Integer studentId) {
+        Student t = iStudentService.findByStudentId(studentId);
+        t.setPassword("000000");
+        User user = userService.findUserById(t.getUserId());
+        user.setPassword("000000");
+        userService.updateUserWithOnlyUserCache(user);
+        return iStudentService.updateSelective(t);
+    }
 }
