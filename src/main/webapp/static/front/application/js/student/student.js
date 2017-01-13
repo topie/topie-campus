@@ -551,7 +551,7 @@
                                                 /**查看成绩**/
                                                 var examGrid;
                                                 var scoreExamOpts = {
-                                                    url: App.href + "/api/front/teacher/examCourse",
+                                                    url: App.href + "/api/front/teacher/examCourse?stuId="+stData.studentNo,
                                                     beforeSend: function (request) {
                                                         request.setRequestHeader("X-Auth-Token", App.token);
                                                     },

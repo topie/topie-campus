@@ -512,7 +512,7 @@ public class InfoBasicServiceImpl implements IInfoBasicService {
         //httppost.setHeader("Content-Type","application/x-www-form-urlencoded;charset=gbk");
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("username", username));
-        params.add(new BasicNameValuePair("password", password));
+        params.add(new BasicNameValuePair("passwordMd5", password));
         params.add(new BasicNameValuePair("mobile", phone));
         message = new String("【" + sign + "】" + message);
         params.add(new BasicNameValuePair("message", message));

@@ -130,8 +130,6 @@ public class FrontTeacherController {
     @RequestMapping("/examCourse")
     @ResponseBody
     public Result examCourse(StuSeleCourse stuSeleCourse, int pageSize, int pageNum) {
-        String loginName = SecurityUtil.getCurrentUserName();
-        stuSeleCourse.setStuId(loginName);
         stuSeleCourse.setExamTime("filter");
         SimplePageInfo<StuSeleCourse> pageInfo = stuSeleCourseService.findByPage(pageNum, pageSize, stuSeleCourse);
         return ResponseUtil.success(PageConvertUtil.grid(pageInfo));
