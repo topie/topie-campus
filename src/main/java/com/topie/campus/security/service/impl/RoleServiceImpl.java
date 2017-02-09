@@ -82,7 +82,7 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     }
     @Override
     public void refreshAuthAndResource(Integer roleId) {
-        List<Integer> userIds = roleMapper.findFunctionByRoleId(roleId);
+        List<Integer> userIds = roleMapper.findHasRoleUserIdsByRoleId(roleId);
         if (CollectionUtils.isNotEmpty(userIds)) {
             for (Integer userId : userIds) {
                 orangeSideUserCache.removeUserFromCacheByUserId(userId);

@@ -1396,7 +1396,9 @@
                     data: $('#' + that._formId).serialize(),
                     beforeSend: function (request) {
                         request.setRequestHeader("X-Auth-Token", App.token);
-                        that._beforeSend(request);
+                        if (this._beforeSend != undefined) {
+                            that._beforeSend(request);
+                        }
                     },
                     dataType: "json",
                     success: function (data) {
