@@ -46,7 +46,6 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     public int updateRole(Role role) {
         int result = getMapper().updateByPrimaryKey(role);
         if (result > 0) {
-            deleteFunctionByRoleId(role.getId());
             if (CollectionUtils.isNotEmpty(role.getFunctions())) {
                 for (Integer functionId : role.getFunctions()) {
                     insertRoleFunction(role.getId(), functionId);
